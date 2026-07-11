@@ -1,13 +1,13 @@
 import Link from "next/link";
 import {
   serviceAreas,
-  services,
   site,
   steps,
   telHref,
   testimonials,
   valueProps,
 } from "@/lib/site";
+import { ceramicCoating, tiers } from "@/lib/services";
 import {
   exteriorGallery,
   featureVehicles,
@@ -32,6 +32,30 @@ const trustBadges = [
   "Fully Insured",
   "Mobile Service",
   "Satisfaction Guaranteed",
+];
+
+const tierIcons: Record<string, string> = {
+  bronze: "droplet",
+  silver: "car",
+  gold: "sparkle",
+  platinum: "polish",
+  diamond: "diamond",
+};
+
+// Bronze → Diamond, then Ceramic Coating. Six cards, no prices.
+const homeServices = [
+  ...tiers.map((tier) => ({
+    slug: tier.slug,
+    name: tier.name,
+    tagline: tier.tagline,
+    icon: tierIcons[tier.slug] ?? "sparkle",
+  })),
+  {
+    slug: ceramicCoating.slug,
+    name: ceramicCoating.name,
+    tagline: ceramicCoating.tagline,
+    icon: "shield",
+  },
 ];
 
 // Strongest exterior shots from the feature set, plus the two best from the
@@ -113,19 +137,18 @@ function Services() {
       />
 
       <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {services.map((service) => (
+        {homeServices.map((service) => (
           <Card key={service.slug} className="flex flex-col">
             <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-royal/15 text-royal">
               <Icon name={service.icon} className="h-5 w-5" />
             </span>
             <h3 className="mt-5 font-display text-lg font-bold text-ink">{service.name}</h3>
             <p className="mt-2 flex-1 text-sm leading-relaxed text-muted">
-              {service.description}
+              {service.tagline}
             </p>
-            <p className="mt-4 text-sm font-semibold text-chrome">{site.price}</p>
             <Link
               href={`/services/${service.slug}`}
-              className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-royal transition-colors hover:text-chrome"
+              className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-royal transition-colors hover:text-chrome"
             >
               Learn more
               <span aria-hidden="true">→</span>
@@ -133,6 +156,28 @@ function Services() {
           </Card>
         ))}
       </div>
+
+      <p className="mt-10 text-sm text-muted">
+        Also offering{" "}
+        <Link href="/services#add-ons" className="font-semibold text-royal hover:text-chrome">
+          add-ons
+        </Link>
+        ,{" "}
+        <Link
+          href="/services/maintenance-plans"
+          className="font-semibold text-royal hover:text-chrome"
+        >
+          maintenance plans
+        </Link>
+        , and{" "}
+        <Link
+          href="/services/rv-detailing"
+          className="font-semibold text-royal hover:text-chrome"
+        >
+          RV detailing
+        </Link>
+        .
+      </p>
     </Section>
   );
 }

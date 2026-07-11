@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import { mailHref, serviceAreas, services, site, telHref } from "@/lib/site";
+import { mailHref, serviceAreas, site, telHref } from "@/lib/site";
+import { ceramicCoating, tiers } from "@/lib/services";
 import { Container } from "@/components/ui";
 
 function ColumnHeading({ children }: { children: React.ReactNode }) {
@@ -82,7 +83,7 @@ export function Footer() {
           <div>
             <ColumnHeading>Services</ColumnHeading>
             <ul className="mt-4 space-y-2 text-sm text-muted">
-              {services.map((service) => (
+              {[...tiers, ceramicCoating].map((service) => (
                 <li key={service.slug}>
                   <Link
                     href={`/services/${service.slug}`}
@@ -92,6 +93,11 @@ export function Footer() {
                   </Link>
                 </li>
               ))}
+              <li>
+                <Link href="/services" className="transition-colors hover:text-ink">
+                  All services
+                </Link>
+              </li>
             </ul>
           </div>
         </div>

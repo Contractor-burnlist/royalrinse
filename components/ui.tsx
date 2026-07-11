@@ -16,14 +16,16 @@ export function Container({
 }
 
 export function Section({
+  id,
   className = "",
   children,
 }: {
+  id?: string;
   className?: string;
   children: ReactNode;
 }) {
   return (
-    <section className={`py-20 sm:py-28 ${className}`}>
+    <section id={id} className={`py-20 sm:py-28 ${className}`}>
       <Container>{children}</Container>
     </section>
   );
@@ -152,6 +154,18 @@ const iconPaths: Record<string, ReactNode> = {
     </>
   ),
   check: <path d="M4 12.5l5 5L20 6.5" />,
+  diamond: (
+    <>
+      <path d="M6 3h12l3 6-9 12L3 9l3-6Z" />
+      <path d="M3 9h18M9 3l-1.5 6L12 21l4.5-12L15 3" />
+    </>
+  ),
+  calendar: (
+    <>
+      <rect x="3" y="5" width="18" height="16" rx="2" />
+      <path d="M3 10h18M8 3v4M16 3v4" />
+    </>
+  ),
 };
 
 export function Icon({

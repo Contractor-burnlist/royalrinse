@@ -15,8 +15,6 @@ export const site = {
     { days: "Saturday", time: "8:00 AM – 5:00 PM" },
     { days: "Sunday", time: "By appointment" },
   ],
-  // Prices are deliberately not listed — quote on request.
-  price: "Call for quote",
 } as const;
 
 /** Becomes a working tel: link as soon as site.phone holds a real number. */
@@ -32,44 +30,7 @@ export const nav = [
   { label: "About", href: "/about" },
 ] as const;
 
-export const services = [
-  {
-    name: "Express Wash",
-    slug: "express-wash",
-    icon: "droplet",
-    description: "A fast, thorough hand wash that keeps your car sharp between full details.",
-  },
-  {
-    name: "Interior Detail",
-    slug: "interior-detail",
-    icon: "seat",
-    description: "Deep vacuum, steam, and conditioning for carpets, seats, and every panel.",
-  },
-  {
-    name: "Exterior Detail",
-    slug: "exterior-detail",
-    icon: "car",
-    description: "Decontamination, polish, and wax for a deep, reflective finish.",
-  },
-  {
-    name: "Full Detail",
-    slug: "full-detail",
-    icon: "sparkle",
-    description: "Inside and out, top to bottom — our most complete restoration service.",
-  },
-  {
-    name: "Ceramic Coating",
-    slug: "ceramic-coating",
-    icon: "shield",
-    description: "A durable protective layer that locks in gloss and repels water and grime.",
-  },
-  {
-    name: "Paint Correction",
-    slug: "paint-correction",
-    icon: "polish",
-    description: "Multi-stage machine polishing that removes swirls, scratches, and oxidation.",
-  },
-] as const;
+// Services live in lib/services.ts — the pricebook is the source of truth.
 
 export const serviceAreas = [
   { name: "La Jolla", slug: "la-jolla" },
