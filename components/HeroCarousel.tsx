@@ -2,30 +2,17 @@
 
 import Image from "next/image";
 import { useCallback, useEffect, useState, type ReactNode } from "react";
-import { featureVehicles, type GalleryImage } from "@/lib/gallery";
+import { allGalleryImages } from "@/lib/gallery";
 import { Container } from "@/components/ui";
 
 const AUTO_ADVANCE_MS = 5000;
 
 /**
- * Hero slides use only the highest-resolution sources. The 576px shots would
- * need an even harsher upscale than the 900px ones (see lib/gallery.ts).
+ * Every photo on the site: featureVehicles (exterior + interior),
+ * exteriorGallery and interiorGallery, already de-duplicated by src in
+ * lib/gallery.ts.
  */
-const MIN_HERO_WIDTH = 900;
-
-function buildSlides(): GalleryImage[] {
-  const exteriors = featureVehicles.flatMap((vehicle) => vehicle.exterior);
-  const highRes = exteriors.filter((image) => image.width >= MIN_HERO_WIDTH);
-  if (highRes.length > 1) return highRes;
-  if (exteriors.length > 1) return exteriors;
-
-  return featureVehicles.flatMap((vehicle) => [
-    ...vehicle.exterior,
-    ...vehicle.interior,
-  ]);
-}
-
-const slides = buildSlides();
+const slides = allGalleryImages;
 
 /**
  * Stacked, centered hero: centered copy on top, a large cinematic carousel
@@ -146,7 +133,10 @@ export function HeroCarousel({ children }: { children: ReactNode }) {
                   src={slide.src}
                   alt={slide.alt}
                   fill
+                  // Only the first slide is eager — the rest load lazily so the
+                  // page doesn't pull every photo up front.
                   priority={index === 0}
+                  loading={index === 0 ? "eager" : "lazy"}
                   quality={90}
                   // Matches the real rendered width: the card is 90vw.
                   sizes="90vw"
@@ -169,26 +159,38 @@ export function HeroCarousel({ children }: { children: ReactNode }) {
             </div>
           </div>
 
-          {/* Dots, centered under the image */}
+          {/* Counter + dots. With every photo in the rotation there are enough
+              slides that a bare row of dots gets hard to read, so the counter
+              carries the position and the dots stay compact and wrap. */}
           {slides.length > 1 ? (
             <div
-              className="mt-6 flex items-center justify-center gap-2.5"
+              className="mt-6 flex flex-wrap items-center justify-center gap-x-4 gap-y-3"
               {...pauseHandlers}
             >
-              {slides.map((slide, index) => (
-                <button
-                  key={slide.src}
-                  type="button"
-                  onClick={() => setCurrent(index)}
-                  aria-label={`Show photo ${index + 1} of ${slides.length}`}
-                  aria-current={index === current}
-                  className={`h-1.5 rounded-full transition-all duration-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-royal focus-visible:ring-offset-2 focus-visible:ring-offset-base ${
-                    index === current
-                      ? "w-8 bg-royal"
-                      : "w-2.5 bg-chrome/40 hover:bg-chrome"
-                  }`}
-                />
-              ))}
+              <span
+                aria-live="polite"
+                className="font-display text-xs font-semibold tabular-nums tracking-[0.14em] text-chrome"
+              >
+                {String(current + 1).padStart(2, "0")}
+                <span className="text-muted"> / {String(slides.length).padStart(2, "0")}</span>
+              </span>
+
+              <span className="flex flex-wrap items-center justify-center gap-2">
+                {slides.map((slide, index) => (
+                  <button
+                    key={slide.src}
+                    type="button"
+                    onClick={() => setCurrent(index)}
+                    aria-label={`Show photo ${index + 1} of ${slides.length}`}
+                    aria-current={index === current}
+                    className={`h-1.5 rounded-full transition-all duration-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-royal focus-visible:ring-offset-2 focus-visible:ring-offset-base ${
+                      index === current
+                        ? "w-7 bg-royal"
+                        : "w-2 bg-chrome/40 hover:bg-chrome"
+                    }`}
+                  />
+                ))}
+              </span>
             </div>
           ) : null}
         </div>
