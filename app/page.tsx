@@ -98,10 +98,13 @@ function Hero() {
   return (
     <HeroCarousel>
       <Container>
-        <div className="max-w-3xl">
+        {/* Capped on lg so the copy can't run under the widened image card. */}
+        <div className="max-w-3xl lg:max-w-lg">
           <Eyebrow>{SERVICE_AREA_SHORT}</Eyebrow>
-          {/* No forced <br> on mobile — it overflows narrow viewports. */}
-          <h1 className="mt-5 font-display text-4xl font-bold leading-[1.02] tracking-tight text-ink drop-shadow-[0_2px_24px_rgba(0,0,0,0.6)] sm:text-6xl sm:leading-[0.98] lg:text-7xl">
+          {/* No forced <br> on mobile — it overflows narrow viewports.
+              Headline stays at 6xl on desktop (was 7xl): at 72px the second
+              line ran ~600px wide and would collide with the wider card. */}
+          <h1 className="mt-5 font-display text-4xl font-bold leading-[1.02] tracking-tight text-ink drop-shadow-[0_2px_24px_rgba(0,0,0,0.6)] sm:text-6xl sm:leading-[0.98] lg:text-5xl">
             A showroom finish,
             <br className="hidden sm:inline" />{" "}
             in your driveway.

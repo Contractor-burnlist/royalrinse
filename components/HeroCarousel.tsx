@@ -117,9 +117,13 @@ export function HeroCarousel({ children }: { children: ReactNode }) {
           <div
             onMouseEnter={() => setPaused(true)}
             onMouseLeave={() => setPaused(false)}
+            // Widened to the left: the card is now ~42% of the viewport (capped
+            // at 620px so it never renders far past the 900px source and turns
+            // soft). Top, right edge and crop are unchanged.
+            //
             // lg:z-20 only — on mobile the card is full-width, so lifting it
             // above the copy would cover the headline and block the CTAs.
-            className="absolute right-0 top-24 bottom-8 w-full sm:top-32 lg:right-[6%] lg:bottom-10 lg:z-20 lg:w-auto lg:overflow-hidden lg:rounded-2xl lg:border lg:border-chrome/25 lg:shadow-2xl lg:aspect-[3/4]"
+            className="absolute right-0 top-24 bottom-8 w-full sm:top-32 lg:right-[6%] lg:bottom-10 lg:z-20 lg:w-[42%] lg:max-w-[620px] lg:overflow-hidden lg:rounded-2xl lg:border lg:border-chrome/25 lg:shadow-2xl"
           >
             <Image
               src={slide.src}
@@ -127,7 +131,7 @@ export function HeroCarousel({ children }: { children: ReactNode }) {
               fill
               priority={index === 0}
               quality={90}
-              sizes="(max-width: 1024px) 100vw, 600px"
+              sizes="(max-width: 1024px) 100vw, 620px"
               className={`object-contain lg:object-cover ${
                 index === current && !reducedMotion
                   ? "motion-safe:animate-kenburns"
