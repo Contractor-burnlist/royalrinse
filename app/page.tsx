@@ -14,10 +14,10 @@ export default function Home() {
       </p>
 
       <a
-        href="tel:+16195550123"
+        href="tel:+19513389117"
         className="mt-10 inline-flex items-center justify-center rounded-full bg-sky-500 px-8 py-4 text-base font-semibold text-slate-950 transition-colors hover:bg-sky-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-300 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950"
       >
-        Call (619) 555-0123
+        Call (951) 338-9117
       </a>
 
       <p className="mt-6 text-sm text-slate-500">
