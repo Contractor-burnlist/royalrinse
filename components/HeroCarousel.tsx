@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useCallback, useEffect, useState, type ReactNode } from "react";
+import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
 import { allGalleryImages } from "@/lib/gallery";
 import { Container } from "@/components/ui";
 
@@ -69,17 +69,42 @@ export function HeroCarousel({ children }: { children: ReactNode }) {
     [maxIndex],
   );
 
-  // Auto-advance one tile at a time, looping back at the end.
+  // Read inside the interval so the effect below never needs these as deps.
+  const maxIndexRef = useRef(maxIndex);
+  maxIndexRef.current = maxIndex;
+  const enoughSlidesRef = useRef(true);
+  enoughSlidesRef.current = slides.length > perView;
+
+  /**
+   * ============================================================
+   *  AUTO-SCROLL — DO NOT REMOVE.
+   *  This interval is the ONLY thing that advances the carousel.
+   *  `current` drives the translateX on the tile track below, so if this
+   *  effect stops running the row goes static.
+   *
+   *  Deps are deliberately ONLY [paused]. Everything else is read through a
+   *  ref, so the interval is never torn down and rebuilt on unrelated
+   *  re-renders (resize, index change, etc.) — that churn is what made this
+   *  fragile and repeatedly "broke" auto-scroll after layout edits.
+   * ============================================================
+   */
   useEffect(() => {
-    if (paused || reducedMotion || slides.length <= perView) return;
+    if (paused) return;
 
     const id = setInterval(() => {
-      setCurrent((c) => (c >= maxIndex ? 0 : c + 1));
+      if (!enoughSlidesRef.current) return;
+      setCurrent((c) => (c >= maxIndexRef.current ? 0 : c + 1));
     }, AUTO_ADVANCE_MS);
-    return () => clearInterval(id);
-  }, [paused, reducedMotion, perView, maxIndex, current]);
 
-  // Pause only on the controls — hovering a big hero area froze it before.
+    return () => clearInterval(id);
+  }, [paused]);
+
+  /**
+   * Pause is bound ONLY to the arrow buttons — small, deliberate targets.
+   * It used to sit on large regions (the hero, the tile row), where a cursor
+   * simply resting on the page froze the carousel indefinitely and read as
+   * "auto-scroll is broken". Focus-pause is kept for keyboard users.
+   */
   const pauseHandlers = {
     onMouseEnter: () => setPaused(true),
     onMouseLeave: () => setPaused(false),
@@ -125,8 +150,15 @@ export function HeroCarousel({ children }: { children: ReactNode }) {
         >
           {/* Viewport. overflow-hidden clips the track; no page overflow. */}
           <div className="overflow-hidden">
+            {/* Under prefers-reduced-motion the row still advances, but jumps
+                instantly instead of sliding — the ANIMATION is what that
+                setting asks us to drop, not the content rotation. */}
             <div
-              className="flex transition-transform duration-700 ease-out"
+              data-autoscroll="hero"
+              data-index={current}
+              className={`flex ${
+                reducedMotion ? "" : "transition-transform duration-700 ease-out"
+              }`}
               style={{
                 transform: `translateX(-${current * (100 / perView)}%)`,
               }}
@@ -170,11 +202,14 @@ export function HeroCarousel({ children }: { children: ReactNode }) {
 
           {/* Minimal controls: arrows + a compact counter. A dot per photo
               would be a cluttered row at this many slides. */}
-          <div
-            className="mt-7 flex items-center justify-center gap-5"
-            {...pauseHandlers}
-          >
-            <CarouselArrow direction="prev" onClick={() => go(-1)} />
+          <div className="mt-7 flex items-center justify-center gap-5">
+            {/* pauseHandlers live on the arrows themselves — see the note above
+                the auto-scroll effect. Anything larger has repeatedly frozen
+                the carousel by accident. */}
+            <span {...pauseHandlers}>
+              <CarouselArrow direction="prev" onClick={() => go(-1)} />
+            </span>
+
             <span className="font-display text-xs font-semibold tabular-nums tracking-[0.14em] text-chrome">
               {String(Math.min(current + perView, slides.length)).padStart(2, "0")}
               <span className="text-muted">
@@ -182,7 +217,10 @@ export function HeroCarousel({ children }: { children: ReactNode }) {
                 / {String(slides.length).padStart(2, "0")}
               </span>
             </span>
-            <CarouselArrow direction="next" onClick={() => go(1)} />
+
+            <span {...pauseHandlers}>
+              <CarouselArrow direction="next" onClick={() => go(1)} />
+            </span>
           </div>
         </div>
       </div>
