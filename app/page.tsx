@@ -96,47 +96,36 @@ const bandImages = {
 
 function Hero() {
   return (
-    <section className="relative overflow-hidden border-b border-hairline">
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute -top-40 left-1/4 h-[28rem] w-[44rem] -translate-x-1/2 rounded-full bg-royal/15 blur-3xl"
-      />
+    <HeroCarousel>
+      <Container>
+        <div className="max-w-3xl">
+          <Eyebrow>{SERVICE_AREA_SHORT}</Eyebrow>
+          {/* No forced <br> on mobile — it overflows narrow viewports. */}
+          <h1 className="mt-5 font-display text-4xl font-bold leading-[1.02] tracking-tight text-ink drop-shadow-[0_2px_24px_rgba(0,0,0,0.6)] sm:text-6xl sm:leading-[0.98] lg:text-7xl">
+            A showroom finish,
+            <br className="hidden sm:inline" />{" "}
+            in your driveway.
+          </h1>
+          <p className="mt-7 max-w-xl text-lg text-chrome sm:text-xl">{site.tagline}</p>
 
-      <Container className="relative py-16 sm:py-24 lg:py-28">
-        {/* Definite track width — an `auto` column would collapse the
-            carousel's w-full/aspect-ratio box to zero. */}
-        <div className="grid items-center gap-14 lg:grid-cols-[1fr_26rem] lg:gap-20">
-          <div>
-            <Eyebrow>{SERVICE_AREA_SHORT}</Eyebrow>
-            {/* No forced <br> on mobile — it overflows narrow viewports. */}
-            <h1 className="mt-5 font-display text-4xl font-bold leading-[1.02] tracking-tight text-ink sm:text-6xl sm:leading-[0.98]">
-              A showroom finish,
-              <br className="hidden sm:inline" />{" "}
-              in your driveway.
-            </h1>
-            <p className="mt-6 max-w-lg text-lg text-muted sm:text-xl">{site.tagline}</p>
-
-            <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-              <ButtonAnchor href={telHref} aria-label={PHONE_ARIA}>
-                Call {site.phone}
-              </ButtonAnchor>
-              <BookNowButton variant="secondary" />
-            </div>
-
-            <ul className="mt-10 flex flex-wrap gap-x-7 gap-y-3">
-              {trustChips.map((chip) => (
-                <li key={chip} className="flex items-center gap-2 text-sm text-chrome">
-                  <Icon name="check" className="h-4 w-4 text-royal" />
-                  {chip}
-                </li>
-              ))}
-            </ul>
+          <div className="mt-10 flex flex-col gap-3 sm:flex-row">
+            <ButtonAnchor href={telHref} aria-label={PHONE_ARIA}>
+              Call {site.phone}
+            </ButtonAnchor>
+            <BookNowButton variant="secondary" />
           </div>
 
-          <HeroCarousel />
+          <ul className="mt-12 flex flex-wrap gap-x-7 gap-y-3">
+            {trustChips.map((chip) => (
+              <li key={chip} className="flex items-center gap-2 text-sm text-chrome">
+                <Icon name="check" className="h-4 w-4 text-royal" />
+                {chip}
+              </li>
+            ))}
+          </ul>
         </div>
       </Container>
-    </section>
+    </HeroCarousel>
   );
 }
 
@@ -397,7 +386,6 @@ export default function Home() {
         image={bandImages.showroom}
         headline="Showroom finish, every time."
         sub="The finish is in the parts most people skip — every vent, seam, and panel."
-        reverse
       />
 
       <ServiceAreaTeaser />

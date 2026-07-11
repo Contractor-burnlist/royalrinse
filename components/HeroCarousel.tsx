@@ -1,14 +1,16 @@
 "use client";
 
 import Image from "next/image";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, type ReactNode } from "react";
 import { featureVehicles, type GalleryImage } from "@/lib/gallery";
 
 const AUTO_ADVANCE_MS = 5000;
 
 /**
- * Hero slides. Only the highest-resolution sources (>= 900px wide) — the 576px
- * shots would need upscaling even in the contained frame.
+ * Full-bleed is the most-upscaled surface on the site, so the hero uses only
+ * the highest-resolution sources. The 576px shots would need a 5x upscale here;
+ * the 900px ones need 3.2x. Still not truly sharp — the sources are too small
+ * for full-bleed (see lib/gallery.ts) — but this is the best available.
  */
 const MIN_HERO_WIDTH = 900;
 
@@ -27,16 +29,11 @@ function buildSlides(): GalleryImage[] {
 const slides = buildSlides();
 
 /**
- * Contained hero carousel — deliberately NOT full-bleed.
- *
- * The sources top out at 900px wide. Full-bleed meant a 3.2x upscale on retina
- * and a visibly soft image. The frame is capped at 26rem (416px CSS = 832px on
- * retina; the 1.08x Ken Burns drift tops out at ~898px), so it renders at or
- * under the native 900px and stays sharp.
- *
- * If the photos are ever re-exported at 2560px+, this can go back to full-bleed.
+ * Full-bleed cinematic hero. Photos run edge to edge behind the content; a
+ * gradient scrim from the bottom-left keeps the headline and CTAs legible over
+ * whatever slide is showing.
  */
-export function HeroCarousel() {
+export function HeroCarousel({ children }: { children: ReactNode }) {
   const [current, setCurrent] = useState(0);
   const [paused, setPaused] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
@@ -67,54 +64,63 @@ export function HeroCarousel() {
   }, [paused, reducedMotion, current]);
 
   return (
-    <div
+    <section
       role="group"
       aria-roledescription="carousel"
       aria-label="Recent detailing work"
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
-      onFocusCapture={() => setPaused(true)}
-      onBlurCapture={() => setPaused(false)}
-      className="mx-auto w-full max-w-[26rem] lg:mx-0"
+      // Pull up under the sticky header so photos run to the very top.
+      className="relative -mt-24 flex min-h-[80vh] items-end overflow-hidden sm:-mt-32 lg:min-h-[85vh]"
     >
-      <div className="group relative aspect-[4/5] w-full overflow-hidden rounded-2xl border border-hairline shadow-card">
-        {slides.map((slide, index) => (
-          <div
-            key={slide.src}
-            aria-hidden={index !== current}
-            className={`absolute inset-0 transition-opacity duration-1000 ease-out ${
-              index === current ? "opacity-100" : "opacity-0"
-            }`}
-          >
-            <Image
-              src={slide.src}
-              alt={slide.alt}
-              fill
-              priority={index === 0}
-              quality={90}
-              // Matches the real frame width — never requests more.
-              sizes="(max-width: 1024px) 100vw, 416px"
-              className={`object-cover ${
-                index === current && !reducedMotion
-                  ? "motion-safe:animate-kenburns"
-                  : ""
-              }`}
-            />
-          </div>
-        ))}
-
-        {/* Bottom scrim so the controls stay legible on any slide. */}
+      {slides.map((slide, index) => (
         <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-base/90 to-transparent"
-        />
+          key={slide.src}
+          aria-hidden={index !== current}
+          className={`absolute inset-0 transition-opacity duration-1000 ease-out ${
+            index === current ? "opacity-100" : "opacity-0"
+          }`}
+        >
+          <Image
+            src={slide.src}
+            alt={slide.alt}
+            fill
+            priority={index === 0}
+            quality={90}
+            sizes="100vw"
+            // Portrait source in a landscape frame: anchor the crop on the car
+            // rather than the dead centre of the photo.
+            style={{ objectPosition: "50% 40%" }}
+            className={`object-cover ${
+              index === current && !reducedMotion ? "motion-safe:animate-kenburns" : ""
+            }`}
+          />
+        </div>
+      ))}
+
+      {/* Scrim: heavy at the bottom-left where the copy sits, clearing toward
+          the top-right so the car stays visible. */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 bg-gradient-to-tr from-base via-base/70 to-base/10"
+      />
+      <div
+        aria-hidden="true"
+        className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-base to-transparent"
+      />
+
+      {/* min-w-0: as a flex item this would otherwise size to its widest child
+          and push the headline past the viewport on mobile. */}
+      <div
+        className="relative w-full min-w-0 pb-20 pt-40 sm:pb-24 sm:pt-48"
+        onMouseEnter={() => setPaused(true)}
+        onMouseLeave={() => setPaused(false)}
+        onFocusCapture={() => setPaused(true)}
+        onBlurCapture={() => setPaused(false)}
+      >
+        {children}
 
         {slides.length > 1 ? (
-          <>
-            <HeroArrow direction="prev" onClick={() => go(-1)} />
-            <HeroArrow direction="next" onClick={() => go(1)} />
-
-            <div className="absolute inset-x-0 bottom-5 flex justify-center gap-2">
+          <div className="mx-auto mt-14 w-full max-w-container px-5 sm:px-8">
+            <div className="flex items-center gap-3">
               {slides.map((slide, index) => (
                 <button
                   key={slide.src}
@@ -122,18 +128,23 @@ export function HeroCarousel() {
                   onClick={() => setCurrent(index)}
                   aria-label={`Show photo ${index + 1} of ${slides.length}`}
                   aria-current={index === current}
-                  className={`h-1.5 rounded-full transition-all duration-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-royal focus-visible:ring-offset-2 focus-visible:ring-offset-base ${
+                  className={`h-1 rounded-full transition-all duration-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-royal focus-visible:ring-offset-2 focus-visible:ring-offset-base ${
                     index === current
-                      ? "w-7 bg-royal"
-                      : "w-2 bg-chrome/60 hover:bg-chrome"
+                      ? "w-10 bg-royal"
+                      : "w-5 bg-chrome/40 hover:bg-chrome"
                   }`}
                 />
               ))}
+
+              <span className="ml-auto flex gap-2">
+                <HeroArrow direction="prev" onClick={() => go(-1)} />
+                <HeroArrow direction="next" onClick={() => go(1)} />
+              </span>
             </div>
-          </>
+          </div>
         ) : null}
       </div>
-    </div>
+    </section>
   );
 }
 
@@ -150,9 +161,7 @@ function HeroArrow({
       type="button"
       onClick={onClick}
       aria-label={isPrev ? "Previous photo" : "Next photo"}
-      className={`absolute top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-hairline bg-base/50 text-ink opacity-0 backdrop-blur-sm transition-opacity hover:bg-base/80 focus:outline-none focus-visible:opacity-100 focus-visible:ring-2 focus-visible:ring-royal group-hover:opacity-100 ${
-        isPrev ? "left-3" : "right-3"
-      }`}
+      className="flex h-9 w-9 items-center justify-center rounded-full border border-hairline bg-base/40 text-chrome backdrop-blur-sm transition-colors hover:border-chrome/50 hover:text-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-royal"
     >
       <svg
         viewBox="0 0 24 24"
