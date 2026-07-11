@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { mailHref, serviceAreas, services, site, telHref } from "@/lib/site";
 import { Container } from "@/components/ui";
@@ -18,10 +19,16 @@ export function Footer() {
       <Container>
         <div className="grid gap-12 py-16 sm:grid-cols-2 lg:grid-cols-4">
           <div>
-            <p className="font-display text-xl font-bold tracking-tight text-ink">
-              {site.name}
-            </p>
-            <p className="mt-3 text-sm leading-relaxed text-muted">{site.tagline}</p>
+            <Link href="/" className="inline-flex" aria-label="Royal Rinse — home">
+              <Image
+                src="/royal-logo.jpeg"
+                alt="Royal Rinse mobile auto detailing"
+                width={1254}
+                height={1254}
+                className="h-24 w-auto rounded-xl border border-hairline"
+              />
+            </Link>
+            <p className="mt-5 text-sm leading-relaxed text-muted">{site.tagline}</p>
             <p className="mt-6 text-sm font-medium text-chrome">{site.license}</p>
           </div>
 

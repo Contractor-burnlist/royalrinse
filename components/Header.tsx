@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { nav, site, telHref } from "@/lib/site";
@@ -7,13 +8,17 @@ import { ButtonLink, Container } from "@/components/ui";
 
 function Logo() {
   return (
-    <Link href="/" className="group flex items-center gap-2.5">
-      <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-royal font-display text-base font-bold text-ink shadow-glow">
-        R
-      </span>
-      <span className="font-display text-lg font-bold tracking-tight text-ink">
-        Royal Rinse
-      </span>
+    <Link href="/" className="flex items-center" aria-label="Royal Rinse — home">
+      {/* Logo ships with its own near-black background, so it sits flush on the
+          header. The border keeps the square edge from reading as an artifact. */}
+      <Image
+        src="/royal-logo.jpeg"
+        alt="Royal Rinse mobile auto detailing"
+        width={1254}
+        height={1254}
+        priority
+        className="h-10 w-auto rounded-lg border border-hairline sm:h-12"
+      />
     </Link>
   );
 }
