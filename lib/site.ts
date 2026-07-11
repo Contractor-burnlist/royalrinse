@@ -1,8 +1,4 @@
-/**
- * Single source of truth for business facts, nav, and shared copy.
- * [EMAIL] is still a placeholder token — swap the value below and every
- * link/label across the site updates.
- */
+/** Single source of truth for business facts, nav, and shared copy. */
 
 /** Human-readable number. */
 export const PHONE_DISPLAY = "(951) 338-9117";
@@ -24,7 +20,7 @@ export const site = {
   name: "Royal Rinse",
   tagline: "Mobile Auto Detailing — We Come To You",
   phone: PHONE_DISPLAY,
-  email: "[EMAIL]",
+  email: "office@royalrinsemobile.com",
   license: "Licensed, Insured & Bonded — CA DLSE CW-LR-1001298512",
   licenseNumber: "CW-LR-1001298512",
   hours: [

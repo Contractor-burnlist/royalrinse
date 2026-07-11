@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import {
   PHONE_ARIA,
@@ -28,6 +29,12 @@ import {
   Section,
   SectionHeading,
 } from "@/components/ui";
+
+export const metadata: Metadata = {
+  title: "Royal Rinse | Mobile Auto Detailing — Riverside & San Diego County",
+  description:
+    "Licensed, insured, and bonded mobile auto detailing. We come to your home or office anywhere in Riverside & San Diego County — no drop-off, no waiting room.",
+};
 
 const trustChips = [
   "Licensed, Insured & Bonded",

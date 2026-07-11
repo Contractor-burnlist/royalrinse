@@ -121,29 +121,6 @@ export function Card({
   );
 }
 
-/**
- * Stand-in for a real photo. Swap for next/image once assets land —
- * the aspect ratio and rounding are already set by the caller.
- */
-export function ImagePlaceholder({
-  label,
-  className = "",
-}: {
-  label: string;
-  className?: string;
-}) {
-  return (
-    <div
-      role="img"
-      aria-label={`Image placeholder: ${label}`}
-      className={`flex items-center justify-center overflow-hidden rounded-xl border border-hairline bg-gradient-to-br from-charcoal via-surface to-charcoal ${className}`}
-    >
-      <span className="px-4 text-center text-xs font-medium uppercase tracking-[0.18em] text-muted">
-        {label}
-      </span>
-    </div>
-  );
-}
 
 const iconPaths: Record<string, ReactNode> = {
   droplet: <path d="M12 3s6 6.5 6 10.5a6 6 0 1 1-12 0C6 9.5 12 3 12 3Z" />,
