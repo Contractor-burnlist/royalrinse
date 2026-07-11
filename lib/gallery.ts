@@ -86,10 +86,17 @@ export const exteriorGallery: GalleryImage[] = [
 ];
 
 /**
- * There is no public/royal-interior/ folder, so this draws on the interior
- * shots that live in the feature set. Drop files into a royal-interior folder
- * and add them here to grow it.
+ * Photos dropped into public/royal-interior/. Empty until they're uploaded —
+ * add an entry here per file and it appears on /gallery/interior automatically.
  */
-export const interiorGallery: GalleryImage[] = featureVehicles.flatMap(
-  (vehicle) => vehicle.interior,
-);
+export const royalInteriorGallery: GalleryImage[] = [];
+
+/**
+ * The interior page shows the royal-interior folder first, then falls back on
+ * the interior shots already captured in the feature set, so the page is never
+ * blank while royal-interior is still empty.
+ */
+export const interiorGallery: GalleryImage[] = [
+  ...royalInteriorGallery,
+  ...featureVehicles.flatMap((vehicle) => vehicle.interior),
+];
