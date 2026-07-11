@@ -36,7 +36,9 @@ export function ServicePhotoCard({
         fill
         loading="lazy"
         quality={85}
-        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+        // Matches the real card width (~346px in a 3-col grid), not the
+        // viewport — so the browser fetches a small file and nothing upscales.
+        sizes="(max-width: 640px) 92vw, (max-width: 1024px) 45vw, 24vw"
         className="object-cover transition-transform duration-700 ease-out motion-safe:group-hover:scale-110"
       />
 
