@@ -71,6 +71,17 @@ export function HeroCarousel({ children }: { children: ReactNode }) {
       // Pull up under the sticky header so photos run to the very top.
       className="relative -mt-24 flex min-h-[80vh] items-end overflow-hidden sm:-mt-32 lg:min-h-[85vh]"
     >
+      {/*
+        Two layers per slide:
+
+        1. An ambient backdrop — the same photo, blown up and heavily blurred.
+           It IS upscaled, but it's blurred on purpose, so nobody can tell. It
+           fills the frame edge to edge and keeps the cinematic full-bleed feel.
+
+        2. The real photo, object-CONTAIN. The whole frame is visible (no crop)
+           and it renders SMALLER than its 900px source, so it is genuinely
+           sharp — no upscaling at all.
+      */}
       {slides.map((slide, index) => (
         <div
           key={slide.src}
@@ -81,26 +92,42 @@ export function HeroCarousel({ children }: { children: ReactNode }) {
         >
           <Image
             src={slide.src}
-            alt={slide.alt}
+            alt=""
+            aria-hidden="true"
             fill
-            priority={index === 0}
-            quality={90}
+            quality={40}
             sizes="100vw"
-            // Portrait source in a landscape frame: anchor the crop on the car
-            // rather than the dead centre of the photo.
-            style={{ objectPosition: "50% 40%" }}
-            className={`object-cover ${
-              index === current && !reducedMotion ? "motion-safe:animate-kenburns" : ""
-            }`}
+            className="scale-125 object-cover blur-2xl brightness-[0.4] saturate-[0.85]"
           />
+
+          {/* Desktop: a framed portrait panel matching the photo's own 9:16
+              ratio, so nothing is cropped and nothing is stretched. At ~360px
+              wide from a 900px source it renders downscaled — genuinely sharp.
+              Mobile: the photo simply sits contained behind the copy. */}
+          <div className="absolute inset-y-6 right-0 w-full sm:inset-y-10 lg:inset-y-auto lg:top-1/2 lg:right-[7%] lg:h-[62vh] lg:w-auto lg:-translate-y-1/2 lg:overflow-hidden lg:rounded-2xl lg:border lg:border-chrome/25 lg:shadow-2xl lg:aspect-[9/16]">
+            <Image
+              src={slide.src}
+              alt={slide.alt}
+              fill
+              priority={index === 0}
+              quality={90}
+              // Never larger than the frame it lands in.
+              sizes="(max-width: 1024px) 100vw, 380px"
+              className={`object-contain lg:object-cover ${
+                index === current && !reducedMotion
+                  ? "motion-safe:animate-kenburns"
+                  : ""
+              }`}
+            />
+          </div>
         </div>
       ))}
 
-      {/* Scrim: heavy at the bottom-left where the copy sits, clearing toward
-          the top-right so the car stays visible. */}
+      {/* Scrim keeps the copy legible over the backdrop. Weighted left so the
+          contained photo on the right stays clean. */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 bg-gradient-to-tr from-base via-base/70 to-base/10"
+        className="absolute inset-0 bg-gradient-to-r from-base via-base/80 to-base/40 lg:via-base/60 lg:to-transparent"
       />
       <div
         aria-hidden="true"
