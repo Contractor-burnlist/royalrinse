@@ -5,19 +5,26 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import type { GalleryImage } from "@/lib/gallery";
 
 /**
- * Click-to-enlarge grid. Renders its own modal so any page can hand it a list
- * of images and get keyboard-navigable enlargement for free.
+ * Click-to-enlarge photo grid.
+ *
+ * No captions anywhere — not under the tiles, not in the modal. Alt text stays
+ * on the <img> for screen readers and SEO but is never shown.
+ *
+ * variant "grid":    uniform cropped tiles.
+ * variant "masonry": natural aspect ratios flowed into CSS columns.
  */
 export function LightboxGrid({
   images,
+  variant = "grid",
   className = "grid gap-4 sm:grid-cols-2 lg:grid-cols-3",
   tileClassName = "aspect-[4/3]",
-  priorityCount = 0,
+  eagerCount = 0,
 }: {
   images: GalleryImage[];
+  variant?: "grid" | "masonry";
   className?: string;
   tileClassName?: string;
-  priorityCount?: number;
+  eagerCount?: number;
 }) {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
@@ -45,7 +52,6 @@ export function LightboxGrid({
     };
 
     document.addEventListener("keydown", onKeyDown);
-    // Freeze the page behind the modal.
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     closeRef.current?.focus();
@@ -61,43 +67,70 @@ export function LightboxGrid({
     setOpenIndex(index);
   };
 
-  // Restore focus to the thumbnail that opened the modal.
   useEffect(() => {
     if (openIndex === null) lastFocused.current?.focus();
   }, [openIndex]);
 
   const active = openIndex === null ? null : images[openIndex];
 
+  const tileClasses =
+    "group relative block w-full overflow-hidden rounded-xl border border-hairline bg-surface shadow-card transition-colors hover:border-royal focus:outline-none focus-visible:ring-2 focus-visible:ring-royal focus-visible:ring-offset-2 focus-visible:ring-offset-base";
+
   return (
     <>
-      <ul className={className}>
-        {images.map((image, index) => (
-          <li key={image.src}>
+      {variant === "masonry" ? (
+        <div className={className}>
+          {images.map((image, index) => (
             <button
+              key={image.src}
               type="button"
               onClick={() => open(index)}
-              className={`group relative w-full overflow-hidden rounded-xl border border-hairline bg-surface shadow-card transition-colors hover:border-royal focus:outline-none focus-visible:ring-2 focus-visible:ring-royal focus-visible:ring-offset-2 focus-visible:ring-offset-base ${tileClassName}`}
+              className={`${tileClasses} mb-4 break-inside-avoid`}
             >
               <Image
                 src={image.src}
                 alt={image.alt}
-                fill
-                loading={index < priorityCount ? "eager" : "lazy"}
-                priority={index < priorityCount}
-                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                className="object-cover transition-transform duration-500 group-hover:scale-105"
+                width={image.width}
+                height={image.height}
+                loading={index < eagerCount ? "eager" : "lazy"}
+                priority={index < eagerCount}
+                sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                className="h-auto w-full transition-transform duration-500 group-hover:scale-105"
               />
               <span className="sr-only">Enlarge photo</span>
             </button>
-          </li>
-        ))}
-      </ul>
+          ))}
+        </div>
+      ) : (
+        <ul className={className}>
+          {images.map((image, index) => (
+            <li key={image.src}>
+              <button
+                type="button"
+                onClick={() => open(index)}
+                className={`${tileClasses} ${tileClassName}`}
+              >
+                <Image
+                  src={image.src}
+                  alt={image.alt}
+                  fill
+                  loading={index < eagerCount ? "eager" : "lazy"}
+                  priority={index < eagerCount}
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+                <span className="sr-only">Enlarge photo</span>
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
 
       {active ? (
         <div
           role="dialog"
           aria-modal="true"
-          aria-label={active.alt}
+          aria-label="Photo viewer"
           onClick={close}
           className="fixed inset-0 z-[100] flex items-center justify-center bg-base/95 p-4 backdrop-blur-sm sm:p-8"
         >
@@ -140,23 +173,19 @@ export function LightboxGrid({
             </>
           ) : null}
 
-          <figure
+          {/* Image only — no caption, no vehicle label. */}
+          <div
             onClick={(event) => event.stopPropagation()}
-            className="relative flex max-h-full w-full max-w-4xl flex-col items-center gap-4"
+            className="relative h-[80vh] w-full max-w-5xl"
           >
-            <div className="relative h-[70vh] w-full">
-              <Image
-                src={active.src}
-                alt={active.alt}
-                fill
-                sizes="100vw"
-                className="rounded-xl object-contain"
-              />
-            </div>
-            <figcaption className="max-w-2xl text-center text-sm text-muted">
-              {active.alt}
-            </figcaption>
-          </figure>
+            <Image
+              src={active.src}
+              alt={active.alt}
+              fill
+              sizes="100vw"
+              className="rounded-xl object-contain"
+            />
+          </div>
         </div>
       ) : null}
     </>

@@ -50,8 +50,9 @@ export function GallerySubPage({
         {images.length > 0 ? (
           <LightboxGrid
             images={images}
-            className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
-            priorityCount={3}
+            variant="masonry"
+            className="columns-2 gap-4 lg:columns-3"
+            eagerCount={3}
           />
         ) : (
           <p className="text-base text-muted">

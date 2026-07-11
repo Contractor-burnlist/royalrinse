@@ -1,66 +1,91 @@
 /**
- * Gallery data. Groupings below were determined by visually inspecting each
- * photo, not by filename — the source filenames were misleading (one shot
- * labelled "Porsche Interior 3" is a different car entirely).
+ * Gallery data.
+ *
+ * Alt text is deliberately generic — no make or model. It exists for screen
+ * readers and SEO, and is never rendered on screen. Intrinsic width/height are
+ * the real file dimensions; they drive the masonry layout and prevent layout
+ * shift.
  */
 
-export type GalleryImage = { src: string; alt: string };
+export type GalleryImage = {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+};
 
 export type FeatureVehicle = {
   id: string;
+  /** Internal grouping reference only — never rendered. */
   label: string;
   exterior: GalleryImage[];
   interior: GalleryImage[];
 };
 
+const AREA = "Riverside & San Diego County";
+
 export const featureVehicles: FeatureVehicle[] = [
   {
     id: "vehicle-1",
-    label: "Vehicle 1 — White Ferrari Roma",
+    label: "Vehicle 1",
     exterior: [
       {
         src: "/royal-feature/vehicle-1-ext-1.jpg",
-        alt: "Exterior car detailing in Riverside & San Diego County — white Ferrari Roma with a polished gloss finish and black wheels, parked in a residential driveway",
+        alt: `Mobile car detailing in ${AREA} — sports car with a polished gloss finish, detailed in a residential driveway`,
+        width: 576,
+        height: 1024,
       },
       {
         src: "/royal-feature/vehicle-1-ext-2.jpg",
-        alt: "Mobile car detailing in Riverside & San Diego County — rear view of a white Ferrari Roma beside the Royal Rinse mobile detailing van",
+        alt: `Mobile car detailing in ${AREA} — freshly detailed sports car beside the Royal Rinse mobile detailing van`,
+        width: 576,
+        height: 1024,
       },
     ],
     interior: [],
   },
   {
     id: "vehicle-2",
-    label: "Vehicle 2 — Mint Green Porsche 718 Spyder RS",
+    label: "Vehicle 2",
     exterior: [
       {
         src: "/royal-feature/vehicle-2-ext-1.jpg",
-        alt: "Exterior car detailing in Riverside & San Diego County — mint green Porsche 718 Spyder RS with a carbon hood and gold-rimmed wheels, detailed in a driveway",
+        alt: `Exterior car detailing in ${AREA} — sports car with a deep gloss finish after a full exterior detail`,
+        width: 900,
+        height: 1600,
       },
       {
         src: "/royal-feature/vehicle-2-ext-2.jpg",
-        alt: "Mobile auto detailing in Riverside & San Diego County — front view of a mint green Porsche 718 Spyder RS with the Royal Rinse van in the background",
+        alt: `Mobile auto detailing in ${AREA} — sports car detailed on site with the Royal Rinse van in the background`,
+        width: 900,
+        height: 1600,
       },
       {
         src: "/royal-feature/vehicle-2-ext-3.jpg",
-        alt: "Wheel and paint detailing in Riverside & San Diego County — close-up of a mint green Porsche 718 Spyder RS showing a cleaned black wheel and reflective paintwork",
+        alt: `Wheel and paint detailing in ${AREA} — close-up of a cleaned wheel and reflective paintwork`,
+        width: 900,
+        height: 1600,
       },
     ],
     interior: [
       {
         src: "/royal-feature/vehicle-2-int-1.jpg",
-        alt: "Interior car detailing in Riverside & San Diego County — Porsche 718 Spyder RS cabin with cleaned suede seats, dashboard, and door sill",
+        alt: `Interior car detailing in ${AREA} — cleaned cabin with detailed seats, dashboard, and door sill`,
+        width: 900,
+        height: 1600,
       },
     ],
   },
   {
     id: "vehicle-3",
-    label: "Vehicle 3 — Porsche Panamera (interior only)",
+    label: "Vehicle 3",
     exterior: [],
     interior: [
       {
         src: "/royal-feature/vehicle-3-int-1.jpg",
-        alt: "Interior car detailing in Riverside & San Diego County — Porsche Panamera cabin with a two-tone burgundy and cream leather interior, steering wheel, and centre console",
+        alt: `Interior car detailing in ${AREA} — cleaned cabin with two-tone leather seats, steering wheel, and centre console`,
+        width: 1024,
+        height: 683,
       },
     ],
   },
@@ -69,19 +94,27 @@ export const featureVehicles: FeatureVehicle[] = [
 export const exteriorGallery: GalleryImage[] = [
   {
     src: "/royal-exterior/exterior-1.jpg",
-    alt: "Exterior car detailing in Riverside & San Diego County — red classic Chevrolet with polished chrome trim and a mirror-gloss paint finish",
+    alt: `Exterior car detailing in ${AREA} — classic car with polished chrome trim and a mirror-gloss paint finish`,
+    width: 900,
+    height: 1600,
   },
   {
     src: "/royal-exterior/exterior-2.jpg",
-    alt: "Exterior truck detailing in Riverside & San Diego County — lifted dark Ford F-150 with bronze off-road wheels, detailed in a driveway",
+    alt: `Exterior truck detailing in ${AREA} — lifted pickup truck with off-road wheels, detailed in a driveway`,
+    width: 576,
+    height: 1024,
   },
   {
     src: "/royal-exterior/exterior-3.jpg",
-    alt: "Exterior truck detailing in Riverside & San Diego County — lifted grey Ford F-150 with bronze wheels and a roof light bar",
+    alt: `Exterior truck detailing in ${AREA} — lifted pickup truck with a roof light bar after a full exterior detail`,
+    width: 576,
+    height: 1024,
   },
   {
     src: "/royal-exterior/exterior-4.jpg",
-    alt: "Exterior truck detailing in Riverside & San Diego County — black Ram 1500 with a deep gloss finish and polished chrome grille",
+    alt: `Exterior truck detailing in ${AREA} — pickup truck with a deep gloss finish and polished chrome grille`,
+    width: 900,
+    height: 1600,
   },
 ];
 
@@ -100,3 +133,17 @@ export const interiorGallery: GalleryImage[] = [
   ...royalInteriorGallery,
   ...featureVehicles.flatMap((vehicle) => vehicle.interior),
 ];
+
+/** Every photo on the site, de-duplicated by src. Powers the main /gallery. */
+export const allGalleryImages: GalleryImage[] = Array.from(
+  new Map(
+    [
+      ...featureVehicles.flatMap((vehicle) => [
+        ...vehicle.exterior,
+        ...vehicle.interior,
+      ]),
+      ...exteriorGallery,
+      ...interiorGallery,
+    ].map((image) => [image.src, image]),
+  ).values(),
+);
