@@ -3,14 +3,13 @@
 import Image from "next/image";
 import { useCallback, useEffect, useState, type ReactNode } from "react";
 import { featureVehicles, type GalleryImage } from "@/lib/gallery";
+import { Container } from "@/components/ui";
 
 const AUTO_ADVANCE_MS = 5000;
 
 /**
- * Full-bleed is the most-upscaled surface on the site, so the hero uses only
- * the highest-resolution sources. The 576px shots would need a 5x upscale here;
- * the 900px ones need 3.2x. Still not truly sharp — the sources are too small
- * for full-bleed (see lib/gallery.ts) — but this is the best available.
+ * Hero slides use only the highest-resolution sources. The 576px shots would
+ * need an even harsher upscale than the 900px ones (see lib/gallery.ts).
  */
 const MIN_HERO_WIDTH = 900;
 
@@ -29,9 +28,9 @@ function buildSlides(): GalleryImage[] {
 const slides = buildSlides();
 
 /**
- * Full-bleed cinematic hero. Photos run edge to edge behind the content; a
- * gradient scrim from the bottom-left keeps the headline and CTAs legible over
- * whatever slide is showing.
+ * Stacked, centered hero: centered copy on top, a large cinematic carousel
+ * beneath it. An ambient blurred backdrop of the active slide fills the frame
+ * behind everything, so the section still bleeds edge to edge.
  */
 export function HeroCarousel({ children }: { children: ReactNode }) {
   const [current, setCurrent] = useState(0);
@@ -52,6 +51,7 @@ export function HeroCarousel({ children }: { children: ReactNode }) {
     return () => query.removeEventListener("change", sync);
   }, []);
 
+  // Auto-advance. `current` is a dep so manual navigation restarts the count.
   useEffect(() => {
     if (paused || reducedMotion || slides.length < 2) return;
 
@@ -60,34 +60,27 @@ export function HeroCarousel({ children }: { children: ReactNode }) {
       AUTO_ADVANCE_MS,
     );
     return () => clearInterval(id);
-    // `current` is a dep so manual navigation restarts the countdown.
   }, [paused, reducedMotion, current]);
+
+  // Hover/focus pause is scoped to the carousel itself — never the whole
+  // section, or a cursor resting anywhere on screen would freeze it.
+  const pauseHandlers = {
+    onMouseEnter: () => setPaused(true),
+    onMouseLeave: () => setPaused(false),
+    onFocusCapture: () => setPaused(true),
+    onBlurCapture: () => setPaused(false),
+  };
 
   return (
     <section
-      role="group"
-      aria-roledescription="carousel"
-      aria-label="Recent detailing work"
-      // Pull up under the sticky header so photos run to the very top.
-      // Slightly taller than before: the panel now starts below the header
-      // divider, so the extra height keeps the photo from shrinking.
-      className="relative -mt-24 flex min-h-[80vh] items-end overflow-hidden sm:-mt-32 lg:min-h-[92vh]"
+      // Pulled up under the sticky header so the backdrop reaches the top.
+      className="relative -mt-24 overflow-hidden border-b border-hairline sm:-mt-32"
     >
-      {/*
-        Two layers per slide:
-
-        1. An ambient backdrop — the same photo, blown up and heavily blurred.
-           It IS upscaled, but it's blurred on purpose, so nobody can tell. It
-           fills the frame edge to edge and keeps the cinematic full-bleed feel.
-
-        2. The real photo, object-CONTAIN. The whole frame is visible (no crop)
-           and it renders SMALLER than its 900px source, so it is genuinely
-           sharp — no upscaling at all.
-      */}
+      {/* Ambient blurred backdrop — upscaled, but blurred on purpose. */}
       {slides.map((slide, index) => (
         <div
           key={slide.src}
-          aria-hidden={index !== current}
+          aria-hidden="true"
           className={`absolute inset-0 transition-opacity duration-1000 ease-out ${
             index === current ? "opacity-100" : "opacity-0"
           }`}
@@ -95,86 +88,74 @@ export function HeroCarousel({ children }: { children: ReactNode }) {
           <Image
             src={slide.src}
             alt=""
-            aria-hidden="true"
             fill
             quality={40}
             sizes="100vw"
-            className="scale-125 object-cover blur-2xl brightness-[0.4] saturate-[0.85]"
+            className="scale-125 object-cover blur-2xl brightness-[0.35] saturate-[0.85]"
           />
-
-          {/*
-            The hero is pulled up under the sticky header (-mt-24 / -mt-32), so
-            the panel's top is anchored to the header's height — top-24 on
-            mobile, top-32 from `sm` up — which lands it exactly on the divider
-            line beneath the nav instead of running behind it.
-
-            top + bottom are both set, so the height is derived from the section
-            and `aspect-[3/4]` derives the width from that. It can't overflow.
-          */}
-          {/* Hover-pause lives HERE, on the photo card — not on the whole hero.
-              The hero is ~92vh, so a wrapper-level hover handler meant a cursor
-              resting anywhere on screen paused the rotation forever. */}
-          <div
-            onMouseEnter={() => setPaused(true)}
-            onMouseLeave={() => setPaused(false)}
-            // Widened to the left: the card is now ~42% of the viewport (capped
-            // at 620px so it never renders far past the 900px source and turns
-            // soft). Top, right edge and crop are unchanged.
-            //
-            // lg:z-20 only — on mobile the card is full-width, so lifting it
-            // above the copy would cover the headline and block the CTAs.
-            className="absolute right-0 top-24 bottom-8 w-full sm:top-32 lg:right-[6%] lg:bottom-10 lg:z-20 lg:w-[42%] lg:max-w-[620px] lg:overflow-hidden lg:rounded-2xl lg:border lg:border-chrome/25 lg:shadow-2xl"
-          >
-            <Image
-              src={slide.src}
-              alt={slide.alt}
-              fill
-              priority={index === 0}
-              quality={90}
-              sizes="(max-width: 1024px) 100vw, 620px"
-              className={`object-contain lg:object-cover ${
-                index === current && !reducedMotion
-                  ? "motion-safe:animate-kenburns"
-                  : ""
-              }`}
-            />
-          </div>
         </div>
       ))}
-
-      {/* Scrim keeps the copy legible over the backdrop. Weighted left so the
-          contained photo on the right stays clean. */}
-      {/* pointer-events-none: these decorative layers sit above the photo card
-          and would otherwise swallow its hover. */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 bg-gradient-to-r from-base via-base/80 to-base/40 lg:via-base/60 lg:to-transparent"
+        className="pointer-events-none absolute inset-0 bg-base/70"
       />
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-base to-transparent"
       />
 
-      {/* min-w-0: as a flex item this would otherwise size to its widest child
-          and push the headline past the viewport on mobile.
+      <div className="relative z-10 pb-20 pt-36 sm:pb-24 sm:pt-44">
+        {/* Centered copy */}
+        <Container>
+          <div className="mx-auto max-w-3xl text-center">{children}</div>
+        </Container>
 
-          No onMouseEnter here — this wrapper covers nearly the whole viewport,
-          so hover-pausing on it froze the carousel permanently. Focus-pause is
-          safe to keep (it only fires when a control is actually focused). */}
-      <div
-        className="relative z-10 w-full min-w-0 pb-20 pt-40 sm:pb-24 sm:pt-48"
-        onFocusCapture={() => setPaused(true)}
-        onBlurCapture={() => setPaused(false)}
-      >
-        {children}
+        {/* Large centered carousel */}
+        <div
+          className="mx-auto mt-14 w-[92%] max-w-6xl sm:mt-16"
+          role="group"
+          aria-roledescription="carousel"
+          aria-label="Recent detailing work"
+          {...pauseHandlers}
+        >
+          <div className="group relative aspect-[4/3] overflow-hidden rounded-2xl border border-chrome/25 shadow-2xl sm:aspect-[16/9]">
+            {slides.map((slide, index) => (
+              <div
+                key={slide.src}
+                aria-hidden={index !== current}
+                className={`absolute inset-0 transition-opacity duration-1000 ease-out ${
+                  index === current ? "opacity-100" : "opacity-0"
+                }`}
+              >
+                <Image
+                  src={slide.src}
+                  alt={slide.alt}
+                  fill
+                  priority={index === 0}
+                  quality={90}
+                  // Matches the real rendered width of the card.
+                  sizes="(max-width: 640px) 92vw, (max-width: 1152px) 92vw, 1152px"
+                  style={{ objectPosition: "center" }}
+                  className={`object-cover ${
+                    index === current && !reducedMotion
+                      ? "motion-safe:animate-kenburns"
+                      : ""
+                  }`}
+                />
+              </div>
+            ))}
 
-        {slides.length > 1 ? (
-          <div className="mx-auto mt-14 w-full max-w-container px-5 sm:px-8">
-            <div
-              className="flex items-center gap-3"
-              onMouseEnter={() => setPaused(true)}
-              onMouseLeave={() => setPaused(false)}
-            >
+            {slides.length > 1 ? (
+              <>
+                <HeroArrow direction="prev" onClick={() => go(-1)} />
+                <HeroArrow direction="next" onClick={() => go(1)} />
+              </>
+            ) : null}
+          </div>
+
+          {/* Dots, centered under the image */}
+          {slides.length > 1 ? (
+            <div className="mt-6 flex items-center justify-center gap-2.5">
               {slides.map((slide, index) => (
                 <button
                   key={slide.src}
@@ -182,23 +163,16 @@ export function HeroCarousel({ children }: { children: ReactNode }) {
                   onClick={() => setCurrent(index)}
                   aria-label={`Show photo ${index + 1} of ${slides.length}`}
                   aria-current={index === current}
-                  className={`h-1 rounded-full transition-all duration-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-royal focus-visible:ring-offset-2 focus-visible:ring-offset-base ${
+                  className={`h-1.5 rounded-full transition-all duration-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-royal focus-visible:ring-offset-2 focus-visible:ring-offset-base ${
                     index === current
-                      ? "w-10 bg-royal"
-                      : "w-5 bg-chrome/40 hover:bg-chrome"
+                      ? "w-8 bg-royal"
+                      : "w-2.5 bg-chrome/40 hover:bg-chrome"
                   }`}
                 />
               ))}
-
-              {/* Kept beside the dots on the left so they never sit on top of
-                  the photo panel. */}
-              <span className="ml-4 flex gap-2">
-                <HeroArrow direction="prev" onClick={() => go(-1)} />
-                <HeroArrow direction="next" onClick={() => go(1)} />
-              </span>
             </div>
-          </div>
-        ) : null}
+          ) : null}
+        </div>
       </div>
     </section>
   );
@@ -217,7 +191,9 @@ function HeroArrow({
       type="button"
       onClick={onClick}
       aria-label={isPrev ? "Previous photo" : "Next photo"}
-      className="flex h-9 w-9 items-center justify-center rounded-full border border-hairline bg-base/40 text-chrome backdrop-blur-sm transition-colors hover:border-chrome/50 hover:text-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-royal"
+      className={`absolute top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-hairline bg-base/50 text-ink opacity-0 backdrop-blur-sm transition-opacity hover:bg-base/80 focus:outline-none focus-visible:opacity-100 focus-visible:ring-2 focus-visible:ring-royal group-hover:opacity-100 ${
+        isPrev ? "left-4" : "right-4"
+      }`}
     >
       <svg
         viewBox="0 0 24 24"
