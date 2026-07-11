@@ -111,7 +111,16 @@ export function HeroCarousel({ children }: { children: ReactNode }) {
             top + bottom are both set, so the height is derived from the section
             and `aspect-[3/4]` derives the width from that. It can't overflow.
           */}
-          <div className="absolute right-0 top-24 bottom-8 w-full sm:top-32 lg:right-[6%] lg:bottom-10 lg:w-auto lg:overflow-hidden lg:rounded-2xl lg:border lg:border-chrome/25 lg:shadow-2xl lg:aspect-[3/4]">
+          {/* Hover-pause lives HERE, on the photo card — not on the whole hero.
+              The hero is ~92vh, so a wrapper-level hover handler meant a cursor
+              resting anywhere on screen paused the rotation forever. */}
+          <div
+            onMouseEnter={() => setPaused(true)}
+            onMouseLeave={() => setPaused(false)}
+            // lg:z-20 only — on mobile the card is full-width, so lifting it
+            // above the copy would cover the headline and block the CTAs.
+            className="absolute right-0 top-24 bottom-8 w-full sm:top-32 lg:right-[6%] lg:bottom-10 lg:z-20 lg:w-auto lg:overflow-hidden lg:rounded-2xl lg:border lg:border-chrome/25 lg:shadow-2xl lg:aspect-[3/4]"
+          >
             <Image
               src={slide.src}
               alt={slide.alt}
@@ -131,21 +140,25 @@ export function HeroCarousel({ children }: { children: ReactNode }) {
 
       {/* Scrim keeps the copy legible over the backdrop. Weighted left so the
           contained photo on the right stays clean. */}
+      {/* pointer-events-none: these decorative layers sit above the photo card
+          and would otherwise swallow its hover. */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 bg-gradient-to-r from-base via-base/80 to-base/40 lg:via-base/60 lg:to-transparent"
+        className="pointer-events-none absolute inset-0 bg-gradient-to-r from-base via-base/80 to-base/40 lg:via-base/60 lg:to-transparent"
       />
       <div
         aria-hidden="true"
-        className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-base to-transparent"
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-base to-transparent"
       />
 
       {/* min-w-0: as a flex item this would otherwise size to its widest child
-          and push the headline past the viewport on mobile. */}
+          and push the headline past the viewport on mobile.
+
+          No onMouseEnter here — this wrapper covers nearly the whole viewport,
+          so hover-pausing on it froze the carousel permanently. Focus-pause is
+          safe to keep (it only fires when a control is actually focused). */}
       <div
-        className="relative w-full min-w-0 pb-20 pt-40 sm:pb-24 sm:pt-48"
-        onMouseEnter={() => setPaused(true)}
-        onMouseLeave={() => setPaused(false)}
+        className="relative z-10 w-full min-w-0 pb-20 pt-40 sm:pb-24 sm:pt-48"
         onFocusCapture={() => setPaused(true)}
         onBlurCapture={() => setPaused(false)}
       >
@@ -153,7 +166,11 @@ export function HeroCarousel({ children }: { children: ReactNode }) {
 
         {slides.length > 1 ? (
           <div className="mx-auto mt-14 w-full max-w-container px-5 sm:px-8">
-            <div className="flex items-center gap-3">
+            <div
+              className="flex items-center gap-3"
+              onMouseEnter={() => setPaused(true)}
+              onMouseLeave={() => setPaused(false)}
+            >
               {slides.map((slide, index) => (
                 <button
                   key={slide.src}
