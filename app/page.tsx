@@ -310,6 +310,7 @@ function Gallery() {
         images={homeGalleryShots}
         variant="masonry"
         className="mt-14 columns-2 gap-4 lg:columns-3"
+        sizes="(max-width: 1023px) 50vw, 33vw"
       />
     </Section>
   );

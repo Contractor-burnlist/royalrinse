@@ -19,12 +19,17 @@ export function LightboxGrid({
   className = "grid gap-4 sm:grid-cols-2 lg:grid-cols-3",
   tileClassName = "aspect-[4/3]",
   eagerCount = 0,
+  // Must match the REAL rendered column width, or the browser fetches a file
+  // that's too small and the tile looks soft. Default matches
+  // `columns-2 lg:columns-3 xl:columns-4`.
+  sizes = "(max-width: 1023px) 50vw, (max-width: 1279px) 33vw, 25vw",
 }: {
   images: GalleryImage[];
   variant?: "grid" | "masonry";
   className?: string;
   tileClassName?: string;
   eagerCount?: number;
+  sizes?: string;
 }) {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
@@ -97,7 +102,7 @@ export function LightboxGrid({
                 loading={index < eagerCount ? "eager" : "lazy"}
                 priority={index < eagerCount}
                 quality={90}
-                sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                sizes={sizes}
                 className="h-auto w-full transition-transform duration-500 group-hover:scale-105"
               />
               <span className="sr-only">Enlarge photo</span>

@@ -52,6 +52,8 @@ export function GallerySubPage({
             images={images}
             variant="masonry"
             className="columns-2 gap-4 lg:columns-3"
+            // This grid is columns-2 up to lg, then columns-3 — no 4-col tier.
+            sizes="(max-width: 1023px) 50vw, 33vw"
             eagerCount={3}
           />
         ) : (

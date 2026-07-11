@@ -5,30 +5,45 @@ import { useCallback, useEffect, useState, type ReactNode } from "react";
 import { allGalleryImages } from "@/lib/gallery";
 import { Container } from "@/components/ui";
 
-const AUTO_ADVANCE_MS = 5000;
+const AUTO_ADVANCE_MS = 4500;
 
 /**
  * Every photo on the site: featureVehicles (exterior + interior),
- * exteriorGallery and interiorGallery, already de-duplicated by src in
- * lib/gallery.ts.
+ * exteriorGallery and interiorGallery, de-duplicated by src in lib/gallery.ts.
  */
 const slides = allGalleryImages;
 
 /**
- * Stacked, centered hero: centered copy on top, a large cinematic carousel
- * beneath it. An ambient blurred backdrop of the active slide fills the frame
- * behind everything, so the section still bleeds edge to edge.
+ * Multi-up hero carousel.
+ *
+ * The sources are phone-resolution (900x1600 at best, 576x1024 at worst). A
+ * single full-width hero blew one of them up 3-4x and looked soft. Showing four
+ * small tiles instead means each renders ~312px wide (624px on retina) — at or
+ * under every source's native width, so nothing is upscaled and every tile is
+ * sharp. Tiles are portrait (3:4) because the photos are portrait; a landscape
+ * tile would crop most of each frame away.
  */
+function perViewFor(width: number) {
+  if (width >= 1024) return 4;
+  if (width >= 640) return 2;
+  return 1;
+}
+
 export function HeroCarousel({ children }: { children: ReactNode }) {
   const [current, setCurrent] = useState(0);
+  const [perView, setPerView] = useState(4);
   const [paused, setPaused] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
 
-  const go = useCallback(
-    (delta: number) =>
-      setCurrent((c) => (c + delta + slides.length) % slides.length),
-    [],
-  );
+  // Last index we can scroll to without running past the final tile.
+  const maxIndex = Math.max(0, slides.length - perView);
+
+  useEffect(() => {
+    const sync = () => setPerView(perViewFor(window.innerWidth));
+    sync();
+    window.addEventListener("resize", sync);
+    return () => window.removeEventListener("resize", sync);
+  }, []);
 
   useEffect(() => {
     const query = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -38,25 +53,33 @@ export function HeroCarousel({ children }: { children: ReactNode }) {
     return () => query.removeEventListener("change", sync);
   }, []);
 
-  // Auto-advance. `current` is a dep so manual navigation restarts the count.
+  // Clamp if the viewport grew and `current` is now past the end.
   useEffect(() => {
-    if (paused || reducedMotion || slides.length < 2) return;
+    setCurrent((c) => Math.min(c, maxIndex));
+  }, [maxIndex]);
 
-    const id = setInterval(
-      () => setCurrent((c) => (c + 1) % slides.length),
-      AUTO_ADVANCE_MS,
-    );
+  const go = useCallback(
+    (delta: number) =>
+      setCurrent((c) => {
+        const next = c + delta;
+        if (next < 0) return maxIndex;
+        if (next > maxIndex) return 0;
+        return next;
+      }),
+    [maxIndex],
+  );
+
+  // Auto-advance one tile at a time, looping back at the end.
+  useEffect(() => {
+    if (paused || reducedMotion || slides.length <= perView) return;
+
+    const id = setInterval(() => {
+      setCurrent((c) => (c >= maxIndex ? 0 : c + 1));
+    }, AUTO_ADVANCE_MS);
     return () => clearInterval(id);
-  }, [paused, reducedMotion, current]);
+  }, [paused, reducedMotion, perView, maxIndex, current]);
 
-  /**
-   * Pause ONLY on the controls (arrows + dots), not on the image.
-   *
-   * The carousel is now large and centred, so a cursor resting anywhere near
-   * the middle of the page sat on top of it — which paused auto-rotation
-   * indefinitely and read as "the carousel is static". Hovering a big hero
-   * image is not an intent to stop it; hovering the controls is.
-   */
+  // Pause only on the controls — hovering a big hero area froze it before.
   const pauseHandlers = {
     onMouseEnter: () => setPaused(true),
     onMouseLeave: () => setPaused(false),
@@ -65,31 +88,19 @@ export function HeroCarousel({ children }: { children: ReactNode }) {
   };
 
   return (
-    <section
-      // Pulled up under the sticky header so the backdrop reaches the top.
-      className="relative -mt-24 overflow-hidden border-b border-hairline sm:-mt-32"
-    >
-      {/* Ambient blurred backdrop — upscaled, but blurred on purpose. */}
-      {slides.map((slide, index) => (
-        <div
-          key={slide.src}
-          aria-hidden="true"
-          className={`absolute inset-0 transition-opacity duration-1000 ease-out ${
-            index === current ? "opacity-100" : "opacity-0"
-          }`}
-        >
-          <Image
-            src={slide.src}
-            alt=""
-            fill
-            quality={40}
-            sizes="100vw"
-            className="scale-125 object-cover blur-2xl brightness-[0.35] saturate-[0.85]"
-          />
-        </div>
-      ))}
-      {/* Darkens the whole section so the 5% gutters either side of the
-          carousel read as a flat, deliberate frame rather than stray photo. */}
+    <section className="relative -mt-24 overflow-hidden border-b border-hairline sm:-mt-32">
+      {/* Ambient blurred backdrop of the leading tile — upscaled, but blurred
+          on purpose, so its softness reads as depth. */}
+      <div aria-hidden="true" className="absolute inset-0">
+        <Image
+          src={slides[Math.min(current, slides.length - 1)].src}
+          alt=""
+          fill
+          quality={40}
+          sizes="100vw"
+          className="scale-125 object-cover blur-3xl brightness-[0.3] saturate-[0.8] transition-all duration-1000"
+        />
+      </div>
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 bg-base/85"
@@ -99,107 +110,85 @@ export function HeroCarousel({ children }: { children: ReactNode }) {
         className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-base to-transparent"
       />
 
-      {/* Tightened: pt clears the sticky header (h-24 / h-32) by ~32px rather
-          than ~48, and the gap to the carousel is roughly halved, so more of
-          the image sits above the fold. */}
       <div className="relative z-10 pb-16 pt-32 sm:pb-20 sm:pt-40">
-        {/* Centered copy */}
         <Container>
           <div className="mx-auto max-w-3xl text-center">{children}</div>
         </Container>
 
-        {/*
-          90% of the viewport on desktop (5% gutter each side), 92% on mobile
-          (4% each side) so it isn't pinched. The wrapper is the frame: a dark
-          surface band with a hairline border, holding the image inside it.
-        */}
         <div
-          className="mx-auto mt-8 w-[92%] sm:mt-10 sm:w-[90%]"
+          className="mx-auto mt-10 w-[92%] sm:mt-12 sm:w-[90%]"
           role="group"
           aria-roledescription="carousel"
           aria-label="Recent detailing work"
         >
-          <div className="rounded-[1.75rem] border border-hairline bg-surface/60 p-1.5 shadow-2xl backdrop-blur-sm sm:p-2">
-            <div className="group relative h-[70vh] overflow-hidden rounded-2xl border border-chrome/20 sm:h-[74vh]">
-            {slides.map((slide, index) => (
-              <div
-                key={slide.src}
-                aria-hidden={index !== current}
-                className={`absolute inset-0 transition-opacity duration-1000 ease-out ${
-                  index === current ? "opacity-100" : "opacity-0"
-                }`}
-              >
-                <Image
-                  src={slide.src}
-                  alt={slide.alt}
-                  fill
-                  // Only the first slide is eager — the rest load lazily so the
-                  // page doesn't pull every photo up front.
-                  priority={index === 0}
-                  loading={index === 0 ? "eager" : "lazy"}
-                  quality={90}
-                  // Matches the real rendered width: the card is 90vw.
-                  sizes="90vw"
-                  style={{ objectPosition: "center" }}
-                  className={`object-cover ${
-                    index === current && !reducedMotion
-                      ? "motion-safe:animate-kenburns"
-                      : ""
-                  }`}
-                />
-              </div>
-            ))}
+          {/* Viewport. overflow-hidden clips the track; no page overflow. */}
+          <div className="overflow-hidden">
+            <div
+              className="flex transition-transform duration-700 ease-out"
+              style={{
+                transform: `translateX(-${current * (100 / perView)}%)`,
+              }}
+            >
+              {slides.map((slide, index) => {
+                /**
+                 * Load the visible row plus one tile of lookahead. Native
+                 * lazy-loading does NOT reliably fire for tiles inside a
+                 * translated track — they slid in blank — so loading is driven
+                 * off the carousel index instead. Offscreen tiles beyond the
+                 * lookahead stay lazy, so the page doesn't pull all 11 up front.
+                 */
+                const load = index <= Math.max(perView, current + perView);
 
-              {slides.length > 1 ? (
-                <span {...pauseHandlers}>
-                  <HeroArrow direction="prev" onClick={() => go(-1)} />
-                  <HeroArrow direction="next" onClick={() => go(1)} />
-                </span>
-              ) : null}
+                return (
+                  <div
+                    key={slide.src}
+                    // No gap on the track: the tile width is an exact fraction
+                    // so the translate lands cleanly. Gutter is inner padding.
+                    className="shrink-0 px-1.5 sm:px-2"
+                    style={{ width: `${100 / perView}%` }}
+                  >
+                    <div className="relative aspect-[3/4] overflow-hidden rounded-2xl border border-chrome/20 bg-surface shadow-2xl">
+                      <Image
+                        src={slide.src}
+                        alt={slide.alt}
+                        fill
+                        // The real tile width — never asks for more.
+                        sizes="(max-width: 640px) 86vw, (max-width: 1024px) 46vw, 24vw"
+                        quality={85}
+                        priority={index === 0}
+                        loading={load ? "eager" : "lazy"}
+                        className="object-cover"
+                      />
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
 
-          {/* Counter + dots. With every photo in the rotation there are enough
-              slides that a bare row of dots gets hard to read, so the counter
-              carries the position and the dots stay compact and wrap. */}
-          {slides.length > 1 ? (
-            <div
-              className="mt-6 flex flex-wrap items-center justify-center gap-x-4 gap-y-3"
-              {...pauseHandlers}
-            >
-              <span
-                aria-live="polite"
-                className="font-display text-xs font-semibold tabular-nums tracking-[0.14em] text-chrome"
-              >
-                {String(current + 1).padStart(2, "0")}
-                <span className="text-muted"> / {String(slides.length).padStart(2, "0")}</span>
+          {/* Minimal controls: arrows + a compact counter. A dot per photo
+              would be a cluttered row at this many slides. */}
+          <div
+            className="mt-7 flex items-center justify-center gap-5"
+            {...pauseHandlers}
+          >
+            <CarouselArrow direction="prev" onClick={() => go(-1)} />
+            <span className="font-display text-xs font-semibold tabular-nums tracking-[0.14em] text-chrome">
+              {String(Math.min(current + perView, slides.length)).padStart(2, "0")}
+              <span className="text-muted">
+                {" "}
+                / {String(slides.length).padStart(2, "0")}
               </span>
-
-              <span className="flex flex-wrap items-center justify-center gap-2">
-                {slides.map((slide, index) => (
-                  <button
-                    key={slide.src}
-                    type="button"
-                    onClick={() => setCurrent(index)}
-                    aria-label={`Show photo ${index + 1} of ${slides.length}`}
-                    aria-current={index === current}
-                    className={`h-1.5 rounded-full transition-all duration-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-royal focus-visible:ring-offset-2 focus-visible:ring-offset-base ${
-                      index === current
-                        ? "w-7 bg-royal"
-                        : "w-2 bg-chrome/40 hover:bg-chrome"
-                    }`}
-                  />
-                ))}
-              </span>
-            </div>
-          ) : null}
+            </span>
+            <CarouselArrow direction="next" onClick={() => go(1)} />
+          </div>
         </div>
       </div>
     </section>
   );
 }
 
-function HeroArrow({
+function CarouselArrow({
   direction,
   onClick,
 }: {
@@ -211,10 +200,8 @@ function HeroArrow({
     <button
       type="button"
       onClick={onClick}
-      aria-label={isPrev ? "Previous photo" : "Next photo"}
-      className={`absolute top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-hairline bg-base/50 text-ink opacity-0 backdrop-blur-sm transition-opacity hover:bg-base/80 focus:outline-none focus-visible:opacity-100 focus-visible:ring-2 focus-visible:ring-royal group-hover:opacity-100 ${
-        isPrev ? "left-4" : "right-4"
-      }`}
+      aria-label={isPrev ? "Previous photos" : "Next photos"}
+      className="flex h-10 w-10 items-center justify-center rounded-full border border-hairline bg-surface/60 text-chrome backdrop-blur-sm transition-colors hover:border-chrome/50 hover:text-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-royal"
     >
       <svg
         viewBox="0 0 24 24"
