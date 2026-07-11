@@ -25,7 +25,8 @@ export const site = {
   tagline: "Mobile Auto Detailing — We Come To You",
   phone: PHONE_DISPLAY,
   email: "[EMAIL]",
-  license: "Licensed & Insured — CA DLSE CW-LR-1001298512",
+  license: "Licensed, Insured & Bonded — CA DLSE CW-LR-1001298512",
+  licenseNumber: "CW-LR-1001298512",
   hours: [
     { days: "Mon – Fri", time: "7:00 AM – 6:00 PM" },
     { days: "Saturday", time: "8:00 AM – 5:00 PM" },
@@ -81,8 +82,29 @@ export const valueProps = [
     description: "Every vent, seam, and panel gets the same care. The finish is in the parts most people skip.",
   },
   {
-    title: "Licensed & fully insured",
+    title: "Licensed, insured & bonded",
     description: site.license,
+  },
+] as const;
+
+/** The three credentials, spelled out. Used on /about and the homepage. */
+export const credentials = [
+  {
+    title: "Licensed",
+    icon: "shield",
+    description: `Registered with the California DLSE under license ${site.licenseNumber}. Not a side hustle — a properly registered business.`,
+  },
+  {
+    title: "Insured",
+    icon: "check",
+    description:
+      "Fully insured, so your vehicle and your property are covered from the moment we arrive until the moment we leave.",
+  },
+  {
+    title: "Bonded",
+    icon: "diamond",
+    description:
+      "Bonded for your protection. If something ever goes wrong, you are financially protected — you are not left carrying the risk.",
   },
 ] as const;
 

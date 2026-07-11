@@ -28,11 +28,16 @@ import {
   SectionHeading,
 } from "@/components/ui";
 
-const trustChips = ["Licensed & Insured", "Mobile — We Come To You", "5-Star Rated"];
+const trustChips = [
+  "Licensed, Insured & Bonded",
+  "Mobile — We Come To You",
+  "5-Star Rated",
+];
 
 const trustBadges = [
   "DLSE Licensed",
   "Fully Insured",
+  "Bonded",
   "Mobile Service",
   "Satisfaction Guaranteed",
 ];
@@ -114,7 +119,7 @@ function TrustBar() {
   return (
     <div className="border-b border-hairline bg-charcoal">
       <Container>
-        <ul className="grid grid-cols-2 gap-y-4 py-6 sm:grid-cols-4">
+        <ul className="grid grid-cols-2 gap-x-4 gap-y-4 py-6 sm:grid-cols-3 lg:grid-cols-5">
           {trustBadges.map((badge) => (
             <li
               key={badge}
