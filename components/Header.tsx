@@ -17,7 +17,7 @@ function Logo() {
         width={1254}
         height={1254}
         priority
-        className="h-10 w-auto rounded-lg border border-hairline sm:h-12"
+        className="h-20 w-auto rounded-lg border border-hairline sm:h-28"
       />
     </Link>
   );
@@ -29,7 +29,7 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 border-b border-hairline bg-base/85 backdrop-blur-md">
       <Container>
-        <div className="flex h-16 items-center justify-between gap-4">
+        <div className="flex h-24 items-center justify-between gap-4 sm:h-32">
           <Logo />
 
           <nav className="hidden items-center gap-7 lg:flex">

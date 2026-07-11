@@ -25,7 +25,7 @@ export function Footer() {
                 alt="Royal Rinse mobile auto detailing"
                 width={1254}
                 height={1254}
-                className="h-24 w-auto rounded-xl border border-hairline"
+                className="h-44 w-auto rounded-xl border border-hairline"
               />
             </Link>
             <p className="mt-5 text-sm leading-relaxed text-muted">{site.tagline}</p>
