@@ -110,13 +110,15 @@ export function HeroCarousel({ children }: { children: ReactNode }) {
         className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-base to-transparent"
       />
 
-      <div className="relative z-10 pb-16 pt-32 sm:pb-20 sm:pt-40">
+      {/* Tight top offset — just clears the sticky header (h-24 / h-32) — so the
+          whole block sits high and the photo row lands above the fold. */}
+      <div className="relative z-10 pb-16 pt-28 sm:pb-20 sm:pt-36">
         <Container>
           <div className="mx-auto max-w-3xl text-center">{children}</div>
         </Container>
 
         <div
-          className="mx-auto mt-10 w-[92%] sm:mt-12 sm:w-[90%]"
+          className="mx-auto mt-6 w-[92%] sm:mt-7 sm:w-[90%]"
           role="group"
           aria-roledescription="carousel"
           aria-label="Recent detailing work"

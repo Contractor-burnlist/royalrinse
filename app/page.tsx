@@ -101,24 +101,24 @@ function Hero() {
       <Eyebrow>{SERVICE_AREA_SHORT}</Eyebrow>
 
       {/* No forced <br> on mobile — it overflows narrow viewports. */}
-      <h1 className="mt-5 font-display text-4xl font-bold leading-[1.02] tracking-tight text-ink drop-shadow-[0_2px_24px_rgba(0,0,0,0.6)] sm:text-6xl sm:leading-[0.98]">
+      <h1 className="mt-4 font-display text-4xl font-bold leading-[1.02] tracking-tight text-ink drop-shadow-[0_2px_24px_rgba(0,0,0,0.6)] sm:text-6xl sm:leading-[0.98]">
         A showroom finish,
         <br className="hidden sm:inline" />{" "}
         in your driveway.
       </h1>
 
-      <p className="mx-auto mt-5 max-w-xl text-lg text-chrome sm:text-xl">
+      <p className="mx-auto mt-4 max-w-xl text-lg text-chrome sm:text-xl">
         {site.tagline}
       </p>
 
-      <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
+      <div className="mt-7 flex flex-col justify-center gap-3 sm:flex-row">
         <ButtonAnchor href={telHref} aria-label={PHONE_ARIA}>
           Call {site.phone}
         </ButtonAnchor>
         <BookNowButton variant="secondary" />
       </div>
 
-      <ul className="mt-8 flex flex-wrap justify-center gap-x-7 gap-y-3">
+      <ul className="mt-6 flex flex-wrap justify-center gap-x-7 gap-y-3">
         {trustChips.map((chip) => (
           <li key={chip} className="flex items-center gap-2 text-sm text-chrome">
             <Icon name="check" className="h-4 w-4 text-royal" />
