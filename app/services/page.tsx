@@ -11,7 +11,7 @@ import { QuoteCta } from "@/components/QuoteCta";
 import { Card, Container, Eyebrow, Icon, Section } from "@/components/ui";
 
 export const metadata: Metadata = {
-  title: "Services | Royal Rinse — Mobile Auto Detailing, Southern California",
+  title: "Services | Royal Rinse — Mobile Auto Detailing, Riverside & San Diego County",
   description:
     "Detailing packages from Bronze to Diamond, ceramic coating, add-ons, maintenance plans, and RV detailing — all delivered to your driveway.",
 };

@@ -20,11 +20,11 @@ export const featureVehicles: FeatureVehicle[] = [
     exterior: [
       {
         src: "/royal-feature/vehicle-1-ext-1.jpg",
-        alt: "Exterior car detailing in Southern California — white Ferrari Roma with a polished gloss finish and black wheels, parked in a residential driveway",
+        alt: "Exterior car detailing in Riverside & San Diego County — white Ferrari Roma with a polished gloss finish and black wheels, parked in a residential driveway",
       },
       {
         src: "/royal-feature/vehicle-1-ext-2.jpg",
-        alt: "Mobile car detailing in Southern California — rear view of a white Ferrari Roma beside the Royal Rinse mobile detailing van",
+        alt: "Mobile car detailing in Riverside & San Diego County — rear view of a white Ferrari Roma beside the Royal Rinse mobile detailing van",
       },
     ],
     interior: [],
@@ -35,21 +35,21 @@ export const featureVehicles: FeatureVehicle[] = [
     exterior: [
       {
         src: "/royal-feature/vehicle-2-ext-1.jpg",
-        alt: "Exterior car detailing in Southern California — mint green Porsche 718 Spyder RS with a carbon hood and gold-rimmed wheels, detailed in a driveway",
+        alt: "Exterior car detailing in Riverside & San Diego County — mint green Porsche 718 Spyder RS with a carbon hood and gold-rimmed wheels, detailed in a driveway",
       },
       {
         src: "/royal-feature/vehicle-2-ext-2.jpg",
-        alt: "Mobile auto detailing in Southern California — front view of a mint green Porsche 718 Spyder RS with the Royal Rinse van in the background",
+        alt: "Mobile auto detailing in Riverside & San Diego County — front view of a mint green Porsche 718 Spyder RS with the Royal Rinse van in the background",
       },
       {
         src: "/royal-feature/vehicle-2-ext-3.jpg",
-        alt: "Wheel and paint detailing in Southern California — close-up of a mint green Porsche 718 Spyder RS showing a cleaned black wheel and reflective paintwork",
+        alt: "Wheel and paint detailing in Riverside & San Diego County — close-up of a mint green Porsche 718 Spyder RS showing a cleaned black wheel and reflective paintwork",
       },
     ],
     interior: [
       {
         src: "/royal-feature/vehicle-2-int-1.jpg",
-        alt: "Interior car detailing in Southern California — Porsche 718 Spyder RS cabin with cleaned suede seats, dashboard, and door sill",
+        alt: "Interior car detailing in Riverside & San Diego County — Porsche 718 Spyder RS cabin with cleaned suede seats, dashboard, and door sill",
       },
     ],
   },
@@ -60,7 +60,7 @@ export const featureVehicles: FeatureVehicle[] = [
     interior: [
       {
         src: "/royal-feature/vehicle-3-int-1.jpg",
-        alt: "Interior car detailing in Southern California — Porsche Panamera cabin with a two-tone burgundy and cream leather interior, steering wheel, and centre console",
+        alt: "Interior car detailing in Riverside & San Diego County — Porsche Panamera cabin with a two-tone burgundy and cream leather interior, steering wheel, and centre console",
       },
     ],
   },
@@ -69,19 +69,19 @@ export const featureVehicles: FeatureVehicle[] = [
 export const exteriorGallery: GalleryImage[] = [
   {
     src: "/royal-exterior/exterior-1.jpg",
-    alt: "Exterior car detailing in Southern California — red classic Chevrolet with polished chrome trim and a mirror-gloss paint finish",
+    alt: "Exterior car detailing in Riverside & San Diego County — red classic Chevrolet with polished chrome trim and a mirror-gloss paint finish",
   },
   {
     src: "/royal-exterior/exterior-2.jpg",
-    alt: "Exterior truck detailing in Southern California — lifted dark Ford F-150 with bronze off-road wheels, detailed in a driveway",
+    alt: "Exterior truck detailing in Riverside & San Diego County — lifted dark Ford F-150 with bronze off-road wheels, detailed in a driveway",
   },
   {
     src: "/royal-exterior/exterior-3.jpg",
-    alt: "Exterior truck detailing in Southern California — lifted grey Ford F-150 with bronze wheels and a roof light bar",
+    alt: "Exterior truck detailing in Riverside & San Diego County — lifted grey Ford F-150 with bronze wheels and a roof light bar",
   },
   {
     src: "/royal-exterior/exterior-4.jpg",
-    alt: "Exterior truck detailing in Southern California — black Ram 1500 with a deep gloss finish and polished chrome grille",
+    alt: "Exterior truck detailing in Riverside & San Diego County — black Ram 1500 with a deep gloss finish and polished chrome grille",
   },
 ];
 

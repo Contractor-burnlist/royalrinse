@@ -1,6 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
-import { PHONE_ARIA, mailHref, serviceAreas, site, telHref } from "@/lib/site";
+import {
+  PHONE_ARIA,
+  SERVICE_AREA_LINE,
+  mailHref,
+  serviceAreas,
+  site,
+  telHref,
+} from "@/lib/site";
 import { ceramicCoating, tiers } from "@/lib/services";
 import { Container } from "@/components/ui";
 
@@ -50,7 +57,7 @@ export function Footer() {
                   {site.email}
                 </a>
               </p>
-              <p>Southern California</p>
+              <p>{SERVICE_AREA_LINE}</p>
             </address>
 
             <dl className="mt-6 space-y-1.5 text-sm text-muted">
@@ -78,7 +85,7 @@ export function Footer() {
               ))}
               <li>
                 <Link href="/service-area" className="transition-colors hover:text-ink">
-                  All of Southern California
+                  All of {SERVICE_AREA_LINE}
                 </Link>
               </li>
             </ul>
@@ -110,7 +117,7 @@ export function Footer() {
           <p>
             © {year} {site.name}. All rights reserved.
           </p>
-          <p>Mobile auto detailing throughout Southern California.</p>
+          <p>Mobile auto detailing throughout {SERVICE_AREA_LINE}.</p>
         </div>
       </Container>
     </footer>

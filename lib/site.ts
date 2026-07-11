@@ -11,6 +11,15 @@ export const PHONE_TEL = "tel:+19513389117";
 /** For aria-labels on icon/button call CTAs. */
 export const PHONE_ARIA = `Call Royal Rinse at ${PHONE_DISPLAY}`;
 
+/** The counties served. Change here to update every mention site-wide. */
+export const SERVICE_AREA_LINE = "Riverside & San Diego County";
+export const SERVICE_AREA_SHORT = "Serving Riverside & San Diego County";
+/** Counties as separate entities, for JSON-LD areaServed. */
+export const SERVICE_AREA_COUNTIES = [
+  "Riverside County, CA",
+  "San Diego County, CA",
+];
+
 export const site = {
   name: "Royal Rinse",
   tagline: "Mobile Auto Detailing — We Come To You",
@@ -87,16 +96,16 @@ export const testimonials = [
   {
     quote: "Placeholder review copy — replace with a real customer testimonial before launch.",
     author: "Customer Name",
-    location: "Southern California",
+    location: "Riverside & San Diego County",
   },
   {
     quote: "Placeholder review copy — replace with a real customer testimonial before launch.",
     author: "Customer Name",
-    location: "Southern California",
+    location: "Riverside & San Diego County",
   },
   {
     quote: "Placeholder review copy — replace with a real customer testimonial before launch.",
     author: "Customer Name",
-    location: "Southern California",
+    location: "Riverside & San Diego County",
   },
 ] as const;

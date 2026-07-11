@@ -1,6 +1,7 @@
 import Link from "next/link";
 import {
   PHONE_ARIA,
+  SERVICE_AREA_SHORT,
   serviceAreas,
   site,
   steps,
@@ -77,7 +78,7 @@ function Hero() {
       <Container className="relative py-20 sm:py-28">
         <div className="grid items-center gap-14 lg:grid-cols-2">
           <div>
-            <Eyebrow>Serving all of Southern California</Eyebrow>
+            <Eyebrow>{SERVICE_AREA_SHORT}</Eyebrow>
             <h1 className="mt-4 font-display text-4xl font-bold leading-[1.05] tracking-tight text-ink sm:text-6xl">
               A showroom finish,
               <br />
@@ -244,7 +245,7 @@ function ServiceAreaTeaser() {
       <Section className="!py-20 sm:!py-24">
         <SectionHeading
           eyebrow="Service area"
-          title="Serving Southern California — we come to you"
+          title={`${SERVICE_AREA_SHORT} — we come to you`}
           intro="If you're in the area, we can most likely get to you. Don't see your neighborhood? Just ask."
         />
 
@@ -272,7 +273,7 @@ function Gallery() {
         <SectionHeading
           eyebrow="Gallery"
           title="Recent work"
-          intro="Real results from real Southern California driveways."
+          intro="Real results from real driveways across Riverside and San Diego County."
         />
         <Link
           href="/gallery"
