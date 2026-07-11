@@ -69,7 +69,9 @@ export function HeroCarousel({ children }: { children: ReactNode }) {
       aria-roledescription="carousel"
       aria-label="Recent detailing work"
       // Pull up under the sticky header so photos run to the very top.
-      className="relative -mt-24 flex min-h-[80vh] items-end overflow-hidden sm:-mt-32 lg:min-h-[85vh]"
+      // Slightly taller than before: the panel now starts below the header
+      // divider, so the extra height keeps the photo from shrinking.
+      className="relative -mt-24 flex min-h-[80vh] items-end overflow-hidden sm:-mt-32 lg:min-h-[92vh]"
     >
       {/*
         Two layers per slide:
@@ -100,11 +102,16 @@ export function HeroCarousel({ children }: { children: ReactNode }) {
             className="scale-125 object-cover blur-2xl brightness-[0.4] saturate-[0.85]"
           />
 
-          {/* Desktop: a large framed panel. A 3:4 crop (rather than the photo's
-              native 9:16) buys real width — ~540px vs ~310px — for a ~1.2x
-              upscale, which is invisible next to the 3.2x that full-bleed cost.
-              Mobile: the photo sits contained behind the copy. */}
-          <div className="absolute inset-y-6 right-0 w-full sm:inset-y-10 lg:inset-y-auto lg:top-1/2 lg:right-[6%] lg:h-[min(78vh,760px)] lg:w-auto lg:-translate-y-1/2 lg:overflow-hidden lg:rounded-2xl lg:border lg:border-chrome/25 lg:shadow-2xl lg:aspect-[3/4]">
+          {/*
+            The hero is pulled up under the sticky header (-mt-24 / -mt-32), so
+            the panel's top is anchored to the header's height — top-24 on
+            mobile, top-32 from `sm` up — which lands it exactly on the divider
+            line beneath the nav instead of running behind it.
+
+            top + bottom are both set, so the height is derived from the section
+            and `aspect-[3/4]` derives the width from that. It can't overflow.
+          */}
+          <div className="absolute right-0 top-24 bottom-8 w-full sm:top-32 lg:right-[6%] lg:bottom-10 lg:w-auto lg:overflow-hidden lg:rounded-2xl lg:border lg:border-chrome/25 lg:shadow-2xl lg:aspect-[3/4]">
             <Image
               src={slide.src}
               alt={slide.alt}
