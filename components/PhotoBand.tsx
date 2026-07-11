@@ -4,11 +4,13 @@ import { Container } from "@/components/ui";
 import { Reveal } from "@/components/Reveal";
 
 /**
- * Full-bleed photo interstitial with an overlaid line of copy.
+ * Photo interstitial that still runs to the viewport edge, but on desktop the
+ * photo occupies ~62% of the width rather than 100%. Same reason as the hero:
+ * at full width a 900px source upscales 3.2x on retina; at 62% it's ~1.9x and
+ * far less of the car is cropped away.
  *
  * No fixed-attachment parallax: it doesn't work with next/image (which renders
- * an <img>, not a CSS background) and is janky on mobile Safari. The depth here
- * comes from the scrim and the reveal instead.
+ * an <img>, not a CSS background) and is janky on mobile Safari.
  */
 export function PhotoBand({
   image,
@@ -20,24 +22,29 @@ export function PhotoBand({
   sub?: string;
 }) {
   return (
-    <section className="relative flex min-h-[55vh] items-center overflow-hidden md:min-h-[65vh]">
-      <div className="absolute inset-0">
+    <section className="relative flex min-h-[55vh] items-center overflow-hidden md:min-h-[62vh]">
+      <div className="absolute inset-y-0 right-0 w-full lg:w-[62%]">
         <Image
           src={image.src}
           alt={image.alt}
           fill
           loading="lazy"
           quality={90}
-          sizes="100vw"
-          style={{ objectPosition: "50% 40%" }}
+          sizes="(max-width: 1024px) 100vw, 62vw"
+          style={{ objectPosition: "center" }}
           className="object-cover"
+        />
+
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 bg-gradient-to-r from-base via-base/60 to-transparent lg:via-base/25"
+        />
+        <div
+          aria-hidden="true"
+          className="absolute inset-y-0 left-0 hidden w-72 bg-gradient-to-r from-base via-base/70 to-transparent lg:block"
         />
       </div>
 
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 bg-gradient-to-r from-base via-base/75 to-base/30"
-      />
       <div
         aria-hidden="true"
         className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-base to-transparent"
