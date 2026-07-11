@@ -35,14 +35,14 @@ export function PhotoBand({
 
       {/* The real photo in a framed panel at its own ratio — no crop, no
           upscaling, so it stays sharp. */}
-      <div className="absolute inset-y-8 right-0 w-full lg:inset-y-auto lg:top-1/2 lg:right-[7%] lg:h-[48vh] lg:w-auto lg:-translate-y-1/2 lg:overflow-hidden lg:rounded-2xl lg:border lg:border-chrome/25 lg:shadow-2xl lg:aspect-[9/16]">
+      <div className="absolute inset-y-8 right-0 w-full lg:inset-y-auto lg:top-1/2 lg:right-[6%] lg:h-[min(52vh,560px)] lg:w-auto lg:-translate-y-1/2 lg:overflow-hidden lg:rounded-2xl lg:border lg:border-chrome/25 lg:shadow-2xl lg:aspect-[3/4]">
         <Image
           src={image.src}
           alt={image.alt}
           fill
           loading="lazy"
           quality={90}
-          sizes="(max-width: 1024px) 100vw, 300px"
+          sizes="(max-width: 1024px) 100vw, 440px"
           className="object-contain lg:object-cover"
         />
       </div>

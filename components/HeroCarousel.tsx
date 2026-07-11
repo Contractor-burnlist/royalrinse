@@ -100,19 +100,18 @@ export function HeroCarousel({ children }: { children: ReactNode }) {
             className="scale-125 object-cover blur-2xl brightness-[0.4] saturate-[0.85]"
           />
 
-          {/* Desktop: a framed portrait panel matching the photo's own 9:16
-              ratio, so nothing is cropped and nothing is stretched. At ~360px
-              wide from a 900px source it renders downscaled — genuinely sharp.
-              Mobile: the photo simply sits contained behind the copy. */}
-          <div className="absolute inset-y-6 right-0 w-full sm:inset-y-10 lg:inset-y-auto lg:top-1/2 lg:right-[7%] lg:h-[62vh] lg:w-auto lg:-translate-y-1/2 lg:overflow-hidden lg:rounded-2xl lg:border lg:border-chrome/25 lg:shadow-2xl lg:aspect-[9/16]">
+          {/* Desktop: a large framed panel. A 3:4 crop (rather than the photo's
+              native 9:16) buys real width — ~540px vs ~310px — for a ~1.2x
+              upscale, which is invisible next to the 3.2x that full-bleed cost.
+              Mobile: the photo sits contained behind the copy. */}
+          <div className="absolute inset-y-6 right-0 w-full sm:inset-y-10 lg:inset-y-auto lg:top-1/2 lg:right-[6%] lg:h-[min(78vh,760px)] lg:w-auto lg:-translate-y-1/2 lg:overflow-hidden lg:rounded-2xl lg:border lg:border-chrome/25 lg:shadow-2xl lg:aspect-[3/4]">
             <Image
               src={slide.src}
               alt={slide.alt}
               fill
               priority={index === 0}
               quality={90}
-              // Never larger than the frame it lands in.
-              sizes="(max-width: 1024px) 100vw, 380px"
+              sizes="(max-width: 1024px) 100vw, 600px"
               className={`object-contain lg:object-cover ${
                 index === current && !reducedMotion
                   ? "motion-safe:animate-kenburns"
@@ -163,7 +162,9 @@ export function HeroCarousel({ children }: { children: ReactNode }) {
                 />
               ))}
 
-              <span className="ml-auto flex gap-2">
+              {/* Kept beside the dots on the left so they never sit on top of
+                  the photo panel. */}
+              <span className="ml-4 flex gap-2">
                 <HeroArrow direction="prev" onClick={() => go(-1)} />
                 <HeroArrow direction="next" onClick={() => go(1)} />
               </span>
