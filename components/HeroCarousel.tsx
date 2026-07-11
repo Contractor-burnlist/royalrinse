@@ -62,8 +62,14 @@ export function HeroCarousel({ children }: { children: ReactNode }) {
     return () => clearInterval(id);
   }, [paused, reducedMotion, current]);
 
-  // Hover/focus pause is scoped to the carousel itself — never the whole
-  // section, or a cursor resting anywhere on screen would freeze it.
+  /**
+   * Pause ONLY on the controls (arrows + dots), not on the image.
+   *
+   * The carousel is now large and centred, so a cursor resting anywhere near
+   * the middle of the page sat on top of it — which paused auto-rotation
+   * indefinitely and read as "the carousel is static". Hovering a big hero
+   * image is not an intent to stop it; hovering the controls is.
+   */
   const pauseHandlers = {
     onMouseEnter: () => setPaused(true),
     onMouseLeave: () => setPaused(false),
@@ -104,7 +110,10 @@ export function HeroCarousel({ children }: { children: ReactNode }) {
         className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-base to-transparent"
       />
 
-      <div className="relative z-10 pb-20 pt-36 sm:pb-24 sm:pt-44">
+      {/* Tightened: pt clears the sticky header (h-24 / h-32) by ~32px rather
+          than ~48, and the gap to the carousel is roughly halved, so more of
+          the image sits above the fold. */}
+      <div className="relative z-10 pb-16 pt-32 sm:pb-20 sm:pt-40">
         {/* Centered copy */}
         <Container>
           <div className="mx-auto max-w-3xl text-center">{children}</div>
@@ -112,11 +121,10 @@ export function HeroCarousel({ children }: { children: ReactNode }) {
 
         {/* Large centered carousel */}
         <div
-          className="mx-auto mt-14 w-[92%] max-w-6xl sm:mt-16"
+          className="mx-auto mt-8 w-[92%] max-w-6xl sm:mt-10"
           role="group"
           aria-roledescription="carousel"
           aria-label="Recent detailing work"
-          {...pauseHandlers}
         >
           <div className="group relative aspect-[4/3] overflow-hidden rounded-2xl border border-chrome/25 shadow-2xl sm:aspect-[16/9]">
             {slides.map((slide, index) => (
@@ -146,16 +154,19 @@ export function HeroCarousel({ children }: { children: ReactNode }) {
             ))}
 
             {slides.length > 1 ? (
-              <>
+              <span {...pauseHandlers}>
                 <HeroArrow direction="prev" onClick={() => go(-1)} />
                 <HeroArrow direction="next" onClick={() => go(1)} />
-              </>
+              </span>
             ) : null}
           </div>
 
           {/* Dots, centered under the image */}
           {slides.length > 1 ? (
-            <div className="mt-6 flex items-center justify-center gap-2.5">
+            <div
+              className="mt-6 flex items-center justify-center gap-2.5"
+              {...pauseHandlers}
+            >
               {slides.map((slide, index) => (
                 <button
                   key={slide.src}

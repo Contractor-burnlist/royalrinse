@@ -107,18 +107,18 @@ function Hero() {
         in your driveway.
       </h1>
 
-      <p className="mx-auto mt-6 max-w-xl text-lg text-chrome sm:text-xl">
+      <p className="mx-auto mt-5 max-w-xl text-lg text-chrome sm:text-xl">
         {site.tagline}
       </p>
 
-      <div className="mt-9 flex flex-col justify-center gap-3 sm:flex-row">
+      <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
         <ButtonAnchor href={telHref} aria-label={PHONE_ARIA}>
           Call {site.phone}
         </ButtonAnchor>
         <BookNowButton variant="secondary" />
       </div>
 
-      <ul className="mt-10 flex flex-wrap justify-center gap-x-7 gap-y-3">
+      <ul className="mt-8 flex flex-wrap justify-center gap-x-7 gap-y-3">
         {trustChips.map((chip) => (
           <li key={chip} className="flex items-center gap-2 text-sm text-chrome">
             <Icon name="check" className="h-4 w-4 text-royal" />
