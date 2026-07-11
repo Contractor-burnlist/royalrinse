@@ -71,53 +71,37 @@ export function HeroCarousel({ children }: { children: ReactNode }) {
       // Pull up under the sticky header so photos run to the very top.
       className="relative -mt-24 flex min-h-[80vh] items-end overflow-hidden sm:-mt-32 lg:min-h-[85vh]"
     >
-      {/*
-        Photo layer. Still runs to the right edge of the viewport, but on
-        desktop it occupies ~60% of the width instead of 100%. That drops the
-        retina upscale from 3.2x to ~1.9x and crops far less of the car.
-        On mobile it's full width — at 390px CSS (780 device px) a 900px source
-        needs no upscaling at all, so mobile is genuinely sharp.
-      */}
-      <div className="absolute inset-y-0 right-0 w-full lg:w-[62%]">
-        {slides.map((slide, index) => (
-          <div
-            key={slide.src}
-            aria-hidden={index !== current}
-            className={`absolute inset-0 transition-opacity duration-1000 ease-out ${
-              index === current ? "opacity-100" : "opacity-0"
+      {slides.map((slide, index) => (
+        <div
+          key={slide.src}
+          aria-hidden={index !== current}
+          className={`absolute inset-0 transition-opacity duration-1000 ease-out ${
+            index === current ? "opacity-100" : "opacity-0"
+          }`}
+        >
+          <Image
+            src={slide.src}
+            alt={slide.alt}
+            fill
+            priority={index === 0}
+            quality={90}
+            sizes="100vw"
+            // Portrait source in a landscape frame: anchor the crop on the car
+            // rather than the dead centre of the photo.
+            style={{ objectPosition: "50% 40%" }}
+            className={`object-cover ${
+              index === current && !reducedMotion ? "motion-safe:animate-kenburns" : ""
             }`}
-          >
-            <Image
-              src={slide.src}
-              alt={slide.alt}
-              fill
-              priority={index === 0}
-              quality={90}
-              // Matches the real rendered width — never requests more.
-              sizes="(max-width: 1024px) 100vw, 62vw"
-              style={{ objectPosition: "center" }}
-              className={`object-cover ${
-                index === current && !reducedMotion
-                  ? "motion-safe:animate-kenburns"
-                  : ""
-              }`}
-            />
-          </div>
-        ))}
+          />
+        </div>
+      ))}
 
-        {/* Feather the photo's left edge into the dark panel — wide enough that
-            the boundary never reads as a seam. */}
-        <div
-          aria-hidden="true"
-          className="absolute inset-0 bg-gradient-to-r from-base via-base/55 to-transparent lg:via-base/25"
-        />
-        <div
-          aria-hidden="true"
-          className="absolute inset-y-0 left-0 hidden w-72 bg-gradient-to-r from-base via-base/70 to-transparent lg:block"
-        />
-      </div>
-
-      {/* Bottom fade into the page. */}
+      {/* Scrim: heavy at the bottom-left where the copy sits, clearing toward
+          the top-right so the car stays visible. */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 bg-gradient-to-tr from-base via-base/70 to-base/10"
+      />
       <div
         aria-hidden="true"
         className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-base to-transparent"
