@@ -2,13 +2,13 @@ import Link from "next/link";
 import {
   PHONE_ARIA,
   SERVICE_AREA_SHORT,
-  serviceAreas,
   site,
   steps,
   telHref,
   testimonials,
   valueProps,
 } from "@/lib/site";
+import { featuredCities } from "@/lib/serviceAreas";
 import { ceramicCoating, tiers } from "@/lib/services";
 import {
   exteriorGallery,
@@ -250,16 +250,24 @@ function ServiceAreaTeaser() {
         />
 
         <ul className="mt-10 flex flex-wrap gap-3">
-          {serviceAreas.map((area) => (
-            <li key={area.slug}>
+          {featuredCities.map((city) => (
+            <li key={city.slug}>
               <Link
-                href={`/service-area/${area.slug}`}
+                href={`/service-area/${city.slug}`}
                 className="inline-flex rounded-xl border border-hairline bg-surface px-4 py-2 text-sm font-medium text-chrome transition-colors hover:border-royal hover:text-ink"
               >
-                {area.name}
+                {city.name}
               </Link>
             </li>
           ))}
+          <li>
+            <Link
+              href="/service-area"
+              className="inline-flex rounded-xl border border-hairline bg-surface px-4 py-2 text-sm font-semibold text-royal transition-colors hover:border-royal hover:text-ink"
+            >
+              View all →
+            </Link>
+          </li>
         </ul>
       </Section>
     </div>

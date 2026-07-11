@@ -47,13 +47,7 @@ export const nav = [
 
 // Services live in lib/services.ts — the pricebook is the source of truth.
 
-export const serviceAreas = [
-  { name: "La Jolla", slug: "la-jolla" },
-  { name: "Del Mar", slug: "del-mar" },
-  { name: "Carmel Valley", slug: "carmel-valley" },
-  { name: "Pacific Beach", slug: "pacific-beach" },
-  { name: "Rancho Santa Fe", slug: "rancho-santa-fe" },
-] as const;
+// Cities live in lib/serviceAreas.ts — that list is the source of truth.
 
 export const steps = [
   {

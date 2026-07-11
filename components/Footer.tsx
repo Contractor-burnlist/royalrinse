@@ -4,10 +4,10 @@ import {
   PHONE_ARIA,
   SERVICE_AREA_LINE,
   mailHref,
-  serviceAreas,
   site,
   telHref,
 } from "@/lib/site";
+import { featuredCities } from "@/lib/serviceAreas";
 import { ceramicCoating, tiers } from "@/lib/services";
 import { Container } from "@/components/ui";
 
@@ -73,19 +73,22 @@ export function Footer() {
           <div>
             <ColumnHeading>Service Area</ColumnHeading>
             <ul className="mt-4 space-y-2 text-sm text-muted">
-              {serviceAreas.map((area) => (
-                <li key={area.slug}>
+              {featuredCities.map((city) => (
+                <li key={city.slug}>
                   <Link
-                    href={`/service-area/${area.slug}`}
+                    href={`/service-area/${city.slug}`}
                     className="transition-colors hover:text-ink"
                   >
-                    {area.name}
+                    {city.name}
                   </Link>
                 </li>
               ))}
               <li>
-                <Link href="/service-area" className="transition-colors hover:text-ink">
-                  All of {SERVICE_AREA_LINE}
+                <Link
+                  href="/service-area"
+                  className="font-semibold text-chrome transition-colors hover:text-ink"
+                >
+                  View all service areas →
                 </Link>
               </li>
             </ul>
