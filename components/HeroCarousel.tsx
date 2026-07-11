@@ -7,12 +7,17 @@ import { featureVehicles, type GalleryImage } from "@/lib/gallery";
 const AUTO_ADVANCE_MS = 5000;
 
 /**
- * Strongest exterior shots across every feature vehicle. If that somehow yields
- * a single image, fall back to exterior + interior so the carousel always has
- * something to rotate through.
+ * The hero is the most-upscaled surface on the site, so it uses only the
+ * highest-resolution sources. The 576px-wide shots would need a 5x upscale
+ * here; the 900px ones need 3.2x. Still short of sharp — the sources are too
+ * small for full-bleed (see lib/gallery.ts) — but materially better.
  */
+const MIN_HERO_WIDTH = 900;
+
 function buildSlides(): GalleryImage[] {
   const exteriors = featureVehicles.flatMap((vehicle) => vehicle.exterior);
+  const highRes = exteriors.filter((image) => image.width >= MIN_HERO_WIDTH);
+  if (highRes.length > 1) return highRes;
   if (exteriors.length > 1) return exteriors;
 
   return featureVehicles.flatMap((vehicle) => [
@@ -79,7 +84,11 @@ export function HeroCarousel({ children }: { children: ReactNode }) {
             alt={slide.alt}
             fill
             priority={index === 0}
+            quality={90}
             sizes="100vw"
+            // Portrait source in a landscape frame: anchor the crop on the car
+            // (upper-middle) instead of the dead centre of the photo.
+            style={{ objectPosition: "50% 40%" }}
             className={`object-cover ${
               index === current && !reducedMotion ? "motion-safe:animate-kenburns" : ""
             }`}

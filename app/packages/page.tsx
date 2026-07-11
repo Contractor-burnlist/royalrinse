@@ -87,8 +87,10 @@ export default function PackagesPage() {
                       alt=""
                       fill
                       loading="lazy"
-                      sizes="50vw"
-                      className="object-cover"
+                      quality={85}
+                      // Half of the max-w-container card, not half the viewport.
+                      sizes="(max-width: 1024px) 0px, 560px"
+                      className="object-cover object-center"
                     />
                     <div className="absolute inset-0 bg-gradient-to-r from-surface via-surface/85 to-surface/40" />
                   </div>

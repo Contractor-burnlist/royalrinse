@@ -87,6 +87,8 @@ export function LightboxGrid({
               onClick={() => open(index)}
               className={`${tileClasses} mb-4 break-inside-avoid`}
             >
+              {/* width/height are the real file dimensions, so the tile keeps
+                  the photo's native ratio — no crop, no squish. */}
               <Image
                 src={image.src}
                 alt={image.alt}
@@ -94,6 +96,7 @@ export function LightboxGrid({
                 height={image.height}
                 loading={index < eagerCount ? "eager" : "lazy"}
                 priority={index < eagerCount}
+                quality={90}
                 sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
                 className="h-auto w-full transition-transform duration-500 group-hover:scale-105"
               />
@@ -179,11 +182,13 @@ export function LightboxGrid({
             onClick={(event) => event.stopPropagation()}
             className="relative h-[88vh] w-full max-w-6xl animate-[fadeIn_320ms_ease-out]"
           >
+            {/* object-contain: shows the whole frame at its true ratio. */}
             <Image
               src={active.src}
               alt={active.alt}
               fill
               priority
+              quality={90}
               sizes="100vw"
               className="rounded-2xl object-contain drop-shadow-2xl"
             />

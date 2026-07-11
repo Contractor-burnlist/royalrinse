@@ -303,7 +303,13 @@ function Gallery() {
         </Link>
       </div>
 
-      <LightboxGrid images={homeGalleryShots} className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3" />
+      {/* Masonry, not a forced 4:3 crop — the sources are portrait and a
+          landscape tile threw away ~58% of every frame. */}
+      <LightboxGrid
+        images={homeGalleryShots}
+        variant="masonry"
+        className="mt-14 columns-2 gap-4 lg:columns-3"
+      />
     </Section>
   );
 }
@@ -380,6 +386,7 @@ export default function Home() {
         image={bandImages.showroom}
         headline="Showroom finish, every time."
         sub="The finish is in the parts most people skip — every vent, seam, and panel."
+        reverse
       />
 
       <ServiceAreaTeaser />

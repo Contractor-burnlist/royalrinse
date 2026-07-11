@@ -5,6 +5,13 @@
  * readers and SEO, and is never rendered on screen. Intrinsic width/height are
  * the real file dimensions; they drive the masonry layout and prevent layout
  * shift.
+ *
+ * RESOLUTION CEILING: every source is a portrait phone shot, 900x1600 or
+ * 576x1024 (one landscape 1024x683). Nothing exceeds 1600px on its long edge.
+ * On a retina display a full-width surface needs ~2880px of source width, so
+ * any full-bleed use upscales 3-5x and looks soft. Layouts here are sized to
+ * stay at or under the source resolution. To go truly full-bleed and sharp,
+ * the photos must be re-exported from the originals at 2560px+ wide.
  */
 
 export type GalleryImage = {
