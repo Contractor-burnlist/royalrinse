@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { ceramicCoating, quoteNote, tiers } from "@/lib/services";
+import { serviceImage } from "@/lib/serviceImages";
 import { PHONE_ARIA, site, telHref } from "@/lib/site";
 import { BookNowButton } from "@/components/BookNowButton";
+import { Reveal } from "@/components/Reveal";
 import { ButtonAnchor, Card, Container, Eyebrow, Icon, Section } from "@/components/ui";
 
 export const metadata: Metadata = {
@@ -71,14 +74,26 @@ export default function PackagesPage() {
 
             return (
               <li key={tier.slug}>
+                <Reveal>
                 <Card
-                  className={
-                    isTop
-                      ? "border-royal/50 shadow-glow"
-                      : undefined
-                  }
+                  className={`relative overflow-hidden ${
+                    isTop ? "border-royal/50 shadow-glow" : ""
+                  }`}
                 >
-                  <div className="p-2 sm:p-4">
+                  {/* Photo bleeds in from the right, fading into the card. */}
+                  <div aria-hidden="true" className="absolute inset-y-0 right-0 hidden w-1/2 lg:block">
+                    <Image
+                      src={serviceImage(tier.slug).src}
+                      alt=""
+                      fill
+                      loading="lazy"
+                      sizes="50vw"
+                      className="object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-r from-surface via-surface/85 to-surface/40" />
+                  </div>
+
+                  <div className="relative p-2 sm:p-4">
                     <div className="flex flex-wrap items-start justify-between gap-4">
                       <TierRank rank={rank} />
                       {isTop ? (
@@ -155,6 +170,7 @@ export default function PackagesPage() {
                     </Link>
                   </div>
                 </Card>
+                </Reveal>
               </li>
             );
           })}

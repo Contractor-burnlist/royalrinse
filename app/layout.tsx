@@ -52,6 +52,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        {/* Reveal starts at opacity-0 and is un-hidden by IntersectionObserver.
+            Without JS that would leave sections invisible — force them visible. */}
+        <noscript>
+          <style>{`.reveal { opacity: 1 !important; transform: none !important; }`}</style>
+        </noscript>
+      </head>
       <body
         className={`${display.variable} ${body.variable} flex min-h-screen flex-col bg-base font-sans text-ink antialiased`}
       >

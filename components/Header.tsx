@@ -2,12 +2,12 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { PHONE_ARIA, nav, site, telHref } from "@/lib/site";
 import { BookNowButton } from "@/components/BookNowButton";
 import { Container } from "@/components/ui";
 
-function Logo() {
+function Logo({ compact }: { compact: boolean }) {
   return (
     <Link href="/" className="flex items-center" aria-label="Royal Rinse — home">
       {/* Logo ships with its own near-black background, so it sits flush on the
@@ -18,7 +18,9 @@ function Logo() {
         width={1254}
         height={1254}
         priority
-        className="h-20 w-auto rounded-lg border border-hairline sm:h-28"
+        className={`w-auto rounded-lg border border-hairline transition-all duration-500 ${
+          compact ? "h-16 sm:h-20" : "h-20 sm:h-28"
+        }`}
       />
     </Link>
   );
@@ -26,12 +28,33 @@ function Logo() {
 
 export function Header() {
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  // Near-transparent over the hero photo; solid once the user scrolls past it.
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  const solid = scrolled || open;
 
   return (
-    <header className="sticky top-0 z-50 border-b border-hairline bg-base/85 backdrop-blur-md">
+    <header
+      className={`sticky top-0 z-50 transition-all duration-500 ${
+        solid
+          ? "border-b border-hairline bg-base/80 backdrop-blur-xl backdrop-saturate-150"
+          : "border-b border-transparent bg-gradient-to-b from-base/80 via-base/40 to-transparent"
+      }`}
+    >
       <Container>
-        <div className="flex h-24 items-center justify-between gap-4 sm:h-32">
-          <Logo />
+        <div
+          className={`flex items-center justify-between gap-4 transition-all duration-500 ${
+            solid ? "h-20 sm:h-24" : "h-24 sm:h-32"
+          }`}
+        >
+          <Logo compact={solid} />
 
           <nav className="hidden items-center gap-7 lg:flex">
             {nav.map((item) => (

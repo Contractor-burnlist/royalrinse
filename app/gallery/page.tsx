@@ -3,7 +3,7 @@ import Link from "next/link";
 import { allGalleryImages, exteriorGallery, interiorGallery } from "@/lib/gallery";
 import { LightboxGrid } from "@/components/Lightbox";
 import { QuoteCta } from "@/components/QuoteCta";
-import { Container, Eyebrow, Section } from "@/components/ui";
+import { Container, Eyebrow } from "@/components/ui";
 
 export const metadata: Metadata = {
   title: "Gallery | Royal Rinse — Mobile Auto Detailing Riverside & San Diego County",
@@ -44,15 +44,18 @@ export default function GalleryPage() {
         </Container>
       </div>
 
-      <Section>
-        {/* Pure images — no captions, titles, or vehicle labels. */}
-        <LightboxGrid
-          images={allGalleryImages}
-          variant="masonry"
-          className="columns-2 gap-4 lg:columns-3 xl:columns-4"
-          eagerCount={4}
-        />
-      </Section>
+      {/* Edge-to-edge: breaks out of the container for a fuller showcase. */}
+      <section className="py-16 sm:py-24">
+        <div className="mx-auto w-full max-w-[110rem] px-3 sm:px-5">
+          {/* Pure images — no captions, titles, or vehicle labels. */}
+          <LightboxGrid
+            images={allGalleryImages}
+            variant="masonry"
+            className="columns-2 gap-3 sm:gap-4 lg:columns-3 xl:columns-4"
+            eagerCount={4}
+          />
+        </div>
+      </section>
 
       <QuoteCta />
     </>

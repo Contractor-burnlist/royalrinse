@@ -25,7 +25,7 @@ export function Section({
   children: ReactNode;
 }) {
   return (
-    <section id={id} className={`py-20 sm:py-28 ${className}`}>
+    <section id={id} className={`py-24 sm:py-32 ${className}`}>
       <Container>{children}</Container>
     </section>
   );
@@ -51,10 +51,12 @@ export function SectionHeading({
   return (
     <div className="max-w-2xl">
       {eyebrow ? <Eyebrow>{eyebrow}</Eyebrow> : null}
-      <h2 className="mt-3 font-display text-3xl font-bold tracking-tight text-ink sm:text-4xl">
+      <h2 className="mt-4 font-display text-4xl font-bold leading-[1.05] tracking-tight text-ink sm:text-5xl">
         {title}
       </h2>
-      {intro ? <p className="mt-4 text-base leading-relaxed text-muted">{intro}</p> : null}
+      {intro ? (
+        <p className="mt-5 text-base leading-relaxed text-muted sm:text-lg">{intro}</p>
+      ) : null}
     </div>
   );
 }

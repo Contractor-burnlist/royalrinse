@@ -16,10 +16,14 @@ import {
   featureVehicles,
   type GalleryImage,
 } from "@/lib/gallery";
+import { serviceImage } from "@/lib/serviceImages";
 import { BookNowButton } from "@/components/BookNowButton";
 import { HeroCarousel } from "@/components/HeroCarousel";
 import { LightboxGrid } from "@/components/Lightbox";
+import { PhotoBand } from "@/components/PhotoBand";
+import { Reveal } from "@/components/Reveal";
 import { ReviewCard } from "@/components/ReviewCard";
+import { ServicePhotoCard } from "@/components/ServicePhotoCard";
 import {
   ButtonAnchor,
   Card,
@@ -65,12 +69,14 @@ const homeServices = [
     name: tier.name,
     tagline: tier.tagline,
     icon: tierIcons[tier.slug] ?? "sparkle",
+    image: serviceImage(tier.slug),
   })),
   {
     slug: ceramicCoating.slug,
     name: ceramicCoating.name,
     tagline: ceramicCoating.tagline,
     icon: "shield",
+    image: serviceImage(ceramicCoating.slug),
   },
 ];
 
@@ -81,45 +87,45 @@ const homeGalleryShots: GalleryImage[] = [
   ...exteriorGallery.slice(0, 2),
 ];
 
+// Full-bleed interstitials. The van is visible in the "we come to you" shot.
+const heroExteriors = featureVehicles.flatMap((vehicle) => vehicle.exterior);
+const bandImages = {
+  comeToYou: heroExteriors[3] ?? heroExteriors[0],
+  showroom: heroExteriors[4] ?? heroExteriors[1],
+};
+
 function Hero() {
   return (
-    <section className="relative overflow-hidden border-b border-hairline">
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute -top-32 left-1/2 h-96 w-[42rem] -translate-x-1/2 rounded-full bg-royal/20 blur-3xl"
-      />
-      <Container className="relative py-20 sm:py-28">
-        <div className="grid items-center gap-14 lg:grid-cols-2">
-          <div>
-            <Eyebrow>{SERVICE_AREA_SHORT}</Eyebrow>
-            <h1 className="mt-4 font-display text-4xl font-bold leading-[1.05] tracking-tight text-ink sm:text-6xl">
-              A showroom finish,
-              <br />
-              in your driveway.
-            </h1>
-            <p className="mt-5 max-w-lg text-lg text-muted">{site.tagline}</p>
+    <HeroCarousel>
+      <Container>
+        <div className="max-w-3xl">
+          <Eyebrow>{SERVICE_AREA_SHORT}</Eyebrow>
+          {/* No forced <br> on mobile — it overflows narrow viewports. */}
+          <h1 className="mt-5 font-display text-4xl font-bold leading-[1.02] tracking-tight text-ink drop-shadow-[0_2px_24px_rgba(0,0,0,0.6)] sm:text-6xl sm:leading-[0.98] lg:text-7xl">
+            A showroom finish,
+            <br className="hidden sm:inline" />{" "}
+            in your driveway.
+          </h1>
+          <p className="mt-7 max-w-xl text-lg text-chrome sm:text-xl">{site.tagline}</p>
 
-            <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-              <ButtonAnchor href={telHref} aria-label={PHONE_ARIA}>
-                Call {site.phone}
-              </ButtonAnchor>
-              <BookNowButton variant="secondary" />
-            </div>
-
-            <ul className="mt-10 flex flex-wrap gap-x-6 gap-y-3">
-              {trustChips.map((chip) => (
-                <li key={chip} className="flex items-center gap-2 text-sm text-chrome">
-                  <Icon name="check" className="h-4 w-4 text-royal" />
-                  {chip}
-                </li>
-              ))}
-            </ul>
+          <div className="mt-10 flex flex-col gap-3 sm:flex-row">
+            <ButtonAnchor href={telHref} aria-label={PHONE_ARIA}>
+              Call {site.phone}
+            </ButtonAnchor>
+            <BookNowButton variant="secondary" />
           </div>
 
-          <HeroCarousel />
+          <ul className="mt-12 flex flex-wrap gap-x-7 gap-y-3">
+            {trustChips.map((chip) => (
+              <li key={chip} className="flex items-center gap-2 text-sm text-chrome">
+                <Icon name="check" className="h-4 w-4 text-royal" />
+                {chip}
+              </li>
+            ))}
+          </ul>
         </div>
       </Container>
-    </section>
+    </HeroCarousel>
   );
 }
 
@@ -152,24 +158,18 @@ function Services() {
         intro="Every service runs off our fully self-contained mobile rig — no shop visit, no drop-off."
       />
 
-      <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {homeServices.map((service) => (
-          <Card key={service.slug} className="flex flex-col">
-            <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-royal/15 text-royal">
-              <Icon name={service.icon} className="h-5 w-5" />
-            </span>
-            <h3 className="mt-5 font-display text-lg font-bold text-ink">{service.name}</h3>
-            <p className="mt-2 flex-1 text-sm leading-relaxed text-muted">
-              {service.tagline}
-            </p>
-            <Link
+      <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {homeServices.map((service, i) => (
+          <Reveal key={service.slug} delay={(i % 3) * 80}>
+            <ServicePhotoCard
+              name={service.name}
+              tagline={service.tagline}
               href={`/services/${service.slug}`}
-              className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-royal transition-colors hover:text-chrome"
-            >
-              Learn more
-              <span aria-hidden="true">→</span>
-            </Link>
-          </Card>
+              icon={service.icon}
+              image={service.image}
+              featured={service.slug === "diamond"}
+            />
+          </Reveal>
         ))}
       </div>
 
@@ -366,8 +366,22 @@ export default function Home() {
       <Hero />
       <TrustBar />
       <Services />
+
+      <PhotoBand
+        image={bandImages.comeToYou}
+        headline="We come to you."
+        sub="Our rig carries its own water and power. Your driveway is the shop."
+      />
+
       <HowItWorks />
       <WhyRoyalRinse />
+
+      <PhotoBand
+        image={bandImages.showroom}
+        headline="Showroom finish, every time."
+        sub="The finish is in the parts most people skip — every vent, seam, and panel."
+      />
+
       <ServiceAreaTeaser />
       <Gallery />
       <Testimonials />

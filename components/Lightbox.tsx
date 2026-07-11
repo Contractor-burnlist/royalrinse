@@ -132,7 +132,7 @@ export function LightboxGrid({
           aria-modal="true"
           aria-label="Photo viewer"
           onClick={close}
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-base/95 p-4 backdrop-blur-sm sm:p-8"
+          className="fixed inset-0 z-[100] flex animate-[fadeIn_260ms_ease-out] items-center justify-center bg-base/97 p-4 backdrop-blur-xl sm:p-6"
         >
           <button
             ref={closeRef}
@@ -175,15 +175,17 @@ export function LightboxGrid({
 
           {/* Image only — no caption, no vehicle label. */}
           <div
+            key={active.src}
             onClick={(event) => event.stopPropagation()}
-            className="relative h-[80vh] w-full max-w-5xl"
+            className="relative h-[88vh] w-full max-w-6xl animate-[fadeIn_320ms_ease-out]"
           >
             <Image
               src={active.src}
               alt={active.alt}
               fill
+              priority
               sizes="100vw"
-              className="rounded-xl object-contain"
+              className="rounded-2xl object-contain drop-shadow-2xl"
             />
           </div>
         </div>

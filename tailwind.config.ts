@@ -39,6 +39,21 @@ const config: Config = {
       maxWidth: {
         container: "72rem",
       },
+      keyframes: {
+        kenburns: {
+          "0%": { transform: "scale(1)" },
+          "100%": { transform: "scale(1.08)" },
+        },
+        fadeIn: {
+          "0%": { opacity: "0" },
+          "100%": { opacity: "1" },
+        },
+      },
+      animation: {
+        // Slow drift on the active hero slide. Outlasts the 5s advance so it
+        // never visibly snaps back.
+        kenburns: "kenburns 9s ease-out forwards",
+      },
     },
   },
   plugins: [],
