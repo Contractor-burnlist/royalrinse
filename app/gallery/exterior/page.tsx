@@ -3,9 +3,9 @@ import { exteriorGallery } from "@/lib/gallery";
 import { GallerySubPage } from "@/components/GallerySubPage";
 
 export const metadata: Metadata = {
-  title: "Exterior Detailing Gallery | Royal Rinse — San Diego",
+  title: "Exterior Detailing Gallery | Royal Rinse — Southern California",
   description:
-    "Exterior mobile auto detailing photos from Royal Rinse — paint, wheels, and trim detailed on site across San Diego County.",
+    "Exterior mobile auto detailing photos from Royal Rinse — paint, wheels, and trim detailed on site across Southern California.",
 };
 
 export default function ExteriorGalleryPage() {

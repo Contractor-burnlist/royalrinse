@@ -16,9 +16,9 @@ const body = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Royal Rinse | Mobile Auto Detailing — San Diego",
+  title: "Royal Rinse | Mobile Auto Detailing — Southern California",
   description:
-    "Royal Rinse brings professional mobile auto detailing to your driveway anywhere in San Diego County. Licensed, insured, and we come to you.",
+    "Royal Rinse brings professional mobile auto detailing to your driveway anywhere in Southern California. Licensed, insured, and we come to you.",
 };
 
 export default function RootLayout({

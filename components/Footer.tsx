@@ -45,7 +45,7 @@ export function Footer() {
                   {site.email}
                 </a>
               </p>
-              <p>San Diego County, CA</p>
+              <p>Southern California</p>
             </address>
 
             <dl className="mt-6 space-y-1.5 text-sm text-muted">
@@ -73,7 +73,7 @@ export function Footer() {
               ))}
               <li>
                 <Link href="/service-area" className="transition-colors hover:text-ink">
-                  All of San Diego County
+                  All of Southern California
                 </Link>
               </li>
             </ul>
@@ -100,7 +100,7 @@ export function Footer() {
           <p>
             © {year} {site.name}. All rights reserved.
           </p>
-          <p>Mobile auto detailing throughout San Diego County.</p>
+          <p>Mobile auto detailing throughout Southern California.</p>
         </div>
       </Container>
     </footer>

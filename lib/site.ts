@@ -120,16 +120,16 @@ export const testimonials = [
   {
     quote: "Placeholder review copy — replace with a real customer testimonial before launch.",
     author: "Customer Name",
-    location: "San Diego, CA",
+    location: "Southern California",
   },
   {
     quote: "Placeholder review copy — replace with a real customer testimonial before launch.",
     author: "Customer Name",
-    location: "San Diego, CA",
+    location: "Southern California",
   },
   {
     quote: "Placeholder review copy — replace with a real customer testimonial before launch.",
     author: "Customer Name",
-    location: "San Diego, CA",
+    location: "Southern California",
   },
 ] as const;

@@ -5,9 +5,9 @@ import { LightboxGrid } from "@/components/Lightbox";
 import { Container, Eyebrow, Section } from "@/components/ui";
 
 export const metadata: Metadata = {
-  title: "Gallery | Royal Rinse — Mobile Auto Detailing San Diego",
+  title: "Gallery | Royal Rinse — Mobile Auto Detailing Southern California",
   description:
-    "Photos of recent mobile auto detailing work by Royal Rinse across San Diego County — exterior paint, wheels, and interior detailing.",
+    "Photos of recent mobile auto detailing work by Royal Rinse across Southern California — exterior paint, wheels, and interior detailing.",
 };
 
 const subGalleries = [
