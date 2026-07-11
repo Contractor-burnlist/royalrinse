@@ -18,6 +18,7 @@ import {
 } from "@/lib/gallery";
 import { serviceImage } from "@/lib/serviceImages";
 import { BookNowButton } from "@/components/BookNowButton";
+import { GoogleReviewsLink } from "@/components/GoogleReviewsLink";
 import { HeroCarousel } from "@/components/HeroCarousel";
 import { LightboxGrid } from "@/components/Lightbox";
 import { PhotoBand } from "@/components/PhotoBand";
@@ -322,13 +323,7 @@ function Testimonials() {
       <Section className="!py-20 sm:!py-24">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <SectionHeading eyebrow="Reviews" title="What our customers say" />
-          <Link
-            href="/reviews"
-            className="inline-flex items-center gap-1.5 text-sm font-semibold text-royal transition-colors hover:text-chrome"
-          >
-            Read all reviews
-            <span aria-hidden="true">→</span>
-          </Link>
+          <GoogleReviewsLink>See more reviews on Google</GoogleReviewsLink>
         </div>
 
         <div className="mt-12 grid gap-6 md:grid-cols-3">

@@ -7,6 +7,9 @@ export const PHONE_TEL = "tel:+19513389117";
 /** For aria-labels on icon/button call CTAs. */
 export const PHONE_ARIA = `Call Royal Rinse at ${PHONE_DISPLAY}`;
 
+/** Google Business Profile — where "see more reviews" sends people. */
+export const GOOGLE_REVIEWS_URL = "https://maps.app.goo.gl/kQ1rbWiT7KuCr1pW7";
+
 /** The counties served. Change here to update every mention site-wide. */
 export const SERVICE_AREA_LINE = "Riverside & San Diego County";
 export const SERVICE_AREA_SHORT = "Serving Riverside & San Diego County";

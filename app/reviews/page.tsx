@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { featuredReviews } from "@/lib/reviews";
+import { GoogleReviewsLink } from "@/components/GoogleReviewsLink";
 import { QuoteCta } from "@/components/QuoteCta";
 import { ReviewCard } from "@/components/ReviewCard";
 import { Container, Eyebrow, Section } from "@/components/ui";
@@ -33,6 +34,12 @@ export default function ReviewsPage() {
             </li>
           ))}
         </ul>
+
+        <div className="mt-12 flex justify-center">
+          <GoogleReviewsLink className="rounded-xl border border-hairline bg-surface px-5 py-3 hover:border-royal">
+            See all reviews on Google
+          </GoogleReviewsLink>
+        </div>
       </Section>
 
       <QuoteCta heading="Ready to see the difference?" />
