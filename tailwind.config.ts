@@ -1,5 +1,9 @@
 import type { Config } from "tailwindcss";
 
+/**
+ * DESIGN TOKENS — edit here to change the look of the whole site.
+ * Component code references these names only, never raw hex.
+ */
 const config: Config = {
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
@@ -9,8 +13,31 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        base: "#0B0D10",
+        charcoal: "#14181D",
+        surface: "#1B2027",
+        royal: {
+          DEFAULT: "#1D4ED8",
+          hover: "#2563EB",
+        },
+        chrome: "#C9CED6",
+        ink: "#F5F7FA",
+        muted: "#9BA3AF",
+        hairline: "rgba(201, 206, 214, 0.12)",
+      },
+      fontFamily: {
+        display: ["var(--font-display)", "system-ui", "sans-serif"],
+        sans: ["var(--font-body)", "system-ui", "sans-serif"],
+      },
+      borderRadius: {
+        xl: "0.875rem",
+      },
+      boxShadow: {
+        card: "0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -12px rgba(0,0,0,0.6)",
+        glow: "0 8px 30px -8px rgba(29, 78, 216, 0.45)",
+      },
+      maxWidth: {
+        container: "72rem",
       },
     },
   },
