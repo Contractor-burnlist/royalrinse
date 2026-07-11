@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import {
   serviceAreas,
@@ -14,6 +13,7 @@ import {
   featureVehicles,
   type GalleryImage,
 } from "@/lib/gallery";
+import { HeroCarousel } from "@/components/HeroCarousel";
 import { LightboxGrid } from "@/components/Lightbox";
 import {
   ButtonLink,
@@ -33,8 +33,6 @@ const trustBadges = [
   "Mobile Service",
   "Satisfaction Guaranteed",
 ];
-
-const heroShot = featureVehicles[1].exterior[1];
 
 // Strongest exterior shots from the feature set, plus the two best from the
 // exterior gallery — six tiles, no placeholders.
@@ -78,16 +76,7 @@ function Hero() {
             </ul>
           </div>
 
-          <div className="relative aspect-[4/3] w-full overflow-hidden rounded-xl border border-hairline shadow-card lg:aspect-[5/4]">
-            <Image
-              src={heroShot.src}
-              alt={heroShot.alt}
-              fill
-              priority
-              sizes="(max-width: 1024px) 100vw, 50vw"
-              className="object-cover"
-            />
-          </div>
+          <HeroCarousel />
         </div>
       </Container>
     </section>
