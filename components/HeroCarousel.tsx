@@ -101,9 +101,11 @@ export function HeroCarousel({ children }: { children: ReactNode }) {
           />
         </div>
       ))}
+      {/* Darkens the whole section so the 5% gutters either side of the
+          carousel read as a flat, deliberate frame rather than stray photo. */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 bg-base/70"
+        className="pointer-events-none absolute inset-0 bg-base/85"
       />
       <div
         aria-hidden="true"
@@ -119,14 +121,19 @@ export function HeroCarousel({ children }: { children: ReactNode }) {
           <div className="mx-auto max-w-3xl text-center">{children}</div>
         </Container>
 
-        {/* Large centered carousel */}
+        {/*
+          90% of the viewport on desktop (5% gutter each side), 92% on mobile
+          (4% each side) so it isn't pinched. The wrapper is the frame: a dark
+          surface band with a hairline border, holding the image inside it.
+        */}
         <div
-          className="mx-auto mt-8 w-[92%] max-w-6xl sm:mt-10"
+          className="mx-auto mt-8 w-[92%] sm:mt-10 sm:w-[90%]"
           role="group"
           aria-roledescription="carousel"
           aria-label="Recent detailing work"
         >
-          <div className="group relative aspect-[4/3] overflow-hidden rounded-2xl border border-chrome/25 shadow-2xl sm:aspect-[16/9]">
+          <div className="rounded-[1.75rem] border border-hairline bg-surface/60 p-1.5 shadow-2xl backdrop-blur-sm sm:p-2">
+            <div className="group relative h-[70vh] overflow-hidden rounded-2xl border border-chrome/20 sm:h-[74vh]">
             {slides.map((slide, index) => (
               <div
                 key={slide.src}
@@ -141,8 +148,8 @@ export function HeroCarousel({ children }: { children: ReactNode }) {
                   fill
                   priority={index === 0}
                   quality={90}
-                  // Matches the real rendered width of the card.
-                  sizes="(max-width: 640px) 92vw, (max-width: 1152px) 92vw, 1152px"
+                  // Matches the real rendered width: the card is 90vw.
+                  sizes="90vw"
                   style={{ objectPosition: "center" }}
                   className={`object-cover ${
                     index === current && !reducedMotion
@@ -153,12 +160,13 @@ export function HeroCarousel({ children }: { children: ReactNode }) {
               </div>
             ))}
 
-            {slides.length > 1 ? (
-              <span {...pauseHandlers}>
-                <HeroArrow direction="prev" onClick={() => go(-1)} />
-                <HeroArrow direction="next" onClick={() => go(1)} />
-              </span>
-            ) : null}
+              {slides.length > 1 ? (
+                <span {...pauseHandlers}>
+                  <HeroArrow direction="prev" onClick={() => go(-1)} />
+                  <HeroArrow direction="next" onClick={() => go(1)} />
+                </span>
+              ) : null}
+            </div>
           </div>
 
           {/* Dots, centered under the image */}
