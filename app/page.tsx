@@ -5,9 +5,9 @@ import {
   site,
   steps,
   telHref,
-  testimonials,
   valueProps,
 } from "@/lib/site";
+import { featuredReviews } from "@/lib/reviews";
 import { featuredCities } from "@/lib/serviceAreas";
 import { ceramicCoating, tiers } from "@/lib/services";
 import {
@@ -18,6 +18,7 @@ import {
 import { BookNowButton } from "@/components/BookNowButton";
 import { HeroCarousel } from "@/components/HeroCarousel";
 import { LightboxGrid } from "@/components/Lightbox";
+import { ReviewCard } from "@/components/ReviewCard";
 import {
   ButtonAnchor,
   Card,
@@ -304,32 +305,20 @@ function Testimonials() {
   return (
     <div className="border-y border-hairline bg-charcoal">
       <Section className="!py-20 sm:!py-24">
-        <SectionHeading eyebrow="Reviews" title="What our customers say" />
+        <div className="flex flex-wrap items-end justify-between gap-4">
+          <SectionHeading eyebrow="Reviews" title="What our customers say" />
+          <Link
+            href="/reviews"
+            className="inline-flex items-center gap-1.5 text-sm font-semibold text-royal transition-colors hover:text-chrome"
+          >
+            Read all reviews
+            <span aria-hidden="true">→</span>
+          </Link>
+        </div>
 
         <div className="mt-12 grid gap-6 md:grid-cols-3">
-          {testimonials.map((testimonial, i) => (
-            <Card key={i} className="flex h-full flex-col">
-              <div className="flex gap-1 text-royal" aria-label="5 out of 5 stars">
-                {Array.from({ length: 5 }).map((_, star) => (
-                  <svg
-                    key={star}
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                    aria-hidden="true"
-                    className="h-4 w-4"
-                  >
-                    <path d="M10 1.5l2.6 5.3 5.9.9-4.2 4.1 1 5.8-5.3-2.8-5.3 2.8 1-5.8L1.5 7.7l5.9-.9L10 1.5Z" />
-                  </svg>
-                ))}
-              </div>
-              <blockquote className="mt-4 flex-1 text-sm leading-relaxed text-muted">
-                &ldquo;{testimonial.quote}&rdquo;
-              </blockquote>
-              <footer className="mt-5 border-t border-hairline pt-4">
-                <p className="text-sm font-semibold text-ink">{testimonial.author}</p>
-                <p className="text-xs text-muted">{testimonial.location}</p>
-              </footer>
-            </Card>
+          {featuredReviews.map((review) => (
+            <ReviewCard key={review.name} review={review} />
           ))}
         </div>
       </Section>

@@ -108,20 +108,4 @@ export const credentials = [
   },
 ] as const;
 
-export const testimonials = [
-  {
-    quote: "Placeholder review copy — replace with a real customer testimonial before launch.",
-    author: "Customer Name",
-    location: "Riverside & San Diego County",
-  },
-  {
-    quote: "Placeholder review copy — replace with a real customer testimonial before launch.",
-    author: "Customer Name",
-    location: "Riverside & San Diego County",
-  },
-  {
-    quote: "Placeholder review copy — replace with a real customer testimonial before launch.",
-    author: "Customer Name",
-    location: "Riverside & San Diego County",
-  },
-] as const;
+// Reviews live in lib/reviews.ts — real customer text, verbatim.
