@@ -1,6 +1,7 @@
 import { quoteNote } from "@/lib/services";
 import { PHONE_ARIA, site, telHref } from "@/lib/site";
-import { ButtonAnchor, ButtonLink, Section } from "@/components/ui";
+import { BookNowButton } from "@/components/BookNowButton";
+import { ButtonAnchor, Section } from "@/components/ui";
 
 /** Stands in for pricing everywhere. No numbers, ever — quote on request. */
 export function QuoteCta({ heading = "Ready for a showroom finish?" }: { heading?: string }) {
@@ -20,9 +21,7 @@ export function QuoteCta({ heading = "Ready for a showroom finish?" }: { heading
             <ButtonAnchor href={telHref} aria-label={PHONE_ARIA}>
               Call {site.phone}
             </ButtonAnchor>
-            <ButtonLink href="/book" variant="secondary">
-              Book Now
-            </ButtonLink>
+            <BookNowButton variant="secondary" />
           </div>
         </div>
       </div>

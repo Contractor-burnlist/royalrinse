@@ -4,7 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { PHONE_ARIA, nav, site, telHref } from "@/lib/site";
-import { ButtonLink, Container } from "@/components/ui";
+import { BookNowButton } from "@/components/BookNowButton";
+import { Container } from "@/components/ui";
 
 function Logo() {
   return (
@@ -52,9 +53,7 @@ export function Header() {
             >
               {site.phone}
             </a>
-            <ButtonLink href="/book" className="px-5 py-2.5">
-              Book Now
-            </ButtonLink>
+            <BookNowButton className="px-5 py-2.5" />
           </div>
 
           <button
@@ -109,9 +108,7 @@ export function Header() {
               >
                 Call {site.phone}
               </a>
-              <ButtonLink href="/book" onClick={() => setOpen(false)}>
-                Book Now
-              </ButtonLink>
+              <BookNowButton onClick={() => setOpen(false)} />
             </div>
           </Container>
         </div>

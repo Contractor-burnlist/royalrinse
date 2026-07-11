@@ -15,11 +15,11 @@ import {
   featureVehicles,
   type GalleryImage,
 } from "@/lib/gallery";
+import { BookNowButton } from "@/components/BookNowButton";
 import { HeroCarousel } from "@/components/HeroCarousel";
 import { LightboxGrid } from "@/components/Lightbox";
 import {
   ButtonAnchor,
-  ButtonLink,
   Card,
   Container,
   Eyebrow,
@@ -90,9 +90,7 @@ function Hero() {
               <ButtonAnchor href={telHref} aria-label={PHONE_ARIA}>
                 Call {site.phone}
               </ButtonAnchor>
-              <ButtonLink href="/book" variant="secondary">
-                Book Now
-              </ButtonLink>
+              <BookNowButton variant="secondary" />
             </div>
 
             <ul className="mt-10 flex flex-wrap gap-x-6 gap-y-3">
@@ -353,9 +351,7 @@ function FinalCta() {
             <ButtonAnchor href={telHref} aria-label={PHONE_ARIA}>
               Call {site.phone}
             </ButtonAnchor>
-            <ButtonLink href="/book" variant="secondary">
-              Book Now
-            </ButtonLink>
+            <BookNowButton variant="secondary" />
           </div>
         </div>
       </div>

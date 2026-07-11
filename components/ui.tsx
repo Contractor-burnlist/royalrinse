@@ -59,7 +59,7 @@ export function SectionHeading({
   );
 }
 
-type ButtonVariant = "primary" | "secondary" | "ghost";
+export type ButtonVariant = "primary" | "secondary" | "ghost";
 
 const buttonBase =
   "inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3 text-sm font-semibold transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-royal focus-visible:ring-offset-2 focus-visible:ring-offset-base";
@@ -69,6 +69,11 @@ const buttonVariants: Record<ButtonVariant, string> = {
   secondary: "border border-hairline bg-surface text-ink hover:border-chrome/40 hover:bg-charcoal",
   ghost: "text-chrome hover:text-ink",
 };
+
+/** Shared so a real <button> (e.g. BookNowButton) can look identical to ButtonLink. */
+export function buttonClasses(variant: ButtonVariant = "primary", className = "") {
+  return `${buttonBase} ${buttonVariants[variant]} ${className}`;
+}
 
 export function ButtonLink({
   variant = "primary",

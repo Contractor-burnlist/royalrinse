@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Inter, Space_Grotesk } from "next/font/google";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -61,6 +62,13 @@ export default function RootLayout({
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />
+
+        {/* Housecall Pro online booking. Loaded once here — every BookNowButton
+            calls window.HCPWidget.openModal(). */}
+        <Script
+          src="https://online-booking.housecallpro.com/script.js?token=16c0ab2b61894f3d9a901c7ca8af8226&orgName=Royal-Rinse-Mobile-Detailing"
+          strategy="afterInteractive"
+        />
       </body>
     </html>
   );
