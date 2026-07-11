@@ -20,6 +20,7 @@ import { serviceImage } from "@/lib/serviceImages";
 import { BookNowButton } from "@/components/BookNowButton";
 import { GoogleReviewsLink } from "@/components/GoogleReviewsLink";
 import { HeroCarousel } from "@/components/HeroCarousel";
+import { MilitaryDiscountBadge } from "@/components/MilitaryDiscountBadge";
 import { LightboxGrid } from "@/components/Lightbox";
 import { PhotoBand } from "@/components/PhotoBand";
 import { Reveal } from "@/components/Reveal";
@@ -135,17 +136,25 @@ function TrustBar() {
   return (
     <div className="border-b border-hairline bg-charcoal">
       <Container>
-        <ul className="grid grid-cols-2 gap-x-4 gap-y-4 py-6 sm:grid-cols-3 lg:grid-cols-5">
-          {trustBadges.map((badge) => (
-            <li
-              key={badge}
-              className="flex items-center justify-center gap-2 text-center text-sm font-medium text-chrome"
-            >
-              <Icon name="shield" className="h-4 w-4 shrink-0 text-royal" />
-              {badge}
-            </li>
-          ))}
-        </ul>
+        <div className="py-6">
+          <ul className="grid grid-cols-2 gap-x-4 gap-y-4 sm:grid-cols-3 lg:grid-cols-5">
+            {trustBadges.map((badge) => (
+              <li
+                key={badge}
+                className="flex items-center justify-center gap-2 text-center text-sm font-medium text-chrome"
+              >
+                <Icon name="shield" className="h-4 w-4 shrink-0 text-royal" />
+                {badge}
+              </li>
+            ))}
+          </ul>
+
+          {/* Its own row — squeezed into the badge grid it wrapped and crowded
+              the other marks. It's an offer, not just another trust mark. */}
+          <div className="mt-5 flex justify-center border-t border-hairline pt-5">
+            <MilitaryDiscountBadge size="sm" />
+          </div>
+        </div>
       </Container>
     </div>
   );

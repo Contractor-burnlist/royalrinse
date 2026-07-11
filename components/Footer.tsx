@@ -9,6 +9,7 @@ import {
 } from "@/lib/site";
 import { featuredCities } from "@/lib/serviceAreas";
 import { ceramicCoating, tiers } from "@/lib/services";
+import { MilitaryDiscountBadge } from "@/components/MilitaryDiscountBadge";
 import { Container } from "@/components/ui";
 
 function ColumnHeading({ children }: { children: React.ReactNode }) {
@@ -38,6 +39,8 @@ export function Footer() {
             </Link>
             <p className="mt-5 text-sm leading-relaxed text-muted">{site.tagline}</p>
             <p className="mt-6 text-sm font-medium text-chrome">{site.license}</p>
+
+            <MilitaryDiscountBadge size="md" className="mt-6" />
           </div>
 
           <div>
