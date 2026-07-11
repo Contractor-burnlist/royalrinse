@@ -126,10 +126,48 @@ export const exteriorGallery: GalleryImage[] = [
 ];
 
 /**
- * Photos dropped into public/royal-interior/. Empty until they're uploaded —
- * add an entry here per file and it appears on /gallery/interior automatically.
+ * Photos in public/royal-interior/. Feeds interiorGallery, which feeds
+ * allGalleryImages — so anything added here shows up on /gallery,
+ * /gallery/interior and in the homepage hero carousel automatically.
  */
-export const royalInteriorGallery: GalleryImage[] = [];
+export const royalInteriorGallery: GalleryImage[] = [
+  {
+    src: "/royal-interior/benz-interior.jpeg",
+    alt: `Interior car detailing in ${AREA} — luxury sedan cabin with cleaned cream leather seats, dashboard, and wood trim`,
+    width: 900,
+    height: 1600,
+  },
+  {
+    src: "/royal-interior/classic-interior.jpeg",
+    alt: `Interior car detailing in ${AREA} — classic car cabin with red and white upholstery, cleaned dashboard and steering wheel`,
+    width: 900,
+    height: 1600,
+  },
+  {
+    src: "/royal-interior/classic-interior-2.jpeg",
+    alt: `Interior car detailing in ${AREA} — classic car rear bench seat and carpets after a full interior clean`,
+    width: 900,
+    height: 1600,
+  },
+  {
+    src: "/royal-interior/porsche-interiors.jpeg",
+    alt: `Interior car detailing in ${AREA} — SUV cabin with cleaned tan leather seats, centre console, and floor mats`,
+    width: 900,
+    height: 1600,
+  },
+  {
+    src: "/royal-interior/porsche-interiors-2.jpeg",
+    alt: `Interior car detailing in ${AREA} — detailed SUV dashboard, vents, and front seats in tan leather`,
+    width: 900,
+    height: 1600,
+  },
+  {
+    src: "/royal-interior/porsche-interiors-3.jpeg",
+    alt: `Interior car detailing in ${AREA} — SUV rear seats and footwells cleaned and conditioned`,
+    width: 900,
+    height: 1600,
+  },
+];
 
 /**
  * The interior page shows the royal-interior folder first, then falls back on
