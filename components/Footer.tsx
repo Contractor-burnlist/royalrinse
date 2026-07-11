@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { mailHref, serviceAreas, site, telHref } from "@/lib/site";
+import { PHONE_ARIA, mailHref, serviceAreas, site, telHref } from "@/lib/site";
 import { ceramicCoating, tiers } from "@/lib/services";
 import { Container } from "@/components/ui";
 
@@ -37,7 +37,11 @@ export function Footer() {
             <ColumnHeading>Contact</ColumnHeading>
             <address className="mt-4 space-y-2 text-sm not-italic text-muted">
               <p>
-                <a href={telHref} className="transition-colors hover:text-ink">
+                <a
+                  href={telHref}
+                  aria-label={PHONE_ARIA}
+                  className="transition-colors hover:text-ink"
+                >
                   {site.phone}
                 </a>
               </p>

@@ -1,13 +1,20 @@
 /**
  * Single source of truth for business facts, nav, and shared copy.
- * [PHONE] and [EMAIL] are placeholder tokens — swap the two values below
- * and every link/label across the site updates.
+ * [EMAIL] is still a placeholder token — swap the value below and every
+ * link/label across the site updates.
  */
+
+/** Human-readable number. */
+export const PHONE_DISPLAY = "(951) 338-9117";
+/** E.164 dial link — digits only, no formatting. */
+export const PHONE_TEL = "tel:+19513389117";
+/** For aria-labels on icon/button call CTAs. */
+export const PHONE_ARIA = `Call Royal Rinse at ${PHONE_DISPLAY}`;
 
 export const site = {
   name: "Royal Rinse",
   tagline: "Mobile Auto Detailing — We Come To You",
-  phone: "[PHONE]",
+  phone: PHONE_DISPLAY,
   email: "[EMAIL]",
   license: "Licensed & Insured — CA DLSE CW-LR-1001298512",
   hours: [
@@ -17,8 +24,7 @@ export const site = {
   ],
 } as const;
 
-/** Becomes a working tel: link as soon as site.phone holds a real number. */
-export const telHref = `tel:${site.phone}`;
+export const telHref = PHONE_TEL;
 export const mailHref = `mailto:${site.email}`;
 
 export const nav = [

@@ -83,6 +83,23 @@ export function ButtonLink({
   );
 }
 
+/**
+ * Same styling as ButtonLink but renders a plain <a>. Use for tel:/mailto:
+ * schemes, which next/link shouldn't route.
+ */
+export function ButtonAnchor({
+  variant = "primary",
+  className = "",
+  ...props
+}: ComponentProps<"a"> & { variant?: ButtonVariant }) {
+  return (
+    <a
+      className={`${buttonBase} ${buttonVariants[variant]} ${className}`}
+      {...props}
+    />
+  );
+}
+
 export function Card({
   className = "",
   children,

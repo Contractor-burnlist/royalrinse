@@ -1,6 +1,6 @@
 import { quoteNote } from "@/lib/services";
-import { site, telHref } from "@/lib/site";
-import { ButtonLink, Section } from "@/components/ui";
+import { PHONE_ARIA, site, telHref } from "@/lib/site";
+import { ButtonAnchor, ButtonLink, Section } from "@/components/ui";
 
 /** Stands in for pricing everywhere. No numbers, ever — quote on request. */
 export function QuoteCta({ heading = "Ready for a showroom finish?" }: { heading?: string }) {
@@ -17,7 +17,9 @@ export function QuoteCta({ heading = "Ready for a showroom finish?" }: { heading
           </h2>
           <p className="mx-auto mt-4 max-w-xl text-base text-muted">{quoteNote}</p>
           <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-            <ButtonLink href={telHref}>Call {site.phone}</ButtonLink>
+            <ButtonAnchor href={telHref} aria-label={PHONE_ARIA}>
+              Call {site.phone}
+            </ButtonAnchor>
             <ButtonLink href="/book" variant="secondary">
               Book Now
             </ButtonLink>

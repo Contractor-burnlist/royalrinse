@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { nav, site, telHref } from "@/lib/site";
+import { PHONE_ARIA, nav, site, telHref } from "@/lib/site";
 import { ButtonLink, Container } from "@/components/ui";
 
 function Logo() {
@@ -47,6 +47,7 @@ export function Header() {
           <div className="hidden items-center gap-4 lg:flex">
             <a
               href={telHref}
+              aria-label={PHONE_ARIA}
               className="text-sm font-semibold text-chrome transition-colors hover:text-ink"
             >
               {site.phone}
@@ -102,6 +103,7 @@ export function Header() {
             <div className="mt-5 flex flex-col gap-3 border-t border-hairline pt-5">
               <a
                 href={telHref}
+                aria-label={PHONE_ARIA}
                 className="px-3 text-sm font-semibold text-chrome"
                 onClick={() => setOpen(false)}
               >

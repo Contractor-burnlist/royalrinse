@@ -1,5 +1,6 @@
 import Link from "next/link";
 import {
+  PHONE_ARIA,
   serviceAreas,
   site,
   steps,
@@ -16,6 +17,7 @@ import {
 import { HeroCarousel } from "@/components/HeroCarousel";
 import { LightboxGrid } from "@/components/Lightbox";
 import {
+  ButtonAnchor,
   ButtonLink,
   Card,
   Container,
@@ -84,7 +86,9 @@ function Hero() {
             <p className="mt-5 max-w-lg text-lg text-muted">{site.tagline}</p>
 
             <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-              <ButtonLink href={telHref}>Call {site.phone}</ButtonLink>
+              <ButtonAnchor href={telHref} aria-label={PHONE_ARIA}>
+                Call {site.phone}
+              </ButtonAnchor>
               <ButtonLink href="/book" variant="secondary">
                 Book Now
               </ButtonLink>
@@ -337,7 +341,9 @@ function FinalCta() {
             Book online in under a minute, or call and we&rsquo;ll find a time that works.
           </p>
           <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-            <ButtonLink href={telHref}>Call {site.phone}</ButtonLink>
+            <ButtonAnchor href={telHref} aria-label={PHONE_ARIA}>
+              Call {site.phone}
+            </ButtonAnchor>
             <ButtonLink href="/book" variant="secondary">
               Book Now
             </ButtonLink>
