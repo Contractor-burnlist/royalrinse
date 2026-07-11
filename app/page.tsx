@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import {
   serviceAreas,
@@ -9,12 +10,17 @@ import {
   valueProps,
 } from "@/lib/site";
 import {
+  exteriorGallery,
+  featureVehicles,
+  type GalleryImage,
+} from "@/lib/gallery";
+import { LightboxGrid } from "@/components/Lightbox";
+import {
   ButtonLink,
   Card,
   Container,
   Eyebrow,
   Icon,
-  ImagePlaceholder,
   Section,
   SectionHeading,
 } from "@/components/ui";
@@ -28,13 +34,13 @@ const trustBadges = [
   "Satisfaction Guaranteed",
 ];
 
-const galleryShots = [
-  "Before / After — Paint Correction",
-  "Before / After — Interior Detail",
-  "Before / After — Ceramic Coating",
-  "Before / After — Full Detail",
-  "Before / After — Exterior Detail",
-  "Before / After — Express Wash",
+const heroShot = featureVehicles[1].exterior[1];
+
+// Strongest exterior shots from the feature set, plus the two best from the
+// exterior gallery — six tiles, no placeholders.
+const homeGalleryShots: GalleryImage[] = [
+  ...featureVehicles.flatMap((vehicle) => vehicle.exterior).slice(0, 4),
+  ...exteriorGallery.slice(0, 2),
 ];
 
 function Hero() {
@@ -72,10 +78,16 @@ function Hero() {
             </ul>
           </div>
 
-          <ImagePlaceholder
-            label="Hero photo — detailed car"
-            className="aspect-[4/3] w-full lg:aspect-[5/4]"
-          />
+          <div className="relative aspect-[4/3] w-full overflow-hidden rounded-xl border border-hairline shadow-card lg:aspect-[5/4]">
+            <Image
+              src={heroShot.src}
+              alt={heroShot.alt}
+              fill
+              priority
+              sizes="(max-width: 1024px) 100vw, 50vw"
+              className="object-cover"
+            />
+          </div>
         </div>
       </Container>
     </section>
@@ -218,17 +230,22 @@ function ServiceAreaTeaser() {
 function Gallery() {
   return (
     <Section>
-      <SectionHeading
-        eyebrow="Gallery"
-        title="The difference, side by side"
-        intro="Real results from real San Diego driveways."
-      />
-
-      <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {galleryShots.map((shot) => (
-          <ImagePlaceholder key={shot} label={shot} className="aspect-[4/3] w-full" />
-        ))}
+      <div className="flex flex-wrap items-end justify-between gap-4">
+        <SectionHeading
+          eyebrow="Gallery"
+          title="Recent work"
+          intro="Real results from real San Diego driveways."
+        />
+        <Link
+          href="/gallery"
+          className="inline-flex items-center gap-1.5 text-sm font-semibold text-royal transition-colors hover:text-chrome"
+        >
+          View full gallery
+          <span aria-hidden="true">→</span>
+        </Link>
       </div>
+
+      <LightboxGrid images={homeGalleryShots} className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3" />
     </Section>
   );
 }
