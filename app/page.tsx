@@ -48,12 +48,14 @@ const trustChips = [
   "5-Star Rated",
 ];
 
-const trustBadges = [
-  "DLSE Licensed",
-  "Fully Insured",
-  "Bonded",
-  "Mobile Service",
-  "Satisfaction Guaranteed",
+// `detail` renders as a smaller muted line beneath the label — used to surface
+// the DLSE licence number itself, not just the claim of being licensed.
+const trustBadges: { label: string; detail?: string }[] = [
+  { label: "CA DLSE Licensed", detail: site.licenseNumber },
+  { label: "Fully Insured" },
+  { label: "Bonded" },
+  { label: "Mobile Service" },
+  { label: "Satisfaction Guaranteed" },
 ];
 
 const tierIcons: Record<string, string> = {
@@ -137,14 +139,25 @@ function TrustBar() {
     <div className="border-b border-hairline bg-charcoal">
       <Container>
         <div className="py-6">
-          <ul className="grid grid-cols-2 gap-x-4 gap-y-4 sm:grid-cols-3 lg:grid-cols-5">
+          <ul className="grid grid-cols-2 items-start gap-x-4 gap-y-5 sm:grid-cols-3 lg:grid-cols-5">
             {trustBadges.map((badge) => (
               <li
-                key={badge}
-                className="flex items-center justify-center gap-2 text-center text-sm font-medium text-chrome"
+                key={badge.label}
+                className="flex items-start justify-center gap-2 text-center"
               >
-                <Icon name="shield" className="h-4 w-4 shrink-0 text-royal" />
-                {badge}
+                <Icon name="shield" className="mt-0.5 h-4 w-4 shrink-0 text-royal" />
+                <span className="min-w-0">
+                  <span className="block text-sm font-medium text-chrome">
+                    {badge.label}
+                  </span>
+                  {badge.detail ? (
+                    // The credential itself — muted and slightly smaller so it
+                    // reads as detail, not another headline claim.
+                    <span className="mt-0.5 block break-words font-mono text-[11px] tracking-tight text-muted">
+                      {badge.detail}
+                    </span>
+                  ) : null}
+                </span>
               </li>
             ))}
           </ul>
