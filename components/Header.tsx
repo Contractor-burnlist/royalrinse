@@ -9,17 +9,29 @@ import { Container } from "@/components/ui";
 
 function Logo({ compact }: { compact: boolean }) {
   return (
-    <Link href="/" className="flex items-center" aria-label="Royal Rinse — home">
+    <Link
+      href="/"
+      // `group` drives the hover lift on the image.
+      className="group flex items-center rounded-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-royal focus-visible:ring-offset-2 focus-visible:ring-offset-base"
+      aria-label="Royal Rinse — home"
+    >
       {/* Logo ships with its own near-black background, so it sits flush on the
-          header. The border keeps the square edge from reading as an artifact. */}
+          header. The border keeps the square edge from reading as an artifact.
+
+          Source is 1254x1254 — sharp to ~627px CSS on retina, so these sizes are
+          nowhere near the resolution ceiling.
+
+          Every motion (entrance, hover scale, glow) is behind motion-safe:, so
+          reduced-motion users get the same larger logo, just static. */}
       <Image
         src="/royal-logo.jpeg"
         alt="Royal Rinse mobile auto detailing"
         width={1254}
         height={1254}
         priority
-        className={`w-auto rounded-lg border border-hairline transition-all duration-500 ${
-          compact ? "h-16 sm:h-20" : "h-20 sm:h-28"
+        sizes="160px"
+        className={`w-auto rounded-xl border border-hairline transition-[height,transform,filter,box-shadow] duration-300 ease-out motion-safe:animate-logo-in motion-safe:group-hover:scale-[1.05] motion-safe:group-hover:border-chrome/40 motion-safe:group-hover:brightness-110 motion-safe:group-hover:shadow-glow ${
+          compact ? "h-20 sm:h-24" : "h-24 sm:h-32"
         }`}
       />
     </Link>
@@ -49,9 +61,12 @@ export function Header() {
       }`}
     >
       <Container>
+        {/* Bar grows with the logo so it never crowds the nav: the logo is
+            ~16px shorter than the bar at each state, keeping even breathing
+            room above and below. */}
         <div
           className={`flex items-center justify-between gap-4 transition-all duration-500 ${
-            solid ? "h-20 sm:h-24" : "h-24 sm:h-32"
+            solid ? "h-24 sm:h-28" : "h-28 sm:h-36"
           }`}
         >
           <Logo compact={solid} />

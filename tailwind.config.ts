@@ -48,11 +48,17 @@ const config: Config = {
           "0%": { opacity: "0" },
           "100%": { opacity: "1" },
         },
+        // Logo entrance: a quiet fade + settle. No bounce, no overshoot.
+        "logo-in": {
+          "0%": { opacity: "0", transform: "scale(0.96)" },
+          "100%": { opacity: "1", transform: "scale(1)" },
+        },
       },
       animation: {
         // Slow drift on the active hero slide. Outlasts the 5s advance so it
         // never visibly snaps back.
         kenburns: "kenburns 9s ease-out forwards",
+        "logo-in": "logo-in 400ms ease-out both",
       },
     },
   },
