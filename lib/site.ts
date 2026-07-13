@@ -26,11 +26,24 @@ export const site = {
   email: "office@royalrinsemobile.com",
   license: "Licensed, Insured & Bonded — CA DLSE CW-LR-1001298512",
   licenseNumber: "CW-LR-1001298512",
-  hours: [
-    { days: "Mon – Fri", time: "7:00 AM – 6:00 PM" },
-    { days: "Saturday", time: "8:00 AM – 5:00 PM" },
-    { days: "Sunday", time: "By appointment" },
+  // Open 7 days. Single entry — every day is the same, so listing each day
+  // would just be noise.
+  hours: [{ days: "Open 7 Days", time: "8:00 AM – 5:00 PM" }],
+} as const;
+
+/** Machine-readable hours for JSON-LD. 24-hour time, all seven days. */
+export const OPENING_HOURS = {
+  days: [
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+    "Sunday",
   ],
+  opens: "08:00",
+  closes: "17:00",
 } as const;
 
 export const telHref = PHONE_TEL;

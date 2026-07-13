@@ -4,6 +4,7 @@ import { Inter, Space_Grotesk } from "next/font/google";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import {
+  OPENING_HOURS,
   PHONE_DISPLAY,
   SERVICE_AREA_COUNTIES,
   SERVICE_AREA_LINE,
@@ -43,6 +44,15 @@ const localBusinessSchema = {
     addressRegion: "CA",
     addressCountry: "US",
   },
+  // Open 7 days, 8:00–17:00. One spec listing all seven days.
+  openingHoursSpecification: [
+    {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: [...OPENING_HOURS.days],
+      opens: OPENING_HOURS.opens,
+      closes: OPENING_HOURS.closes,
+    },
+  ],
 };
 
 export default function RootLayout({
