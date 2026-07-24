@@ -16,18 +16,44 @@ const slides = allGalleryImages;
 /**
  * Multi-up hero carousel.
  *
- * The sources are phone-resolution (900x1600 at best, 576x1024 at worst). A
- * single full-width hero blew one of them up 3-4x and looked soft. Showing four
- * small tiles instead means each renders ~312px wide (624px on retina) — at or
- * under every source's native width, so nothing is upscaled and every tile is
- * sharp. Tiles are portrait (3:4) because the photos are portrait; a landscape
- * tile would crop most of each frame away.
+ * Tiles are portrait (3:4) because the photos are portrait; a landscape tile
+ * would crop most of each frame away.
+ *
+ * ------------------------------------------------------------------
+ *  SHARPNESS BUDGET — why the tiles stop growing at 450px.
+ * ------------------------------------------------------------------
+ * The sources are phone-resolution. By native width, of 24 photos:
+ *      576px x4      900px x12      1024px x2      2268px+ x6
+ * So 900px is the binding constraint for the bulk of the set. On a 2x
+ * display a tile W CSS pixels wide needs 2W real pixels, which makes
+ *      900 / 2 = 450px  the widest a tile can be and still be pixel-exact.
+ *
+ * At 450x600 CSS the tile asks for 900x1200 device pixels; a 900x1600
+ * source cropped to 3:4 supplies exactly 900x1200. Dead on, no upscale.
+ *
+ * MAX_ROW_PX below caps the row so the tile can never exceed that, however
+ * wide the viewport gets. Raising the tile size past this, or dropping to
+ * 2-up on desktop, starts upscaling the 900px sources and they go soft.
+ * The only real fix is re-exporting the originals larger.
+ *
+ * The four 576px sources DO upscale ~1.6x at this size — see the note on
+ * MAX_ROW_PX. They are the oldest shots in the set.
  */
 function perViewFor(width: number) {
-  if (width >= 1024) return 4;
+  if (width >= 1024) return 3;
   if (width >= 640) return 2;
-  return 1;
+  // Fractional: the next tile peeks in at the right edge, which signals
+  // swipeability on mobile far better than a single flush-cut tile.
+  return 1.2;
 }
+
+/**
+ * Row cap: 3 tiles x (450px image + 16px of px-2 gutter) = 1398.
+ * Below ~1553px viewport the 90% width rule is narrower than this and wins,
+ * so the cap only engages on large desktops — exactly where an uncapped
+ * percentage width would blow the tiles past the 450px sharpness budget.
+ */
+const MAX_ROW_PX = 1398;
 
 export function HeroCarousel({ children }: { children: ReactNode }) {
   const [current, setCurrent] = useState(0);
@@ -58,12 +84,19 @@ export function HeroCarousel({ children }: { children: ReactNode }) {
     setCurrent((c) => Math.min(c, maxIndex));
   }, [maxIndex]);
 
+  /**
+   * maxIndex is FRACTIONAL when perView is (22.8 for 24 slides at 1.2-up), so
+   * stepping by a whole 1 can jump past the end: index 23 against a 22.8 limit
+   * would translate the track further than it has tiles and open a blank gap
+   * at the right edge. Overshoot therefore lands ON maxIndex first — a flush
+   * final frame — and only wraps to 0 on the step after that.
+   */
   const go = useCallback(
     (delta: number) =>
       setCurrent((c) => {
         const next = c + delta;
         if (next < 0) return maxIndex;
-        if (next > maxIndex) return 0;
+        if (next > maxIndex) return c >= maxIndex ? 0 : maxIndex;
         return next;
       }),
     [maxIndex],
@@ -93,7 +126,12 @@ export function HeroCarousel({ children }: { children: ReactNode }) {
 
     const id = setInterval(() => {
       if (!enoughSlidesRef.current) return;
-      setCurrent((c) => (c >= maxIndexRef.current ? 0 : c + 1));
+      // Same fractional-maxIndex clamp as go() — see the note there.
+      setCurrent((c) =>
+        c >= maxIndexRef.current
+          ? 0
+          : Math.min(c + 1, maxIndexRef.current),
+      );
     }, AUTO_ADVANCE_MS);
 
     return () => clearInterval(id);
@@ -142,8 +180,11 @@ export function HeroCarousel({ children }: { children: ReactNode }) {
           <div className="mx-auto max-w-3xl text-center">{children}</div>
         </Container>
 
+        {/* 92% / 90% framed width is unchanged; maxWidth is the sharpness cap
+            described at MAX_ROW_PX, and only bites on large desktops. */}
         <div
           className="mx-auto mt-6 w-[92%] sm:mt-7 sm:w-[90%]"
+          style={{ maxWidth: `${MAX_ROW_PX}px` }}
           role="group"
           aria-roledescription="carousel"
           aria-label="Recent detailing work"
@@ -202,9 +243,18 @@ export function HeroCarousel({ children }: { children: ReactNode }) {
                         src={slide.src}
                         alt={slide.alt}
                         fill
-                        // The real tile width — never asks for more.
-                        sizes="(max-width: 640px) 86vw, (max-width: 1024px) 46vw, 24vw"
-                        quality={featured ? 90 : 85}
+                        /**
+                         * Tracks the real rendered tile width so next/image
+                         * serves a file that fits it — no bigger, no smaller.
+                         *   >=1553px : row is capped, tile is a flat 450px
+                         *   >=1024px : 90vw / 3 tiles = 30vw
+                         *   >=640px  : 90vw / 2 tiles = 45vw
+                         *   <640px   : 92vw / 1.2 tiles = 77vw
+                         * Anything wider than the source is served at the
+                         * source's own width — the optimizer never upscales.
+                         */
+                        sizes="(min-width: 1553px) 450px, (min-width: 1024px) 30vw, (min-width: 640px) 45vw, 77vw"
+                        quality={85}
                         priority={featured}
                         loading={load ? "eager" : "lazy"}
                         className="object-cover object-center"
@@ -227,7 +277,12 @@ export function HeroCarousel({ children }: { children: ReactNode }) {
             </span>
 
             <span className="font-display text-xs font-semibold tabular-nums tracking-[0.14em] text-chrome">
-              {String(Math.min(current + perView, slides.length)).padStart(2, "0")}
+              {/* ceil: perView is fractional on mobile (1.2), and a counter
+                  reading "1.2 / 24" is nonsense. Round up to the last tile
+                  that has any part of itself on screen. */}
+              {String(
+                Math.ceil(Math.min(current + perView, slides.length)),
+              ).padStart(2, "0")}
               <span className="text-muted">
                 {" "}
                 / {String(slides.length).padStart(2, "0")}
