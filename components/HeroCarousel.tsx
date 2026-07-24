@@ -173,6 +173,16 @@ export function HeroCarousel({ children }: { children: ReactNode }) {
                  */
                 const load = index <= Math.max(perView, current + perView);
 
+                /**
+                 * The lead tile is the featured shot (see the ordering note in
+                 * lib/gallery.ts). It gets a royal ring and a warmer shadow so
+                 * it reads as the hero image, and a higher quality since it is
+                 * the one tile guaranteed to be on screen at first paint.
+                 * This is styling only — it must not affect track geometry, or
+                 * the translateX maths below stops landing cleanly.
+                 */
+                const featured = index === 0;
+
                 return (
                   <div
                     key={slide.src}
@@ -181,17 +191,23 @@ export function HeroCarousel({ children }: { children: ReactNode }) {
                     className="shrink-0 px-1.5 sm:px-2"
                     style={{ width: `${100 / perView}%` }}
                   >
-                    <div className="relative aspect-[3/4] overflow-hidden rounded-2xl border border-chrome/20 bg-surface shadow-2xl">
+                    <div
+                      className={`relative aspect-[3/4] overflow-hidden rounded-2xl bg-surface shadow-2xl ${
+                        featured
+                          ? "border-2 border-royal/70 shadow-royal/20 ring-1 ring-royal/30"
+                          : "border border-chrome/20"
+                      }`}
+                    >
                       <Image
                         src={slide.src}
                         alt={slide.alt}
                         fill
                         // The real tile width — never asks for more.
                         sizes="(max-width: 640px) 86vw, (max-width: 1024px) 46vw, 24vw"
-                        quality={85}
-                        priority={index === 0}
+                        quality={featured ? 90 : 85}
+                        priority={featured}
                         loading={load ? "eager" : "lazy"}
-                        className="object-cover"
+                        className="object-cover object-center"
                       />
                     </div>
                   </div>

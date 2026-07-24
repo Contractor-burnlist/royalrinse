@@ -6,12 +6,23 @@
  * the real file dimensions; they drive the masonry layout and prevent layout
  * shift.
  *
- * RESOLUTION CEILING: every source is a portrait phone shot, 900x1600 or
- * 576x1024 (one landscape 1024x683). Nothing exceeds 1600px on its long edge.
- * On a retina display a full-width surface needs ~2880px of source width, so
- * any full-bleed use upscales 3-5x and looks soft. Layouts here are sized to
- * stay at or under the source resolution. To go truly full-bleed and sharp,
- * the photos must be re-exported from the originals at 2560px+ wide.
+ * RESOLUTION: the original set is all phone shots, 900x1600 or 576x1024 (one
+ * landscape 1024x683) — nothing over 1600px on its long edge. On a retina
+ * display a full-width surface needs ~2880px of source width, so those upscale
+ * 3-5x full-bleed and look soft. Layouts are sized to stay at or under the
+ * source resolution.
+ *
+ * The 2024 additions are the exception and are genuinely large:
+ *   ferrari-hero-2 / ferrari-hero-3 / tesla-1 .... 3840x5120
+ *   tesla-2 ...................................... 2921x2958
+ *   royal-truck-1 / royal-truck-tire-1 ........... 2268x4032
+ * Any of those can carry a full-bleed background without upscaling.
+ *
+ * ferrari-hero is NOT one of them — it is 1024x768, a compressed landscape
+ * copy roughly a twentieth the file size of its siblings. It is used as the
+ * lead carousel TILE (~312px wide, 624px retina) which it covers comfortably.
+ * Do not promote it to a full-width background; it would upscale ~3x and blur.
+ * If a Ferrari background is wanted, use ferrari-hero-2 or -3.
  */
 
 export type GalleryImage = {
@@ -31,7 +42,57 @@ export type FeatureVehicle = {
 
 const AREA = "Riverside & San Diego County";
 
+/**
+ * ORDER MATTERS. This array is the head of allGalleryImages, which is both the
+ * /gallery masonry order and the hero carousel slide order. vehicle-4 sits
+ * first so ferrari-hero.jpeg is slide 0 — the lead tile, and the one the hero
+ * renders with priority.
+ */
 export const featureVehicles: FeatureVehicle[] = [
+  {
+    id: "vehicle-4",
+    label: "Vehicle 4",
+    exterior: [
+      {
+        src: "/royal-feature/ferrari-hero.jpeg",
+        alt: `Mobile car detailing in ${AREA} — sports car with a mirror-gloss paint finish after a full exterior detail`,
+        width: 1024,
+        height: 768,
+      },
+      {
+        src: "/royal-feature/ferrari-hero-2.jpeg",
+        alt: `Mobile car detailing in ${AREA} — sports car detailed on site, paintwork polished to a deep reflective shine`,
+        width: 3840,
+        height: 5120,
+      },
+      {
+        src: "/royal-feature/ferrari-hero-3.jpeg",
+        alt: `Exterior car detailing in ${AREA} — sports car with cleaned wheels and gloss-finished bodywork`,
+        width: 3840,
+        height: 5120,
+      },
+    ],
+    interior: [],
+  },
+  {
+    id: "vehicle-5",
+    label: "Vehicle 5",
+    exterior: [
+      {
+        src: "/royal-feature/tesla-1.jpeg",
+        alt: `Mobile car detailing in ${AREA} — electric sedan with a streak-free gloss finish after an exterior detail`,
+        width: 3840,
+        height: 5120,
+      },
+      {
+        src: "/royal-feature/tesla-2.jpeg",
+        alt: `Exterior car detailing in ${AREA} — electric vehicle detailed at the customer's home, paint cleaned and sealed`,
+        width: 2921,
+        height: 2958,
+      },
+    ],
+    interior: [],
+  },
   {
     id: "vehicle-1",
     label: "Vehicle 1",
@@ -122,6 +183,18 @@ export const exteriorGallery: GalleryImage[] = [
     alt: `Exterior truck detailing in ${AREA} — pickup truck with a deep gloss finish and polished chrome grille`,
     width: 900,
     height: 1600,
+  },
+  {
+    src: "/royal-feature/royal-truck-1.jpeg",
+    alt: `Mobile detailing in ${AREA} — the Royal Rinse mobile detailing truck, washed and detailed`,
+    width: 2268,
+    height: 4032,
+  },
+  {
+    src: "/royal-feature/royal-truck-tire-1.jpeg",
+    alt: `Wheel and tire detailing in ${AREA} — close-up of a cleaned truck wheel with dressed tire sidewall`,
+    width: 2268,
+    height: 4032,
   },
 ];
 
