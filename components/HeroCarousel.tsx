@@ -2,16 +2,17 @@
 
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
-import { allGalleryImages } from "@/lib/gallery";
+import { heroSlides } from "@/lib/gallery";
 import { Container } from "@/components/ui";
 
 const AUTO_ADVANCE_MS = 4500;
 
 /**
- * Every photo on the site: featureVehicles (exterior + interior),
- * exteriorGallery and interiorGallery, de-duplicated by src in lib/gallery.ts.
+ * Nearly every photo on the site, ordered so no two shots of the same vehicle
+ * land in the same viewport. See the HERO ROTATION block in lib/gallery.ts for
+ * what it drops and why — change the rotation there, not here.
  */
-const slides = allGalleryImages;
+const slides = heroSlides;
 
 /**
  * Multi-up hero carousel.

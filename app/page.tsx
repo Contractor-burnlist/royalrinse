@@ -12,8 +12,10 @@ import { featuredReviews } from "@/lib/reviews";
 import { featuredCities } from "@/lib/serviceAreas";
 import { ceramicCoating, tiers } from "@/lib/services";
 import {
+  allGalleryImages,
   exteriorGallery,
   featureVehicles,
+  isNearDuplicate,
   type GalleryImage,
 } from "@/lib/gallery";
 import { serviceImage } from "@/lib/serviceImages";
@@ -84,18 +86,39 @@ const homeServices = [
   },
 ];
 
-// Strongest exterior shots from the feature set, plus the two best from the
-// exterior gallery — six tiles, no placeholders.
+/**
+ * Six tiles, six DIFFERENT vehicles: the lead exterior of each feature vehicle
+ * plus the two best from the exterior gallery.
+ *
+ * Taking one shot per vehicle rather than slicing the flattened list is what
+ * keeps the two near-identical Ferrari framings from landing beside each other
+ * — flatMap().slice(0, 4) put ferrari-hero and ferrari-hero-2 in adjacent
+ * masonry tiles, the same stutter the hero row was fixed for.
+ */
 const homeGalleryShots: GalleryImage[] = [
-  ...featureVehicles.flatMap((vehicle) => vehicle.exterior).slice(0, 4),
+  ...featureVehicles
+    .map((vehicle) => vehicle.exterior.find((image) => !isNearDuplicate(image.src)))
+    .filter((image): image is GalleryImage => Boolean(image))
+    .slice(0, 4),
   ...exteriorGallery.slice(0, 2),
 ];
 
-// Full-bleed interstitials. The van is visible in the "we come to you" shot.
-const heroExteriors = featureVehicles.flatMap((vehicle) => vehicle.exterior);
+/**
+ * Full-bleed interstitials, picked BY FILENAME on purpose.
+ *
+ * These were positional (heroExteriors[3] / [4]) and silently pointed at
+ * different photos the moment new vehicles were added ahead of them — the
+ * "we come to you" band ended up on a cabin close-up, which does not show a
+ * van at all. The van is the whole point of that headline, so the two shots
+ * are now named outright and adding photos cannot shift them again.
+ */
+const bandImage = (file: string): GalleryImage =>
+  allGalleryImages.find((image) => image.src.endsWith(file)) ?? allGalleryImages[0];
+
 const bandImages = {
-  comeToYou: heroExteriors[3] ?? heroExteriors[0],
-  showroom: heroExteriors[4] ?? heroExteriors[1],
+  // Royal Rinse van parked behind the car.
+  comeToYou: bandImage("vehicle-2-ext-2.jpg"),
+  showroom: bandImage("vehicle-2-ext-3.jpg"),
 };
 
 function Hero() {

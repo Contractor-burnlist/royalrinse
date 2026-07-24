@@ -79,19 +79,20 @@ export const featureVehicles: FeatureVehicle[] = [
     label: "Vehicle 5",
     exterior: [
       {
-        src: "/royal-feature/tesla-1.jpeg",
-        alt: `Mobile car detailing in ${AREA} — electric sedan with a streak-free gloss finish after an exterior detail`,
-        width: 3840,
-        height: 5120,
-      },
-      {
         src: "/royal-feature/tesla-2.jpeg",
-        alt: `Exterior car detailing in ${AREA} — electric vehicle detailed at the customer's home, paint cleaned and sealed`,
+        alt: `Mobile car detailing in ${AREA} — electric SUV with a streak-free gloss finish, detailed on the customer's street`,
         width: 2921,
         height: 2958,
       },
     ],
-    interior: [],
+    interior: [
+      {
+        src: "/royal-feature/tesla-1.jpeg",
+        alt: `Interior car detailing in ${AREA} — electric SUV cabin with cleaned white leather seats, dashboard, and door sill`,
+        width: 3840,
+        height: 5120,
+      },
+    ],
   },
   {
     id: "vehicle-1",
@@ -265,3 +266,50 @@ export const allGalleryImages: GalleryImage[] = Array.from(
     ].map((image) => [image.src, image]),
   ).values(),
 );
+
+/**
+ * ============================================================
+ *  HERO ROTATION — a view over allGalleryImages, not a new set.
+ * ============================================================
+ * The hero shows several tiles at once (3 on desktop), so unlike the /gallery
+ * masonry it is sensitive to what sits NEXT TO what. Two adjustments, both
+ * about the Ferrari set — three shots of the same cream car taken minutes
+ * apart in the same driveway.
+ *
+ * Nothing here removes a photo from the SITE. /gallery renders
+ * allGalleryImages, so anything dropped below is still on /gallery.
+ */
+
+/**
+ * ferrari-hero.jpeg and ferrari-hero-2.jpeg are the same front-three-quarter
+ * framing of the same car against the same villa — side by side in a row they
+ * read as a stutter rather than two pieces of work. -2 is the keeper: more
+ * head-on, and 3840x5120 against the other's 1024x768.
+ *
+ * ANY surface that shows several photos at once should filter with
+ * isNearDuplicate() — the hero row and the homepage "Recent work" masonry both
+ * do. /gallery deliberately does not: it renders allGalleryImages, one photo
+ * per tile with no pairing implied, so the extra angle is welcome there.
+ */
+const NEAR_DUPLICATE_SRCS = new Set(["/royal-feature/ferrari-hero.jpeg"]);
+
+export const isNearDuplicate = (src: string) => NEAR_DUPLICATE_SRCS.has(src);
+
+/**
+ * With the near-duplicate gone, the two SURVIVING Ferraris (-2 and -3) would
+ * still be slides 0 and 1 — the same car twice in one glance. -3 is a clearly
+ * different shot (door open, mountain vista) so it earns its place; it is
+ * just pushed far enough down that it can never share a viewport with -2.
+ * Any gap of 3+ does it, since desktop shows at most 3 tiles.
+ */
+const HERO_DEFERRED = "/royal-feature/ferrari-hero-3.jpeg";
+const HERO_DEFERRED_TO = 6;
+
+export const heroSlides: GalleryImage[] = (() => {
+  const pool = allGalleryImages.filter((image) => !isNearDuplicate(image.src));
+  const from = pool.findIndex((image) => image.src === HERO_DEFERRED);
+  if (from === -1) return pool;
+  const [moved] = pool.splice(from, 1);
+  pool.splice(Math.min(HERO_DEFERRED_TO, pool.length), 0, moved);
+  return pool;
+})();
