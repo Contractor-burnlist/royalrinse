@@ -10,6 +10,7 @@ const CATEGORY_ORDER: GalleryCategory[] = [
   "Sedans",
   "SUVs",
   "Trucks",
+  "Vans",
   "Interiors",
 ];
 

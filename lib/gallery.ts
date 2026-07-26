@@ -36,6 +36,7 @@ export type GalleryCategory =
   | "Sedans"
   | "SUVs"
   | "Trucks"
+  | "Vans"
   | "Interiors";
 
 export type GalleryImage = {
@@ -229,6 +230,34 @@ export const exteriorGallery: GalleryImage[] = [
     height: 4032,
     category: "Trucks",
   },
+  {
+    src: "/royal-exterior/suv-exterior-1.jpeg",
+    alt: `SUV mobile detailing in ${AREA} — full-size SUV with a deep gloss finish after a full exterior detail`,
+    width: 720,
+    height: 1280,
+    category: "SUVs",
+  },
+  {
+    src: "/royal-exterior/ford-bronco-1.jpeg",
+    alt: `SUV mobile detailing in ${AREA} — off-road SUV with cleaned wheels and detailed bodywork in a driveway`,
+    width: 768,
+    height: 1024,
+    category: "SUVs",
+  },
+  {
+    src: "/royal-exterior/sprinter-van-1.jpeg",
+    alt: `Van mobile detailing in ${AREA} — high-roof cargo van detailed on site, cleaned rear doors and wheels`,
+    width: 576,
+    height: 1024,
+    category: "Vans",
+  },
+  {
+    src: "/royal-exterior/sprinter-van-2.jpeg",
+    alt: `Van mobile detailing in ${AREA} — high-roof passenger van with a washed and glossed exterior`,
+    width: 576,
+    height: 1024,
+    category: "Vans",
+  },
 ];
 
 /**
@@ -277,6 +306,13 @@ export const royalInteriorGallery: GalleryImage[] = [
     alt: `Interior car detailing in ${AREA} — SUV rear seats and footwells cleaned and conditioned`,
     width: 900,
     height: 1600,
+    category: "Interiors",
+  },
+  {
+    src: "/royal-interior/suv-interior-2.jpeg",
+    alt: `Interior car detailing in ${AREA} — SUV cabin with cleaned black leather seats, dashboard, and steering wheel`,
+    width: 720,
+    height: 1280,
     category: "Interiors",
   },
 ];
