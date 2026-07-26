@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { buildMetadata } from "@/lib/seo";
 import Image from "next/image";
 import Link from "next/link";
 import { formatPostDate, readingMinutes, sortedPosts } from "@/lib/blog";
@@ -7,11 +8,12 @@ import { QuoteCta } from "@/components/QuoteCta";
 import { Reveal } from "@/components/Reveal";
 import { Container, Eyebrow, Section } from "@/components/ui";
 
-export const metadata: Metadata = {
-  title: `Blog | Royal Rinse — Mobile Auto Detailing ${SERVICE_AREA_LINE}`,
+export const metadata: Metadata = buildMetadata({
+  title: "Car Detailing Blog | Royal Rinse Mobile Detailing",
   description:
-    "Detailing advice from Royal Rinse — ceramic coating, paint correction, and how to keep a car looking its best across Riverside & San Diego County.",
-};
+    "Detailing advice from Royal Rinse — ceramic coating, paint correction and mobile detailing tips for drivers across Riverside & San Diego County.",
+  path: "/blog",
+});
 
 export default function BlogIndexPage() {
   return (

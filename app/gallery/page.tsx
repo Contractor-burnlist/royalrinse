@@ -1,14 +1,16 @@
 import type { Metadata } from "next";
+import { buildMetadata } from "@/lib/seo";
 import { allGalleryImages } from "@/lib/gallery";
 import { FilterableGallery } from "@/components/FilterableGallery";
 import { QuoteCta } from "@/components/QuoteCta";
 import { Container, Eyebrow } from "@/components/ui";
 
-export const metadata: Metadata = {
-  title: "Gallery | Royal Rinse — Mobile Auto Detailing Riverside & San Diego County",
+export const metadata: Metadata = buildMetadata({
+  title: "Detailing Gallery — Riverside & San Diego | Royal Rinse",
   description:
-    "Photos of recent mobile auto detailing work by Royal Rinse across Riverside & San Diego County — exotics, SUVs, trucks, and interior detailing. Filter by category.",
-};
+    "Photos of recent Royal Rinse mobile detailing work across Riverside & San Diego County — exotics, SUVs, trucks, vans and interiors. Filter by category.",
+  path: "/gallery",
+});
 
 export default function GalleryPage() {
   return (

@@ -1,14 +1,16 @@
 import type { Metadata } from "next";
+import { buildMetadata } from "@/lib/seo";
 import Link from "next/link";
 import { citiesInCounty, counties } from "@/lib/serviceAreas";
 import { QuoteCta } from "@/components/QuoteCta";
 import { Container, Eyebrow, Icon, Section } from "@/components/ui";
 
-export const metadata: Metadata = {
-  title: "Service Area | Royal Rinse — Mobile Auto Detailing, Riverside & San Diego County",
+export const metadata: Metadata = buildMetadata({
+  title: "Service Area — Riverside & San Diego County | Royal Rinse",
   description:
-    "Royal Rinse brings mobile auto detailing to your home or office across Riverside and San Diego County — from Menifee and Temecula to Carlsbad and Oceanside.",
-};
+    "Royal Rinse brings mobile auto detailing to Menifee, Temecula, Murrieta, Riverside, San Diego, La Jolla, Escondido and beyond across both counties. We come to you.",
+  path: "/service-area",
+});
 
 export default function ServiceAreaPage() {
   return (

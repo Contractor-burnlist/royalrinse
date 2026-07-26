@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { buildMetadata } from "@/lib/seo";
 import Link from "next/link";
 import {
   addOns,
@@ -10,11 +11,12 @@ import {
 import { QuoteCta } from "@/components/QuoteCta";
 import { Card, Container, Eyebrow, Icon, Section } from "@/components/ui";
 
-export const metadata: Metadata = {
-  title: "Services | Royal Rinse — Mobile Auto Detailing, Riverside & San Diego County",
+export const metadata: Metadata = buildMetadata({
+  title: "Auto Detailing Services — Riverside & San Diego | Royal Rinse",
   description:
-    "Detailing packages from Bronze to Diamond, ceramic coating, add-ons, maintenance plans, and RV detailing — all delivered to your driveway.",
-};
+    "Mobile auto detailing services across Riverside & San Diego County — Bronze to Diamond packages, ceramic coating, paint correction and add-ons. We come to you.",
+  path: "/services",
+});
 
 /** Name + tagline + link. Depth lives on the detail page, not here. */
 function DirectoryCard({

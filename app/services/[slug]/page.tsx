@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getServiceDetail, serviceDetails } from "@/lib/services";
+import { SERVICE_AREA_LINE, site } from "@/lib/site";
+import { buildMetadata } from "@/lib/seo";
+import { absoluteUrl, siteUrl } from "@/lib/url";
 import { QuoteCta } from "@/components/QuoteCta";
 import { Card, Container, Eyebrow, Icon, Section } from "@/components/ui";
 
@@ -15,18 +18,37 @@ export function generateMetadata({ params }: { params: Params }): Metadata {
   const detail = getServiceDetail(params.slug);
   if (!detail) return {};
 
-  return {
-    title: `${detail.name} | Royal Rinse — Mobile Auto Detailing`,
-    description: `${detail.tagline} ${detail.intro}`.slice(0, 155),
-  };
+  return buildMetadata({
+    title: `${detail.name} — Mobile Detailing | Royal Rinse`,
+    description: `${detail.name} in ${SERVICE_AREA_LINE}. ${detail.intro}`.slice(
+      0,
+      158,
+    ),
+    path: `/services/${detail.slug}`,
+  });
 }
 
 export default function ServiceDetailPage({ params }: { params: Params }) {
   const detail = getServiceDetail(params.slug);
   if (!detail) notFound();
 
+  const serviceSchema = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: `${detail.name} — Mobile Auto Detailing`,
+    serviceType: detail.name,
+    description: detail.intro,
+    areaServed: SERVICE_AREA_LINE,
+    url: absoluteUrl(`/services/${detail.slug}`),
+    provider: { "@type": "AutoDetailing", "@id": `${siteUrl}/#business`, name: site.legalName },
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
+      />
       <div className="border-b border-hairline bg-charcoal">
         <Container className="py-16 sm:py-20">
           <Eyebrow>Service</Eyebrow>

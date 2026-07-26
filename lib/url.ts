@@ -4,19 +4,14 @@
  * and social scrapers resolve those from their own origin, so a bare "/path"
  * is either ignored or resolved wrong.
  *
- * Resolution order:
- *   1. NEXT_PUBLIC_SITE_URL — set this to the real domain. Preferred.
- *   2. Vercel's production URL, available at build time on Vercel.
- *   3. localhost, so local dev and tests still work.
- *
- * Until (1) is set in the project's environment variables, deployed pages
- * fall back to the Vercel domain rather than the custom one.
+ * The production domain is the default so canonicals and OG URLs are correct
+ * even without any env var set. Override with NEXT_PUBLIC_SITE_URL (e.g. a
+ * preview or a local run) when you need a different origin.
  */
+export const PRODUCTION_URL = "https://www.royalrinsemobile.com";
+
 export const siteUrl = (
-  process.env.NEXT_PUBLIC_SITE_URL ??
-  (process.env.VERCEL_PROJECT_PRODUCTION_URL
-    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-    : "http://localhost:3000")
+  process.env.NEXT_PUBLIC_SITE_URL ?? PRODUCTION_URL
 ).replace(/\/$/, "");
 
 /** Joins a root-relative path onto siteUrl. Pass "/blog/x", get a full URL. */

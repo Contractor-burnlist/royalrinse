@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { buildMetadata } from "@/lib/seo";
 import Image from "next/image";
 import Link from "next/link";
 import { PHONE_ARIA, site, telHref } from "@/lib/site";
@@ -7,11 +8,12 @@ import { BookNowButton } from "@/components/BookNowButton";
 import { MilitaryDiscountBadge } from "@/components/MilitaryDiscountBadge";
 import { ButtonAnchor, Card, Container, Eyebrow, Icon, Section } from "@/components/ui";
 
-export const metadata: Metadata = {
-  title: "About | Royal Rinse — Premium Mobile Detailing, Riverside & San Diego County",
+export const metadata: Metadata = buildMetadata({
+  title: "About Royal Rinse — Mobile Detailing, Riverside & SD",
   description:
-    "About Royal Rinse — Southern California's premium mobile detailers. Founded on one idea: dealership-quality detailing that comes to you, anywhere in Riverside & San Diego County. Licensed, insured, and bonded.",
-};
+    "Royal Rinse is a licensed, insured, bonded mobile auto detailing company serving Riverside & San Diego County. Our story, our standard, and why we come to you.",
+  path: "/about",
+});
 
 const whyRoyalRinse = [
   {

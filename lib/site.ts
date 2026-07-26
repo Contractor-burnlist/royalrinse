@@ -7,8 +7,37 @@ export const PHONE_TEL = "tel:+19513389117";
 /** For aria-labels on icon/button call CTAs. */
 export const PHONE_ARIA = `Call Royal Rinse at ${PHONE_DISPLAY}`;
 
-/** Google Business Profile — where "see more reviews" sends people. */
-export const GOOGLE_REVIEWS_URL = "https://maps.app.goo.gl/kQ1rbWiT7KuCr1pW7";
+/**
+ * Verified Google Business Profile ("Royal Rinse Mobile Detailing", Menifee).
+ * Used for the Reviews link, JSON-LD hasMap/sameAs, and the embedded map.
+ */
+export const GOOGLE_REVIEWS_URL = "https://maps.app.goo.gl/kDNSHnjyaMqw2bLN7";
+export const GOOGLE_MAPS_URL = GOOGLE_REVIEWS_URL;
+export const GOOGLE_PLACE_ID = "ChIJxSthpHbyb4ARU2gL9HM7-4Y";
+/**
+ * Embeddable map (no API key). Uses the ?output=embed form keyed on the
+ * business name + home city, which reliably centres on the Google Business
+ * Profile pin. Swap for a Maps Embed API URL if a key is ever added.
+ */
+export const GOOGLE_MAP_EMBED_URL =
+  "https://www.google.com/maps?q=Royal+Rinse+Mobile+Detailing,+Menifee,+CA&output=embed";
+
+/** Price band for schema. "$$" = mid/premium — no exact prices published. */
+export const PRICE_RANGE = "$$";
+
+/**
+ * Google aggregate rating for the LocalBusiness schema.
+ *
+ * Deliberately null: the GBP has 30+ real reviews, but publishing a guessed
+ * star value would be fabricated structured data. Fill BOTH fields with the
+ * exact current numbers from the Google Business Profile and the
+ * aggregateRating block emits automatically — until then nothing is published.
+ *   e.g. { ratingValue: 5.0, reviewCount: 32 }
+ */
+export const AGGREGATE_RATING: {
+  ratingValue: number;
+  reviewCount: number;
+} | null = null;
 
 /** The counties served. Change here to update every mention site-wide. */
 export const SERVICE_AREA_LINE = "Riverside & San Diego County";
@@ -20,7 +49,13 @@ export const SERVICE_AREA_COUNTIES = [
 ];
 
 export const site = {
+  /** Display brand used in visible UI. */
   name: "Royal Rinse",
+  /**
+   * Exact registered / Google Business Profile name. Use this for NAP and all
+   * structured data so the site matches the GBP verbatim.
+   */
+  legalName: "Royal Rinse Mobile Detailing",
   tagline: "Mobile Auto Detailing — We Come To You",
   phone: PHONE_DISPLAY,
   email: "office@royalrinsemobile.com",

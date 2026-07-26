@@ -1,15 +1,17 @@
 import type { Metadata } from "next";
+import { buildMetadata } from "@/lib/seo";
 import { featuredReviews } from "@/lib/reviews";
 import { GoogleReviewsLink } from "@/components/GoogleReviewsLink";
 import { QuoteCta } from "@/components/QuoteCta";
 import { ReviewCard } from "@/components/ReviewCard";
 import { Container, Eyebrow, Section } from "@/components/ui";
 
-export const metadata: Metadata = {
-  title: "Reviews | Royal Rinse — Mobile Auto Detailing",
+export const metadata: Metadata = buildMetadata({
+  title: "Reviews — Mobile Auto Detailing | Royal Rinse",
   description:
-    "What Royal Rinse customers say about our mobile auto detailing across Riverside & San Diego County — real reviews from real drivers.",
-};
+    "See what Royal Rinse customers say about our mobile auto detailing across Riverside & San Diego County — real reviews, plus our verified Google profile.",
+  path: "/reviews",
+});
 
 export default function ReviewsPage() {
   return (

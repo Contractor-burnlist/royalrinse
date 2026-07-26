@@ -8,6 +8,8 @@ import {
   telHref,
   valueProps,
 } from "@/lib/site";
+import { buildMetadata } from "@/lib/seo";
+import { faqs } from "@/lib/faq";
 import { featuredReviews } from "@/lib/reviews";
 import { featuredCities } from "@/lib/serviceAreas";
 import { ceramicCoating, tiers } from "@/lib/services";
@@ -38,11 +40,12 @@ import {
   SectionHeading,
 } from "@/components/ui";
 
-export const metadata: Metadata = {
-  title: "Royal Rinse | Mobile Auto Detailing — Riverside & San Diego County",
+export const metadata: Metadata = buildMetadata({
+  title: "Mobile Auto Detailing in Riverside & San Diego | Royal Rinse",
   description:
-    "Licensed, insured, and bonded mobile auto detailing. We come to your home or office anywhere in Riverside & San Diego County — no drop-off, no waiting room.",
-};
+    "Premium mobile auto detailing that comes to you across Riverside & San Diego County. Licensed, insured & bonded — no drop-off, no waiting room. Call (951) 338-9117.",
+  path: "/",
+});
 
 const trustChips = [
   "Licensed, Insured & Bonded",
@@ -408,6 +411,41 @@ function FinalCta() {
   );
 }
 
+/**
+ * A few common questions in plain text on the homepage — so the core facts
+ * (we come to you, areas served, quote-based pricing, licensing, military
+ * discount) are extractable by search and AI answer engines, not just buried in
+ * buttons. The full list + FAQPage schema live on /faq.
+ */
+function HomeFaq() {
+  return (
+    <Section className="!pt-0">
+      <SectionHeading
+        eyebrow="Good to know"
+        title="Common questions"
+        intro="Quick answers about how mobile detailing with Royal Rinse works."
+      />
+      <dl className="mt-12 grid gap-x-12 gap-y-8 lg:grid-cols-2">
+        {faqs.slice(0, 4).map((faq) => (
+          <div key={faq.question}>
+            <dt className="font-display text-base font-bold text-ink">
+              {faq.question}
+            </dt>
+            <dd className="mt-2 text-sm leading-relaxed text-muted">{faq.answer}</dd>
+          </div>
+        ))}
+      </dl>
+      <Link
+        href="/faq"
+        className="mt-10 inline-flex items-center gap-1.5 text-sm font-semibold text-royal transition-colors hover:text-chrome"
+      >
+        See all FAQs
+        <span aria-hidden="true">→</span>
+      </Link>
+    </Section>
+  );
+}
+
 export default function Home() {
   return (
     <>
@@ -433,6 +471,7 @@ export default function Home() {
       <ServiceAreaTeaser />
       <Gallery />
       <Testimonials />
+      <HomeFaq />
       <FinalCta />
     </>
   );

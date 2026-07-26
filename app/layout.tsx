@@ -3,13 +3,8 @@ import Script from "next/script";
 import { Inter, Space_Grotesk } from "next/font/google";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import {
-  OPENING_HOURS,
-  PHONE_DISPLAY,
-  SERVICE_AREA_COUNTIES,
-  SERVICE_AREA_LINE,
-  site,
-} from "@/lib/site";
+import { SERVICE_AREA_LINE, site } from "@/lib/site";
+import { siteJsonLd } from "@/lib/seo";
 import { siteUrl } from "@/lib/url";
 import "./globals.css";
 
@@ -26,41 +21,25 @@ const body = Inter({
 
 export const metadata: Metadata = {
   /**
-   * Without this, Next.js resolves og:image against http://localhost:3000 and
-   * warns at build time — a shared blog post would advertise a localhost image
-   * nobody can load. See lib/url.ts for how the domain is resolved.
+   * Base for resolving og:image and canonical URLs. Without it Next resolves
+   * them against localhost. See lib/url.ts for how the domain is chosen.
    */
   metadataBase: new URL(siteUrl),
-  title: "Royal Rinse | Mobile Auto Detailing — Riverside & San Diego County",
+  title: `${site.legalName} | Mobile Auto Detailing — ${SERVICE_AREA_LINE}`,
   description:
-    "Royal Rinse brings professional mobile auto detailing to your driveway anywhere in Riverside & San Diego County. Licensed, insured, and we come to you.",
+    "Royal Rinse brings premium mobile auto detailing to your driveway anywhere in Riverside & San Diego County. Licensed, insured, and we come to you.",
+  applicationName: site.legalName,
+  openGraph: {
+    type: "website",
+    siteName: site.legalName,
+    locale: "en_US",
+  },
+  twitter: { card: "summary_large_image" },
+  robots: { index: true, follow: true },
 };
 
-const localBusinessSchema = {
-  "@context": "https://schema.org",
-  "@type": "AutoDetailing",
-  name: site.name,
-  description: `Mobile auto detailing serving ${SERVICE_AREA_LINE}. We come to you.`,
-  telephone: PHONE_DISPLAY,
-  areaServed: SERVICE_AREA_COUNTIES.map((county) => ({
-    "@type": "AdministrativeArea",
-    name: county,
-  })),
-  address: {
-    "@type": "PostalAddress",
-    addressRegion: "CA",
-    addressCountry: "US",
-  },
-  // Open 7 days, 8:00–20:00. One spec listing all seven days.
-  openingHoursSpecification: [
-    {
-      "@type": "OpeningHoursSpecification",
-      dayOfWeek: [...OPENING_HOURS.days],
-      opens: OPENING_HOURS.opens,
-      closes: OPENING_HOURS.closes,
-    },
-  ],
-};
+// Full LocalBusiness / Organization / WebSite graph (see lib/seo.ts).
+const localBusinessSchema = siteJsonLd();
 
 export default function RootLayout({
   children,

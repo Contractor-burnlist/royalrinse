@@ -46,6 +46,7 @@ export function Footer() {
           <div>
             <ColumnHeading>Contact</ColumnHeading>
             <address className="mt-4 space-y-2 text-sm not-italic text-muted">
+              <p className="font-semibold text-chrome">{site.legalName}</p>
               <p>
                 <a
                   href={telHref}
@@ -71,6 +72,19 @@ export function Footer() {
                 </div>
               ))}
             </dl>
+
+            <ul className="mt-6 space-y-2 text-sm text-muted">
+              <li>
+                <Link href="/contact" className="transition-colors hover:text-ink">
+                  Contact &amp; map
+                </Link>
+              </li>
+              <li>
+                <Link href="/faq" className="transition-colors hover:text-ink">
+                  FAQ
+                </Link>
+              </li>
+            </ul>
           </div>
 
           <div>
@@ -116,6 +130,21 @@ export function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/packages" className="transition-colors hover:text-ink">
+                  Packages
+                </Link>
+              </li>
+              <li>
+                <Link href="/reviews" className="transition-colors hover:text-ink">
+                  Reviews
+                </Link>
+              </li>
+              <li>
+                <Link href="/about" className="transition-colors hover:text-ink">
+                  About
+                </Link>
+              </li>
+              <li>
                 <Link href="/blog" className="transition-colors hover:text-ink">
                   Blog
                 </Link>
@@ -126,7 +155,7 @@ export function Footer() {
 
         <div className="flex flex-col gap-2 border-t border-hairline py-6 text-xs text-muted sm:flex-row sm:items-center sm:justify-between">
           <p>
-            © {year} {site.name}. All rights reserved.
+            © {year} {site.legalName}. All rights reserved.
           </p>
           <p>Mobile auto detailing throughout {SERVICE_AREA_LINE}.</p>
         </div>

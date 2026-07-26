@@ -5,8 +5,15 @@ import { notFound } from "next/navigation";
 import { cities, getCity, type City } from "@/lib/serviceAreas";
 import { cityCover, getCityPage, type CityPage } from "@/lib/cityPages";
 import { ceramicCoating, tiers } from "@/lib/services";
-import { PHONE_ARIA, PHONE_DISPLAY, site, telHref } from "@/lib/site";
-import { absoluteUrl } from "@/lib/url";
+import {
+  GOOGLE_MAPS_URL,
+  PHONE_ARIA,
+  PHONE_DISPLAY,
+  site,
+  telHref,
+} from "@/lib/site";
+import { absoluteUrl, siteUrl } from "@/lib/url";
+import { buildMetadata } from "@/lib/seo";
 import { BookNowButton } from "@/components/BookNowButton";
 import { QuoteCta } from "@/components/QuoteCta";
 import { ButtonAnchor, Card, Container, Eyebrow, Icon, Section } from "@/components/ui";
@@ -22,13 +29,13 @@ export function generateMetadata({ params }: { params: Params }): Metadata {
   if (!city) return {};
 
   const page = getCityPage(params.slug);
-  return {
+  return buildMetadata({
     title: `Mobile Auto Detailing in ${city.name}, CA | Royal Rinse`,
     description:
       page?.metaDescription ??
-      `Royal Rinse brings professional mobile auto detailing to ${city.name} in ${city.county} County. We come to your home or office — licensed, insured, and fully self-contained.`,
-    alternates: { canonical: `/service-area/${city.slug}` },
-  };
+      `Royal Rinse brings professional mobile auto detailing to ${city.name} in ${city.county} County. We come to your home or office — licensed, insured, fully self-contained.`,
+    path: `/service-area/${city.slug}`,
+  });
 }
 
 const tierIcons: Record<string, string> = {
@@ -63,10 +70,12 @@ function CitySchema({ city }: { city: City }) {
     name: `Mobile Auto Detailing in ${city.name}`,
     provider: {
       "@type": "AutoDetailing",
-      name: site.name,
+      "@id": `${siteUrl}/#business`,
+      name: site.legalName,
       telephone: PHONE_DISPLAY,
     },
     areaServed: { "@type": "City", name: `${city.name}, CA` },
+    hasMap: GOOGLE_MAPS_URL,
     url: absoluteUrl(`/service-area/${city.slug}`),
   };
   return (

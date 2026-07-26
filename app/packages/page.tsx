@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
+import { buildMetadata } from "@/lib/seo";
 import Image from "next/image";
 import Link from "next/link";
 import { ceramicCoating, quoteNote, tiers } from "@/lib/services";
 import { packageImage, packagesHeroImage } from "@/lib/serviceImages";
-import { PHONE_ARIA, telHref } from "@/lib/site";
+import { PHONE_ARIA, SERVICE_AREA_LINE, telHref } from "@/lib/site";
+import { absoluteUrl, siteUrl } from "@/lib/url";
 import { BookNowButton } from "@/components/BookNowButton";
 import {
   PackagesCtaSentinel,
@@ -13,11 +15,12 @@ import {
 import { Reveal } from "@/components/Reveal";
 import { ButtonAnchor, Container, Eyebrow, Icon, Section } from "@/components/ui";
 
-export const metadata: Metadata = {
-  title: "Detailing Packages | Royal Rinse",
+export const metadata: Metadata = buildMetadata({
+  title: "Detailing Packages — Bronze to Diamond | Royal Rinse",
   description:
-    "Royal Rinse mobile detailing packages — Bronze, Silver, Gold, Platinum, and Diamond, plus ceramic coating. We come to you across Riverside & San Diego County.",
-};
+    "Compare Royal Rinse mobile detailing packages — Bronze, Silver, Gold, Platinum, Diamond and ceramic coating. Quote-based, delivered to your driveway.",
+  path: "/packages",
+});
 
 /** Filled pips up to the tier's rank, hollow after — makes the ladder scannable. */
 function TierRank({ rank }: { rank: number }) {
@@ -245,9 +248,33 @@ function CtaBand({
   );
 }
 
+/** Each package as a Service, listed for search engines. No prices — quote-based. */
+const packagesSchema = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  name: "Royal Rinse mobile detailing packages",
+  itemListElement: [...tiers, ceramicCoating].map((pkg, index) => ({
+    "@type": "ListItem",
+    position: index + 1,
+    item: {
+      "@type": "Service",
+      name: pkg.name,
+      description: pkg.tagline,
+      serviceType: "Mobile Auto Detailing",
+      areaServed: SERVICE_AREA_LINE,
+      url: absoluteUrl(`/services/${pkg.slug}`),
+      provider: { "@type": "AutoDetailing", "@id": `${siteUrl}/#business` },
+    },
+  })),
+};
+
 export default function PackagesPage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(packagesSchema) }}
+      />
       {/* Hero banner: a glossy exterior behind the heading, on a dark scrim. */}
       <section className="relative overflow-hidden border-b border-hairline">
         <Image
