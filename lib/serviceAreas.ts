@@ -17,6 +17,8 @@ export const cities: City[] = [
   { slug: "riverside", name: "Riverside", county: "Riverside" },
   { slug: "moreno-valley", name: "Moreno Valley", county: "Riverside" },
   { slug: "escondido", name: "Escondido", county: "San Diego" },
+  { slug: "san-diego", name: "San Diego", county: "San Diego" },
+  { slug: "la-jolla", name: "La Jolla", county: "San Diego" },
   { slug: "san-marcos", name: "San Marcos", county: "San Diego" },
   { slug: "carlsbad", name: "Carlsbad", county: "San Diego" },
   { slug: "vista", name: "Vista", county: "San Diego" },
@@ -24,14 +26,18 @@ export const cities: City[] = [
   { slug: "poway", name: "Poway", county: "San Diego" },
 ];
 
-/** Featured in the footer and homepage teaser (closest / highest-value). */
+/**
+ * Featured in the footer and homepage teaser. These six have dedicated,
+ * hand-written city pages (see lib/cityPages.ts), so they're the ones we
+ * surface — one per key market, spanning both counties.
+ */
 export const featuredCitySlugs = [
   "menifee",
   "temecula",
-  "murrieta",
   "riverside",
-  "corona",
   "escondido",
+  "san-diego",
+  "la-jolla",
 ];
 
 export const featuredCities: City[] = featuredCitySlugs
