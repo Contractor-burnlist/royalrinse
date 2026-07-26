@@ -258,6 +258,20 @@ export const exteriorGallery: GalleryImage[] = [
     height: 1024,
     category: "Vans",
   },
+  {
+    src: "/royal-exterior/ferrari-exterior-1.jpeg",
+    alt: `Exotic car exterior detailing in ${AREA} — sports car with a deep gloss finish after a full exterior detail`,
+    width: 900,
+    height: 1600,
+    category: "Exotic",
+  },
+  {
+    src: "/royal-exterior/suv-exterior-2.jpeg",
+    alt: `SUV mobile detailing in ${AREA} — off-road SUV with a clean gloss finish and detailed wheels`,
+    width: 1200,
+    height: 1600,
+    category: "SUVs",
+  },
 ];
 
 /**
@@ -370,20 +384,39 @@ const NEAR_DUPLICATE_SRCS = new Set(["/royal-feature/ferrari-hero.jpeg"]);
 export const isNearDuplicate = (src: string) => NEAR_DUPLICATE_SRCS.has(src);
 
 /**
- * With the near-duplicate gone, the two SURVIVING Ferraris (-2 and -3) would
- * still be slides 0 and 1 — the same car twice in one glance. -3 is a clearly
- * different shot (door open, mountain vista) so it earns its place; it is
- * just pushed far enough down that it can never share a viewport with -2.
- * Any gap of 3+ does it, since desktop shows at most 3 tiles.
+ * Front-of-rotation curation. The hero shows up to 3 tiles at once, so what
+ * sits near the front matters.
+ *
+ * PROMOTED: ferrari-exterior-1 (the white exotic) leads at slide 0 — the tile
+ * HeroCarousel renders with priority and the royal "featured" ring.
+ *
+ * DEFERRED: the two cream-Ferrari shots (-2 and -3 are the same car) are pushed
+ * to spaced-out slots so no two Ferraris ever land in the same 3-tile viewport,
+ * including the new white one up front. A gap of 3+ is enough on desktop.
  */
-const HERO_DEFERRED = "/royal-feature/ferrari-hero-3.jpeg";
-const HERO_DEFERRED_TO = 6;
+const HERO_PROMOTED = ["/royal-exterior/ferrari-exterior-1.jpeg"];
+const HERO_DEFERRED: { src: string; to: number }[] = [
+  { src: "/royal-feature/ferrari-hero-2.jpeg", to: 4 },
+  { src: "/royal-feature/ferrari-hero-3.jpeg", to: 8 },
+];
 
 export const heroSlides: GalleryImage[] = (() => {
   const pool = allGalleryImages.filter((image) => !isNearDuplicate(image.src));
-  const from = pool.findIndex((image) => image.src === HERO_DEFERRED);
-  if (from === -1) return pool;
-  const [moved] = pool.splice(from, 1);
-  pool.splice(Math.min(HERO_DEFERRED_TO, pool.length), 0, moved);
+
+  // Move promoted shots to the front, preserving their listed order.
+  for (let i = HERO_PROMOTED.length - 1; i >= 0; i--) {
+    const at = pool.findIndex((image) => image.src === HERO_PROMOTED[i]);
+    if (at > -1) pool.unshift(pool.splice(at, 1)[0]);
+  }
+
+  // Move deferred shots to later slots, applied top-to-bottom.
+  for (const { src, to } of HERO_DEFERRED) {
+    const at = pool.findIndex((image) => image.src === src);
+    if (at > -1) {
+      const [moved] = pool.splice(at, 1);
+      pool.splice(Math.min(to, pool.length), 0, moved);
+    }
+  }
+
   return pool;
 })();
