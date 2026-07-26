@@ -8,31 +8,13 @@ import {
   useState,
   type KeyboardEvent as ReactKeyboardEvent,
 } from "react";
-import {
-  ceramicCoating,
-  maintenancePlan,
-  rvDetailing,
-  tiers,
-} from "@/lib/services";
-
-type MenuLink = { label: string; href: string };
+import type { NavMenuConfig } from "@/lib/navMenus";
 
 /**
- * Dropdown contents, derived from the services data so labels/slugs stay in
- * sync with the detail pages. `packages` are the five tiers plus ceramic
- * coating; `more` is the secondary menu. Add-Ons has no detail page — it links
- * to the #add-ons section on /services.
+ * One dropdown component shared by every nav item that has a menu (Services,
+ * Packages, Service Area), driven entirely by a NavMenuConfig. The top label
+ * still links to the item's overview page; a chevron button toggles the panel.
  */
-const packageLinks: MenuLink[] = [
-  ...tiers.map((tier) => ({ label: tier.name, href: `/services/${tier.slug}` })),
-  { label: ceramicCoating.name, href: `/services/${ceramicCoating.slug}` },
-];
-
-const moreLinks: MenuLink[] = [
-  { label: "Add-Ons", href: "/services#add-ons" },
-  { label: maintenancePlan.name, href: `/services/${maintenancePlan.slug}` },
-  { label: rvDetailing.name, href: `/services/${rvDetailing.slug}` },
-];
 
 const Chevron = ({ className = "" }: { className?: string }) => (
   <svg
@@ -49,30 +31,27 @@ const Chevron = ({ className = "" }: { className?: string }) => (
   </svg>
 );
 
-const menuItemClass =
+const itemClass =
   "block rounded-lg px-3 py-2 text-sm text-muted transition-colors hover:bg-charcoal hover:text-ink focus:bg-charcoal focus:text-ink focus:outline-none focus-visible:ring-1 focus-visible:ring-royal";
+
+const footerItemClass = `${itemClass} font-semibold text-royal hover:text-ink`;
 
 const sectionLabelClass =
   "px-3 pb-1 pt-1 text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-royal";
 
-/**
- * Desktop "Services" nav item: a dropdown that opens on hover and on
- * focus/click, while the "Services" label itself still links to /services.
- */
-export function ServicesDropdown() {
+/** Desktop dropdown: hover- and focus/click-openable, keyboard accessible. */
+export function NavDropdown({ config }: { config: NavMenuConfig }) {
   const [open, setOpen] = useState(false);
   const wrapRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout>>();
-  // Escape closes and returns focus to the trigger — but focusing the trigger
-  // (inside the wrapper) would fire onFocus and reopen the menu. This flag
-  // suppresses that one reopen.
+  // Escape returns focus to the trigger, which sits inside the wrapper and
+  // would re-fire onFocus and reopen the menu. This flag suppresses that.
   const suppressFocusOpen = useRef(false);
 
   const close = useCallback(() => setOpen(false), []);
 
-  // Outside-click and Escape (Escape returns focus to the trigger).
   useEffect(() => {
     if (!open) return;
     const onPointerDown = (event: MouseEvent) => {
@@ -112,8 +91,6 @@ export function ServicesDropdown() {
       panelRef.current?.querySelectorAll<HTMLElement>('[role="menuitem"]') ?? [],
     );
 
-  // ArrowDown from the trigger drops focus into the first item (which opens the
-  // menu via the wrapper's onFocus).
   const onTriggerKeyDown = (event: ReactKeyboardEvent) => {
     if (event.key === "ArrowDown") {
       event.preventDefault();
@@ -121,12 +98,10 @@ export function ServicesDropdown() {
     }
   };
 
-  // Roving arrow-key navigation inside the panel.
   const onPanelKeyDown = (event: ReactKeyboardEvent) => {
     const items = menuItems();
     if (!items.length) return;
     const index = items.indexOf(document.activeElement as HTMLElement);
-
     switch (event.key) {
       case "ArrowDown":
         event.preventDefault();
@@ -148,6 +123,9 @@ export function ServicesDropdown() {
   };
 
   const tabIndex = open ? 0 : -1;
+  const menuId = `${config.id}-menu`;
+  // Literal classes so Tailwind's scanner (which doesn't read /lib) generates them.
+  const panelWidthClass = config.panelWidth === "narrow" ? "w-[15rem]" : "w-[20rem]";
 
   return (
     <div
@@ -166,19 +144,19 @@ export function ServicesDropdown() {
     >
       <div className="flex items-center gap-1">
         <Link
-          href="/services"
-          className="text-sm font-medium text-muted transition-colors hover:text-ink"
+          href={config.href}
+          className="whitespace-nowrap text-sm font-medium text-muted transition-colors hover:text-ink"
           onClick={close}
         >
-          Services
+          {config.label}
         </Link>
         <button
           ref={triggerRef}
           type="button"
           aria-haspopup="true"
           aria-expanded={open}
-          aria-controls="services-menu"
-          aria-label="Toggle services menu"
+          aria-controls={menuId}
+          aria-label={`Toggle ${config.ariaLabel} menu`}
           onClick={() => setOpen((value) => !value)}
           onKeyDown={onTriggerKeyDown}
           className="flex h-6 w-6 items-center justify-center rounded-md text-muted transition-colors hover:text-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-royal"
@@ -192,9 +170,9 @@ export function ServicesDropdown() {
       </div>
 
       <div
-        id="services-menu"
+        id={menuId}
         role="menu"
-        aria-label="Services"
+        aria-label={config.ariaLabel}
         aria-hidden={!open}
         ref={panelRef}
         onKeyDown={onPanelKeyDown}
@@ -205,46 +183,43 @@ export function ServicesDropdown() {
             : "pointer-events-none -translate-y-1 opacity-0"
         }`}
       >
-        <div className="w-[20rem] rounded-2xl border border-hairline bg-surface p-2 shadow-2xl">
-          <p className={sectionLabelClass}>Packages</p>
-          <div className="grid grid-cols-2 gap-0.5">
-            {packageLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                role="menuitem"
-                tabIndex={tabIndex}
-                onClick={close}
-                className={menuItemClass}
-              >
-                {link.label}
-              </Link>
-            ))}
-          </div>
+        <div
+          className={`${panelWidthClass} rounded-2xl border border-hairline bg-surface p-2 shadow-2xl`}
+        >
+          {config.groups.map((group, groupIndex) => (
+            <div key={group.label ?? groupIndex}>
+              {groupIndex > 0 ? (
+                <div className="my-2 border-t border-hairline" />
+              ) : null}
+              {group.label ? (
+                <p className={sectionLabelClass}>{group.label}</p>
+              ) : null}
+              <div className={group.columns === 2 ? "grid grid-cols-2 gap-0.5" : ""}>
+                {group.links.map((link) => (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    role="menuitem"
+                    tabIndex={tabIndex}
+                    onClick={close}
+                    className={itemClass}
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          ))}
 
           <div className="my-2 border-t border-hairline" />
-
-          <p className={sectionLabelClass}>More</p>
-          {moreLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              role="menuitem"
-              tabIndex={tabIndex}
-              onClick={close}
-              className={menuItemClass}
-            >
-              {link.label}
-            </Link>
-          ))}
           <Link
-            href="/services"
+            href={config.footer.href}
             role="menuitem"
             tabIndex={tabIndex}
             onClick={close}
-            className={`${menuItemClass} font-semibold text-royal hover:text-ink`}
+            className={footerItemClass}
           >
-            View all services →
+            {config.footer.label}
           </Link>
         </div>
       </div>
@@ -253,23 +228,33 @@ export function ServicesDropdown() {
 }
 
 /**
- * Mobile "Services" item: a tap-to-expand accordion inside the hamburger menu,
- * since there's no hover on touch. `onNavigate` closes the whole mobile menu
- * when a sub-link is tapped.
+ * Mobile version: a tap-to-expand accordion inside the hamburger menu (no hover
+ * on touch). `onNavigate` closes the whole mobile menu when a sub-link is
+ * tapped. Renders every group single-column for narrow screens.
  */
-export function ServicesMobileMenu({ onNavigate }: { onNavigate: () => void }) {
+export function NavDropdownMobile({
+  config,
+  onNavigate,
+}: {
+  config: NavMenuConfig;
+  onNavigate: () => void;
+}) {
   const [expanded, setExpanded] = useState(false);
+  const submenuId = `${config.id}-submenu`;
+
+  const linkClass =
+    "block rounded-lg px-3 py-2 text-sm text-muted transition-colors hover:bg-surface hover:text-ink";
 
   return (
     <div>
       <button
         type="button"
         aria-expanded={expanded}
-        aria-controls="services-submenu"
+        aria-controls={submenuId}
         onClick={() => setExpanded((value) => !value)}
         className="flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-base font-medium text-muted transition-colors hover:bg-surface hover:text-ink"
       >
-        Services
+        {config.label}
         <Chevron
           className={`h-4 w-4 transition-transform duration-200 ${
             expanded ? "rotate-180" : ""
@@ -278,38 +263,35 @@ export function ServicesMobileMenu({ onNavigate }: { onNavigate: () => void }) {
       </button>
 
       {expanded ? (
-        <div id="services-submenu" className="mb-1 mt-1 space-y-0.5 pl-3">
-          <p className={sectionLabelClass}>Packages</p>
-          {packageLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              onClick={onNavigate}
-              className="block rounded-lg px-3 py-2 text-sm text-muted transition-colors hover:bg-surface hover:text-ink"
-            >
-              {link.label}
-            </Link>
+        <div id={submenuId} className="mb-1 mt-1 space-y-0.5 pl-3">
+          {config.groups.map((group, groupIndex) => (
+            <div key={group.label ?? groupIndex}>
+              {groupIndex > 0 ? (
+                <div className="my-2 border-t border-hairline" />
+              ) : null}
+              {group.label ? (
+                <p className={sectionLabelClass}>{group.label}</p>
+              ) : null}
+              {group.links.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  onClick={onNavigate}
+                  className={linkClass}
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </div>
           ))}
 
           <div className="my-2 border-t border-hairline" />
-
-          <p className={sectionLabelClass}>More</p>
-          {moreLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              onClick={onNavigate}
-              className="block rounded-lg px-3 py-2 text-sm text-muted transition-colors hover:bg-surface hover:text-ink"
-            >
-              {link.label}
-            </Link>
-          ))}
           <Link
-            href="/services"
+            href={config.footer.href}
             onClick={onNavigate}
             className="block rounded-lg px-3 py-2 text-sm font-semibold text-royal transition-colors hover:bg-surface hover:text-ink"
           >
-            View all services →
+            {config.footer.label}
           </Link>
         </div>
       ) : null}

@@ -4,9 +4,22 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { PHONE_ARIA, nav, site, telHref } from "@/lib/site";
+import {
+  packagesMenu,
+  serviceAreaMenu,
+  servicesMenu,
+  type NavMenuConfig,
+} from "@/lib/navMenus";
 import { BookNowButton } from "@/components/BookNowButton";
-import { ServicesDropdown, ServicesMobileMenu } from "@/components/ServicesNav";
+import { NavDropdown, NavDropdownMobile } from "@/components/NavDropdown";
 import { Container } from "@/components/ui";
+
+/** Nav labels that render as a dropdown instead of a plain link. */
+const dropdownByLabel: Record<string, NavMenuConfig> = {
+  Services: servicesMenu,
+  Packages: packagesMenu,
+  "Service Area": serviceAreaMenu,
+};
 
 function Logo({ compact }: { compact: boolean }) {
   return (
@@ -72,10 +85,11 @@ export function Header() {
         >
           <Logo compact={solid} />
 
-          <nav className="hidden items-center gap-7 lg:flex">
-            {nav.map((item) =>
-              item.label === "Services" ? (
-                <ServicesDropdown key={item.href} />
+          <nav className="hidden items-center gap-x-4 xl:flex 2xl:gap-x-6">
+            {nav.map((item) => {
+              const menu = dropdownByLabel[item.label];
+              return menu ? (
+                <NavDropdown key={item.href} config={menu} />
               ) : (
                 <Link
                   key={item.href}
@@ -84,11 +98,11 @@ export function Header() {
                 >
                   {item.label}
                 </Link>
-              ),
-            )}
+              );
+            })}
           </nav>
 
-          <div className="hidden items-center gap-4 lg:flex">
+          <div className="hidden items-center gap-4 xl:flex">
             <a
               href={telHref}
               aria-label={PHONE_ARIA}
@@ -105,7 +119,7 @@ export function Header() {
             aria-expanded={open}
             aria-controls="mobile-menu"
             aria-label={open ? "Close menu" : "Open menu"}
-            className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-hairline text-ink lg:hidden"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-hairline text-ink xl:hidden"
           >
             <svg
               viewBox="0 0 24 24"
@@ -127,13 +141,15 @@ export function Header() {
       </Container>
 
       {open ? (
-        <div id="mobile-menu" className="border-t border-hairline bg-charcoal lg:hidden">
+        <div id="mobile-menu" className="border-t border-hairline bg-charcoal xl:hidden">
           <Container className="py-5">
             <nav className="flex flex-col gap-1">
-              {nav.map((item) =>
-                item.label === "Services" ? (
-                  <ServicesMobileMenu
+              {nav.map((item) => {
+                const menu = dropdownByLabel[item.label];
+                return menu ? (
+                  <NavDropdownMobile
                     key={item.href}
+                    config={menu}
                     onNavigate={() => setOpen(false)}
                   />
                 ) : (
@@ -145,8 +161,8 @@ export function Header() {
                   >
                     {item.label}
                   </Link>
-                ),
-              )}
+                );
+              })}
             </nav>
 
             <div className="mt-5 flex flex-col gap-3 border-t border-hairline pt-5">
