@@ -18,8 +18,12 @@
  *      reviewed component (components/BlogBody.tsx) instead of scattered
  *      through content, and means no dangerouslySetInnerHTML anywhere.
  *
- * Inline **bold** is supported inside `p` and `ul` items. There is no other
- * inline syntax on purpose — every additional one is a parser to maintain.
+ * Inline syntax, supported inside `p`, `ul` items, `callout` and table cells:
+ *   **bold**            → <strong>
+ *   [label](/path)      → an internal link (next/link). Use root-relative
+ *                         paths so cross-post and /packages links stay
+ *                         client-routed; the parser only accepts "/…" hrefs.
+ * That is the whole inline grammar — every addition is a parser to maintain.
  */
 
 import { allGalleryImages, type GalleryImage } from "@/lib/gallery";
@@ -30,7 +34,13 @@ export type BlogBlock =
   | { type: "h3"; text: string }
   | { type: "ul"; items: string[] }
   /** Pulled out of the flow in a bordered panel — use sparingly, 1–2 a post. */
-  | { type: "callout"; text: string };
+  | { type: "callout"; text: string }
+  /**
+   * A comparison table. `headers` labels the columns; every row must have the
+   * same length as `headers`. Cells accept inline syntax. Renders inside a
+   * horizontally scrollable frame, so a wide table never overflows the page.
+   */
+  | { type: "table"; headers: string[]; rows: string[][] };
 
 export type BlogPost = {
   slug: string;
@@ -65,7 +75,7 @@ export const posts: BlogPost[] = [
     body: [
       {
         type: "p",
-        text: "Ceramic coating is the service we get asked about more than any other — and the one surrounded by the most noise. Between the marketing claims and the forum arguments, it's easy to lose track of what a coating actually does, and whether it makes sense for your car. So here's a straight explanation, without the hype.",
+        text: "Ceramic coating is the service we get asked about most — and the one surrounded by the most noise. It's easy to lose track of what a coating actually does, and whether it makes sense for your car. So here's a straight explanation, without the hype.",
       },
 
       { type: "h2", text: "What ceramic coating actually is" },
@@ -99,13 +109,13 @@ export const posts: BlogPost[] = [
       },
       {
         type: "p",
-        text: "A coating is not armor, though. It won't stop a rock chip or a deep scratch, and it doesn't make the car self-cleaning. Anyone promising that is selling something.",
+        text: "A coating is not armor, though. It won't stop a rock chip or a deep scratch, and it doesn't make the car self-cleaning — anyone promising that is selling something.",
       },
 
       { type: "h2", text: "Ceramic coating vs. wax vs. sealant" },
       {
         type: "p",
-        text: "All three make a car look better on the day they're applied. The difference is how long that day lasts.",
+        text: "All three make a car look better on the day they're applied; the difference is how long that day lasts. (For the full breakdown, see [ceramic coating vs. wax vs. sealant](/blog/ceramic-coating-vs-wax).)",
       },
       {
         type: "h3",
@@ -123,7 +133,7 @@ export const posts: BlogPost[] = [
       { type: "h3", text: "Ceramic coating" },
       {
         type: "p",
-        text: "A different category. Because it bonds rather than sits, a quality professionally applied coating is measured in **years, depending on the coating level and how the car is maintained** — not weeks. That range is conditional: a garaged weekend car with proper maintenance washes holds up far longer than a daily driver run through automatic brushes.",
+        text: "A different category. Because it bonds rather than sits, a quality professionally applied coating is measured in **years, depending on the coating level and how the car is maintained** — not weeks. A garaged weekend car with proper washes holds up far longer than a daily driver run through automatic brushes.",
       },
 
       { type: "h2", text: "Why it's a premium service: the prep is the real work" },
@@ -190,11 +200,225 @@ export const posts: BlogPost[] = [
       },
       {
         type: "p",
-        text: "All of it is mobile. Our rig arrives self-contained with its own water and power, so paint correction and ceramic coating happen in your driveway — in Menifee, Temecula, or anywhere else across Riverside & San Diego County. No drop-off, no week without your car.",
+        text: "All of it is mobile. Our rig arrives self-contained with its own water and power, so the work happens in your driveway — in Menifee, Temecula, or anywhere across Riverside & San Diego County.",
       },
       {
         type: "p",
-        text: "Because prep is most of the work, ceramic coating is quoted once we know the vehicle's size and the condition of the paint. Call or book online and we'll talk through which level actually makes sense for your car — including telling you if you don't need the top one.",
+        text: "Because prep is most of the work, ceramic coating is quoted once we know the vehicle's size and the condition of the paint. See how it fits alongside our other tiers on the [packages page](/packages), then call or book online and we'll talk through which level makes sense for your car — including telling you if you don't need the top one.",
+      },
+    ],
+  },
+
+  {
+    slug: "ceramic-coating-vs-wax",
+    title:
+      "Ceramic Coating vs. Wax vs. Sealant: Which Paint Protection Is Right for You?",
+    excerpt:
+      "Wax, sealant, or ceramic coating? They protect your paint in very different ways, at very different price points. Here's how to pick the one that fits your car and how you actually use it.",
+    date: "2026-08-07",
+    author: "Royal Rinse",
+    // 2921x2958 — glossy white exterior, large enough to run wide unscaled.
+    coverImage: cover("tesla-2.jpeg"),
+    body: [
+      {
+        type: "p",
+        text: "Every car leaves the factory with a clear coat protecting the color beneath it — but the clear coat itself needs protecting from sun, water, and road fallout. Wax, sealant, and ceramic coating are the three ways to do that. They're often lumped together, but they're genuinely different products with different lifespans and different price tags.",
+      },
+      {
+        type: "callout",
+        text: "The quick answer: **wax** is cheap and easy but lasts weeks. **Sealant** is synthetic and lasts a few months. **Ceramic coating** bonds to the paint and lasts years — more protection and more gloss, for a higher upfront cost. Match the effort to how long you keep the car and how much you enjoy washing it.",
+      },
+
+      { type: "h2", text: "Wax: warm, cheap, and short-lived" },
+      {
+        type: "p",
+        text: "Wax — traditional carnauba or a synthetic blend — lays a thin sacrificial layer on top of your clear coat. It's the most affordable option and the easiest to apply yourself, and carnauba in particular gives paint a warm, deep glow that many enthusiasts love, especially on darker colors.",
+      },
+      {
+        type: "p",
+        text: "The trade-off is longevity. Wax breaks down under heat, sunlight, and car-wash detergents, so realistically you're looking at **a few weeks to a couple of months** before it's worn away and needs reapplying. In the Inland Empire and North County sun, that's the short end of the range.",
+      },
+      {
+        type: "ul",
+        items: [
+          "**Pros:** inexpensive, easy to apply, beautiful warm shine.",
+          "**Cons:** wears off in weeks, needs frequent reapplication, thinnest protection.",
+        ],
+      },
+
+      { type: "h2", text: "Sealant: the synthetic middle ground" },
+      {
+        type: "p",
+        text: "Paint sealants are engineered synthetics — think of them as the more durable, more consistent cousin of wax. They bond to the surface a little more tenaciously and shrug off heat and detergents better, which is why a sealant typically holds for **several months** rather than weeks.",
+      },
+      {
+        type: "p",
+        text: "The look is usually a touch cooler and glassier than carnauba's warmth — a matter of taste. Sealant is a sensible pick if you want meaningfully longer protection than wax without stepping up to the cost and prep of a coating.",
+      },
+      {
+        type: "ul",
+        items: [
+          "**Pros:** lasts months, more heat- and chemical-resistant than wax, still DIY-friendly.",
+          "**Cons:** shorter-lived than ceramic, protection is moderate, gloss is good but not coating-level.",
+        ],
+      },
+
+      { type: "h2", text: "Ceramic coating: bonded, and built to last" },
+      {
+        type: "p",
+        text: "A ceramic coating is a liquid polymer that chemically bonds with the clear coat instead of resting on top of it. That bond is why it doesn't simply wash away — a quality professional coating is measured in **years, with proper care**, not weeks or months. It also delivers the deepest gloss and the strongest hydrophobic, UV, and contaminant protection of the three.",
+      },
+      {
+        type: "p",
+        text: "The catch is that it's a bigger commitment. A coating locks in whatever is underneath it, so it demands real prep — decontamination and usually paint correction — and a higher upfront cost. If you want the full picture, we wrote a dedicated explainer on [what ceramic coating is and how long it lasts](/blog/what-is-ceramic-coating).",
+      },
+      {
+        type: "ul",
+        items: [
+          "**Pros:** lasts years, strongest protection and gloss, easiest to keep clean day to day.",
+          "**Cons:** highest upfront cost, requires proper prep and cure time — a professional job.",
+        ],
+      },
+
+      { type: "h2", text: "Side by side" },
+      {
+        type: "table",
+        headers: ["", "Wax", "Sealant", "Ceramic coating"],
+        rows: [
+          ["Durability", "Weeks", "Months", "Years, with care"],
+          ["Upfront cost", "Lowest", "Moderate", "Highest"],
+          ["Protection", "Light", "Moderate", "Strongest"],
+          ["Gloss", "Warm", "Glassy", "Deepest"],
+          ["Maintenance", "Reapply often", "Occasional", "Easy washes"],
+          [
+            "Best for",
+            "Show shine on a budget",
+            "Longer protection, still DIY",
+            "Long-term, hands-off protection",
+          ],
+        ],
+      },
+
+      { type: "h2", text: "How to choose" },
+      {
+        type: "p",
+        text: "There's no single right answer — the best protection is the one that matches how you actually use your car. A few honest questions usually settle it:",
+      },
+      {
+        type: "ul",
+        items: [
+          "**How long will you keep the car?** Keeping it for years tips the value toward a coating; flipping it in a year or two makes wax or sealant reasonable.",
+          "**How do you feel about washing and waxing?** If re-waxing every month sounds like a chore, a coating buys that time back.",
+          "**What's the vehicle worth to you?** On a premium or enthusiast car, the depth and protection of a coating are hard to match.",
+          "**What's your budget today?** Wax and sealant cost less now; a coating costs more now and less over the years you own the car.",
+        ],
+      },
+      {
+        type: "p",
+        text: "For a lot of drivers the honest answer is a mix over time — a sealant to stay protected now, a coating when the budget and the plan for the car line up. There's no wrong starting point.",
+      },
+
+      { type: "h2", text: "Where Royal Rinse fits in" },
+      {
+        type: "p",
+        text: "We offer the whole range, so you're never forced into more than your car needs — from a machine-applied ceramic wax polish up through multi-year Level 1–3 ceramic coatings with paint-correction tiers. You can compare them on our [packages page](/packages).",
+      },
+      {
+        type: "p",
+        text: "And all of it is mobile. Our rig arrives self-contained with its own water and power, so whichever level you choose is applied right in your driveway across Riverside & San Diego County — Menifee, Temecula, Murrieta and beyond. Not sure which is right? Call or book online and we'll give you a straight recommendation for your vehicle.",
+      },
+    ],
+  },
+
+  {
+    slug: "mobile-detailing-cost-temecula-menifee",
+    title: "How Much Does Mobile Car Detailing Cost in Temecula & Menifee?",
+    excerpt:
+      "Detailing prices vary for real reasons — vehicle size, condition, and how deep the service goes. Here's what actually drives the cost of mobile detailing in the Temecula and Menifee area.",
+    date: "2026-08-21",
+    author: "Royal Rinse",
+    // 2268x4032 — the Royal Rinse mobile rig; on-theme for a mobile-cost post.
+    coverImage: cover("royal-truck-1.jpeg"),
+    body: [
+      {
+        type: "p",
+        text: "\"How much does it cost?\" is the first thing most people want to know — and the honest answer is that it depends, for reasons that actually matter. Detailing isn't one fixed service, so a good detailer quotes based on your specific vehicle and what it needs. Here's what goes into that number so you can budget with your eyes open.",
+      },
+
+      { type: "h2", text: "What affects the price of a detail" },
+      {
+        type: "p",
+        text: "Four things move the needle more than anything else:",
+      },
+      {
+        type: "ul",
+        items: [
+          "**Vehicle size.** A two-seat coupe and a three-row SUV or lifted truck are not the same job — more panels, more glass, more interior square footage, more time.",
+          "**Condition.** A well-kept car that's maintained regularly takes far less work than one with months of baked-on grime, heavy pet hair, or neglected interior stains.",
+          "**Service level.** A maintenance wash, a full interior-and-exterior detail, and a multi-year ceramic coating are worlds apart in labor and materials.",
+          "**Interior, exterior, or both.** Booking just the exterior or just the interior costs less than a full detail that does both — but both together is where a car really transforms.",
+          "**Add-ons.** Extras like pet-hair removal, ozone odor treatment, engine-bay cleaning, or headlight restoration each add time and cost.",
+        ],
+      },
+      {
+        type: "callout",
+        text: "This is why reputable detailers quote rather than post a single flat price — an accurate number depends on your vehicle's size and condition, and quoting blind would mean overcharging some cars and rushing others.",
+      },
+
+      { type: "h2", text: "Service tiers, and why they scale" },
+      {
+        type: "p",
+        text: "You don't need exact figures to understand the ladder. Each step up adds labor, better materials, and more lasting results — which is what you're paying for.",
+      },
+      { type: "h3", text: "Maintenance wash" },
+      {
+        type: "p",
+        text: "The entry point: a proper hand wash, wheels and tires, glass, and a quick interior tidy to keep an already-clean car sharp between bigger services. It's the least time and the lowest cost, and booked on a regular cadence it's what keeps a car out of the deep-clean price bracket in the first place.",
+      },
+      { type: "h3", text: "Full interior + exterior detail" },
+      {
+        type: "p",
+        text: "The deep clean. Exterior decontamination and protection, plus interior shampoo and extraction, cleaned and conditioned surfaces, vents, seams, and door jambs — the parts most washes skip. It's the biggest single jump in results, and because it's the most labor and product, it sits higher on the scale. A larger or heavily soiled vehicle naturally lands toward the top of that range.",
+      },
+      { type: "h3", text: "Ceramic coating" },
+      {
+        type: "p",
+        text: "The premium end, because the prep is the real work — decontamination and often paint correction before anything is applied, since a coating locks in whatever's underneath. In exchange you get protection measured in years. We explain the process in full in [what ceramic coating is and how long it lasts](/blog/what-is-ceramic-coating), and you can see every tier on our [packages page](/packages).",
+      },
+
+      { type: "h2", text: "Why mobile detailing is worth it here" },
+      {
+        type: "p",
+        text: "Mobile detailing removes the hidden cost people forget to count: your time. There's no dropping the car across town and arranging a ride, no half-day in a waiting room, no rescheduling your afternoon around a shop's hours. We come to you — at home or the office in Temecula, Menifee, Murrieta, and across the region — with a fully self-contained rig that carries its own water and power, so all you do is hand over the keys.",
+      },
+      {
+        type: "p",
+        text: "The convenience doesn't cost you quality, either. The same professional products and process happen in your driveway that would happen in a shop — you just don't have to go anywhere. For a lot of local customers, that saved half-day is worth as much as the detail itself.",
+      },
+
+      { type: "h2", text: "What to look for in a detailer" },
+      {
+        type: "p",
+        text: "Price matters, but the cheapest quote isn't a bargain if the work is rushed or your paint gets marred. Before you book, check that a detailer is:",
+      },
+      {
+        type: "ul",
+        items: [
+          "**Licensed and insured** — so your vehicle and property are covered if something goes wrong.",
+          "**Genuinely reviewed** — real, recent reviews from local customers, not a handful of vague five-stars.",
+          "**Using proper products and process** — decontamination, safe wash technique, the right tools for each surface.",
+          "**Transparent** — clear about what each service includes and why it's quoted the way it is.",
+        ],
+      },
+
+      { type: "h2", text: "What Royal Rinse offers" },
+      {
+        type: "p",
+        text: "Royal Rinse is fully licensed, insured, and bonded (CA DLSE CW-LR-1001298512), with tiered packages that scale from a maintenance wash to multi-year ceramic coatings — so you only pay for the level your car actually needs. Every job is quoted honestly, up front, with no surprise add-ons at the end. We also take **10% off for active and veteran military** as a thank-you for your service.",
+      },
+      {
+        type: "p",
+        text: "Everything is mobile across Riverside & San Diego County. For a custom quote on your vehicle, browse the [packages page](/packages), then call **(951) 338-9117** or book online — we'll give you an honest number for the car in your driveway, with no pressure and no obligation to book.",
       },
     ],
   },
@@ -211,9 +435,21 @@ export function getPost(slug: string): BlogPost | undefined {
 
 /** Every word of body copy, for reading-time estimates. */
 function wordCount(post: BlogPost): number {
+  const textOf = (block: BlogBlock): string => {
+    switch (block.type) {
+      case "ul":
+        return block.items.join(" ");
+      case "table":
+        return [...block.headers, ...block.rows.flat()].join(" ");
+      default:
+        return block.text;
+    }
+  };
+
   return post.body
-    .flatMap((block) => (block.type === "ul" ? block.items : [block.text]))
+    .map(textOf)
     .join(" ")
+    .replace(/\*\*|\[|\]\([^)]*\)/g, " ") // drop inline markup before counting
     .split(/\s+/)
     .filter(Boolean).length;
 }

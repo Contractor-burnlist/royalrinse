@@ -1,27 +1,54 @@
+import Link from "next/link";
 import type { BlogBlock } from "@/lib/blog";
 
 /**
  * Renders a post's block array.
  *
  * Blocks are data, not HTML, so nothing here needs dangerouslySetInnerHTML and
- * a post can never inject markup. The only inline syntax is **bold**; adding
- * more means adding a parser, so resist it unless a post genuinely needs it.
+ * a post can never inject markup. The inline grammar is just **bold** and
+ * [label](/path) internal links — see lib/blog.ts.
  */
 
-/** Splits on **bold** runs. Odd indices are the bold ones. */
+/**
+ * Splits text into plain runs, **bold** runs, and [label](/path) links.
+ *
+ * The capturing split keeps the delimiters as their own array entries, so each
+ * piece is then classified. Link hrefs are required to be root-relative ("/…")
+ * — an external URL would need target/rel handling this blog doesn't use, so
+ * the pattern simply won't match one.
+ */
+const INLINE = /(\*\*[^*]+\*\*|\[[^\]]+\]\(\/[^)]+\))/g;
+
 function Inline({ text }: { text: string }) {
-  const parts = text.split(/\*\*(.+?)\*\*/g);
   return (
     <>
-      {parts.map((part, index) =>
-        index % 2 === 1 ? (
-          <strong key={index} className="font-semibold text-ink">
-            {part}
-          </strong>
-        ) : (
-          part
-        ),
-      )}
+      {text.split(INLINE).map((part, index) => {
+        if (!part) return null;
+
+        const bold = /^\*\*([^*]+)\*\*$/.exec(part);
+        if (bold) {
+          return (
+            <strong key={index} className="font-semibold text-ink">
+              {bold[1]}
+            </strong>
+          );
+        }
+
+        const link = /^\[([^\]]+)\]\((\/[^)]+)\)$/.exec(part);
+        if (link) {
+          return (
+            <Link
+              key={index}
+              href={link[2]}
+              className="font-medium text-royal underline decoration-royal/40 underline-offset-2 transition-colors hover:text-chrome hover:decoration-chrome/60"
+            >
+              {link[1]}
+            </Link>
+          );
+        }
+
+        return part;
+      })}
     </>
   );
 }
@@ -85,6 +112,64 @@ export function BlogBody({ blocks }: { blocks: BlogBlock[] }) {
               >
                 <Inline text={block.text} />
               </p>
+            );
+
+          case "table":
+            return (
+              /**
+               * The frame owns the horizontal scroll, so a table wider than the
+               * reading column scrolls inside its own box instead of pushing the
+               * page sideways. min-w keeps columns legible; below it, scroll.
+               */
+              <div
+                key={index}
+                className="mt-8 overflow-x-auto rounded-xl border border-hairline"
+              >
+                <table className="w-full min-w-[34rem] border-collapse text-left text-sm">
+                  <thead>
+                    <tr className="border-b border-hairline bg-surface">
+                      {block.headers.map((header, headerIndex) => (
+                        <th
+                          key={headerIndex}
+                          scope="col"
+                          className="px-4 py-3 font-display font-semibold text-ink"
+                        >
+                          {header}
+                        </th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {block.rows.map((row, rowIndex) => (
+                      <tr
+                        key={rowIndex}
+                        className="border-b border-hairline last:border-0"
+                      >
+                        {row.map((cell, cellIndex) =>
+                          // First column is the row label — treated as a header
+                          // cell and given more emphasis than the data cells.
+                          cellIndex === 0 ? (
+                            <th
+                              key={cellIndex}
+                              scope="row"
+                              className="px-4 py-3 text-left align-top font-medium text-chrome"
+                            >
+                              <Inline text={cell} />
+                            </th>
+                          ) : (
+                            <td
+                              key={cellIndex}
+                              className="px-4 py-3 align-top text-muted"
+                            >
+                              <Inline text={cell} />
+                            </td>
+                          ),
+                        )}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             );
 
           default:
