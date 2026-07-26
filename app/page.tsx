@@ -22,6 +22,7 @@ import {
 } from "@/lib/gallery";
 import { serviceImage } from "@/lib/serviceImages";
 import { BookNowButton } from "@/components/BookNowButton";
+import { GoogleRatingSummary } from "@/components/GoogleRatingSummary";
 import { GoogleReviewsLink } from "@/components/GoogleReviewsLink";
 import { HeroCarousel } from "@/components/HeroCarousel";
 import { MilitaryDiscountBadge } from "@/components/MilitaryDiscountBadge";
@@ -369,15 +370,28 @@ function Testimonials() {
   return (
     <div className="border-y border-hairline bg-charcoal">
       <Section className="!py-20 sm:!py-24">
-        <div className="flex flex-wrap items-end justify-between gap-4">
-          <SectionHeading eyebrow="Reviews" title="What our customers say" />
-          <GoogleReviewsLink>See more reviews on Google</GoogleReviewsLink>
+        <div className="max-w-2xl">
+          <Eyebrow>Reviews</Eyebrow>
+          <h2 className="mt-4 font-display text-4xl font-bold leading-[1.05] tracking-tight text-ink sm:text-5xl">
+            Loved on Google
+          </h2>
+          <GoogleRatingSummary className="mt-5" />
+          <p className="mt-4 text-base leading-relaxed text-muted">
+            A few of our favorite reviews from real customers — read them all on
+            our verified Google Business Profile.
+          </p>
         </div>
 
         <div className="mt-12 grid gap-6 md:grid-cols-3">
           {featuredReviews.map((review) => (
             <ReviewCard key={review.name} review={review} />
           ))}
+        </div>
+
+        <div className="mt-10 flex justify-center">
+          <GoogleReviewsLink variant="button">
+            See all reviews on Google
+          </GoogleReviewsLink>
         </div>
       </Section>
     </div>

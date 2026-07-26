@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { buildMetadata } from "@/lib/seo";
 import { featuredReviews } from "@/lib/reviews";
+import { GoogleRatingSummary } from "@/components/GoogleRatingSummary";
 import { GoogleReviewsLink } from "@/components/GoogleReviewsLink";
-import { QuoteCta } from "@/components/QuoteCta";
 import { ReviewCard } from "@/components/ReviewCard";
 import { Container, Eyebrow, Section } from "@/components/ui";
 
@@ -23,8 +23,10 @@ export default function ReviewsPage() {
             What Our Customers Say
           </h1>
           <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted">
-            Real words from drivers who let us into their driveways.
+            Real words from drivers who let us into their driveways — a curated
+            selection from our verified Google Business Profile.
           </p>
+          <GoogleRatingSummary className="mt-6" />
         </Container>
       </div>
 
@@ -37,14 +39,15 @@ export default function ReviewsPage() {
           ))}
         </ul>
 
-        <div className="mt-12 flex justify-center">
-          <GoogleReviewsLink className="rounded-xl border border-hairline bg-surface px-5 py-3 hover:border-royal">
+        <div className="mt-14 flex flex-col items-center justify-center gap-4 sm:flex-row">
+          <GoogleReviewsLink variant="button">
             See all reviews on Google
+          </GoogleReviewsLink>
+          <GoogleReviewsLink variant="button">
+            Leave us a review on Google
           </GoogleReviewsLink>
         </div>
       </Section>
-
-      <QuoteCta heading="Ready to see the difference?" />
     </>
   );
 }
