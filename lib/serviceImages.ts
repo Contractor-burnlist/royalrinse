@@ -43,3 +43,41 @@ export const serviceCardImages: Record<string, GalleryImage> = {
 export function serviceImage(slug: string): GalleryImage {
   return serviceCardImages[slug] ?? FALLBACK;
 }
+
+/**
+ * Photos for the /packages page — kept SEPARATE from serviceCardImages so the
+ * homepage cards above are untouched.
+ *
+ * DISTINCT VEHICLE PER SLOT, no repeats across the hero and all six sections.
+ * Chosen to spread across the fleet and to keep every image sharp at the slot
+ * it renders into:
+ *
+ *   hero            Tesla (white SUV)     glossy exterior banner   (2921px)
+ *   bronze          lifted pickup         exterior                 (900px)
+ *   silver          Mercedes S-Class      cream leather interior   (900px)
+ *   gold            classic + chrome      glossy exterior          (900px)
+ *   platinum        Porsche Cayenne       tan leather interior     (900px)
+ *   diamond         Ferrari (cream)       flagship exterior        (3840px)
+ *   ceramic-coating Porsche 718           mint-green exterior      (900px)
+ *
+ * The hero and Diamond render widest, so they take the two large sources
+ * (Tesla 2921px, Ferrari 3840px) — sharp full-bleed with no upscaling. The
+ * 900px cards sit behind a gradient as ~670px-wide side images, well inside
+ * their native width. No 576px source is used here; all stay crisp.
+ */
+export const packageCardImages: Record<string, GalleryImage> = {
+  bronze: byFile("exterior-4.jpg") ?? FALLBACK,
+  silver: byFile("benz-interior.jpeg") ?? FALLBACK,
+  gold: byFile("exterior-1.jpg") ?? FALLBACK,
+  platinum: byFile("porsche-interiors-2.jpeg") ?? FALLBACK,
+  diamond: byFile("ferrari-hero-2.jpeg") ?? FALLBACK,
+  "ceramic-coating": byFile("vehicle-2-ext-1.jpg") ?? FALLBACK,
+};
+
+/** Glossy exterior banner behind the /packages page heading. */
+export const packagesHeroImage: GalleryImage =
+  byFile("tesla-2.jpeg") ?? FALLBACK;
+
+export function packageImage(slug: string): GalleryImage {
+  return packageCardImages[slug] ?? FALLBACK;
+}
