@@ -25,11 +25,25 @@
  * If a Ferrari background is wanted, use ferrari-hero-2 or -3.
  */
 
+/**
+ * Vehicle-type buckets for the /gallery filter. "Interiors" is the exception —
+ * a cabin shot doesn't fit an exterior vehicle-type bucket, so any interior
+ * lands here regardless of the vehicle. Categories were assigned by looking at
+ * each photo, not by filename.
+ */
+export type GalleryCategory =
+  | "Exotic"
+  | "Sedans"
+  | "SUVs"
+  | "Trucks"
+  | "Interiors";
+
 export type GalleryImage = {
   src: string;
   alt: string;
   width: number;
   height: number;
+  category: GalleryCategory;
 };
 
 export type FeatureVehicle = {
@@ -58,18 +72,21 @@ export const featureVehicles: FeatureVehicle[] = [
         alt: `Mobile car detailing in ${AREA} — sports car with a mirror-gloss paint finish after a full exterior detail`,
         width: 1024,
         height: 768,
+        category: "Exotic",
       },
       {
         src: "/royal-feature/ferrari-hero-2.jpeg",
         alt: `Mobile car detailing in ${AREA} — sports car detailed on site, paintwork polished to a deep reflective shine`,
         width: 3840,
         height: 5120,
+        category: "Exotic",
       },
       {
         src: "/royal-feature/ferrari-hero-3.jpeg",
         alt: `Exterior car detailing in ${AREA} — sports car with cleaned wheels and gloss-finished bodywork`,
         width: 3840,
         height: 5120,
+        category: "Exotic",
       },
     ],
     interior: [],
@@ -83,6 +100,7 @@ export const featureVehicles: FeatureVehicle[] = [
         alt: `Mobile car detailing in ${AREA} — electric SUV with a streak-free gloss finish, detailed on the customer's street`,
         width: 2921,
         height: 2958,
+        category: "SUVs",
       },
     ],
     interior: [
@@ -91,6 +109,7 @@ export const featureVehicles: FeatureVehicle[] = [
         alt: `Interior car detailing in ${AREA} — electric SUV cabin with cleaned white leather seats, dashboard, and door sill`,
         width: 3840,
         height: 5120,
+        category: "Interiors",
       },
     ],
   },
@@ -103,12 +122,14 @@ export const featureVehicles: FeatureVehicle[] = [
         alt: `Mobile car detailing in ${AREA} — sports car with a polished gloss finish, detailed in a residential driveway`,
         width: 576,
         height: 1024,
+        category: "Exotic",
       },
       {
         src: "/royal-feature/vehicle-1-ext-2.jpg",
         alt: `Mobile car detailing in ${AREA} — freshly detailed sports car beside the Royal Rinse mobile detailing van`,
         width: 576,
         height: 1024,
+        category: "Exotic",
       },
     ],
     interior: [],
@@ -122,18 +143,21 @@ export const featureVehicles: FeatureVehicle[] = [
         alt: `Exterior car detailing in ${AREA} — sports car with a deep gloss finish after a full exterior detail`,
         width: 900,
         height: 1600,
+        category: "Exotic",
       },
       {
         src: "/royal-feature/vehicle-2-ext-2.jpg",
         alt: `Mobile auto detailing in ${AREA} — sports car detailed on site with the Royal Rinse van in the background`,
         width: 900,
         height: 1600,
+        category: "Exotic",
       },
       {
         src: "/royal-feature/vehicle-2-ext-3.jpg",
         alt: `Wheel and paint detailing in ${AREA} — close-up of a cleaned wheel and reflective paintwork`,
         width: 900,
         height: 1600,
+        category: "Exotic",
       },
     ],
     interior: [
@@ -142,6 +166,7 @@ export const featureVehicles: FeatureVehicle[] = [
         alt: `Interior car detailing in ${AREA} — cleaned cabin with detailed seats, dashboard, and door sill`,
         width: 900,
         height: 1600,
+        category: "Interiors",
       },
     ],
   },
@@ -155,6 +180,7 @@ export const featureVehicles: FeatureVehicle[] = [
         alt: `Interior car detailing in ${AREA} — cleaned cabin with two-tone leather seats, steering wheel, and centre console`,
         width: 1024,
         height: 683,
+        category: "Interiors",
       },
     ],
   },
@@ -166,36 +192,42 @@ export const exteriorGallery: GalleryImage[] = [
     alt: `Exterior car detailing in ${AREA} — classic car with polished chrome trim and a mirror-gloss paint finish`,
     width: 900,
     height: 1600,
+    category: "Exotic",
   },
   {
     src: "/royal-exterior/exterior-2.jpg",
     alt: `Exterior truck detailing in ${AREA} — lifted pickup truck with off-road wheels, detailed in a driveway`,
     width: 576,
     height: 1024,
+    category: "Trucks",
   },
   {
     src: "/royal-exterior/exterior-3.jpg",
     alt: `Exterior truck detailing in ${AREA} — lifted pickup truck with a roof light bar after a full exterior detail`,
     width: 576,
     height: 1024,
+    category: "Trucks",
   },
   {
     src: "/royal-exterior/exterior-4.jpg",
     alt: `Exterior truck detailing in ${AREA} — pickup truck with a deep gloss finish and polished chrome grille`,
     width: 900,
     height: 1600,
+    category: "Trucks",
   },
   {
     src: "/royal-feature/royal-truck-1.jpeg",
     alt: `Mobile detailing in ${AREA} — the Royal Rinse mobile detailing truck, washed and detailed`,
     width: 2268,
     height: 4032,
+    category: "Trucks",
   },
   {
     src: "/royal-feature/royal-truck-tire-1.jpeg",
     alt: `Wheel and tire detailing in ${AREA} — close-up of a cleaned truck wheel with dressed tire sidewall`,
     width: 2268,
     height: 4032,
+    category: "Trucks",
   },
 ];
 
@@ -210,36 +242,42 @@ export const royalInteriorGallery: GalleryImage[] = [
     alt: `Interior car detailing in ${AREA} — luxury sedan cabin with cleaned cream leather seats, dashboard, and wood trim`,
     width: 900,
     height: 1600,
+    category: "Interiors",
   },
   {
     src: "/royal-interior/classic-interior.jpeg",
     alt: `Interior car detailing in ${AREA} — classic car cabin with red and white upholstery, cleaned dashboard and steering wheel`,
     width: 900,
     height: 1600,
+    category: "Interiors",
   },
   {
     src: "/royal-interior/classic-interior-2.jpeg",
     alt: `Interior car detailing in ${AREA} — classic car rear bench seat and carpets after a full interior clean`,
     width: 900,
     height: 1600,
+    category: "Interiors",
   },
   {
     src: "/royal-interior/porsche-interiors.jpeg",
     alt: `Interior car detailing in ${AREA} — SUV cabin with cleaned tan leather seats, centre console, and floor mats`,
     width: 900,
     height: 1600,
+    category: "Interiors",
   },
   {
     src: "/royal-interior/porsche-interiors-2.jpeg",
     alt: `Interior car detailing in ${AREA} — detailed SUV dashboard, vents, and front seats in tan leather`,
     width: 900,
     height: 1600,
+    category: "Interiors",
   },
   {
     src: "/royal-interior/porsche-interiors-3.jpeg",
     alt: `Interior car detailing in ${AREA} — SUV rear seats and footwells cleaned and conditioned`,
     width: 900,
     height: 1600,
+    category: "Interiors",
   },
 ];
 

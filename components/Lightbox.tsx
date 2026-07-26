@@ -124,7 +124,10 @@ export function LightboxGrid({
                   fill
                   loading={index < eagerCount ? "eager" : "lazy"}
                   priority={index < eagerCount}
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  quality={85}
+                  // Matches the real tile width so the optimizer serves the
+                  // right size (and never upscales past the source).
+                  sizes={sizes}
                   className="object-cover transition-transform duration-500 group-hover:scale-105"
                 />
                 <span className="sr-only">Enlarge photo</span>
