@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { PHONE_ARIA, nav, site, telHref } from "@/lib/site";
 import { BookNowButton } from "@/components/BookNowButton";
+import { ServicesDropdown, ServicesMobileMenu } from "@/components/ServicesNav";
 import { Container } from "@/components/ui";
 
 function Logo({ compact }: { compact: boolean }) {
@@ -72,15 +73,19 @@ export function Header() {
           <Logo compact={solid} />
 
           <nav className="hidden items-center gap-7 lg:flex">
-            {nav.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="text-sm font-medium text-muted transition-colors hover:text-ink"
-              >
-                {item.label}
-              </Link>
-            ))}
+            {nav.map((item) =>
+              item.label === "Services" ? (
+                <ServicesDropdown key={item.href} />
+              ) : (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="text-sm font-medium text-muted transition-colors hover:text-ink"
+                >
+                  {item.label}
+                </Link>
+              ),
+            )}
           </nav>
 
           <div className="hidden items-center gap-4 lg:flex">
@@ -125,16 +130,23 @@ export function Header() {
         <div id="mobile-menu" className="border-t border-hairline bg-charcoal lg:hidden">
           <Container className="py-5">
             <nav className="flex flex-col gap-1">
-              {nav.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  onClick={() => setOpen(false)}
-                  className="rounded-xl px-3 py-2.5 text-base font-medium text-muted transition-colors hover:bg-surface hover:text-ink"
-                >
-                  {item.label}
-                </Link>
-              ))}
+              {nav.map((item) =>
+                item.label === "Services" ? (
+                  <ServicesMobileMenu
+                    key={item.href}
+                    onNavigate={() => setOpen(false)}
+                  />
+                ) : (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    onClick={() => setOpen(false)}
+                    className="rounded-xl px-3 py-2.5 text-base font-medium text-muted transition-colors hover:bg-surface hover:text-ink"
+                  >
+                    {item.label}
+                  </Link>
+                ),
+              )}
             </nav>
 
             <div className="mt-5 flex flex-col gap-3 border-t border-hairline pt-5">
