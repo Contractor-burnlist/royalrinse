@@ -115,6 +115,11 @@ export function Footer() {
                   All services
                 </Link>
               </li>
+              <li>
+                <Link href="/blog" className="transition-colors hover:text-ink">
+                  Blog
+                </Link>
+              </li>
             </ul>
           </div>
         </div>

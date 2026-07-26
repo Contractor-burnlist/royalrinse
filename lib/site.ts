@@ -56,6 +56,7 @@ export const nav = [
   { label: "Gallery", href: "/gallery" },
   { label: "Reviews", href: "/reviews" },
   { label: "About", href: "/about" },
+  { label: "Blog", href: "/blog" },
 ] as const;
 
 // Services live in lib/services.ts — the pricebook is the source of truth.

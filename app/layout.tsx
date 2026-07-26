@@ -10,6 +10,7 @@ import {
   SERVICE_AREA_LINE,
   site,
 } from "@/lib/site";
+import { siteUrl } from "@/lib/url";
 import "./globals.css";
 
 const display = Space_Grotesk({
@@ -24,6 +25,12 @@ const body = Inter({
 });
 
 export const metadata: Metadata = {
+  /**
+   * Without this, Next.js resolves og:image against http://localhost:3000 and
+   * warns at build time — a shared blog post would advertise a localhost image
+   * nobody can load. See lib/url.ts for how the domain is resolved.
+   */
+  metadataBase: new URL(siteUrl),
   title: "Royal Rinse | Mobile Auto Detailing — Riverside & San Diego County",
   description:
     "Royal Rinse brings professional mobile auto detailing to your driveway anywhere in Riverside & San Diego County. Licensed, insured, and we come to you.",
