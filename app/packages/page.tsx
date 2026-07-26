@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ceramicCoating, quoteNote, tiers } from "@/lib/services";
 import { packageImage, packagesHeroImage } from "@/lib/serviceImages";
-import { PHONE_ARIA, site, telHref } from "@/lib/site";
+import { PHONE_ARIA, telHref } from "@/lib/site";
 import { BookNowButton } from "@/components/BookNowButton";
 import {
   PackagesCtaSentinel,
@@ -63,13 +63,18 @@ function TrustLine({ className = "" }: { className?: string }) {
   );
 }
 
-function CtaRow({ label }: { label: string }) {
+function CtaRow() {
   return (
-    <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-      <BookNowButton>{label}</BookNowButton>
-      <ButtonAnchor href={telHref} aria-label={PHONE_ARIA} variant="secondary">
-        Call for Quote
-      </ButtonAnchor>
+    <div className="mt-8">
+      <div className="flex flex-col gap-3 sm:flex-row">
+        <BookNowButton>Book now — spots fill fast</BookNowButton>
+        <ButtonAnchor href={telHref} aria-label={PHONE_ARIA} variant="secondary">
+          Call now for an instant quote
+        </ButtonAnchor>
+      </div>
+      <p className="mt-3 text-xs font-medium text-chrome">
+        Same-week appointments available.
+      </p>
     </div>
   );
 }
@@ -161,7 +166,7 @@ function TierCard({ tier, rank }: { tier: (typeof tiers)[number]; rank: number }
           <p className="mt-6 text-xs leading-relaxed text-muted">{tier.addOnNote}</p>
         ) : null}
 
-        <CtaRow label="Book This Package" />
+        <CtaRow />
 
         <Link
           href={`/services/${tier.slug}`}
@@ -197,7 +202,7 @@ function CtaBand({
   heading,
   body,
   note,
-  bookLabel = "Book Now",
+  bookLabel = "Reserve your spot today",
 }: {
   heading: string;
   body: string;
@@ -216,10 +221,15 @@ function CtaBand({
         </h2>
         <p className="mx-auto mt-4 max-w-xl text-base text-muted">{body}</p>
 
-        <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
+        {/* Urgency nudge, right above the buttons. */}
+        <p className="mx-auto mt-6 max-w-md text-sm font-semibold text-chrome">
+          Same-week appointments available — reserve yours before they fill.
+        </p>
+
+        <div className="mt-5 flex flex-col justify-center gap-3 sm:flex-row">
           <BookNowButton>{bookLabel}</BookNowButton>
           <ButtonAnchor href={telHref} aria-label={PHONE_ARIA} variant="secondary">
-            Call {site.phone}
+            Call now for an instant quote
           </ButtonAnchor>
         </div>
 
@@ -256,7 +266,7 @@ export default function PackagesPage() {
           className="absolute inset-0 bg-gradient-to-t from-base via-base/80 to-base/55"
         />
         <div aria-hidden="true" className="absolute inset-0 bg-base/30" />
-        <Container className="relative py-20 sm:py-28">
+        <Container className="relative py-14 sm:py-20">
           <Eyebrow>Packages</Eyebrow>
           <h1 className="mt-3 max-w-3xl font-display text-4xl font-bold tracking-tight text-ink drop-shadow-[0_2px_12px_rgba(0,0,0,0.6)] sm:text-5xl">
             Our Detailing Packages
@@ -269,8 +279,10 @@ export default function PackagesPage() {
         </Container>
       </section>
 
-      <Section className="!pb-0">
-        <ol className="space-y-8">
+      {/* Tighter top padding pulls the ladder up close under the hero; cards
+          sit 24px apart so the page reads dense but not crammed. */}
+      <Section className="!pb-0 !pt-10 sm:!pt-14">
+        <ol className="space-y-6">
           {tiers.map((tier, index) => (
             <li key={tier.slug}>
               {/* Staggered so the ladder cascades in one card after another. */}
@@ -288,7 +300,7 @@ export default function PackagesPage() {
           <CtaBand
             heading="Not sure which package? We'll help you choose."
             body="Tell us your vehicle and what you're after — we'll recommend the right level and give you a straight quote. No pressure."
-            bookLabel="Book Now"
+            bookLabel="Book now — spots fill fast"
           />
         </Reveal>
       </Section>
@@ -336,7 +348,7 @@ export default function PackagesPage() {
                 ))}
               </ul>
 
-              <CtaRow label="Book Ceramic Coating" />
+              <CtaRow />
 
               <Link
                 href={`/services/${ceramicCoating.slug}`}

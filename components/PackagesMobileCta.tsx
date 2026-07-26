@@ -57,7 +57,7 @@ export function PackagesMobileCta({ sentinelId }: { sentinelId: string }) {
     >
       <div className="border-t border-hairline bg-base/85 px-4 pb-[calc(0.75rem+env(safe-area-inset-bottom))] pt-3 backdrop-blur-lg">
         <div className="mx-auto flex max-w-md items-center gap-3">
-          <BookNowButton className="flex-1">Book Now</BookNowButton>
+          <BookNowButton className="flex-1">Reserve your spot</BookNowButton>
           <a
             href={telHref}
             aria-label={PHONE_ARIA}
