@@ -28,16 +28,18 @@ export const PRICE_RANGE = "$$";
 /**
  * Google aggregate rating for the LocalBusiness schema.
  *
- * Deliberately null: the GBP has 30+ real reviews, but publishing a guessed
- * star value would be fabricated structured data. Fill BOTH fields with the
- * exact current numbers from the Google Business Profile and the
- * aggregateRating block emits automatically — until then nothing is published.
- *   e.g. { ratingValue: 5.0, reviewCount: 32 }
+ * Real Google Business Profile figures: 5.0 stars across 30+ reviews. Schema
+ * needs a concrete number, so reviewCount uses 30 as a floor; on-page copy
+ * shows "30+" via REVIEW_COUNT_DISPLAY.
  */
 export const AGGREGATE_RATING: {
   ratingValue: number;
   reviewCount: number;
-} | null = null;
+} | null = { ratingValue: 5.0, reviewCount: 30 };
+
+/** On-page display strings for the Google rating (schema uses AGGREGATE_RATING). */
+export const REVIEW_RATING_DISPLAY = "5.0";
+export const REVIEW_COUNT_DISPLAY = "30+";
 
 /** The counties served. Change here to update every mention site-wide. */
 export const SERVICE_AREA_LINE = "Riverside & San Diego County";

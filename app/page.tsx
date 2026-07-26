@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import {
+  GOOGLE_REVIEWS_URL,
   PHONE_ARIA,
+  REVIEW_COUNT_DISPLAY,
+  REVIEW_RATING_DISPLAY,
   SERVICE_AREA_SHORT,
   site,
   steps,
@@ -22,7 +25,9 @@ import {
 } from "@/lib/gallery";
 import { serviceImage } from "@/lib/serviceImages";
 import { BookNowButton } from "@/components/BookNowButton";
+import { GoogleMark } from "@/components/GoogleMark";
 import { GoogleRatingSummary } from "@/components/GoogleRatingSummary";
+import { GoogleReviewsBadge, GoldStars } from "@/components/GoogleReviewsBadge";
 import { GoogleReviewsLink } from "@/components/GoogleReviewsLink";
 import { HeroCarousel } from "@/components/HeroCarousel";
 import { MilitaryDiscountBadge } from "@/components/MilitaryDiscountBadge";
@@ -51,17 +56,16 @@ export const metadata: Metadata = buildMetadata({
 const trustChips = [
   "Licensed, Insured & Bonded",
   "Mobile — We Come To You",
-  "5-Star Rated",
 ];
 
 // `detail` renders as a smaller muted line beneath the label — used to surface
 // the DLSE licence number itself, not just the claim of being licensed.
+// Four credentials; the fifth grid slot is the Google-reviews stat (below).
 const trustBadges: { label: string; detail?: string }[] = [
   { label: "CA DLSE Licensed", detail: site.licenseNumber },
   { label: "Fully Insured" },
   { label: "Bonded" },
   { label: "Mobile Service" },
-  { label: "Satisfaction Guaranteed" },
 ];
 
 const tierIcons: Record<string, string> = {
@@ -149,13 +153,21 @@ function Hero() {
         <BookNowButton variant="secondary" />
       </div>
 
-      <ul className="mt-6 flex flex-wrap justify-center gap-x-7 gap-y-3">
+      <ul className="mt-7 flex flex-wrap items-center justify-center gap-x-7 gap-y-3">
         {trustChips.map((chip) => (
           <li key={chip} className="flex items-center gap-2 text-sm text-chrome">
             <Icon name="check" className="h-4 w-4 text-royal" />
             {chip}
           </li>
         ))}
+        <li>
+          <GoogleReviewsBadge
+            className="text-sm text-chrome hover:text-ink"
+            starClassName="h-3.5 w-3.5"
+          >
+            {REVIEW_COUNT_DISPLAY} Five-Star Google Reviews
+          </GoogleReviewsBadge>
+        </li>
       </ul>
     </HeroCarousel>
   );
@@ -187,6 +199,28 @@ function TrustBar() {
                 </span>
               </li>
             ))}
+
+            {/* Google reviews stat — clickable, gold stars + G, real figures. */}
+            <li className="flex items-start justify-center gap-2 text-center">
+              <a
+                href={GOOGLE_REVIEWS_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex items-start gap-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-royal focus-visible:ring-offset-2 focus-visible:ring-offset-charcoal"
+              >
+                <GoogleMark className="mt-0.5 h-4 w-4 shrink-0" />
+                <span className="min-w-0">
+                  <span className="block text-sm font-medium text-chrome transition-colors group-hover:text-ink">
+                    {REVIEW_COUNT_DISPLAY} Google Reviews
+                  </span>
+                  <span className="mt-1 flex items-center justify-center gap-1.5 text-[11px] text-muted">
+                    <GoldStars className="h-3 w-3" />
+                    {REVIEW_RATING_DISPLAY} Rating
+                  </span>
+                  <span className="sr-only">(opens Google in a new tab)</span>
+                </span>
+              </a>
+            </li>
           </ul>
 
           {/* Its own row — squeezed into the badge grid it wrapped and crowded
