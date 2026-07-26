@@ -28,7 +28,7 @@ export const site = {
   licenseNumber: "CW-LR-1001298512",
   // Open 7 days. Single entry — every day is the same, so listing each day
   // would just be noise.
-  hours: [{ days: "Open 7 Days", time: "8:00 AM – 5:00 PM" }],
+  hours: [{ days: "Open 7 Days", time: "8:00 AM – 8:00 PM" }],
 } as const;
 
 /** Machine-readable hours for JSON-LD. 24-hour time, all seven days. */
@@ -43,7 +43,7 @@ export const OPENING_HOURS = {
     "Sunday",
   ],
   opens: "08:00",
-  closes: "17:00",
+  closes: "20:00",
 } as const;
 
 export const telHref = PHONE_TEL;

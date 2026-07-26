@@ -51,7 +51,7 @@ const localBusinessSchema = {
     addressRegion: "CA",
     addressCountry: "US",
   },
-  // Open 7 days, 8:00–17:00. One spec listing all seven days.
+  // Open 7 days, 8:00–20:00. One spec listing all seven days.
   openingHoursSpecification: [
     {
       "@type": "OpeningHoursSpecification",
