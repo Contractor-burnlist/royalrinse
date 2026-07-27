@@ -384,39 +384,51 @@ const NEAR_DUPLICATE_SRCS = new Set(["/royal-feature/ferrari-hero.jpeg"]);
 export const isNearDuplicate = (src: string) => NEAR_DUPLICATE_SRCS.has(src);
 
 /**
- * Front-of-rotation curation. The hero shows up to 3 tiles at once, so what
- * sits near the front matters.
+ * Hero order: EXOTICS FIRST, opening with the cream striped Ferrari, then every
+ * other category in gallery order. Explicit and deterministic (not random), so
+ * it's identical on every load.
  *
- * PROMOTED: ferrari-exterior-1 (the white exotic) leads at slide 0 — the tile
- * HeroCarousel renders with priority and the royal "featured" ring.
+ * HERO_EXOTIC_ORDER is the exact front sequence of exotic shots. The cream
+ * Ferrari (ferrari-hero.jpeg — the driveway shot in front of the Spanish house)
+ * is pinned first, so it's HeroCarousel's slide 0: priority/eager-loaded, with
+ * the "featured" ring. The rest are hand-sequenced strongest-first, with no two
+ * shots of the same car adjacent and the two cream-Ferrari angles ≥3 apart.
  *
- * DEFERRED: the two cream-Ferrari shots (-2 and -3 are the same car) are pushed
- * to spaced-out slots so no two Ferraris ever land in the same 3-tile viewport,
- * including the new white one up front. A gap of 3+ is enough on desktop.
+ * ferrari-hero-2.jpeg is EXCLUDED from the hero: it's the same front-3/4
+ * framing as the pinned lead (its sharper twin), so showing both would repeat
+ * one shot. (isNearDuplicate still governs the homepage masonry, which keeps
+ * -2 and drops -1 there — each surface shows exactly one of the pair.)
  */
-const HERO_PROMOTED = ["/royal-exterior/ferrari-exterior-1.jpeg"];
-const HERO_DEFERRED: { src: string; to: number }[] = [
-  { src: "/royal-feature/ferrari-hero-2.jpeg", to: 4 },
-  { src: "/royal-feature/ferrari-hero-3.jpeg", to: 8 },
+const HERO_EXOTIC_ORDER = [
+  "/royal-feature/ferrari-hero.jpeg", // cream Ferrari, stripe — LEAD (slide 0)
+  "/royal-exterior/ferrari-exterior-1.jpeg", // white Ferrari
+  "/royal-feature/vehicle-2-ext-1.jpg", // green Porsche
+  "/royal-feature/ferrari-hero-3.jpeg", // cream Ferrari, door open (gap 3 from lead)
+  "/royal-exterior/exterior-1.jpg", // classic Chevy
+  "/royal-feature/vehicle-1-ext-1.jpg", // white Ferrari Roma
+  "/royal-feature/vehicle-2-ext-2.jpg", // green Porsche
+  "/royal-feature/vehicle-1-ext-2.jpg", // white Ferrari Roma
+  "/royal-feature/vehicle-2-ext-3.jpg", // green Porsche, wheel detail
 ];
 
+const HERO_EXCLUDE = new Set(["/royal-feature/ferrari-hero-2.jpeg"]);
+
 export const heroSlides: GalleryImage[] = (() => {
-  const pool = allGalleryImages.filter((image) => !isNearDuplicate(image.src));
+  const usable = allGalleryImages.filter((image) => !HERO_EXCLUDE.has(image.src));
+  const rank = new Map(HERO_EXOTIC_ORDER.map((src, index) => [src, index]));
 
-  // Move promoted shots to the front, preserving their listed order.
-  for (let i = HERO_PROMOTED.length - 1; i >= 0; i--) {
-    const at = pool.findIndex((image) => image.src === HERO_PROMOTED[i]);
-    if (at > -1) pool.unshift(pool.splice(at, 1)[0]);
-  }
+  // All exotics first, in HERO_EXOTIC_ORDER; any exotic not listed keeps its
+  // gallery order after the listed ones (stable sort) so future additions still
+  // land in the exotic block rather than among the other categories.
+  const exotics = usable
+    .filter((image) => image.category === "Exotic")
+    .sort(
+      (a, b) =>
+        (rank.get(a.src) ?? Number.MAX_SAFE_INTEGER) -
+        (rank.get(b.src) ?? Number.MAX_SAFE_INTEGER),
+    );
 
-  // Move deferred shots to later slots, applied top-to-bottom.
-  for (const { src, to } of HERO_DEFERRED) {
-    const at = pool.findIndex((image) => image.src === src);
-    if (at > -1) {
-      const [moved] = pool.splice(at, 1);
-      pool.splice(Math.min(to, pool.length), 0, moved);
-    }
-  }
+  const rest = usable.filter((image) => image.category !== "Exotic");
 
-  return pool;
+  return [...exotics, ...rest];
 })();
