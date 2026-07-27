@@ -12,9 +12,9 @@ import { QuoteCta } from "@/components/QuoteCta";
 import { Card, Container, Eyebrow, Icon, Section } from "@/components/ui";
 
 export const metadata: Metadata = buildMetadata({
-  title: "Auto Detailing Services — Riverside & San Diego | Royal Rinse",
+  title: "Auto Detailing Services, Riverside & San Diego | Royal Rinse",
   description:
-    "Mobile auto detailing in Menifee, Temecula & across Riverside & San Diego County — Bronze to Diamond packages, ceramic coating, paint correction, add-ons.",
+    "Mobile auto detailing in Menifee, Temecula & across Riverside & San Diego County: Bronze to Diamond packages, ceramic coating, paint correction, add-ons.",
   path: "/services",
 });
 
@@ -66,7 +66,7 @@ export default function ServicesPage() {
             Detailing, delivered to you
           </h1>
           <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted">
-            Five packages, ceramic coating, and a full add-on menu — all done on
+            Five packages, ceramic coating, and a full add-on menu, all done on
             site across Menifee, Temecula, and Riverside &amp; San Diego County.
           </p>
         </Container>
@@ -108,7 +108,7 @@ export default function ServicesPage() {
             <li key={addOn.name} className="flex gap-3">
               <Icon name="check" className="mt-1 h-4 w-4 shrink-0 text-royal" />
               <p className="text-sm leading-relaxed text-muted">
-                <span className="font-semibold text-ink">{addOn.name}</span> — {addOn.desc}
+                <span className="font-semibold text-ink">{addOn.name}</span>: {addOn.desc}
               </p>
             </li>
           ))}
@@ -130,7 +130,7 @@ export default function ServicesPage() {
                 <span className="font-display text-base font-bold text-ink">
                   {service.name}
                 </span>
-                <span className="mx-2 text-muted">—</span>
+                <span className="mx-2 text-muted">:</span>
                 {service.tagline}
               </p>
               <Link

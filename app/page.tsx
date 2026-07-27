@@ -49,13 +49,13 @@ import {
 export const metadata: Metadata = buildMetadata({
   title: "Mobile Auto Detailing in Menifee & Temecula | Royal Rinse",
   description:
-    "Premium mobile auto detailing in Menifee, Temecula, and across Riverside & San Diego County. Licensed & insured — we come to you. Call (951) 338-9117.",
+    "Premium mobile auto detailing in Menifee, Temecula, and across Riverside & San Diego County. Licensed & insured, we come to you. Call (951) 338-9117.",
   path: "/",
 });
 
 const trustChips = [
   "Licensed, Insured & Bonded",
-  "Mobile — We Come To You",
+  "Mobile: We Come To You",
 ];
 
 // `detail` renders as a smaller muted line beneath the label — used to surface
@@ -240,7 +240,7 @@ function Services() {
       <SectionHeading
         eyebrow="What we do"
         title="Detailing services, delivered to you"
-        intro="Every service runs off our fully self-contained mobile rig — no shop visit, no drop-off."
+        intro="Every service runs off our fully self-contained mobile rig: no shop visit, no drop-off."
       />
 
       <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -341,8 +341,8 @@ function ServiceAreaTeaser() {
       <Section className="!py-20 sm:!py-24">
         <SectionHeading
           eyebrow="Service area"
-          title="Based in Menifee — we come to you"
-          intro="Rooted in Menifee, we're quickest across Menifee, Temecula, and Murrieta — and we cover all of Riverside & San Diego County. Don't see your neighborhood? Just ask."
+          title="Based in Menifee, we come to you"
+          intro="Rooted in Menifee, we're quickest across Menifee, Temecula, and Murrieta, and we cover all of Riverside & San Diego County. Don't see your neighborhood? Just ask."
         />
 
         {/* Priority markets, called out prominently ahead of the full list. */}
@@ -429,7 +429,7 @@ function Testimonials() {
           </h2>
           <GoogleRatingSummary className="mt-5" />
           <p className="mt-4 text-base leading-relaxed text-muted">
-            A few of our favorite reviews from real customers — read them all on
+            A few of our favorite reviews from real customers, read them all on
             our verified Google Business Profile.
           </p>
         </div>
@@ -531,7 +531,7 @@ export default function Home() {
       <PhotoBand
         image={bandImages.showroom}
         headline="Showroom finish, every time."
-        sub="The finish is in the parts most people skip — every vent, seam, and panel."
+        sub="The finish is in the parts most people skip: every vent, seam, and panel."
       />
 
       <ServiceAreaTeaser />

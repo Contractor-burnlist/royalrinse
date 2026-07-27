@@ -9,7 +9,7 @@ import { MilitaryDiscountBadge } from "@/components/MilitaryDiscountBadge";
 import { ButtonAnchor, Card, Container, Eyebrow, Icon, Section } from "@/components/ui";
 
 export const metadata: Metadata = buildMetadata({
-  title: "About Royal Rinse — Mobile Detailing, Riverside & SD",
+  title: "About Royal Rinse: Mobile Detailing, Riverside & SD",
   description:
     "Royal Rinse is a licensed, insured mobile auto detailing company based in Menifee, serving Temecula and all of Riverside & San Diego County. Our story and standard.",
   path: "/about",
@@ -20,7 +20,7 @@ const whyRoyalRinse = [
     icon: "car",
     title: "We come to you",
     description:
-      "Home or office, your driveway becomes the detail bay. Our rig arrives fully self-contained — water, power, everything — so a professional detail costs you nothing but the walk to your window.",
+      "Home or office, your driveway becomes the detail bay. Our rig arrives fully self-contained: water, power, everything. So a professional detail costs you nothing but the walk to your window.",
   },
   {
     icon: "sparkle",
@@ -32,7 +32,7 @@ const whyRoyalRinse = [
     icon: "shield",
     title: "Premium products, ceramic expertise",
     description:
-      "Pro-grade equipment and premium chemistry, chosen for how they perform — not how they market. From ceramic spray waxes to multi-year coatings, we know what each finish needs.",
+      "Pro-grade equipment and premium chemistry, chosen for how they perform, not how they market. From ceramic spray waxes to multi-year coatings, we know what each finish needs.",
   },
   {
     icon: "check",
@@ -56,7 +56,7 @@ function Hero() {
           About Royal Rinse
         </h1>
         <p className="mt-4 max-w-2xl text-lg leading-relaxed text-chrome">
-          Southern California&rsquo;s premium detailers — and we come to you.
+          Southern California&rsquo;s premium detailers, and we come to you.
         </p>
         <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted">
           A showroom finish shouldn&rsquo;t cost you a day. We bring the whole shop to
@@ -82,14 +82,14 @@ function OurStory() {
             <p>
               Royal Rinse started about three years ago with a simple idea:
               dealership-quality detailing shouldn&rsquo;t require a dealership visit.
-              No drop-off, no shuttle, no afternoon lost in a waiting room — just the
+              No drop-off, no shuttle, no afternoon lost in a waiting room: just the
               standard of work you&rsquo;d expect from the best shop in town, delivered
               to wherever your car happens to be parked.
             </p>
             <p>
               It began in Menifee with a single detailer, a rig, and an unreasonable
-              amount of care per vehicle. Word travelled the way it does in this business
-              — one gleaming car in one driveway at a time. As demand grew, we partnered
+              amount of care per vehicle. Word travelled the way it does in this business:
+              one gleaming car in one driveway at a time. As demand grew, we partnered
               with skilled, like-minded detailers who hold the same standard, so we could
               expand from our Menifee home base across Temecula and all of Riverside &amp;
               San Diego County without ever thinning the quality that got us here.
@@ -164,7 +164,7 @@ function OurStandard() {
             A daily driver with a car seat in the back and a weekend classic with
             original chrome get the same hands, the same products, and the same
             unhurried attention. We&rsquo;ve detailed lifted trucks caked in trail dust
-            and exotics that have never seen rain — and the standard doesn&rsquo;t move.
+            and exotics that have never seen rain, and the standard doesn&rsquo;t move.
           </p>
           <p>
             That means honest work: no shortcuts on prep, no hiding swirls under a coat
@@ -174,7 +174,7 @@ function OurStandard() {
             actually needs.
           </p>
           <p>
-            We think that&rsquo;s what premium really means. Not a price tag — a
+            We think that&rsquo;s what premium really means. Not a price tag, a
             standard you can see in the reflection.
           </p>
         </div>
@@ -225,7 +225,7 @@ function AboutCta() {
           </div>
 
           <p className="mt-8 text-sm text-muted">
-            Serving Riverside &amp; San Diego County —{" "}
+            Serving Riverside &amp; San Diego County,{" "}
             <Link
               href="/service-area"
               className="font-semibold text-royal transition-colors hover:text-chrome"

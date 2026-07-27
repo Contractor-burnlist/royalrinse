@@ -67,14 +67,14 @@ export const site = {
    * structured data so the site matches the GBP verbatim.
    */
   legalName: "Royal Rinse Mobile Detailing",
-  tagline: "Mobile Auto Detailing — We Come To You",
+  tagline: "Mobile Auto Detailing: We Come To You",
   phone: PHONE_DISPLAY,
   email: "office@royalrinsemobile.com",
-  license: "Licensed, Insured & Bonded — CA DLSE CW-LR-1001298512",
+  license: "Licensed, Insured & Bonded: CA DLSE CW-LR-1001298512",
   licenseNumber: "CW-LR-1001298512",
   // Open 7 days. Single entry — every day is the same, so listing each day
   // would just be noise.
-  hours: [{ days: "Open 7 Days", time: "8:00 AM – 8:00 PM" }],
+  hours: [{ days: "Open 7 Days", time: "8:00 AM - 8:00 PM" }],
 } as const;
 
 /** Machine-readable hours for JSON-LD. 24-hour time, all seven days. */
@@ -113,7 +113,7 @@ export const steps = [
   {
     number: "01",
     title: "Book online or call",
-    description: "Pick a time that works for you. Tell us the vehicle and the service — we handle the rest.",
+    description: "Pick a time that works for you. Tell us the vehicle and the service. We handle the rest.",
   },
   {
     number: "02",
@@ -123,7 +123,7 @@ export const steps = [
   {
     number: "03",
     title: "Showroom finish, no hassle",
-    description: "You get back a car that looks like it just rolled off the lot — without ever leaving your driveway.",
+    description: "You get back a car that looks like it just rolled off the lot, without ever leaving your driveway.",
   },
 ] as const;
 
@@ -151,7 +151,7 @@ export const credentials = [
   {
     title: "Licensed",
     icon: "shield",
-    description: `Registered with the California DLSE under license ${site.licenseNumber}. Not a side hustle — a properly registered business.`,
+    description: `Registered with the California DLSE under license ${site.licenseNumber}. Not a side hustle: a properly registered business.`,
   },
   {
     title: "Insured",
@@ -163,7 +163,7 @@ export const credentials = [
     title: "Bonded",
     icon: "diamond",
     description:
-      "Bonded for your protection. If something ever goes wrong, you are financially protected — you are not left carrying the risk.",
+      "Bonded for your protection. If something ever goes wrong, you are financially protected: you are not left carrying the risk.",
   },
 ] as const;
 

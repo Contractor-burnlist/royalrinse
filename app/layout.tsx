@@ -25,7 +25,7 @@ export const metadata: Metadata = {
    * them against localhost. See lib/url.ts for how the domain is chosen.
    */
   metadataBase: new URL(siteUrl),
-  title: `${site.legalName} | Mobile Auto Detailing — ${SERVICE_AREA_LINE}`,
+  title: `${site.legalName} | Mobile Auto Detailing, ${SERVICE_AREA_LINE}`,
   description:
     "Royal Rinse brings premium mobile auto detailing to your driveway anywhere in Riverside & San Diego County. Licensed, insured, and we come to you.",
   applicationName: site.legalName,

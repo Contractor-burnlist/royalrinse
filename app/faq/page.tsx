@@ -7,9 +7,9 @@ import { QuoteCta } from "@/components/QuoteCta";
 import { Container, Eyebrow, Section } from "@/components/ui";
 
 export const metadata: Metadata = buildMetadata({
-  title: "Mobile Detailing FAQ | Royal Rinse — Riverside & San Diego",
+  title: "Mobile Detailing FAQ | Royal Rinse, Riverside & San Diego",
   description:
-    "Answers about Royal Rinse mobile auto detailing — costs, ceramic coating, service area, how long a detail takes, licensing, and our 10% military discount.",
+    "Answers about Royal Rinse mobile auto detailing: costs, ceramic coating, service area, how long a detail takes, licensing, and our 10% military discount.",
   path: "/faq",
 });
 

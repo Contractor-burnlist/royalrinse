@@ -29,7 +29,7 @@ export function Footer() {
       <Container>
         <div className="grid gap-12 py-16 sm:grid-cols-2 lg:grid-cols-4">
           <div>
-            <Link href="/" className="inline-flex" aria-label="Royal Rinse — home">
+            <Link href="/" className="inline-flex" aria-label="Royal Rinse, home">
               <Image
                 src="/royal-logo.jpeg"
                 alt="Royal Rinse mobile auto detailing"

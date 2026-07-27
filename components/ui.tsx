@@ -167,6 +167,9 @@ const iconPaths: Record<string, ReactNode> = {
       <path d="M3 10h18M8 3v4M16 3v4" />
     </>
   ),
+  phone: (
+    <path d="M6.6 3.5c.6 0 1.1.4 1.3 1l.9 3a1.4 1.4 0 0 1-.4 1.4L7 10.3a12 12 0 0 0 5 5l1.4-1.4a1.4 1.4 0 0 1 1.4-.3l3 .9c.6.2 1 .7 1 1.3v3c0 .8-.7 1.5-1.5 1.4C10.4 20.6 3.4 13.6 3.1 5A1.4 1.4 0 0 1 4.5 3.5h2.1Z" />
+  ),
 };
 
 export function Icon({

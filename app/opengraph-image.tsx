@@ -11,7 +11,7 @@ import { PHONE_DISPLAY, SERVICE_AREA_LINE, site } from "@/lib/site";
  * with a car photo on the right.
  */
 export const runtime = "nodejs";
-export const alt = `${site.legalName} — Mobile Auto Detailing, ${SERVICE_AREA_LINE}`;
+export const alt = `${site.legalName}, Mobile Auto Detailing, ${SERVICE_AREA_LINE}`;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -76,7 +76,7 @@ export default function OpengraphImage() {
           <div
             style={{ display: "flex", marginTop: 26, fontSize: 27, color: "#C9CED6" }}
           >
-            {SERVICE_AREA_LINE} — We Come To You
+            {SERVICE_AREA_LINE}, We Come To You
           </div>
           <div
             style={{ display: "flex", marginTop: 28, fontSize: 34, fontWeight: 700 }}

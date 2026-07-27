@@ -33,7 +33,7 @@ export function generateMetadata({ params }: { params: Params }): Metadata {
     title: `Mobile Auto Detailing in ${city.name}, CA | Royal Rinse`,
     description:
       page?.metaDescription ??
-      `Royal Rinse brings professional mobile auto detailing to ${city.name} in ${city.county} County. We come to your home or office — licensed, insured, fully self-contained.`,
+      `Royal Rinse brings professional mobile auto detailing to ${city.name} in ${city.county} County. We come to your home or office: licensed, insured, fully self-contained.`,
     path: `/service-area/${city.slug}`,
   });
 }
@@ -92,7 +92,7 @@ function TrustLine({ className = "" }: { className?: string }) {
     "Licensed & Insured",
     `CA DLSE ${site.licenseNumber}`,
     "10% Military Discount",
-    "Mobile — We Come To You",
+    "Mobile: We Come To You",
   ];
   return (
     <p
@@ -187,7 +187,7 @@ function CityCta({ ctaLine }: { ctaLine: string }) {
           </h2>
           <p className="mx-auto mt-4 max-w-xl text-base text-muted">{ctaLine}</p>
           <p className="mx-auto mt-6 max-w-md text-sm font-semibold text-chrome">
-            Same-week appointments available — call now for an instant quote.
+            Same-week appointments available. Call now for an instant quote.
           </p>
 
           <div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row">
@@ -296,7 +296,7 @@ function TemplatedCityPage({ city }: { city: City }) {
           </h1>
           <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted">
             We come to you in {city.name}. Our fully self-contained mobile rig arrives at
-            your home or office and details your vehicle right where it sits — no
+            your home or office and details your vehicle right where it sits: no
             drop-off, no waiting room, no lost afternoon.
           </p>
           <TrustLine className="mt-6" />

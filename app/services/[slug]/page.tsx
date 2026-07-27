@@ -19,7 +19,7 @@ export function generateMetadata({ params }: { params: Params }): Metadata {
   if (!detail) return {};
 
   return buildMetadata({
-    title: `${detail.name} — Mobile Detailing | Royal Rinse`,
+    title: `${detail.name}, Mobile Detailing | Royal Rinse`,
     description: `${detail.name} in ${SERVICE_AREA_LINE}. ${detail.intro}`.slice(
       0,
       158,
@@ -35,7 +35,7 @@ export default function ServiceDetailPage({ params }: { params: Params }) {
   const serviceSchema = {
     "@context": "https://schema.org",
     "@type": "Service",
-    name: `${detail.name} — Mobile Auto Detailing`,
+    name: `${detail.name}, Mobile Auto Detailing`,
     serviceType: detail.name,
     description: detail.intro,
     areaServed: SERVICE_AREA_LINE,

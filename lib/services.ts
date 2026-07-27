@@ -14,7 +14,7 @@ export const tiers: Tier[] = [
     name: "Bronze",
     tagline: "Essential clean to keep your car sharp.",
     intro:
-      "Our entry package covers the fundamentals — a thorough clean inside, outside, or both, done right.",
+      "Our entry package covers the fundamentals: a thorough clean inside, outside, or both, done right.",
     includes: [
       "Thorough vacuuming of all interior surfaces, including carpets",
       "Complete wipe-down of plastics and leather to remove dust and buildup",
@@ -51,7 +51,7 @@ export const tiers: Tier[] = [
       "Interior cleaning and conditioning, including leather",
       "Streak-free glass",
       "Hand wash with wheel and tire care",
-      "Upgraded ceramic spray wax — up to 4 months of protection",
+      "Upgraded ceramic spray wax: up to 4 months of protection",
       "Trim and door jamb detailing",
       "UV protection applied to exterior plastic trim",
     ],
@@ -69,7 +69,7 @@ export const tiers: Tier[] = [
       "Our Platinum line brings professional-grade decontamination and protection. Choose an exterior detail, a deep interior, or the complete full detail.",
     includes: [
       "Deep wash with iron removal and clay treatment",
-      "Ceramic sealant — up to 6 months of protection",
+      "Ceramic sealant: up to 6 months of protection",
       "Wheels, tires, trim, and glass cleaned",
       "Steam cleaning and extraction (interior)",
       "Full vacuum and detailing",
@@ -81,7 +81,7 @@ export const tiers: Tier[] = [
   {
     slug: "diamond",
     name: "Diamond",
-    tagline: "Our top-tier detail — a dealership-level reset.",
+    tagline: "Our top-tier detail: a dealership-level reset.",
     intro:
       "The Diamond full detail is our most complete service: deep interior restoration paired with full exterior decontamination and a 1-year ceramic sealant for long-lasting protection.",
     includes: [
@@ -103,22 +103,22 @@ export const ceramicCoating = {
   name: "Ceramic Coating",
   tagline: "Long-lasting gloss, protection, and a hydrophobic finish.",
   intro:
-    "Professional ceramic coating with full exterior prep — wash, iron and clay decontamination, and water spot removal — for a deep, high-gloss, easy-to-maintain finish that protects against UV and the elements.",
+    "Professional ceramic coating with full exterior prep, wash, iron and clay decontamination, and water spot removal, for a deep, high-gloss, easy-to-maintain finish that protects against UV and the elements.",
   levels: [
     {
       name: "1-Year Ceramic Wax Polish",
       desc: "Machine-applied ceramic wax with full decontamination and trim restoration for up to 12 months of high-gloss, hydrophobic protection.",
     },
     {
-      name: "Level 1 — Multi-Year Coating (3–5 yr)",
-      desc: "Full exterior prep with a durable 3–5 year coating application. Paint correction available as an add-on.",
+      name: "Level 1: Multi-Year Coating (3-5 yr)",
+      desc: "Full exterior prep with a durable 3-5 year coating application. Paint correction available as an add-on.",
     },
     {
-      name: "Level 2 — 5-Year Coating + Paint Correction",
+      name: "Level 2: 5-Year Coating + Paint Correction",
       desc: "Includes expert paint correction to remove imperfections, plus a durable 5-year coating for lasting gloss and protection.",
     },
     {
-      name: "Level 3 — Coating + 2-Step Paint Correction",
+      name: "Level 3: Coating + 2-Step Paint Correction",
       desc: "Our most thorough finish: a comprehensive 2-step paint correction with long-lasting, high-gloss ceramic protection.",
     },
   ] as CeramicLevel[],
@@ -160,8 +160,8 @@ export const addOns: AddOn[] = [
     desc: "Restores faded trim with a rich shine and UV protection.",
   },
   {
-    name: "Trim Conditioning (4–6 mo)",
-    desc: "Revitalizes and protects trim for 4–6 months.",
+    name: "Trim Conditioning (4-6 mo)",
+    desc: "Revitalizes and protects trim for 4-6 months.",
   },
   {
     name: "Glass Coating",
@@ -232,4 +232,4 @@ export function getServiceDetail(slug: string): ServiceDetail | undefined {
 
 /** Shown on every service page instead of a price. */
 export const quoteNote =
-  "Contact us for a custom quote — pricing depends on your vehicle's size and condition.";
+  "Contact us for a custom quote. Pricing depends on your vehicle's size and condition.";

@@ -90,7 +90,7 @@ export function siteJsonLd() {
     image: LOGO_URL,
     logo: LOGO_URL,
     priceRange: PRICE_RANGE,
-    description: `Premium mobile auto detailing serving ${SERVICE_AREA_LINE}. Licensed, insured, and bonded — we come to your home or office.`,
+    description: `Premium mobile auto detailing serving ${SERVICE_AREA_LINE}. Licensed, insured, and bonded. We come to your home or office.`,
     // Service-area business: no public storefront, so region only (no street).
     address: {
       "@type": "PostalAddress",

@@ -27,7 +27,7 @@ function Logo({ compact }: { compact: boolean }) {
       href="/"
       // `group` drives the hover lift on the image.
       className="group flex items-center rounded-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-royal focus-visible:ring-offset-2 focus-visible:ring-offset-base"
-      aria-label="Royal Rinse — home"
+      aria-label="Royal Rinse, home"
     >
       {/* Logo ships with its own near-black background, so it sits flush on the
           header. The border keeps the square edge from reading as an artifact.

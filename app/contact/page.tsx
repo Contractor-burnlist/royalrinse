@@ -16,7 +16,7 @@ import { ButtonAnchor, Container, Eyebrow, Icon, Section } from "@/components/ui
 export const metadata: Metadata = buildMetadata({
   title: "Contact Royal Rinse Mobile Detailing | (951) 338-9117",
   description:
-    "Contact Royal Rinse Mobile Detailing — call (951) 338-9117 or book online. Mobile auto detailing that comes to you across Riverside & San Diego County, open 7 days.",
+    "Contact Royal Rinse Mobile Detailing: call (951) 338-9117 or book online. Mobile auto detailing that comes to you across Riverside & San Diego County, open 7 days.",
   path: "/contact",
 });
 
@@ -43,7 +43,7 @@ const details: { icon: string; label: string; value: string; href?: string; aria
   {
     icon: "shield",
     label: "Service area",
-    value: `${SERVICE_AREA_LINE} — we come to you`,
+    value: `${SERVICE_AREA_LINE}, we come to you`,
   },
   {
     icon: "calendar",
@@ -63,7 +63,7 @@ export default function ContactPage() {
           </h1>
           <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted">
             Mobile auto detailing that comes to you across {SERVICE_AREA_LINE}.
-            Call, email, or book online — open 7 days.
+            Call, email, or book online. Open 7 days.
           </p>
         </Container>
       </div>
@@ -102,7 +102,7 @@ export default function ContactPage() {
             </address>
 
             <p className="mt-6 text-sm leading-relaxed text-muted">
-              Licensed, insured &amp; bonded — CA DLSE {site.licenseNumber}. We
+              Licensed, insured &amp; bonded: CA DLSE {site.licenseNumber}. We
               offer a 10% military discount.
             </p>
 

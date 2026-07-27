@@ -6,7 +6,7 @@ import { QuoteCta } from "@/components/QuoteCta";
 import { Container, Eyebrow, Icon, Section } from "@/components/ui";
 
 export const metadata: Metadata = buildMetadata({
-  title: "Service Area — Riverside & San Diego County | Royal Rinse",
+  title: "Service Area: Riverside & San Diego County | Royal Rinse",
   description:
     "Royal Rinse brings mobile auto detailing to Menifee, Temecula, Murrieta, Riverside, San Diego, La Jolla, Escondido and beyond across both counties. We come to you.",
   path: "/service-area",
@@ -19,11 +19,11 @@ export default function ServiceAreaPage() {
         <Container className="py-16 sm:py-20">
           <Eyebrow>Service area</Eyebrow>
           <h1 className="mt-3 font-display text-4xl font-bold tracking-tight text-ink sm:text-5xl">
-            Serving Riverside &amp; San Diego County — We Come To You
+            Serving Riverside &amp; San Diego County, We Come To You
           </h1>
           <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted">
             Our mobile rig is fully self-contained, so we detail your vehicle right where
-            it sits — at your home or your office. No drop-off, no waiting room.
+            it sits, at your home or your office. No drop-off, no waiting room.
           </p>
         </Container>
       </div>
@@ -59,7 +59,7 @@ export default function ServiceAreaPage() {
 
         <p className="mt-14 flex items-center gap-2 text-sm text-muted">
           <Icon name="check" className="h-4 w-4 shrink-0 text-royal" />
-          Don&rsquo;t see your city? Give us a call — if you&rsquo;re nearby, we can
+          Don&rsquo;t see your city? Give us a call. If you&rsquo;re nearby, we can
           usually get to you.
         </p>
       </Section>

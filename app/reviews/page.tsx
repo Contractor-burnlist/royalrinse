@@ -7,9 +7,9 @@ import { ReviewCard } from "@/components/ReviewCard";
 import { Container, Eyebrow, Section } from "@/components/ui";
 
 export const metadata: Metadata = buildMetadata({
-  title: "Reviews — Mobile Auto Detailing | Royal Rinse",
+  title: "Reviews, Mobile Auto Detailing | Royal Rinse",
   description:
-    "See what Royal Rinse customers say about our mobile auto detailing across Riverside & San Diego County — real reviews, plus our verified Google profile.",
+    "See what Royal Rinse customers say about our mobile auto detailing across Riverside & San Diego County: real reviews, plus our verified Google profile.",
   path: "/reviews",
 });
 
@@ -23,7 +23,7 @@ export default function ReviewsPage() {
             What Our Customers Say
           </h1>
           <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted">
-            Real words from drivers who let us into their driveways — a curated
+            Real words from drivers who let us into their driveways, a curated
             selection from our verified Google Business Profile.
           </p>
           <GoogleRatingSummary className="mt-6" />

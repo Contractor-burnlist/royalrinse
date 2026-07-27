@@ -11,7 +11,7 @@ import { Container, Eyebrow, Section } from "@/components/ui";
 export const metadata: Metadata = buildMetadata({
   title: "Car Detailing Blog | Royal Rinse Mobile Detailing",
   description:
-    "Detailing advice from Royal Rinse — ceramic coating, paint correction and mobile detailing tips for drivers across Riverside & San Diego County.",
+    "Detailing advice from Royal Rinse: ceramic coating, paint correction and mobile detailing tips for drivers across Riverside & San Diego County.",
   path: "/blog",
 });
 
@@ -26,7 +26,7 @@ export default function BlogIndexPage() {
           </h1>
           <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted">
             Straight answers about paint, protection, and keeping a car looking
-            its best — from the people doing the work in driveways across{" "}
+            its best, from the people doing the work in driveways across{" "}
             {SERVICE_AREA_LINE}.
           </p>
         </Container>
@@ -91,7 +91,7 @@ export default function BlogIndexPage() {
           </ul>
         ) : (
           <p className="text-base text-muted">
-            New articles are on the way — check back soon.
+            New articles are on the way. Check back soon.
           </p>
         )}
       </Section>

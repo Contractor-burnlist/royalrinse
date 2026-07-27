@@ -6,9 +6,9 @@ import { QuoteCta } from "@/components/QuoteCta";
 import { Container, Eyebrow } from "@/components/ui";
 
 export const metadata: Metadata = buildMetadata({
-  title: "Detailing Gallery — Riverside & San Diego | Royal Rinse",
+  title: "Detailing Gallery, Riverside & San Diego | Royal Rinse",
   description:
-    "Photos of recent Royal Rinse mobile detailing work across Riverside & San Diego County — exotics, SUVs, trucks, vans and interiors. Filter by category.",
+    "Photos of recent Royal Rinse mobile detailing work across Riverside & San Diego County: exotics, SUVs, trucks, vans and interiors. Filter by category.",
   path: "/gallery",
 });
 
@@ -22,7 +22,7 @@ export default function GalleryPage() {
             Our work
           </h1>
           <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted">
-            Every vehicle below was detailed on site — in a driveway, not a shop.
+            Every vehicle below was detailed on site, in a driveway, not a shop.
             Filter by category to see the work that&rsquo;s relevant to you.
           </p>
         </Container>

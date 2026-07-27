@@ -16,9 +16,9 @@ import { Reveal } from "@/components/Reveal";
 import { ButtonAnchor, Container, Eyebrow, Icon, Section } from "@/components/ui";
 
 export const metadata: Metadata = buildMetadata({
-  title: "Detailing Packages — Bronze to Diamond | Royal Rinse",
+  title: "Detailing Packages: Bronze to Diamond | Royal Rinse",
   description:
-    "Compare Royal Rinse mobile detailing packages — Bronze to Diamond plus ceramic coating. Quote-based, delivered to your driveway in Menifee, Temecula & beyond.",
+    "Compare Royal Rinse mobile detailing packages: Bronze to Diamond plus ceramic coating. Quote-based, delivered to your driveway in Menifee, Temecula & beyond.",
   path: "/packages",
 });
 
@@ -61,7 +61,7 @@ function TrustLine({ className = "" }: { className?: string }) {
       <span aria-hidden="true" className="text-royal">
         ·
       </span>
-      <span className="text-chrome">Mobile — We Come To You</span>
+      <span className="text-chrome">Mobile: We Come To You</span>
     </p>
   );
 }
@@ -70,7 +70,7 @@ function CtaRow() {
   return (
     <div className="mt-8">
       <div className="flex flex-col gap-3 sm:flex-row">
-        <BookNowButton>Book now — spots fill fast</BookNowButton>
+        <BookNowButton>Book now, spots fill fast</BookNowButton>
         <ButtonAnchor href={telHref} aria-label={PHONE_ARIA} variant="secondary">
           Call now for an instant quote
         </ButtonAnchor>
@@ -226,7 +226,7 @@ function CtaBand({
 
         {/* Urgency nudge, right above the buttons. */}
         <p className="mx-auto mt-6 max-w-md text-sm font-semibold text-chrome">
-          Same-week appointments available — reserve yours before they fill.
+          Same-week appointments available, reserve yours before they fill.
         </p>
 
         <div className="mt-5 flex flex-col justify-center gap-3 sm:flex-row">
@@ -299,7 +299,7 @@ export default function PackagesPage() {
             Our Detailing Packages
           </h1>
           <p className="mt-4 max-w-2xl text-base leading-relaxed text-chrome drop-shadow-[0_1px_8px_rgba(0,0,0,0.7)]">
-            From an essential refresh to a full showroom reset — pick the level
+            From an essential refresh to a full showroom reset, pick the level
             that fits. We come to you across Riverside &amp; San Diego County.
           </p>
           <TrustLine className="mt-6 !justify-start" />
@@ -326,8 +326,8 @@ export default function PackagesPage() {
         <Reveal>
           <CtaBand
             heading="Not sure which package? We'll help you choose."
-            body="Tell us your vehicle and what you're after — we'll recommend the right level and give you a straight quote. No pressure."
-            bookLabel="Book now — spots fill fast"
+            body="Tell us your vehicle and what you're after. We'll recommend the right level and give you a straight quote. No pressure."
+            bookLabel="Book now, spots fill fast"
           />
         </Reveal>
       </Section>
@@ -396,7 +396,7 @@ export default function PackagesPage() {
         <Reveal>
           <CtaBand
             heading="Ready to book?"
-            body="Tell us your vehicle and what you're after — we'll recommend the right package and come to you."
+            body="Tell us your vehicle and what you're after. We'll recommend the right package and come to you."
             note={quoteNote}
           />
         </Reveal>
