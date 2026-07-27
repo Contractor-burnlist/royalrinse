@@ -7,7 +7,6 @@ import { PHONE_ARIA, SERVICE_AREA_LINE, site, telHref } from "@/lib/site";
 import { absoluteUrl } from "@/lib/url";
 import { BlogBody } from "@/components/BlogBody";
 import { BookNowButton } from "@/components/BookNowButton";
-import { StickyCallCta } from "@/components/StickyCallCta";
 import { ButtonAnchor, Container, Eyebrow, Section } from "@/components/ui";
 
 type Params = { slug: string };
@@ -123,13 +122,9 @@ export default function BlogPostPage({ params }: { params: Params }) {
         </Section>
       </article>
 
-      {/* Closing CTA band. The sticky call CTA retracts once this scrolls into
-          view (via id), so the two never overlap. */}
+      {/* Closing CTA band. */}
       <Section>
-        <div
-          id="post-end-cta"
-          className="relative overflow-hidden rounded-2xl border border-hairline bg-surface px-6 py-14 text-center shadow-card sm:px-12"
-        >
+        <div className="relative overflow-hidden rounded-2xl border border-hairline bg-surface px-6 py-14 text-center shadow-card sm:px-12">
           <div
             aria-hidden="true"
             className="pointer-events-none absolute -bottom-24 left-1/2 h-64 w-[36rem] -translate-x-1/2 rounded-full bg-royal/25 blur-3xl"
@@ -152,9 +147,6 @@ export default function BlogPostPage({ params }: { params: Params }) {
           </div>
         </div>
       </Section>
-
-      {/* Follows the reader down every post; retracts near the CTA band above. */}
-      <StickyCallCta hideNearId="post-end-cta" />
     </>
   );
 }

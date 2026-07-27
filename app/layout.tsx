@@ -3,6 +3,7 @@ import Script from "next/script";
 import { Inter, Space_Grotesk } from "next/font/google";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { StickyCallCta } from "@/components/StickyCallCta";
 import { SERVICE_AREA_LINE, site } from "@/lib/site";
 import { siteJsonLd } from "@/lib/seo";
 import { siteUrl } from "@/lib/url";
@@ -65,6 +66,11 @@ export default function RootLayout({
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />
+
+        {/* One floating call/book CTA for the whole site. Fades in past the
+            hero, retracts near the footer, and hides while the booking modal
+            or lightbox is open. */}
+        <StickyCallCta />
 
         {/* Housecall Pro online booking. Loaded once here — every BookNowButton
             calls window.HCPWidget.openModal(). */}

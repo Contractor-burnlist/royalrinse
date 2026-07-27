@@ -7,11 +7,6 @@ import { packageImage, packagesHeroImage } from "@/lib/serviceImages";
 import { PHONE_ARIA, SERVICE_AREA_LINE, telHref } from "@/lib/site";
 import { absoluteUrl, siteUrl } from "@/lib/url";
 import { BookNowButton } from "@/components/BookNowButton";
-import {
-  PackagesCtaSentinel,
-  PackagesMobileCta,
-  PACKAGES_CTA_SENTINEL,
-} from "@/components/PackagesMobileCta";
 import { Reveal } from "@/components/Reveal";
 import { ButtonAnchor, Container, Eyebrow, Icon, Section } from "@/components/ui";
 
@@ -389,10 +384,8 @@ export default function PackagesPage() {
         </Reveal>
       </Section>
 
-      {/* Bottom CTA band. The sentinel sits at its top so the floating mobile
-          bar retires once this band (with its own buttons) is on screen. */}
+      {/* Bottom CTA band. */}
       <Section className="!pt-0">
-        <PackagesCtaSentinel />
         <Reveal>
           <CtaBand
             heading="Ready to book?"
@@ -401,8 +394,6 @@ export default function PackagesPage() {
           />
         </Reveal>
       </Section>
-
-      <PackagesMobileCta sentinelId={PACKAGES_CTA_SENTINEL} />
     </>
   );
 }

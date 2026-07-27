@@ -1,65 +1,104 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { PHONE_ARIA, PHONE_DISPLAY, telHref } from "@/lib/site";
 import { BookNowButton } from "@/components/BookNowButton";
 import { Icon, buttonClasses } from "@/components/ui";
 
 /**
- * A floating "Call now" CTA that follows the reader down a blog post.
+ * Site-wide floating "Call now" CTA. Rendered exactly once in the root layout,
+ * so every page shows the same single bar — there are no per-page floaters.
  *
- * - Hidden on load; fades in only after the reader scrolls past the post
- *   header (REVEAL_AFTER px), so it doesn't compete with the title.
- * - Bottom bar on mobile (thumb-reachable), floating pill bottom-right on
- *   desktop.
- * - Retracts again once the end-of-article CTA band (identified by
- *   `hideNearId`) scrolls into view, so it never sits on top of that band or
- *   the footer, and never fights the HCP booking modal.
- * - Motion is CSS-only and gated behind `motion-safe:` / `motion-reduce:`, so
- *   a reader with reduced-motion enabled simply gets an instant appear.
+ * Visibility rules:
+ * - Hidden on load; fades in after the reader scrolls past the top/hero
+ *   (~60% of the first viewport), so it never covers a hero on arrival.
+ * - Retracts as the footer approaches, so it never blocks the footer's dense
+ *   link list or a page's end-of-page CTA band. A small bottom rootMargin
+ *   pulls it back a touch early to clear those bands' buttons.
+ * - Hides entirely while a full-screen overlay is open — the Housecall Pro
+ *   booking modal or the gallery lightbox. Both lock body scroll
+ *   (overflow-y: hidden), which is the signal we watch; the HCP
+ *   `.hcp-widget--visible` container and any `[aria-modal]` are checked too as
+ *   a backstop.
+ *
+ * Motion is CSS-only and gated behind motion-reduce:, so reduced-motion users
+ * get an instant toggle with no slide. When hidden the bar is made `inert` so
+ * its controls leave the tab order and the accessibility tree.
+ *
+ * Layout: full-width fixed bottom bar on mobile (thumb-reachable), floating
+ * pill bottom-right on desktop.
  */
-const REVEAL_AFTER = 450;
-
-export function StickyCallCta({ hideNearId }: { hideNearId?: string }) {
+export function StickyCallCta() {
   const [scrolledPast, setScrolledPast] = useState(false);
   const [nearEnd, setNearEnd] = useState(false);
+  const [overlayOpen, setOverlayOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
 
+  // Reveal after the first ~60% of a screen has scrolled by.
   useEffect(() => {
-    const onScroll = () => setScrolledPast(window.scrollY > REVEAL_AFTER);
+    const onScroll = () =>
+      setScrolledPast(window.scrollY > window.innerHeight * 0.6);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    window.addEventListener("resize", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
   }, []);
 
+  // Retract near the footer so its links (and the end-of-page CTA band just
+  // above it) are never covered. The footer lives in the root layout, so this
+  // node is stable across client-side navigations.
   useEffect(() => {
-    // Retract near the end of the page. Watch BOTH the end-of-article CTA band
-    // and the footer: at the very bottom the CTA band scrolls above the
-    // viewport, so the footer is what keeps the bar tucked away down there.
-    const targets = [
-      hideNearId ? document.getElementById(hideNearId) : null,
-      document.querySelector("footer"),
-    ].filter(Boolean) as Element[];
-    if (!targets.length) return;
-
-    const seen = new Map<Element, boolean>();
-    const observer = new IntersectionObserver((entries) => {
-      for (const entry of entries) seen.set(entry.target, entry.isIntersecting);
-      let anyVisible = false;
-      seen.forEach((visible) => {
-        if (visible) anyVisible = true;
-      });
-      setNearEnd(anyVisible);
-    });
-    targets.forEach((t) => observer.observe(t));
+    const footer = document.querySelector("footer");
+    if (!footer) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setNearEnd(entry.isIntersecting),
+      // Fire a little before the footer to clear a preceding CTA band's buttons.
+      { rootMargin: "0px 0px 15% 0px" },
+    );
+    observer.observe(footer);
     return () => observer.disconnect();
-  }, [hideNearId]);
+  }, []);
 
-  const shown = scrolledPast && !nearEnd;
+  // Hide while a full-screen overlay (HCP booking modal or gallery lightbox)
+  // is open. Both lock body scroll; watching body/html style+class catches the
+  // toggle in both directions.
+  useEffect(() => {
+    const check = () => {
+      const scrollLocked =
+        getComputedStyle(document.body).overflowY === "hidden";
+      const hcpOpen = !!document.querySelector(".hcp-widget--visible");
+      const ariaModal = !!document.querySelector('[aria-modal="true"]');
+      setOverlayOpen(scrollLocked || hcpOpen || ariaModal);
+    };
+    check();
+    const observer = new MutationObserver(check);
+    const opts: MutationObserverInit = {
+      attributes: true,
+      attributeFilter: ["style", "class"],
+      childList: true,
+    };
+    observer.observe(document.body, opts);
+    observer.observe(document.documentElement, opts);
+    return () => observer.disconnect();
+  }, []);
+
+  const shown = scrolledPast && !nearEnd && !overlayOpen;
+
+  // `inert` (not aria-hidden) so the off-screen controls are fully removed from
+  // tab order and the a11y tree without nesting focusables inside aria-hidden.
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    if (shown) el.removeAttribute("inert");
+    else el.setAttribute("inert", "");
+  }, [shown]);
 
   return (
     <div
-      // aria-hidden while hidden so it's not a focus trap off-screen.
-      aria-hidden={!shown}
+      ref={ref}
       className={[
         "fixed z-40 transition-all duration-300 ease-out motion-reduce:transition-none",
         "bottom-0 inset-x-0 sm:bottom-6 sm:right-6 sm:left-auto sm:inset-x-auto",
@@ -77,10 +116,7 @@ export function StickyCallCta({ hideNearId }: { hideNearId?: string }) {
           <Icon name="phone" className="h-4 w-4" />
           Call {PHONE_DISPLAY}
         </a>
-        <BookNowButton
-          variant="secondary"
-          className="shrink-0 whitespace-nowrap"
-        />
+        <BookNowButton variant="secondary" className="shrink-0 whitespace-nowrap" />
       </div>
     </div>
   );
