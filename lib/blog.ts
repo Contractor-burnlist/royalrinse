@@ -616,6 +616,100 @@ export const posts: BlogPost[] = [
       },
     ],
   },
+  {
+    slug: "deionized-water-detailing",
+    title:
+      "Deionized Water (DI): The Secret Behind a Truly Spot-Free, Flawless Finish",
+    excerpt:
+      "Deionized water (DI) — 'spot-free water' — is the pro-grade water most car owners have never heard of, and why it separates a good detail from a flawless one.",
+    date: "2026-10-02",
+    author: "Royal Rinse",
+    // White Ferrari, glossy — a clean exterior that shows exactly the
+    // spot-free, deep-gloss finish this article is about. Distinct from
+    // every other post's cover.
+    coverImage: cover("ferrari-exterior-1.jpeg"),
+    body: [
+      {
+        type: "p",
+        text: "Most people judge a detailer by the wax, the polish, or the shine on delivery day. But one of the biggest differences between a good detail and a truly flawless one comes down to something far less glamorous: the water. Professional detailers use **deionized water (DI)** — also known as \"spot-free water\" — and once you understand what it does, you won't want your car washed with anything else.",
+      },
+
+      { type: "h2", text: "What deionized water (DI) is" },
+      {
+        type: "p",
+        text: "Deionized water is ordinary water run through a deionization process that strips out the dissolved minerals — calcium, magnesium, sodium — and other impurities that everyday water carries. What's left is water so pure that when it dries, it leaves **nothing behind**. That's exactly why it's nicknamed \"spot-free water\": no minerals means no mineral spots on the paint.",
+      },
+      {
+        type: "callout",
+        text: "In plain terms: DI water is water with the minerals removed, so it dries clean instead of leaving spots. Royal Rinse uses deionized water in its detailing process.",
+      },
+
+      { type: "h2", text: "The problem with regular tap water" },
+      {
+        type: "p",
+        text: "Tap water is full of dissolved minerals — what people call **\"hard water\"** — and Southern California's water is notably hard. That's a problem the moment water starts to dry on paint.",
+      },
+      {
+        type: "p",
+        text: "When droplets evaporate — and they evaporate fast in the Menifee, Temecula, and inland Riverside County sun — the water leaves but the minerals don't. They stay behind on the surface as **water spots**. And it's worse than cosmetic: left baking in the heat, those mineral deposits can begin to **etch into the clear coat and glass**. Hard-water etching is one of the more stubborn defects to correct later, sometimes needing machine polishing to remove. Dark paint shows it worst — every spot stands out against a deep color.",
+      },
+      {
+        type: "callout",
+        text: "On a hot inland afternoon, spot-free water isn't a luxury — it's the difference between a finish that stays clean and one that's already freckled with mineral spots before the detailer has packed up.",
+      },
+
+      { type: "h2", text: "Why DI water is crucial to the process" },
+      {
+        type: "p",
+        text: "Using DI water isn't just about the final rinse — it matters at **every stage**. When the wash and every rinse are done with deionized water, no new mineral contamination is being introduced onto the paint while it's being cleaned. You're never adding the very thing a good detail is trying to remove.",
+      },
+      {
+        type: "p",
+        text: "The payoff comes at the end. Panels given a final rinse with DI water **dry perfectly clean** — no spots, no streaks, no residue — which also means no chasing water marks around with a drying towel. That last point matters more than it sounds: aggressive towel-drying to beat spot formation is itself one of the most common ways swirls and marring get introduced. Clean water removes the need to fight the clock.",
+      },
+
+      { type: "h2", text: "How it makes the finished result better" },
+      {
+        type: "p",
+        text: "On a finished vehicle, the difference is visible right away:",
+      },
+      {
+        type: "ul",
+        items: [
+          "**Deeper gloss.** Paint reads noticeably deeper and clearer when it isn't hazed by a thin film of dried minerals.",
+          "**Streak-free glass and chrome.** The surfaces that show spots first — windows, mirrors, brightwork — stay clean.",
+          "**Protected prep work.** Freshly polished, corrected, or ceramic-coated surfaces aren't immediately marred by mineral deposits settling onto them.",
+          "**A result that holds.** The finish still looks flawless an hour after we leave, instead of showing spots as the last droplets dry in the sun.",
+        ],
+      },
+      {
+        type: "p",
+        text: "On luxury and exotic vehicles — and on dark colors especially — that difference is obvious. It's the gap between \"clean\" and \"flawless.\"",
+      },
+
+      { type: "h2", text: "The mobile detailing angle" },
+      {
+        type: "p",
+        text: "Here's where it matters most for **mobile detailing**. A mobile detailer using straight hose water at your home is fighting hard water the entire time — every rinse is depositing the exact minerals a quality detail is trying to avoid.",
+      },
+      {
+        type: "p",
+        text: "Royal Rinse uses **deionized water in its process**, bringing wash-bay-grade water quality straight to your driveway across [Menifee](/service-area/menifee), Temecula, and all of Riverside & San Diego County. You get the spot-free result of a professional facility without your vehicle ever leaving home.",
+      },
+
+      { type: "h2", text: "Pair it with protection" },
+      {
+        type: "p",
+        text: "A spot-free wash and a [ceramic coating](/blog/what-is-ceramic-coating) work hand in hand. DI water gets the finish truly clean and free of mineral spots; a ceramic coating then locks in that gloss and makes the paint far easier to keep clean between washes — which is exactly what you want under the relentless SoCal sun. It's the same standard of care we bring to [luxury and exotic vehicles](/blog/luxury-exotic-car-detailing-temecula-menifee), where a flawless, spot-free finish isn't optional.",
+      },
+
+      { type: "h2", text: "See the spot-free difference" },
+      {
+        type: "p",
+        text: "Royal Rinse is a licensed, insured mobile detailer based in Menifee, serving Temecula and all of Riverside & San Diego County — and we bring deionized, spot-free water to your driveway. Compare our [detailing packages](/packages), then call now for an instant quote or book online, and we'll leave your vehicle flawless, not freckled.",
+      },
+    ],
+  },
 ];
 
 /** Newest first. The index and any \"latest post\" surface should use this. */
