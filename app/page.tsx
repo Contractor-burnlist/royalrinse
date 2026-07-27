@@ -47,9 +47,9 @@ import {
 } from "@/components/ui";
 
 export const metadata: Metadata = buildMetadata({
-  title: "Mobile Auto Detailing in Riverside & San Diego | Royal Rinse",
+  title: "Mobile Auto Detailing in Menifee & Temecula | Royal Rinse",
   description:
-    "Premium mobile auto detailing that comes to you across Riverside & San Diego County. Licensed, insured & bonded — no drop-off, no waiting room. Call (951) 338-9117.",
+    "Premium mobile auto detailing in Menifee, Temecula, and across Riverside & San Diego County. Licensed & insured — we come to you. Call (951) 338-9117.",
   path: "/",
 });
 
@@ -341,11 +341,29 @@ function ServiceAreaTeaser() {
       <Section className="!py-20 sm:!py-24">
         <SectionHeading
           eyebrow="Service area"
-          title={`${SERVICE_AREA_SHORT} — we come to you`}
-          intro="If you're in the area, we can most likely get to you. Don't see your neighborhood? Just ask."
+          title="Based in Menifee — we come to you"
+          intro="Rooted in Menifee, we're quickest across Menifee, Temecula, and Murrieta — and we cover all of Riverside & San Diego County. Don't see your neighborhood? Just ask."
         />
 
-        <ul className="mt-10 flex flex-wrap gap-3">
+        {/* Priority markets, called out prominently ahead of the full list. */}
+        <div className="mt-8 flex flex-wrap gap-3">
+          <Link
+            href="/service-area/menifee"
+            className="inline-flex items-center gap-1.5 rounded-xl border border-royal/50 bg-royal/10 px-4 py-2.5 text-sm font-semibold text-ink transition-colors hover:border-royal hover:bg-royal/20"
+          >
+            Detailing in Menifee
+            <span aria-hidden="true">→</span>
+          </Link>
+          <Link
+            href="/service-area/temecula"
+            className="inline-flex items-center gap-1.5 rounded-xl border border-royal/50 bg-royal/10 px-4 py-2.5 text-sm font-semibold text-ink transition-colors hover:border-royal hover:bg-royal/20"
+          >
+            Detailing in Temecula
+            <span aria-hidden="true">→</span>
+          </Link>
+        </div>
+
+        <ul className="mt-6 flex flex-wrap gap-3">
           {featuredCities.map((city) => (
             <li key={city.slug}>
               <Link

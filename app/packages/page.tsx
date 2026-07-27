@@ -18,7 +18,7 @@ import { ButtonAnchor, Container, Eyebrow, Icon, Section } from "@/components/ui
 export const metadata: Metadata = buildMetadata({
   title: "Detailing Packages — Bronze to Diamond | Royal Rinse",
   description:
-    "Compare Royal Rinse mobile detailing packages — Bronze, Silver, Gold, Platinum, Diamond and ceramic coating. Quote-based, delivered to your driveway.",
+    "Compare Royal Rinse mobile detailing packages — Bronze to Diamond plus ceramic coating. Quote-based, delivered to your driveway in Menifee, Temecula & beyond.",
   path: "/packages",
 });
 

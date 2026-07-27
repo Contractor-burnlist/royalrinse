@@ -200,7 +200,7 @@ export const posts: BlogPost[] = [
       },
       {
         type: "p",
-        text: "All of it is mobile. Our rig arrives self-contained with its own water and power, so the work happens in your driveway — in Menifee, Temecula, or anywhere across Riverside & San Diego County.",
+        text: "All of it is mobile. Our rig arrives self-contained with its own water and power, so the work happens in your driveway — in [Menifee](/service-area/menifee), [Temecula](/service-area/temecula), or anywhere across Riverside & San Diego County.",
       },
       {
         type: "p",
@@ -325,7 +325,7 @@ export const posts: BlogPost[] = [
       },
       {
         type: "p",
-        text: "And all of it is mobile. Our rig arrives self-contained with its own water and power, so whichever level you choose is applied right in your driveway across Riverside & San Diego County — Menifee, Temecula, Murrieta and beyond. Not sure which is right? Call or book online and we'll give you a straight recommendation for your vehicle.",
+        text: "And all of it is mobile. Our rig arrives self-contained with its own water and power, so whichever level you choose is applied right in your driveway across Riverside & San Diego County — [Menifee](/service-area/menifee), [Temecula](/service-area/temecula), Murrieta and beyond. Not sure which is right? Call or book online and we'll give you a straight recommendation for your vehicle.",
       },
     ],
   },
@@ -389,7 +389,7 @@ export const posts: BlogPost[] = [
       { type: "h2", text: "Why mobile detailing is worth it here" },
       {
         type: "p",
-        text: "Mobile detailing removes the hidden cost people forget to count: your time. There's no dropping the car across town and arranging a ride, no half-day in a waiting room, no rescheduling your afternoon around a shop's hours. We come to you — at home or the office in Temecula, Menifee, Murrieta, and across the region — with a fully self-contained rig that carries its own water and power, so all you do is hand over the keys.",
+        text: "Mobile detailing removes the hidden cost people forget to count: your time. There's no dropping the car across town and arranging a ride, no half-day in a waiting room, no rescheduling your afternoon around a shop's hours. We come to you — at home or the office in [Menifee](/service-area/menifee), [Temecula](/service-area/temecula), Murrieta, and across the region — with a fully self-contained rig that carries its own water and power, so all you do is hand over the keys.",
       },
       {
         type: "p",

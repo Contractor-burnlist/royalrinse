@@ -12,7 +12,6 @@ import {
   OPENING_HOURS,
   PHONE_TEL,
   PRICE_RANGE,
-  SERVICE_AREA_COUNTIES,
   SERVICE_AREA_LINE,
   site,
 } from "@/lib/site";
@@ -98,16 +97,17 @@ export function siteJsonLd() {
       addressRegion: "CA",
       addressCountry: "US",
     },
-    // Every city we cover, plus both counties.
+    // Order signals emphasis: priority markets first (Menifee, Temecula,
+    // Riverside County, San Diego city + county), then every remaining city.
     areaServed: [
-      ...SERVICE_AREA_COUNTIES.map((county) => ({
-        "@type": "AdministrativeArea",
-        name: county,
-      })),
-      ...cities.map((city) => ({
-        "@type": "City",
-        name: `${city.name}, CA`,
-      })),
+      { "@type": "City", name: "Menifee, CA" },
+      { "@type": "City", name: "Temecula, CA" },
+      { "@type": "AdministrativeArea", name: "Riverside County, CA" },
+      { "@type": "City", name: "San Diego, CA" },
+      { "@type": "AdministrativeArea", name: "San Diego County, CA" },
+      ...cities
+        .filter((city) => !["menifee", "temecula", "san-diego"].includes(city.slug))
+        .map((city) => ({ "@type": "City", name: `${city.name}, CA` })),
     ],
     hasMap: GOOGLE_MAPS_URL,
     sameAs: [GOOGLE_MAPS_URL],

@@ -14,7 +14,7 @@ import { Card, Container, Eyebrow, Icon, Section } from "@/components/ui";
 export const metadata: Metadata = buildMetadata({
   title: "Auto Detailing Services — Riverside & San Diego | Royal Rinse",
   description:
-    "Mobile auto detailing services across Riverside & San Diego County — Bronze to Diamond packages, ceramic coating, paint correction and add-ons. We come to you.",
+    "Mobile auto detailing in Menifee, Temecula & across Riverside & San Diego County — Bronze to Diamond packages, ceramic coating, paint correction, add-ons.",
   path: "/services",
 });
 
@@ -66,7 +66,8 @@ export default function ServicesPage() {
             Detailing, delivered to you
           </h1>
           <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted">
-            Five packages, ceramic coating, and a full add-on menu — all done on site.
+            Five packages, ceramic coating, and a full add-on menu — all done on
+            site across Menifee, Temecula, and Riverside &amp; San Diego County.
           </p>
         </Container>
       </div>

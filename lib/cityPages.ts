@@ -47,6 +47,7 @@ export const cityPages: CityPage[] = [
     intro: [
       "Temecula lives outdoors. Between the vineyards out east, the weekend car meets around Old Town, and the long dry runs up and down the 15, vehicles here take a real beating from sun and the fine valley dust that most drive-through washes just push around.",
       "We detail across the whole valley — the gated streets of Redhawk and Morgan Hill Estates, the rural acreage out in De Luz, and the newer builds toward French Valley. It's truck-and-SUV country with a serious enthusiast streak, so one visit we're decontaminating a lifted diesel and the next we're paint-correcting a weekend sports car.",
+      "We're based just up the 15 in Menifee, so Temecula gets some of our quickest scheduling — same-week appointments are common. From Wine Country estates to the neighborhoods off Pechanga Parkway and Rancho California Road, the full rig comes to your door.",
       "Because we come to you, none of it costs you a Saturday. The rig arrives fully self-contained — water, power, everything — and your vehicle gets detailed right in its own driveway while you get on with the day.",
     ],
     angleHeading: "What Temecula paint needs most",
@@ -68,6 +69,7 @@ export const cityPages: CityPage[] = [
     intro: [
       "Menifee is our backyard. Royal Rinse is rooted right here, so when you book you're not waiting on someone driving in from two counties over — you're getting a local crew that knows these streets, from the established parts of Sun City to the fast-growing developments around Audie Murphy Ranch and the 215 corridor.",
       "This is a family town, and it's growing fast: new builds, new driveways, and a lot of daily drivers, family SUVs, and work trucks that just need to stay sharp without the hassle of a shop visit. Being local means we can usually slot Menifee bookings in quickly and keep our schedule tight around town.",
+      "Whether you're near Menifee Lakes, Heritage Lake, Sun City, or the newer tracts off Newport Road and Scott Road, we're already close by. And because Menifee is our base, neighboring Temecula and Murrieta get the same fast scheduling — you're never waiting on a crew driving in from out of the area.",
       "We bring the entire setup to you — self-contained water and power — and detail your vehicle right in the driveway. No drop-off, no waiting room, no leaving the neighborhood.",
     ],
     angleHeading: "Why being local actually matters",

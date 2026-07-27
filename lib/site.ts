@@ -41,9 +41,18 @@ export const AGGREGATE_RATING: {
 export const REVIEW_RATING_DISPLAY = "5.0";
 export const REVIEW_COUNT_DISPLAY = "30+";
 
-/** The counties served. Change here to update every mention site-wide. */
+/** The counties served. The generic region line, used in many places. */
 export const SERVICE_AREA_LINE = "Riverside & San Diego County";
-export const SERVICE_AREA_SHORT = "Serving Riverside & San Diego County";
+/**
+ * Priority-market phrasing — leads with our home base (Menifee) and Temecula,
+ * then the wider region. Use this for the highest-visibility geo copy (hero
+ * eyebrow, service-area teaser, footer) so the site emphasizes where we most
+ * want to rank, without deleting the broader region.
+ */
+export const SERVICE_AREA_SHORT =
+  "Serving Menifee, Temecula & all of Riverside & San Diego County";
+export const SERVICE_AREA_PRIORITY =
+  "Menifee, Temecula & all of Riverside & San Diego County";
 /** Counties as separate entities, for JSON-LD areaServed. */
 export const SERVICE_AREA_COUNTIES = [
   "Riverside County, CA",

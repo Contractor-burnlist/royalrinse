@@ -3,6 +3,7 @@ import Link from "next/link";
 import {
   PHONE_ARIA,
   SERVICE_AREA_LINE,
+  SERVICE_AREA_PRIORITY,
   mailHref,
   site,
   telHref,
@@ -61,7 +62,7 @@ export function Footer() {
                   {site.email}
                 </a>
               </p>
-              <p>{SERVICE_AREA_LINE}</p>
+              <p>{SERVICE_AREA_PRIORITY}</p>
             </address>
 
             <dl className="mt-6 space-y-1.5 text-sm text-muted">
@@ -157,7 +158,10 @@ export function Footer() {
           <p>
             © {year} {site.legalName}. All rights reserved.
           </p>
-          <p>Mobile auto detailing throughout {SERVICE_AREA_LINE}.</p>
+          <p>
+            Mobile auto detailing in Menifee, Temecula &amp; throughout{" "}
+            {SERVICE_AREA_LINE}.
+          </p>
         </div>
       </Container>
     </footer>

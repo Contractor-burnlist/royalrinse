@@ -11,7 +11,7 @@ import { ButtonAnchor, Card, Container, Eyebrow, Icon, Section } from "@/compone
 export const metadata: Metadata = buildMetadata({
   title: "About Royal Rinse — Mobile Detailing, Riverside & SD",
   description:
-    "Royal Rinse is a licensed, insured, bonded mobile auto detailing company serving Riverside & San Diego County. Our story, our standard, and why we come to you.",
+    "Royal Rinse is a licensed, insured mobile auto detailing company based in Menifee, serving Temecula and all of Riverside & San Diego County. Our story and standard.",
   path: "/about",
 });
 
@@ -87,12 +87,12 @@ function OurStory() {
               to wherever your car happens to be parked.
             </p>
             <p>
-              It began with a single detailer, a rig, and an unreasonable amount of care
-              per vehicle. Word travelled the way it does in this business — one gleaming
-              car in one driveway at a time. As demand grew, we partnered with skilled,
-              like-minded detailers who hold the same standard, so we could expand our
-              coverage across Riverside &amp; San Diego County without ever thinning the
-              quality that got us here.
+              It began in Menifee with a single detailer, a rig, and an unreasonable
+              amount of care per vehicle. Word travelled the way it does in this business
+              — one gleaming car in one driveway at a time. As demand grew, we partnered
+              with skilled, like-minded detailers who hold the same standard, so we could
+              expand from our Menifee home base across Temecula and all of Riverside &amp;
+              San Diego County without ever thinning the quality that got us here.
             </p>
             <p>
               That&rsquo;s the whole model: convenience without compromise. A full

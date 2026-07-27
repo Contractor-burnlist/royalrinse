@@ -17,7 +17,12 @@ export const faqs: Faq[] = [
   {
     question: "What areas do you serve?",
     answer:
-      "We serve Riverside County and San Diego County, including Menifee (our home base), Temecula, Murrieta, Riverside, San Diego, La Jolla, and Escondido, plus the surrounding cities. If you're nearby and don't see your city listed, give us a call — we can usually reach you.",
+      "We're based in Menifee and serve Temecula, Murrieta, and all of Riverside & San Diego County — including Riverside, San Diego, La Jolla, and Escondido. Because we're local to Menifee, our response times and scheduling are fastest across Menifee, Temecula, and Murrieta. If you're nearby and don't see your city listed, give us a call — we can usually reach you.",
+  },
+  {
+    question: "Are you located in Menifee?",
+    answer:
+      "Yes — Royal Rinse Mobile Detailing is based in Menifee, CA. Being locally based means the fastest response times and easiest scheduling for Menifee, Temecula, and Murrieta, while we still cover all of Riverside & San Diego County. We're fully mobile, so wherever you are, we come to your home or office.",
   },
   {
     question: "How much does mobile car detailing cost in Temecula or Menifee?",
