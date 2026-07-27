@@ -6,6 +6,10 @@ export const PHONE_DISPLAY = "(951) 338-9117";
 export const PHONE_TEL = "tel:+19513389117";
 /** For aria-labels on icon/button call CTAs. */
 export const PHONE_ARIA = `Call Royal Rinse at ${PHONE_DISPLAY}`;
+/** SMS link, same number as the phone line. */
+export const SMS_TEL = "sms:+19513389117";
+/** For aria-labels on text/SMS CTAs. */
+export const PHONE_SMS_ARIA = `Text Royal Rinse at ${PHONE_DISPLAY}`;
 
 /**
  * Verified Google Business Profile ("Royal Rinse Mobile Detailing", Menifee).
@@ -93,6 +97,7 @@ export const OPENING_HOURS = {
 } as const;
 
 export const telHref = PHONE_TEL;
+export const smsHref = SMS_TEL;
 export const mailHref = `mailto:${site.email}`;
 
 export const nav = [

@@ -1,7 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getServiceDetail, serviceDetails } from "@/lib/services";
+import {
+  CERAMIC_WARRANTY_PATH,
+  CERAMIC_WARRANTY_TRUST,
+  getServiceDetail,
+  serviceDetails,
+} from "@/lib/services";
 import { SERVICE_AREA_LINE, site } from "@/lib/site";
 import { buildMetadata } from "@/lib/seo";
 import { absoluteUrl, siteUrl } from "@/lib/url";
@@ -142,6 +147,19 @@ export default function ServiceDetailPage({ params }: { params: Params }) {
             ) : null}
           </div>
         </div>
+
+        {detail.slug === "ceramic-coating" ? (
+          <p className="mt-12 rounded-xl border border-hairline bg-surface px-5 py-4 text-sm leading-relaxed text-chrome">
+            <span className="font-semibold text-ink">Warranty:</span>{" "}
+            {CERAMIC_WARRANTY_TRUST}{" "}
+            <Link
+              href={CERAMIC_WARRANTY_PATH}
+              className="font-semibold text-royal transition-colors hover:text-chrome"
+            >
+              See warranty details
+            </Link>
+          </p>
+        ) : null}
       </Section>
 
       <QuoteCta heading={`Ready to book the ${detail.name} service?`} />

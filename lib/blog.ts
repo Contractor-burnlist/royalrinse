@@ -206,6 +206,10 @@ export const posts: BlogPost[] = [
         type: "p",
         text: "Because prep is most of the work, ceramic coating is quoted once we know the vehicle's size and the condition of the paint. See how it fits alongside our other tiers on the [packages page](/packages), then call or book online and we'll talk through which level makes sense for your car, including telling you if you don't need the top one.",
       },
+      {
+        type: "callout",
+        text: "**Warranty:** Manufacturer-backed limited lifetime product warranty. 1-year workmanship guarantee from us. [See the warranty details](/ceramic-warranty).",
+      },
     ],
   },
 
@@ -326,6 +330,10 @@ export const posts: BlogPost[] = [
       {
         type: "p",
         text: "And all of it is mobile. Our rig arrives self-contained with its own water and power, so whichever level you choose is applied right in your driveway across Riverside & San Diego County: [Menifee](/service-area/menifee), [Temecula](/service-area/temecula), Murrieta and beyond. Not sure which is right? Call or book online and we'll give you a straight recommendation for your vehicle.",
+      },
+      {
+        type: "callout",
+        text: "**Warranty:** Manufacturer-backed limited lifetime product warranty. 1-year workmanship guarantee from us. [See the warranty details](/ceramic-warranty).",
       },
     ],
   },
@@ -613,6 +621,10 @@ export const posts: BlogPost[] = [
       {
         type: "p",
         text: "Royal Rinse brings specialist paint correction and ceramic coating to your driveway across Menifee, Temecula, and Riverside & San Diego County, licensed, insured, and fully mobile. Call now for an instant quote, or book online, and we'll recommend the right level of protection for your vehicle.",
+      },
+      {
+        type: "callout",
+        text: "**Warranty:** Manufacturer-backed limited lifetime product warranty. 1-year workmanship guarantee from us. [See the warranty details](/ceramic-warranty).",
       },
     ],
   },

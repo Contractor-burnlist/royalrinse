@@ -2,7 +2,13 @@ import type { Metadata } from "next";
 import { buildMetadata } from "@/lib/seo";
 import Image from "next/image";
 import Link from "next/link";
-import { ceramicCoating, quoteNote, tiers } from "@/lib/services";
+import {
+  CERAMIC_WARRANTY_PATH,
+  CERAMIC_WARRANTY_TRUST,
+  ceramicCoating,
+  quoteNote,
+  tiers,
+} from "@/lib/services";
 import { packageImage, packagesHeroImage } from "@/lib/serviceImages";
 import { PHONE_ARIA, SERVICE_AREA_LINE, telHref } from "@/lib/site";
 import { absoluteUrl, siteUrl } from "@/lib/url";
@@ -369,6 +375,17 @@ export default function PackagesPage() {
                   </li>
                 ))}
               </ul>
+
+              <p className="mt-6 text-xs leading-relaxed text-chrome">
+                <span className="font-semibold text-ink">Warranty:</span>{" "}
+                {CERAMIC_WARRANTY_TRUST}{" "}
+                <Link
+                  href={CERAMIC_WARRANTY_PATH}
+                  className="font-semibold text-royal transition-colors hover:text-chrome"
+                >
+                  See warranty details
+                </Link>
+              </p>
 
               <CtaRow />
 

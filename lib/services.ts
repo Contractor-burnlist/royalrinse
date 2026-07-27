@@ -233,3 +233,15 @@ export function getServiceDetail(slug: string): ServiceDetail | undefined {
 /** Shown on every service page instead of a price. */
 export const quoteNote =
   "Contact us for a custom quote. Pricing depends on your vehicle's size and condition.";
+
+/**
+ * One warranty trust line, used verbatim on every ceramic surface (service
+ * page, packages, blog) so the attribution reads the same everywhere. It links
+ * to the full breakdown at CERAMIC_WARRANTY_PATH.
+ *
+ * The limited lifetime warranty is the coating MANUFACTURER'S product warranty,
+ * not a Royal Rinse warranty; the 1-year workmanship guarantee is ours.
+ */
+export const CERAMIC_WARRANTY_PATH = "/ceramic-warranty";
+export const CERAMIC_WARRANTY_TRUST =
+  "Manufacturer-backed limited lifetime product warranty. 1-year workmanship guarantee from us.";

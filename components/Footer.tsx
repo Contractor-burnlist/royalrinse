@@ -136,6 +136,14 @@ export function Footer() {
                 </Link>
               </li>
               <li>
+                <Link
+                  href="/ceramic-warranty"
+                  className="transition-colors hover:text-ink"
+                >
+                  Ceramic Warranty
+                </Link>
+              </li>
+              <li>
                 <Link href="/reviews" className="transition-colors hover:text-ink">
                   Reviews
                 </Link>

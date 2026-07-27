@@ -15,6 +15,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/", priority: 1 },
     { path: "/services", priority: 0.9 },
     { path: "/packages", priority: 0.9 },
+    { path: "/ceramic-warranty", priority: 0.6 },
     { path: "/service-area", priority: 0.8 },
     { path: "/gallery", priority: 0.6 },
     { path: "/reviews", priority: 0.6 },
