@@ -42,9 +42,20 @@ const whyRoyalRinse = [
   },
 ];
 
-/** A real photo from the gallery, used as the story section's image. */
+/**
+ * A real photo from the gallery, used as the story section's image.
+ *
+ * The blue classic coupe, shot in a driveway with the rig alongside it — which
+ * is the story this section tells: the whole shop arrives at your house. It
+ * also sets up "a weekend classic with original chrome" further down the page.
+ *
+ * It is a 576px source in a column that renders ~496px wide, so it stretches
+ * ~1.7x on a retina display. That is the smallest stretch of any slot outside
+ * the homepage hero, but it IS a stretch — the frame below is sized to the
+ * column, not the viewport, to keep it as contained as possible.
+ */
 const storyImage =
-  allGalleryImages.find((image) => image.src.includes("vehicle-2-ext-2")) ??
+  allGalleryImages.find((image) => image.src.includes("corvette-c2-3")) ??
   allGalleryImages[0];
 
 function Hero() {
@@ -108,9 +119,15 @@ function OurStory() {
             alt={storyImage.alt}
             fill
             loading="lazy"
-            quality={90}
-            // Matches the real column width — no upscaling.
-            sizes="(max-width: 1024px) 92vw, 46vw"
+            quality={85}
+            /**
+             * 504px is the real column: the 72rem container less its px-8
+             * padding and the lg:gap-20 gutter, halved. The old 46vw hint
+             * tracked the VIEWPORT, so on a wide screen it asked for ~880px of
+             * image for a slot that never exceeds 504 — this asks for what the
+             * slot actually is.
+             */
+            sizes="(max-width: 1024px) 92vw, 504px"
             className="object-cover"
           />
         </div>

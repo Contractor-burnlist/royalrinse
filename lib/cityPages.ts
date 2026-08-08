@@ -15,6 +15,14 @@
  * so no two lead images repeat. The two widest-rendering covers (San Diego,
  * La Jolla) use the large 2921/3840px sources; the rest are 900px+ behind a
  * framed slot sized so nothing upscales.
+ *
+ * RIVERSIDE IS THE ONE EXCEPTION: its cover is a 576px source in a slot that
+ * asks for ~1080 device pixels, so it stretches ~1.9x. It was chosen for fit —
+ * that page is about classics and this is the only classic we have that isn't
+ * already a cover elsewhere — and it is the narrowest cover slot on the site,
+ * so this is the least-bad home for it. Swap in a larger file if one is ever
+ * shot. Do NOT copy this exception to the wider covers; there it would be
+ * plainly soft.
  */
 
 import { allGalleryImages, type GalleryImage } from "@/lib/gallery";
@@ -87,7 +95,11 @@ export const cityPages: CityPage[] = [
     slug: "riverside",
     subhead:
       "From the Mission Inn downtown to the commuter lanes of the 91, we detail the full range: daily drivers, classics, and everything between.",
-    coverFile: "exterior-1.jpg",
+    // The blue classic coupe. Riverside's copy leans on classics harder than
+    // any other city page ("lovingly kept classics", "a classic that deserves
+    // careful, paint-safe hands"), so the lead photo now shows one. It is a
+    // 576px source in a ~540px slot — see the note at the top of this file.
+    coverFile: "corvette-c2-2.jpeg",
     intro: [
       "Riverside is the big city of the Inland Empire, and it drives like one. Long commutes on the 91 and 60, tight parking around the historic Mission Inn, and a citywide mix of vehicles that runs from hard-working daily drivers to lovingly kept classics. That range is exactly what we're built for.",
       "Urban miles leave a mark: traffic film, brake dust, and in spring the notorious blanket of pollen that coats every car on the block. We detail across the city, from the leafy streets of the Wood Streets and Victoria to the newer stretches out toward Orangecrest, meeting cars where they live.",
