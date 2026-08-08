@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import type { BlogBlock } from "@/lib/blog";
 
@@ -103,6 +104,43 @@ export function BlogBody({ blocks }: { blocks: BlogBlock[] }) {
                 ))}
               </ul>
             );
+
+          case "image": {
+            // Unresolved filename: skip the block rather than render a broken
+            // frame. See the `image` note in lib/blog.ts.
+            if (!block.image) return null;
+
+            return (
+              <figure key={index} className="mt-8">
+                {/**
+                 * 4:5 rather than the sources' own 9:16. These are phone shots,
+                 * and a full-height portrait in the middle of an article pushes
+                 * the copy either side of it off the screen. 4:5 still reads as
+                 * a portrait photo without taking a whole viewport.
+                 */}
+                <div className="relative aspect-[4/5] w-full overflow-hidden rounded-xl border border-hairline bg-surface">
+                  <Image
+                    src={block.image.src}
+                    alt={block.image.alt}
+                    fill
+                    loading="lazy"
+                    quality={85}
+                    /**
+                     * The reading column, not the viewport: this div sits
+                     * inside BlogBody's max-w-[54ch], which measures ~520px at
+                     * the rendered body size. Below the container's breakpoint
+                     * the column is simply the page width less its gutters.
+                     */
+                    sizes="(max-width: 640px) 92vw, 520px"
+                    className="object-cover object-center"
+                  />
+                </div>
+                <figcaption className="mt-3 text-sm leading-relaxed text-muted">
+                  {block.caption}
+                </figcaption>
+              </figure>
+            );
+          }
 
           case "callout":
             return (

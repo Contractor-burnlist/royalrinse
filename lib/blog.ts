@@ -17,6 +17,10 @@
  *   4. `body` is a block array, not HTML. That keeps the markup in one
  *      reviewed component (components/BlogBody.tsx) instead of scattered
  *      through content, and means no dangerouslySetInnerHTML anywhere.
+ *   5. Photos go INSIDE the body as `{ type: "image", image: photo("x.jpg"),
+ *      caption: "..." }`. They render at the width of the reading column, so
+ *      a source of ~1100px on the long edge covers it on a retina screen.
+ *      Anything smaller will stretch.
  *
  * Inline syntax, supported inside `p`, `ul` items, `callout` and table cells:
  *   **bold**            → <strong>
@@ -40,7 +44,22 @@ export type BlogBlock =
    * same length as `headers`. Cells accept inline syntax. Renders inside a
    * horizontally scrollable frame, so a wide table never overflows the page.
    */
-  | { type: "table"; headers: string[]; rows: string[][] };
+  | { type: "table"; headers: string[]; rows: string[][] }
+  /**
+   * A photo from the gallery, dropped inline in the reading column with a
+   * caption under it.
+   *
+   * `image` is resolved through photo() at module load, exactly like
+   * coverImage, so a post can only ever point at a file the site ships. It is
+   * intentionally optional: a filename typo yields undefined and the block is
+   * skipped, matching the fail-soft behaviour of a missing cover rather than
+   * shipping a broken <img>.
+   *
+   * The caption is plain text, NOT inline syntax. A caption is a label, not
+   * somewhere to hide links, and keeping it out of the parser means one less
+   * place for markup to leak into.
+   */
+  | { type: "image"; image: GalleryImage | undefined; caption: string };
 
 export type BlogPost = {
   slug: string;
@@ -54,11 +73,14 @@ export type BlogPost = {
 };
 
 /**
- * Cover images come from the gallery so there is exactly one place that owns
+ * Post photos come from the gallery so there is exactly one place that owns
  * image paths and intrinsic dimensions. Returns undefined rather than throwing
- * if a filename is wrong — a post without a cover still renders fine.
+ * if a filename is wrong — a post without a cover still renders fine, and an
+ * `image` block with an unresolved file is simply skipped.
+ *
+ * Used for both `coverImage` and inline `image` blocks.
  */
-const cover = (file: string): GalleryImage | undefined =>
+const photo = (file: string): GalleryImage | undefined =>
   allGalleryImages.find((image) => image.src.endsWith(file));
 
 export const posts: BlogPost[] = [
@@ -71,7 +93,7 @@ export const posts: BlogPost[] = [
     author: "Royal Rinse",
     // 3840x5120 — the only Ferrari shot large enough to run wide without
     // upscaling, and deep gloss is exactly what this article is about.
-    coverImage: cover("ferrari-hero-2.jpeg"),
+    coverImage: photo("ferrari-hero-2.jpeg"),
     body: [
       {
         type: "p",
@@ -222,7 +244,7 @@ export const posts: BlogPost[] = [
     date: "2026-08-07",
     author: "Royal Rinse",
     // 2921x2958 — glossy white exterior, large enough to run wide unscaled.
-    coverImage: cover("tesla-2.jpeg"),
+    coverImage: photo("tesla-2.jpeg"),
     body: [
       {
         type: "p",
@@ -346,7 +368,7 @@ export const posts: BlogPost[] = [
     date: "2026-08-21",
     author: "Royal Rinse",
     // 2268x4032 — the Royal Rinse mobile rig; on-theme for a mobile-cost post.
-    coverImage: cover("royal-truck-1.jpeg"),
+    coverImage: photo("royal-truck-1.jpeg"),
     body: [
       {
         type: "p",
@@ -439,7 +461,7 @@ export const posts: BlogPost[] = [
       "Luxury and exotic vehicles have delicate paint and high stakes. They need a specialist, not a wash tunnel. What that looks like in Menifee & Temecula.",
     date: "2026-09-04",
     author: "Royal Rinse",
-    coverImage: cover("ferrari-hero-3.jpeg"),
+    coverImage: photo("ferrari-hero-3.jpeg"),
     body: [
       {
         type: "p",
@@ -533,7 +555,7 @@ export const posts: BlogPost[] = [
       "On an exotic, the paint is expensive and unforgiving. How paint correction and ceramic coating protect premium finishes in Menifee, Temecula & San Diego.",
     date: "2026-09-18",
     author: "Royal Rinse",
-    coverImage: cover("vehicle-2-ext-1.jpg"),
+    coverImage: photo("vehicle-2-ext-1.jpg"),
     body: [
       {
         type: "p",
@@ -639,7 +661,7 @@ export const posts: BlogPost[] = [
     // White Ferrari, glossy — a clean exterior that shows exactly the
     // spot-free, deep-gloss finish this article is about. Distinct from
     // every other post's cover.
-    coverImage: cover("ferrari-exterior-1.jpeg"),
+    coverImage: photo("ferrari-exterior-1.jpeg"),
     body: [
       {
         type: "p",
@@ -722,6 +744,124 @@ export const posts: BlogPost[] = [
       },
     ],
   },
+
+  {
+    slug: "classic-car-detailing-care",
+    title:
+      "How We Care for Classic Cars (Like the C2 Corvette Stingray We Just Detailed)",
+    excerpt:
+      "Classic car detailing takes a different hand than modern paint. How we work on classics and collector cars across Menifee, Temecula and San Diego County.",
+    date: "2026-08-08",
+    author: "Royal Rinse",
+    /**
+     * corvette-c2-3 is the only one of the three not already carrying a cover
+     * slot elsewhere (corvette-c2-2 leads /service-area/riverside).
+     *
+     * CAVEAT: it is 576x1024, and this cover renders into a 21:9 banner asking
+     * for ~2176 device pixels, so it stretches roughly 3.8x and the crop keeps
+     * only a narrow band of the frame. It is here because the post is about
+     * this specific car and no larger shot of it exists. Replace it the moment
+     * a bigger export shows up. The two body photos below sit in the reading
+     * column instead, where the same files stretch about 1.7x.
+     */
+    coverImage: photo("corvette-c2-3.jpeg"),
+    body: [
+      {
+        type: "p",
+        text: "We recently spent a day with a C2 Corvette Stingray Coupe, and we are still thinking about it. Long fender curves, chrome wire wheels, whitewalls, and a blue that shifts every time the sun moves. One of the most beautiful cars America has ever built. The owner rolled it out of the garage, handed us the keys, and left us to it.",
+      },
+      {
+        type: "p",
+        text: "That is the part people outside this trade tend to miss. A car like that is somebody's baby, often rebuilt over years of weekends or handed down from someone no longer around to ask about it. We care for classic and collector cars regularly across Menifee, Temecula, and the wider Riverside and San Diego County area, and every one gets handled as irreplaceable. Because it is. You cannot order another, and you cannot put original paint back once it is gone.",
+      },
+      {
+        type: "image",
+        image: photo("corvette-c2-1.jpeg"),
+        caption: "A C2 Corvette Stingray Coupe we recently detailed at the owner's home.",
+      },
+
+      { type: "h2", text: "A classic is not an old modern car" },
+      {
+        type: "p",
+        text: "Almost everything a modern detailer does assumes a factory clear coat. A hard sacrificial layer over the color, thick enough to take a machine polish and lose a few microns without anyone noticing. Bring that assumption to a car built in 1965 and you can do permanent damage in under a minute.",
+      },
+      {
+        type: "p",
+        text: "Plenty of classics wear **single-stage paint** or old lacquer. There is no clear coat at all. The color is the top layer and the only layer, so every pass with a cutting pad takes off original finish nobody can put back. We test first, always somewhere hidden, and start with the least aggressive thing that could work. Hand polish before machine. Soft pad before firm. Sometimes the honest answer is to leave it alone, and we say so. Doing less is a real technique.",
+      },
+
+      { type: "h2", text: "Chrome, trim, and what modern chemicals do to them" },
+      {
+        type: "p",
+        text: "Old brightwork is not the plastic-backed trim on a current car. There is real chrome over steel, polished stainless, anodized aluminum, and pot metal that has been quietly pitting since the Johnson administration. None of it wants the same product. An alkaline all-purpose cleaner that is perfectly safe on a modern bumper will stain aluminum, haze anodizing, and lift plating off tired pot metal for good.",
+      },
+      {
+        type: "p",
+        text: "So the aggressive chemistry stays in the van. Dedicated metal polishes, worked by hand in small sections, with a lot of stopping to look. Wire wheels are their own afternoon. Every spoke is a place for polish to dry white and sit there, so they get cleaned slowly and wiped out properly.",
+      },
+      {
+        type: "image",
+        image: photo("corvette-c2-2.jpeg"),
+        caption: "The same car. Chrome wire wheels and whitewalls, cleaned by hand.",
+      },
+
+      { type: "h2", text: "Water is a risk, not a tool" },
+      {
+        type: "p",
+        text: "A modern car is essentially sealed. Doors have membranes, seams are bonded, drains are engineered. A classic is a set of panels bolted and leaded together, with rubber that may be older than the person washing it. Water gets into body seams, behind trim clips, under weatherstrip, down into rockers and floor pans. Then it sits.",
+      },
+      {
+        type: "p",
+        text: "Rust never sleeps. We use far less water than people expect, rinse in a controlled way, and keep a pressure washer well away from seams, window rubber and any lifting trim. The drying matters more than the washing: forced air through every panel gap, around the badges, behind the bumper irons, under the trim. A classic wash takes longer and uses less water than a modern one.",
+      },
+
+      { type: "h2", text: "Interiors that cannot be reordered" },
+      {
+        type: "p",
+        text: "Decades-old leather, vinyl, lacquered wood and wool carpet do not behave like modern materials, and they do not forgive modern cleaners. Old vinyl goes brittle, and a harsh degreaser takes it past the point of return. Original leather is often thin, dry and already crazed. Soak it and dye lifts straight off the hide.",
+      },
+      {
+        type: "p",
+        text: "Gentle products, low moisture and patience handle most of it. The harder skill is knowing when to stop. Cleaning a sixty-year-old interior and erasing it are different jobs, and the second destroys value. If a seat carries honest wear, our job is usually to clean it, feed it, and leave the story where it is.",
+      },
+
+      { type: "h2", text: "Engine bays and everything underneath" },
+      {
+        type: "p",
+        text: "Original engine bays are full of things a careless degreasing removes forever: factory paint daubs, inspection decals, chalk marks, and gaskets with no interest in being soaked. We work dry where we can, put cleaner on a brush instead of into a spray bottle, and keep water away from distributors, generators and anything wearing a paper label. Underneath is the same story: a wire brush and a pressure washer will make an undercarriage look wonderful and remove the finish that made the car worth something.",
+      },
+
+      { type: "h2", text: "Showroom finish or honest patina" },
+      {
+        type: "p",
+        text: "Some owners want the car as close to the day it left St. Louis as possible. Others have forty years of history sitting in the paint and want that history respected. Both answers are correct. It is their car and their vision, and not our place to polish a dull original panel into something shinier and less original. We ask before anything starts, and the answer changes the entire approach.",
+      },
+      {
+        type: "callout",
+        text: "Royal Rinse details classic and collector cars on site, at your home or storage unit, anywhere in Menifee, Temecula, Riverside County and San Diego County. We work on single-stage and original paint, original interiors, and unrestored survivors.",
+      },
+
+      { type: "h2", text: "Earning the keys" },
+      {
+        type: "p",
+        text: "Handing over a car you spent five years rebuilding is not a normal transaction. We know how that feels from the other side, so we try to make it easy.",
+      },
+      {
+        type: "p",
+        text: "Every classic starts with a walkaround together, before a drop of water touches it. We note the tired spots: the repaint that does not quite match, the trim already lifting, the door that needs a lift to latch. We say out loud what we plan to do and, just as usefully, what we will not touch. Then we work. Because we are mobile, the car never has to go anywhere. No trailer ride across the county, and no night in a shop lot.",
+      },
+
+      { type: "h2", text: "If you have one, we would love to see it" },
+      {
+        type: "p",
+        text: "We detail classic and collector cars throughout Menifee, Temecula, Riverside and across San Diego County, and we come to you. The same standard goes into [luxury and exotic vehicles](/blog/luxury-exotic-car-detailing-temecula-menifee), and on a finish you intend to keep, [a ceramic coating](/blog/what-is-ceramic-coating) is worth talking about once the paint itself is sorted. There is more of our work in the [gallery](/gallery).",
+      },
+      {
+        type: "p",
+        text: "Call or text, tell us what you have and what you want out of it, and we will talk through the right approach for it. No pressure, and no push toward something your paint does not need. If you are near home base, our [Menifee mobile detailing page](/service-area/menifee) covers how we work locally. Book online whenever you are ready.",
+      },
+    ],
+  },
 ];
 
 /** Newest first. The index and any \"latest post\" surface should use this. */
@@ -741,6 +881,10 @@ function wordCount(post: BlogPost): number {
         return block.items.join(" ");
       case "table":
         return [...block.headers, ...block.rows.flat()].join(" ");
+      // A photo is not reading time, but its caption is read, so the caption
+      // counts and the image itself contributes nothing.
+      case "image":
+        return block.caption;
       default:
         return block.text;
     }
