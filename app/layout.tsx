@@ -57,7 +57,7 @@ export default function RootLayout({
         </noscript>
       </head>
       <body
-        className={`${display.variable} ${body.variable} flex min-h-screen flex-col bg-base font-sans text-ink antialiased`}
+        className={`${display.variable} ${body.variable} flex min-h-screen flex-col bg-canvas font-sans text-ink antialiased`}
       >
         <script
           type="application/ld+json"

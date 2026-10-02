@@ -212,7 +212,7 @@ function UniqueCityPage({ city, page }: { city: City; page: CityPage }) {
       <CitySchema city={city} />
 
       {/* Hero: copy on the left, a unique framed cover photo on the right. */}
-      <div className="rule-chrome-b bg-charcoal">
+      <div className="rule-chrome-b metal-inset">
         <Container className="py-12 sm:py-16">
           <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
             <div>
@@ -287,7 +287,7 @@ function TemplatedCityPage({ city }: { city: City }) {
     <>
       <CitySchema city={city} />
 
-      <div className="rule-chrome-b bg-charcoal">
+      <div className="rule-chrome-b metal-inset">
         <Container className="py-16 sm:py-20">
           <Eyebrow>{city.county} County</Eyebrow>
           <h1 className="mt-3 font-display text-4xl font-bold tracking-tight text-metal sm:text-5xl">

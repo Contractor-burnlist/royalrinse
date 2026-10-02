@@ -107,7 +107,7 @@ export function StickyCallCta() {
           : "pointer-events-none translate-y-4 opacity-0",
       ].join(" ")}
     >
-      <div className="flex items-center gap-2 border-t border-hairline bg-base/95 px-4 py-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] shadow-[0_-6px_24px_rgba(0,0,0,0.45)] backdrop-blur sm:rounded-2xl sm:border sm:border-chrome/20 sm:px-3 sm:py-3 sm:pb-3 sm:shadow-2xl">
+      <div className="flex items-center gap-2 border-t border-hairline bg-canvas/95 px-4 py-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] shadow-[0_-6px_24px_rgba(0,0,0,0.45)] backdrop-blur sm:rounded-2xl sm:border sm:border-chrome/20 sm:px-3 sm:py-3 sm:pb-3 sm:shadow-2xl">
         <a
           href={telHref}
           className={buttonClasses("primary", "flex-1 whitespace-nowrap sm:flex-none")}

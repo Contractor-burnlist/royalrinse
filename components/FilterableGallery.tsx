@@ -60,9 +60,9 @@ export function FilterableGallery({ images }: { images: GalleryImage[] }) {
               type="button"
               aria-pressed={isActive}
               onClick={() => setActive(tab.key)}
-              className={`inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-semibold transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-chrome-bright focus-visible:ring-offset-2 focus-visible:ring-offset-base ${
+              className={`inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-semibold transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-chrome-bright focus-visible:ring-offset-2 focus-visible:ring-offset-canvas ${
                 isActive
-                  ? "border-transparent bg-chrome-bright text-base shadow-card"
+                  ? "border-transparent bg-chrome-bright text-canvas shadow-card"
                   : "border-transparent btn-metal text-chrome hover:text-ink"
               }`}
             >
@@ -84,7 +84,7 @@ export function FilterableGallery({ images }: { images: GalleryImage[] }) {
               {tab.key}
               <span
                 className={`text-xs tabular-nums ${
-                  isActive ? "text-base" : "text-muted"
+                  isActive ? "text-canvas" : "text-chrome"
                 }`}
               >
                 {tab.count}

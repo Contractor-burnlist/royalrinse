@@ -179,11 +179,11 @@ export function HeroCarousel({ children }: { children: ReactNode }) {
       </div>
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 bg-base/85"
+        className="pointer-events-none absolute inset-0 bg-canvas/85"
       />
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-base to-transparent"
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-canvas to-transparent"
       />
 
       {/* Tight top offset — just clears the sticky header (h-24 / h-32) — so the

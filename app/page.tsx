@@ -236,16 +236,16 @@ function Band({
 }) {
   return (
     <div
-      className={slant ? "band-slant bg-charcoal" : "rule-chrome-y bg-charcoal"}
+      className={slant ? "band-slant metal-inset" : "rule-chrome-y metal-inset"}
     >
       {children}
     </div>
   );
 }
 
-/** A full-bleed bar of polished steel between major sections. Decorative. */
+/** A full-bleed chrome rule between major sections. Decorative. */
 function MetalDivider() {
-  return <div aria-hidden="true" className="metal-bar h-3 sm:h-4" />;
+  return <div aria-hidden="true" className="rule-chrome-t h-px" />;
 }
 
 const textLink =
@@ -581,7 +581,7 @@ function Specialization() {
               <Reveal delay={i * 80}>
                 <Link
                   href="/gallery"
-                  className="group relative block aspect-[3/4] overflow-hidden rounded-xl edge-chrome shadow-card focus:outline-none focus-visible:ring-2 focus-visible:ring-chrome-bright focus-visible:ring-offset-2 focus-visible:ring-offset-base"
+                  className="group relative block aspect-[3/4] overflow-hidden rounded-xl edge-chrome shadow-card focus:outline-none focus-visible:ring-2 focus-visible:ring-chrome-bright focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
                 >
                   <Image
                     src={image.src}

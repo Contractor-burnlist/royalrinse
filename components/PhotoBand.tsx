@@ -49,15 +49,15 @@ export function PhotoBand({
 
       <div
         aria-hidden="true"
-        className="absolute inset-0 bg-gradient-to-r from-base via-base/85 to-base/70 lg:via-base/60 lg:to-transparent"
+        className="absolute inset-0 bg-gradient-to-r from-canvas via-canvas/85 to-canvas/70 lg:via-canvas/60 lg:to-transparent"
       />
       <div
         aria-hidden="true"
-        className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-base to-transparent"
+        className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-canvas to-transparent"
       />
       <div
         aria-hidden="true"
-        className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-base to-transparent"
+        className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-canvas to-transparent"
       />
 
       <Container className="relative py-24">

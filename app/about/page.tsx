@@ -138,7 +138,7 @@ function OurStory() {
 
 function WhyRoyalRinse() {
   return (
-    <div className="rule-chrome-y bg-charcoal">
+    <div className="rule-chrome-y metal-inset">
       <Section className="!py-20 sm:!py-24">
         <Eyebrow>Why Royal Rinse</Eyebrow>
         <h2 className="mt-3 font-display text-3xl font-bold tracking-tight text-ink sm:text-4xl">

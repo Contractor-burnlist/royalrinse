@@ -64,7 +64,7 @@ export function SectionHeading({
 export type ButtonVariant = "primary" | "secondary" | "ghost";
 
 const buttonBase =
-  "inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3 text-sm font-semibold transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-chrome-bright focus-visible:ring-offset-2 focus-visible:ring-offset-base";
+  "inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3 text-sm font-semibold transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-chrome-bright focus-visible:ring-offset-2 focus-visible:ring-offset-canvas";
 
 const buttonVariants: Record<ButtonVariant, string> = {
   primary: "bg-royal text-ink btn-machined hover:bg-royal-hover",

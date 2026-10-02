@@ -13,22 +13,24 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        base: "#0B0D10",
-        charcoal: "#14181D",
-        surface: "#1B2027",
+        // Named `canvas`, not `base`: a colour called `base` makes the font-size
+        // class text-base also set this as the TEXT colour.
+        canvas: "#211E1C",
+        charcoal: "#1A1816",
+        surface: "#3A3531",
         // Metal tones. Mirrored as CSS variables in app/globals.css, where the
         // brushed and machined surface classes are built from them.
-        graphite: "#22272E",
-        gunmetal: "#2E343C",
-        "chrome-bright": "#E8ECF2",
+        graphite: "#48423D",
+        gunmetal: "#554E48",
+        "chrome-bright": "#EDEAE6",
         royal: {
           DEFAULT: "#1D4ED8",
           hover: "#2563EB",
         },
-        chrome: "#C9CED6",
-        ink: "#F5F7FA",
-        muted: "#9BA3AF",
-        hairline: "rgba(201, 206, 214, 0.12)",
+        chrome: "#D6D2CC",
+        ink: "#F7F5F2",
+        muted: "#C2BDB7",
+        hairline: "rgba(214, 210, 204, 0.16)",
       },
       fontFamily: {
         display: ["var(--font-display)", "system-ui", "sans-serif"],

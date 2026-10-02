@@ -124,7 +124,7 @@ function TierCard({ tier, rank }: { tier: (typeof tiers)[number]; rank: number }
         <div className="flex flex-wrap items-center justify-between gap-4">
           <TierRank rank={rank} />
           {isTop ? (
-            <span className="inline-flex rounded-full bg-chrome-bright px-3 py-1 text-xs font-semibold uppercase tracking-[0.12em] text-base">
+            <span className="inline-flex rounded-full bg-chrome-bright px-3 py-1 text-xs font-semibold uppercase tracking-[0.12em] text-canvas">
               Most Complete
             </span>
           ) : null}
@@ -296,9 +296,9 @@ export default function PackagesPage() {
         {/* Scrims: darken overall, then deepen the bottom where the text sits. */}
         <div
           aria-hidden="true"
-          className="absolute inset-0 bg-gradient-to-t from-base via-base/80 to-base/55"
+          className="absolute inset-0 bg-gradient-to-t from-canvas via-canvas/80 to-canvas/55"
         />
-        <div aria-hidden="true" className="absolute inset-0 bg-base/30" />
+        <div aria-hidden="true" className="absolute inset-0 bg-canvas/30" />
         <Container className="relative py-14 sm:py-20">
           <Eyebrow>Packages</Eyebrow>
           <h1 className="mt-3 max-w-3xl font-display text-4xl font-bold tracking-tight text-metal drop-shadow-[0_2px_12px_rgba(0,0,0,0.6)] sm:text-5xl">

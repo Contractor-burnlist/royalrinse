@@ -25,7 +25,7 @@ export function ServicePhotoCard({
   return (
     <Link
       href={href}
-      className={`group relative flex min-h-[22rem] flex-col justify-end overflow-hidden edge-chrome rounded-2xl shadow-card transition-transform duration-300 motion-safe:hover:-translate-y-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-chrome-bright focus-visible:ring-offset-2 focus-visible:ring-offset-base ${
+      className={`group relative flex min-h-[22rem] flex-col justify-end overflow-hidden edge-chrome rounded-2xl shadow-card transition-transform duration-300 motion-safe:hover:-translate-y-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-chrome-bright focus-visible:ring-offset-2 focus-visible:ring-offset-canvas ${
         featured ? "edge-chrome-bright" : ""
       }`}
     >
@@ -45,7 +45,7 @@ export function ServicePhotoCard({
       {/* Readability scrim — deepens on hover. */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 bg-gradient-to-t from-base via-base/85 to-base/25 transition-opacity duration-500 group-hover:from-base group-hover:via-base/75"
+        className="absolute inset-0 bg-gradient-to-t from-canvas via-canvas/85 to-canvas/25 transition-opacity duration-500 group-hover:from-canvas group-hover:via-canvas/75"
       />
 
       <div className="relative p-6">

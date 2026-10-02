@@ -26,7 +26,7 @@ const rigImage = allGalleryImages.find((image) =>
 export default function ServiceAreaPage() {
   return (
     <>
-      <div className="rule-chrome-b bg-charcoal">
+      <div className="rule-chrome-b metal-inset">
         <Container className="py-16 sm:py-20">
           <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,1fr)_20rem] lg:gap-14">
             <div>

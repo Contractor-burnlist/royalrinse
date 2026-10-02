@@ -108,7 +108,7 @@ export function LightboxGrid({
   const active = openIndex === null ? null : images[openIndex];
 
   const tileClasses =
-    "group relative block w-full overflow-hidden rounded-xl edge-chrome bg-surface shadow-card focus:outline-none focus-visible:ring-2 focus-visible:ring-chrome-bright focus-visible:ring-offset-2 focus-visible:ring-offset-base";
+    "group relative block w-full overflow-hidden rounded-xl edge-chrome bg-surface shadow-card focus:outline-none focus-visible:ring-2 focus-visible:ring-chrome-bright focus-visible:ring-offset-2 focus-visible:ring-offset-canvas";
 
   return (
     <>
@@ -172,7 +172,7 @@ export function LightboxGrid({
           role="dialog"
           aria-modal="true"
           aria-label="Photo viewer"
-          className="fixed inset-0 z-[100] flex animate-[fadeIn_260ms_ease-out] items-center justify-center bg-base/97 p-4 backdrop-blur-xl sm:p-6"
+          className="fixed inset-0 z-[100] flex animate-[fadeIn_260ms_ease-out] items-center justify-center bg-canvas/97 p-4 backdrop-blur-xl sm:p-6"
         >
           {/* Click-away backdrop. A real button so the handler is not on a
               bare div; out of the tab order because the Close button and

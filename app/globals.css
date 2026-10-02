@@ -4,58 +4,95 @@
 
 @layer base {
   :root {
-    /* Black is the canvas. */
-    --base: #0b0d10;
-    --charcoal: #14181d;
-    --surface: #1b2027;
-    /* Metal is the frame. */
-    --graphite: #22272e;
-    --gunmetal: #2e343c;
-    --chrome: #c9ced6;
-    --chrome-bright: #e8ecf2;
-    /* Blue means "click this". */
-    --royal: #1d4ed8;
+    /*
+     * BRUSHED GUNMETAL. The whole site sits on one sheet of dark brushed
+     * metal with a warm brown-black undertone. Depth comes from edges and
+     * small value shifts between layers, not colour.
+     *
+     * Tune the look here. After changing --sheet-* or --grain-*, re-check
+     * text contrast: the numbers below were measured on the LIGHTEST point of
+     * each surface (sheen middle plus a light grain line).
+     *   page   #383431   white 11.3   chrome 8.2   muted 6.6
+     *   plate  #46413d   white  9.3   chrome 6.7   muted 5.4
+     */
+    --sheet-edge: #1e1b19; /* top and bottom of the viewport */
+    --sheet-mid: #2b2724; /* the soft sheen through the middle */
+    --plate: #3a3531; /* cards and panels: a lighter plate on the sheet */
+    --plate-hi: #48423d; /* secondary buttons, hover */
+    --header: #1c1917; /* header: same family, slightly darker */
+    --grain-light: 0.06; /* strength of the light brush lines */
+    --grain-dark: 0.1; /* strength of the dark brush lines */
+    --chrome: #d6d2cc;
+    --chrome-bright: #edeae6;
+    --royal: #1d4ed8; /* primary CTA buttons only */
 
-    /* ---- Metal sweep tuning. Change these to retune the whole site. ---- */
-    /* Direction of the light sweep. The brushed grain runs at the same angle. */
-    --metal-angle: 120deg;
-    /* Where the bright band sits along the sweep (0% start, 100% end). */
-    --metal-pos: 62%;
-    /* The polished highlight, and its shoulders either side. */
-    --metal-peak: #eceef0;
-    --metal-peak-lo: #c8ccd0;
-    --metal-mid: #6b7077;
-    --metal-shadow: #060709;
-    /* How strongly the brushed grain cuts into the bright band (0 to 1). */
-    --metal-grain: 0.2;
-    /* Uniform darkening on metal that carries text edge to edge (0 to 1).
-       0.72 keeps chrome text at 5.8:1 on the brightest point of the sweep.
-       Lower it for a brighter sweep ONLY after re-measuring contrast. */
-    --metal-dim: 0.72;
+    /* Vertical brush grain. Three unrelated periods (2px, 5px, 13px): the
+       2px lines give the fine tooth, the other two break it up so the lines
+       never settle into a regular beat or moire on high-density screens. */
+    --grain:
+      repeating-linear-gradient(
+        90deg,
+        rgba(255, 255, 255, var(--grain-light)) 0,
+        rgba(255, 255, 255, var(--grain-light)) 1px,
+        transparent 1px,
+        transparent 2px
+      ),
+      repeating-linear-gradient(
+        90deg,
+        rgba(0, 0, 0, var(--grain-dark)) 0,
+        rgba(0, 0, 0, var(--grain-dark)) 1px,
+        transparent 1px,
+        transparent 5px
+      ),
+      repeating-linear-gradient(
+        90deg,
+        rgba(255, 255, 255, calc(var(--grain-light) * 0.6)) 0,
+        rgba(255, 255, 255, calc(var(--grain-light) * 0.6)) 2px,
+        transparent 2px,
+        transparent 13px
+      );
+    /* Faint inline SVG turbulence (not an asset) to stop the wide sheen
+       gradient from banding. */
+    --noise: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.5  0 0 0 0 0.5  0 0 0 0 0.5  0 0 0 0.06 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
   }
 
   html {
     scroll-behavior: smooth;
   }
 
-  /* Not dead flat: a faint lift at the top of the page that settles into the
-     base black, then deepens slightly toward the footer. Scrolls with the
-     page (no fixed attachment, which costs scroll performance on mobile). */
-  body {
-    background-image: linear-gradient(
-      180deg,
-      #11151a 0,
-      var(--base) 640px,
-      var(--base) 70%,
-      #08090b 100%
-    );
+  /*
+   * The sheet itself. A fixed layer behind everything, so it never visibly
+   * repeats on scroll and the sheen stays centred in the viewport. It is a
+   * fixed ELEMENT rather than background-attachment: fixed, which forces a
+   * repaint on every scroll frame on mobile; this is composited once.
+   */
+  body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100vh;
+    height: 100lvh;
+    z-index: -1;
+    pointer-events: none;
+    background-color: var(--sheet-mid);
+    background-image:
+      var(--noise), var(--grain),
+      linear-gradient(
+        180deg,
+        var(--sheet-edge) 0%,
+        var(--sheet-mid) 42%,
+        var(--sheet-mid) 58%,
+        var(--sheet-edge) 100%
+      );
   }
 
   /* One visible keyboard focus ring everywhere. Components that draw their own
      ring opt out with focus:outline-none; everything else gets this, so no
      control depends on a browser default that may vanish on the dark theme. */
   :focus-visible {
-    outline: 2px solid #e8ecf2;
+    outline: 2px solid #edeae6;
     outline-offset: 2px;
   }
 
@@ -65,8 +102,8 @@
   }
 
   ::selection {
-    background-color: #c9ced6;
-    color: #0b0d10;
+    background-color: #d6d2cc;
+    color: #211e1c;
   }
 
   /* Kill every transition/animation for users who ask for reduced motion. */
@@ -83,99 +120,42 @@
 }
 
 /*
- * ============================================================
- *  METAL SURFACE SYSTEM. Pure CSS, no image assets.
- * ============================================================
- * Metal is the frame, black is the canvas. These go on structural pieces
- * (header, title bands, stat bar, cards, buttons, footer) and never on a
- * background that sits behind a photo.
- *
- * The grain is two hairline gradients with different periods (3px and 7px).
- * A single 1px/2px repeat lines up with the pixel grid on fractional-density
- * screens and shows as banding or moire; two unrelated periods never settle
- * into a visible beat. Each layer is 2 to 3 percent white, about 4 percent
- * combined, so it reads as texture only up close.
- *
- * Text contrast was measured on the LIGHTEST point of each surface, with
- * every light layer stacked (grain, bevel, hover sheen), and stays above
- * WCAG AA: on the machined card the muted body text is 5.0:1 and the blue
- * link tint 4.7:1; on the brushed band they are 5.8:1 and 5.4:1. If you
- * raise any opacity here, re-measure before shipping.
- *
- * These live in the components layer so Tailwind utilities (sticky, absolute,
- * bg-*, shadow-*) still override them where an element needs to.
+ * Layers that sit on the sheet. In the components layer so Tailwind utilities
+ * (sticky, absolute, bg-*, shadow-*) still override them where needed.
  */
 @layer components {
-  /* Horizontal grain with a wide directional sheen. Bands, header, footer. */
-  .surface-brushed {
-    background-color: var(--charcoal);
+  /* Plates: cards and panels. Lighter gunmetal, same vertical grain, a faint
+     top-lit falloff. Pair with .edge-chrome for the 1px chrome top edge. */
+  .metal-soft,
+  .surface-machined,
+  .metal-strong.metal-dim {
+    background-color: var(--plate);
     background-image:
-      linear-gradient(
-        100deg,
-        transparent 0%,
-        rgba(232, 236, 242, 0.035) 38%,
-        rgba(232, 236, 242, 0.05) 50%,
-        rgba(232, 236, 242, 0.02) 64%,
-        transparent 100%
-      ),
-      repeating-linear-gradient(
-        0deg,
-        rgba(255, 255, 255, 0.026) 0,
-        rgba(255, 255, 255, 0.026) 1px,
-        transparent 1px,
-        transparent 3px
-      ),
-      repeating-linear-gradient(
-        0deg,
-        rgba(0, 0, 0, 0.16) 0,
-        rgba(0, 0, 0, 0.16) 1px,
-        transparent 1px,
-        transparent 7px
-      );
-  }
-
-  /* The header's scrolled state: same brushing over a translucent base so the
-     backdrop blur shows through. */
-  .surface-glass {
-    background-color: rgba(17, 21, 26, 0.78);
-  }
-
-  /* Finer grain and an inner bevel. Cards and panels. The base colour stays
-     the `surface` token so photo scrims that fade to surface still match. */
-  .surface-machined {
-    background-color: var(--surface);
-    background-image:
-      linear-gradient(
-        180deg,
-        rgba(232, 236, 242, 0.03) 0%,
-        transparent 34%,
-        rgba(0, 0, 0, 0.12) 100%
-      ),
-      repeating-linear-gradient(
-        0deg,
-        rgba(255, 255, 255, 0.018) 0,
-        rgba(255, 255, 255, 0.018) 1px,
-        transparent 1px,
-        transparent 2px
-      ),
-      repeating-linear-gradient(
-        0deg,
-        rgba(0, 0, 0, 0.1) 0,
-        rgba(0, 0, 0, 0.1) 1px,
-        transparent 1px,
-        transparent 5px
-      );
+      var(--grain),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.03) 0%, transparent 40%, rgba(0, 0, 0, 0.1) 100%);
     box-shadow:
-      inset 0 1px 0 rgba(232, 236, 242, 0.07),
-      inset 0 -1px 0 rgba(0, 0, 0, 0.45),
-      0 1px 1px rgba(0, 0, 0, 0.5),
-      0 6px 12px -4px rgba(0, 0, 0, 0.55),
-      0 22px 40px -22px rgba(0, 0, 0, 0.85);
+      inset 0 1px 0 rgba(237, 234, 230, 0.12),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.4),
+      0 1px 1px rgba(0, 0, 0, 0.4),
+      0 6px 12px -4px rgba(0, 0, 0, 0.45),
+      0 22px 40px -22px rgba(0, 0, 0, 0.7);
   }
 
-  /* A 1px machined edge: bright where it catches light at the top, dark at
-     the bottom. Drawn as a masked ring on ::after so it works over any
-     background, including a photo, and follows the element's radius. */
+  /* Bands: a shade darker than the sheet, translucent so the page grain
+     carries straight through them. */
+  .metal-inset,
+  .metal-strong {
+    background-color: rgba(0, 0, 0, 0.2);
+  }
+
+  /* Header: same family, slightly darker, opaque (it is sticky). */
+  .metal-header {
+    background-color: var(--header);
+    background-image: var(--grain);
+  }
+
+  /* 1px chrome edge: light at the top, dark at the bottom. Drawn as a masked
+     ring on ::after so it works over any background, including a photo. */
   .edge-chrome {
     position: relative;
   }
@@ -187,10 +167,10 @@
     padding: 1px;
     background: linear-gradient(
       180deg,
-      rgba(232, 236, 242, 0.5) 0%,
-      rgba(201, 206, 214, 0.2) 22%,
-      rgba(201, 206, 214, 0.08) 60%,
-      rgba(0, 0, 0, 0.55) 100%
+      rgba(237, 234, 230, 0.6) 0%,
+      rgba(214, 210, 204, 0.22) 22%,
+      rgba(214, 210, 204, 0.1) 60%,
+      rgba(0, 0, 0, 0.5) 100%
     );
     -webkit-mask:
       linear-gradient(#000 0 0) content-box,
@@ -199,7 +179,7 @@
     mask-composite: exclude;
     pointer-events: none;
     transition: opacity 250ms ease;
-    opacity: 0.85;
+    opacity: 0.9;
   }
   a.edge-chrome:hover::after,
   button.edge-chrome:hover::after,
@@ -208,24 +188,27 @@
     opacity: 1;
     background: linear-gradient(
       180deg,
-      rgba(255, 255, 255, 0.85) 0%,
-      rgba(232, 236, 242, 0.4) 24%,
-      rgba(201, 206, 214, 0.16) 62%,
-      rgba(0, 0, 0, 0.5) 100%
+      rgba(255, 255, 255, 0.9) 0%,
+      rgba(237, 234, 230, 0.42) 24%,
+      rgba(214, 210, 204, 0.18) 62%,
+      rgba(0, 0, 0, 0.45) 100%
     );
   }
 
-  /* Thin chrome rules between bands, in place of flat borders. They fade out
-     toward the page edges like a polished seam. */
+  /* Thin chrome rules between bands. They fade toward the page edges. */
   .rule-chrome-t,
   .rule-chrome-b,
-  .rule-chrome-y {
+  .rule-chrome-y,
+  .metal-edge-t,
+  .metal-edge-b {
     position: relative;
   }
   .rule-chrome-t::before,
   .rule-chrome-y::before,
+  .metal-edge-t::before,
   .rule-chrome-b::after,
-  .rule-chrome-y::after {
+  .rule-chrome-y::after,
+  .metal-edge-b::after {
     content: "";
     position: absolute;
     left: 0;
@@ -233,287 +216,27 @@
     height: 1px;
     background: linear-gradient(
       90deg,
-      rgba(201, 206, 214, 0.06) 0%,
-      rgba(232, 236, 242, 0.42) 22%,
-      rgba(232, 236, 242, 0.5) 50%,
-      rgba(232, 236, 242, 0.42) 78%,
-      rgba(201, 206, 214, 0.06) 100%
+      rgba(214, 210, 204, 0.1) 0%,
+      rgba(237, 234, 230, 0.5) 22%,
+      rgba(237, 234, 230, 0.6) 50%,
+      rgba(237, 234, 230, 0.5) 78%,
+      rgba(214, 210, 204, 0.1) 100%
     );
-    pointer-events: none;
-  }
-  .rule-chrome-t::before,
-  .rule-chrome-y::before {
-    top: 0;
-  }
-  .rule-chrome-b::after,
-  .rule-chrome-y::after {
-    bottom: 0;
-  }
-
-  /* Hover sheen: a wide soft highlight that slides across, as if the light
-     moved. Transform only, so it stays on the compositor. */
-  .sheen {
-    position: relative;
-    overflow: hidden;
-  }
-  .sheen::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: -60%;
-    width: 220%;
-    background: linear-gradient(
-      105deg,
-      transparent 38%,
-      rgba(232, 236, 242, 0.035) 50%,
-      transparent 62%
-    );
-    transform: translate3d(-22%, 0, 0);
-    transition: transform 280ms ease-out;
-    pointer-events: none;
-  }
-  @media (prefers-reduced-motion: no-preference) {
-    .sheen:hover::before,
-    .group:hover .sheen::before {
-      transform: translate3d(22%, 0, 0);
-    }
-  }
-
-  /* Primary CTA: still solid royal, now with a lit top edge and a deeper
-     drop so it reads as a machined button. */
-  .btn-machined {
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.62),
-      inset 0 2px 0 rgba(255, 255, 255, 0.12),
-      inset 0 -1px 0 rgba(0, 0, 0, 0.32),
-      0 1px 2px rgba(0, 0, 0, 0.55),
-      0 10px 26px -8px rgba(29, 78, 216, 0.6);
-  }
-
-  /* Secondary button: brushed gunmetal with a chrome edge. */
-  .btn-metal {
-    background-color: var(--graphite);
-    background-image:
-      linear-gradient(
-        180deg,
-        rgba(232, 236, 242, 0.07) 0%,
-        transparent 55%,
-        rgba(0, 0, 0, 0.16) 100%
-      ),
-      repeating-linear-gradient(
-        0deg,
-        rgba(255, 255, 255, 0.022) 0,
-        rgba(255, 255, 255, 0.022) 1px,
-        transparent 1px,
-        transparent 3px
-      );
-    box-shadow:
-      inset 0 1px 0 rgba(232, 236, 242, 0.3),
-      inset 0 0 0 1px rgba(201, 206, 214, 0.14),
-      inset 0 -1px 0 rgba(0, 0, 0, 0.6),
-      0 1px 2px rgba(0, 0, 0, 0.5),
-      0 8px 18px -10px rgba(0, 0, 0, 0.8);
-  }
-  .btn-metal:hover {
-    background-color: var(--gunmetal);
-  }
-
-  /* Display headings only: a restrained white-to-silver vertical gradient.
-     The plain colour is the fallback; the gradient applies only where
-     background-clip: text is supported, and is dropped in forced-colors mode
-     so high-contrast themes keep real text colour. */
-  .text-metal {
-    color: #f5f7fa;
-  }
-  @supports ((-webkit-background-clip: text) or (background-clip: text)) {
-    .text-metal {
-      background-image: linear-gradient(
-        180deg,
-        #ffffff 0%,
-        #f5f7fa 42%,
-        #c9ced6 100%
-      );
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-      color: transparent;
-      /* Room for descenders, which the clipped background would cut off at
-         the tight display line-heights. */
-      padding-bottom: 0.08em;
-    }
-  }
-  @media (forced-colors: active) {
-    .text-metal {
-      background-image: none;
-      -webkit-text-fill-color: currentColor;
-      color: CanvasText;
-    }
-  }
-}
-
-/*
- * ============================================================
- *  METAL SWEEP (v2). The centrepiece: a high-contrast diagonal light sweep
- *  across polished steel, bright silver falling into deep black.
- * ============================================================
- * Layers, top to bottom:
- *   1. scrim     darkens the part of the surface that carries text
- *   2. noise     faint SVG turbulence (inline, no asset) to break up banding
- *   3. grain     dark hairlines at the sweep angle. They are dark-on-light,
- *                so they show in the bright band and vanish in the black
- *                falloff by themselves. Two unrelated periods (3px, 7px) so
- *                the diagonal lines never settle into moire.
- *   4. sweep     near-black, up through graphite to the bright band, back
- *                down to near-black
- *
- * Variants:
- *   .metal-bar     no scrim. Text-free strips and edges: full brightness.
- *   .metal-strong  bands with left-aligned copy. From 1280px up the scrim
- *                  covers the left three quarters and the sweep shows at full
- *                  strength on the right; below that the copy runs the full
- *                  width, so the whole band is dimmed instead.
- *   .metal-dim     add to .metal-strong where text spans the full width at
- *                  every size (header, stat bar, CTA panels).
- *   .metal-soft    cards. Same sweep, graphite at its brightest, so body
- *                  copy stays readable anywhere on the card.
- *
- * Contrast was computed per pixel from these exact stops (worst point of each
- * surface, including the hover sheen): chrome text is 5.8:1 or better on
- * every text-bearing metal surface, white 8.6:1 or better. Muted grey would
- * drop below 4.5:1 on the lit part of the sweep, so it is lifted on metal
- * (see the .text-muted rules below).
- */
-@layer components {
-  .metal-bar,
-  .metal-strong,
-  .metal-edge-t::before,
-  .metal-edge-b::after {
-    --metal-noise: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.5  0 0 0 0 0.5  0 0 0 0 0.5  0 0 0 0.07 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
-    --metal-grain-layers:
-      repeating-linear-gradient(
-        var(--metal-angle),
-        rgba(0, 0, 0, var(--metal-grain)) 0,
-        rgba(0, 0, 0, 0) 1.5px,
-        rgba(0, 0, 0, 0) 3px
-      ),
-      repeating-linear-gradient(
-        var(--metal-angle),
-        rgba(0, 0, 0, calc(var(--metal-grain) * 0.7)) 0,
-        rgba(0, 0, 0, 0) 2px,
-        rgba(0, 0, 0, 0) 7px
-      );
-    --metal-sweep: linear-gradient(
-      var(--metal-angle),
-      var(--metal-shadow) 0%,
-      #0d0f12 calc(var(--metal-pos) - 30%),
-      #3b4047 calc(var(--metal-pos) - 17%),
-      #a9aeb4 calc(var(--metal-pos) - 7%),
-      #dfe2e5 calc(var(--metal-pos) - 2%),
-      var(--metal-peak) var(--metal-pos),
-      var(--metal-peak-lo) calc(var(--metal-pos) + 3%),
-      var(--metal-mid) calc(var(--metal-pos) + 10%),
-      #1c1f24 calc(var(--metal-pos) + 20%),
-      var(--metal-shadow) calc(var(--metal-pos) + 34%)
-    );
-  }
-
-  .metal-bar {
-    background-color: var(--metal-shadow);
-    background-image: var(--metal-noise), var(--metal-grain-layers), var(--metal-sweep);
-  }
-
-  .metal-strong {
-    --metal-pos: 82%;
-    --metal-scrim: linear-gradient(
-      rgba(6, 7, 9, var(--metal-dim)),
-      rgba(6, 7, 9, var(--metal-dim))
-    );
-    background-color: var(--metal-shadow);
-    background-image:
-      var(--metal-scrim), var(--metal-noise), var(--metal-grain-layers),
-      var(--metal-sweep);
-  }
-  @media (min-width: 1280px) {
-    .metal-strong:not(.metal-dim) {
-      --metal-scrim: linear-gradient(
-        90deg,
-        rgba(6, 7, 9, 0.96) 0%,
-        rgba(6, 7, 9, 0.94) 72%,
-        rgba(6, 7, 9, 0.7) 80%,
-        rgba(6, 7, 9, 0) 92%
-      );
-    }
-  }
-  .metal-strong.metal-dim {
-    --metal-pos: 62%;
-  }
-
-  /* Muted grey fails on lit metal; lift it to chrome there. */
-  .metal-strong .text-muted {
-    color: var(--chrome);
-  }
-
-  .metal-soft {
-    --metal-pos: 80%;
-    background-color: #15181c;
-    background-image:
-      repeating-linear-gradient(
-        var(--metal-angle),
-        rgba(0, 0, 0, 0.16) 0,
-        rgba(0, 0, 0, 0) 1.5px,
-        rgba(0, 0, 0, 0) 3px
-      ),
-      linear-gradient(
-        var(--metal-angle),
-        #14171b 0%,
-        #181b20 calc(var(--metal-pos) - 30%),
-        #262a30 calc(var(--metal-pos) - 10%),
-        #33373e var(--metal-pos),
-        #24282d calc(var(--metal-pos) + 8%),
-        #15181c 100%
-      );
-    box-shadow:
-      inset 0 1px 0 rgba(232, 236, 242, 0.1),
-      inset 0 -1px 0 rgba(0, 0, 0, 0.5),
-      0 1px 1px rgba(0, 0, 0, 0.5),
-      0 6px 12px -4px rgba(0, 0, 0, 0.55),
-      0 22px 40px -22px rgba(0, 0, 0, 0.85);
-  }
-  /* 5.4:1 on the brightest point of the card sweep (plain muted is 4.3:1). */
-  .metal-soft .text-muted {
-    color: #b4bac4;
-  }
-
-  /* A solid bar of polished steel along an edge: header bottom, footer top,
-     CTA panels. Runs the sweep lengthwise so the highlight reads at 3px. */
-  .metal-edge-t,
-  .metal-edge-b {
-    position: relative;
-  }
-  .metal-edge-t::before,
-  .metal-edge-b::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    right: 0;
-    height: 3px;
-    --metal-angle: 100deg;
-    --metal-pos: 64%;
-    background-image: var(--metal-sweep);
     pointer-events: none;
     z-index: 1;
   }
+  .rule-chrome-t::before,
+  .rule-chrome-y::before,
   .metal-edge-t::before {
     top: 0;
   }
+  .rule-chrome-b::after,
+  .rule-chrome-y::after,
   .metal-edge-b::after {
     bottom: 0;
   }
 
-  /* Diagonal section transition. The band's top and bottom edges are cut on
-     a slant that echoes the sweep, with a sliver of bright steel riding the
-     top cut. Use on two or three bands at most. */
+  /* Diagonal band edges, with a chrome line riding the top cut. */
   .band-slant {
     --slant: clamp(22px, 3.6vw, 60px);
     position: relative;
@@ -528,19 +251,92 @@
     left: 0;
     right: 0;
     height: var(--slant);
-    --metal-angle: 95deg;
-    --metal-pos: 58%;
-    --metal-shadow: #2a2e34;
-    background-image: linear-gradient(
-      var(--metal-angle),
-      #2a2e34 0%,
-      #a9aeb4 calc(var(--metal-pos) - 12%),
-      #eceef0 var(--metal-pos),
-      #8d9299 calc(var(--metal-pos) + 12%),
-      #2a2e34 100%
-    );
-    clip-path: polygon(0 calc(100% - 4px), 100% 0, 100% 4px, 0 100%);
+    background: rgba(237, 234, 230, 0.45);
+    clip-path: polygon(0 calc(100% - 1.5px), 100% 0, 100% 1.5px, 0 100%);
     pointer-events: none;
+  }
+
+  /* Hover sheen: a wide, very soft highlight that slides across a plate.
+     Transform only, so it stays on the compositor; off under reduced motion. */
+  .sheen {
+    position: relative;
+    overflow: hidden;
+  }
+  .sheen::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -60%;
+    width: 220%;
+    background: linear-gradient(
+      105deg,
+      transparent 38%,
+      rgba(255, 255, 255, 0.035) 50%,
+      transparent 62%
+    );
+    transform: translate3d(-22%, 0, 0);
+    transition: transform 280ms ease-out;
+    pointer-events: none;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .sheen:hover::before,
+    .group:hover .sheen::before {
+      transform: translate3d(22%, 0, 0);
+    }
+  }
+
+  /* Primary CTA: the only blue on the site. Solid royal with a bright chrome
+     top edge so it reads as a machined button against the gunmetal. */
+  .btn-machined {
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.62),
+      inset 0 2px 0 rgba(255, 255, 255, 0.12),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.32),
+      0 0 0 1px rgba(0, 0, 0, 0.35),
+      0 1px 2px rgba(0, 0, 0, 0.5),
+      0 10px 26px -8px rgba(29, 78, 216, 0.6);
+  }
+
+  /* Secondary buttons and small controls: a brighter plate. */
+  .btn-metal {
+    background-color: var(--plate-hi);
+    background-image:
+      var(--grain),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, transparent 55%, rgba(0, 0, 0, 0.14) 100%);
+    box-shadow:
+      inset 0 1px 0 rgba(237, 234, 230, 0.34),
+      inset 0 0 0 1px rgba(214, 210, 204, 0.14),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.5),
+      0 1px 2px rgba(0, 0, 0, 0.45),
+      0 8px 18px -10px rgba(0, 0, 0, 0.7);
+  }
+  .btn-metal:hover {
+    background-color: #554e48;
+  }
+
+  /* Display headings only: near-white to light silver. Plain colour fallback;
+     dropped in forced-colors mode so high-contrast themes keep real text. */
+  .text-metal {
+    color: #f7f5f2;
+  }
+  @supports ((-webkit-background-clip: text) or (background-clip: text)) {
+    .text-metal {
+      background-image: linear-gradient(180deg, #ffffff 0%, #f7f5f2 42%, #d6d2cc 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+      /* Room for descenders, which the clipped background would cut off. */
+      padding-bottom: 0.08em;
+    }
+  }
+  @media (forced-colors: active) {
+    .text-metal {
+      background-image: none;
+      -webkit-text-fill-color: currentColor;
+      color: CanvasText;
+    }
   }
 }
 
