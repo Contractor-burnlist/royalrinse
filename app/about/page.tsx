@@ -60,10 +60,10 @@ const storyImage =
 
 function Hero() {
   return (
-    <div className="border-b border-hairline bg-charcoal">
+    <div className="surface-brushed rule-chrome-b">
       <Container className="py-16 sm:py-20">
         <Eyebrow>About</Eyebrow>
-        <h1 className="mt-3 font-display text-4xl font-bold tracking-tight text-ink sm:text-5xl">
+        <h1 className="mt-3 font-display text-4xl font-bold tracking-tight text-metal sm:text-5xl">
           About Royal Rinse
         </h1>
         <p className="mt-4 max-w-2xl text-lg leading-relaxed text-chrome">
@@ -113,7 +113,7 @@ function OurStory() {
           </div>
         </div>
 
-        <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl border border-chrome/20 shadow-2xl">
+        <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl edge-chrome shadow-2xl">
           <Image
             src={storyImage.src}
             alt={storyImage.alt}
@@ -138,7 +138,7 @@ function OurStory() {
 
 function WhyRoyalRinse() {
   return (
-    <div className="border-y border-hairline bg-charcoal">
+    <div className="rule-chrome-y bg-charcoal">
       <Section className="!py-20 sm:!py-24">
         <Eyebrow>Why Royal Rinse</Eyebrow>
         <h2 className="mt-3 font-display text-3xl font-bold tracking-tight text-ink sm:text-4xl">
@@ -148,7 +148,7 @@ function WhyRoyalRinse() {
         <div className="mt-12 grid gap-6 sm:grid-cols-2">
           {whyRoyalRinse.map((prop) => (
             <Card key={prop.title} className="flex gap-4">
-              <span className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-royal/15 text-royal-light">
+              <span className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-chrome/10 text-chrome">
                 <Icon name={prop.icon} className="h-5 w-5" />
               </span>
               <div>
@@ -199,7 +199,7 @@ function OurStandard() {
         {/* Trust line */}
         <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-4 border-t border-hairline pt-8">
           <span className="flex items-center gap-2 text-sm text-chrome">
-            <Icon name="shield" className="h-4 w-4 shrink-0 text-royal-light" />
+            <Icon name="shield" className="h-4 w-4 shrink-0 text-chrome" />
             Licensed &amp; Insured
             <span className="font-mono text-[11px] text-muted">
               CA DLSE {site.licenseNumber}
@@ -209,7 +209,7 @@ function OurStandard() {
           <MilitaryDiscountBadge size="sm" />
 
           <span className="flex items-center gap-2 text-sm text-chrome">
-            <Icon name="sparkle" className="h-4 w-4 shrink-0 text-royal-light" />
+            <Icon name="sparkle" className="h-4 w-4 shrink-0 text-chrome" />
             5-Star Rated
           </span>
         </div>
@@ -221,7 +221,7 @@ function OurStandard() {
 function AboutCta() {
   return (
     <Section className="!pt-0">
-      <div className="relative overflow-hidden rounded-2xl border border-hairline bg-surface px-6 py-16 text-center shadow-card sm:px-12">
+      <div className="relative overflow-hidden rounded-2xl surface-machined edge-chrome px-6 py-16 text-center shadow-card sm:px-12">
         <div
           aria-hidden="true"
           className="pointer-events-none absolute -bottom-24 left-1/2 h-64 w-[36rem] -translate-x-1/2 rounded-full bg-royal/25 blur-3xl"

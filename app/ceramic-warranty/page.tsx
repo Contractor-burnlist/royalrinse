@@ -89,10 +89,10 @@ export default function CeramicWarrantyPage() {
       />
 
       {/* Hero */}
-      <div className="border-b border-hairline bg-charcoal">
+      <div className="surface-brushed rule-chrome-b">
         <Container className="py-16 sm:py-20">
           <Eyebrow>Ceramic Coating</Eyebrow>
-          <h1 className="mt-3 font-display text-4xl font-bold tracking-tight text-ink sm:text-5xl">
+          <h1 className="mt-3 font-display text-4xl font-bold tracking-tight text-metal sm:text-5xl">
             Ceramic Coating Warranty
           </h1>
           <p className="mt-5 max-w-2xl text-lg leading-relaxed text-chrome">
@@ -120,7 +120,7 @@ export default function CeramicWarrantyPage() {
           {/* Manufacturer product warranty */}
           <Card className="flex flex-col">
             <div className="flex items-center justify-between gap-3">
-              <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-royal/15 text-royal-light">
+              <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-chrome/10 text-chrome">
                 <Icon name="shield" className="h-5 w-5" />
               </span>
               <ProvidedBy>Provided by the coating manufacturer</ProvidedBy>
@@ -149,7 +149,7 @@ export default function CeramicWarrantyPage() {
           {/* Royal Rinse workmanship warranty */}
           <Card className="flex flex-col">
             <div className="flex items-center justify-between gap-3">
-              <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-royal/15 text-royal-light">
+              <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-chrome/10 text-chrome">
                 <Icon name="check" className="h-5 w-5" />
               </span>
               <ProvidedBy>Provided by Royal Rinse</ProvidedBy>
@@ -177,7 +177,7 @@ export default function CeramicWarrantyPage() {
 
       {/* Maintenance note, kept separate from warranty terms */}
       <Section>
-        <div className="rounded-xl border border-hairline bg-surface p-6 shadow-card sm:p-8">
+        <div className="rounded-xl surface-machined edge-chrome p-6 shadow-card sm:p-8">
           <Eyebrow>Keeping your coating its best</Eyebrow>
           <p className="mt-4 max-w-3xl text-base leading-relaxed text-muted">
             Manufacturer warranties typically require proper maintenance. Our
@@ -216,7 +216,7 @@ export default function CeramicWarrantyPage() {
           <ul className="mt-6 space-y-3">
             {aftercare.map((item) => (
               <li key={item} className="flex gap-3 text-sm leading-relaxed text-muted">
-                <Icon name="check" className="mt-0.5 h-4 w-4 shrink-0 text-royal-light" />
+                <Icon name="check" className="mt-0.5 h-4 w-4 shrink-0 text-chrome" />
                 {item}
               </li>
             ))}
@@ -250,7 +250,7 @@ export default function CeramicWarrantyPage() {
 
       {/* CTA band: Call / Book / Text */}
       <Section className="!pt-0">
-        <div className="relative overflow-hidden rounded-xl border border-hairline bg-surface px-6 py-14 text-center shadow-card sm:px-12">
+        <div className="relative overflow-hidden rounded-xl surface-machined edge-chrome px-6 py-14 text-center shadow-card sm:px-12">
           <div
             aria-hidden="true"
             className="pointer-events-none absolute -bottom-24 left-1/2 h-64 w-[36rem] -translate-x-1/2 rounded-full bg-royal/25 blur-3xl"

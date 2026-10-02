@@ -86,8 +86,8 @@ export function Header() {
     <header
       className={`sticky top-0 z-50 transition-all duration-500 ${
         solid
-          ? "border-b border-hairline bg-base/80 backdrop-blur-xl backdrop-saturate-150"
-          : "border-b border-transparent bg-gradient-to-b from-base/80 via-base/40 to-transparent"
+          ? "surface-brushed surface-glass rule-chrome-b backdrop-blur-2xl backdrop-saturate-150"
+          : "bg-gradient-to-b from-base/80 via-base/40 to-transparent"
       }`}
     >
       <Container>
@@ -141,7 +141,7 @@ export function Header() {
             aria-expanded={open}
             aria-controls="mobile-menu"
             aria-label={open ? "Close menu" : "Open menu"}
-            className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-hairline text-ink xl:hidden"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-xl btn-metal text-ink xl:hidden"
           >
             <svg
               viewBox="0 0 24 24"
@@ -165,7 +165,7 @@ export function Header() {
       {open ? (
         <div
           id="mobile-menu"
-          className="border-t border-hairline bg-charcoal xl:hidden"
+          className="surface-brushed rule-chrome-t xl:hidden"
         >
           <Container className="py-5">
             <nav aria-label="Primary">

@@ -26,12 +26,12 @@ const rigImage = allGalleryImages.find((image) =>
 export default function ServiceAreaPage() {
   return (
     <>
-      <div className="border-b border-hairline bg-charcoal">
+      <div className="rule-chrome-b bg-charcoal">
         <Container className="py-16 sm:py-20">
           <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,1fr)_20rem] lg:gap-14">
             <div>
               <Eyebrow>Service area</Eyebrow>
-              <h1 className="mt-3 font-display text-4xl font-bold tracking-tight text-ink sm:text-5xl">
+              <h1 className="mt-3 font-display text-4xl font-bold tracking-tight text-metal sm:text-5xl">
                 Serving Riverside &amp; San Diego County, We Come To You
               </h1>
               <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted">
@@ -41,7 +41,7 @@ export default function ServiceAreaPage() {
             </div>
 
             {rigImage ? (
-              <div className="relative aspect-[3/4] w-full max-w-xs overflow-hidden rounded-2xl border border-chrome/20 shadow-2xl">
+              <div className="relative aspect-[3/4] w-full max-w-xs overflow-hidden rounded-2xl edge-chrome shadow-2xl">
                 <Image
                   src={rigImage.src}
                   alt={rigImage.alt}
@@ -87,7 +87,7 @@ export default function ServiceAreaPage() {
         </div>
 
         <p className="mt-14 flex items-center gap-2 text-sm text-muted">
-          <Icon name="check" className="h-4 w-4 shrink-0 text-royal-light" />
+          <Icon name="check" className="h-4 w-4 shrink-0 text-chrome" />
           Don&rsquo;t see your city? Give us a call. If you&rsquo;re nearby, we can
           usually get to you.
         </p>

@@ -42,10 +42,10 @@ const prose = "mt-4 space-y-4 text-base leading-relaxed text-chrome";
 export default function AccessibilityPage() {
   return (
     <>
-      <div className="border-b border-hairline bg-charcoal">
+      <div className="surface-brushed rule-chrome-b">
         <Container className="py-16 sm:py-20">
           <Eyebrow>Accessibility</Eyebrow>
-          <h1 className="mt-3 font-display text-4xl font-bold tracking-tight text-ink sm:text-5xl">
+          <h1 className="mt-3 font-display text-4xl font-bold tracking-tight text-metal sm:text-5xl">
             Accessibility Statement
           </h1>
           <p className="mt-4 max-w-2xl text-base leading-relaxed text-chrome">
@@ -95,7 +95,7 @@ export default function AccessibilityPage() {
             <ul className="mt-5 space-y-3">
               {measures.map((measure) => (
                 <li key={measure} className="flex gap-3 text-base leading-relaxed text-chrome">
-                  <Icon name="check" className="mt-1 h-4 w-4 shrink-0 text-royal-light" />
+                  <Icon name="check" className="mt-1 h-4 w-4 shrink-0 text-chrome" />
                   {measure}
                 </li>
               ))}

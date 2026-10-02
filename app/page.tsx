@@ -219,7 +219,7 @@ const homeFaqSchema = {
 
 /** The slightly lighter band that alternates with the base background. */
 function Band({ children }: { children: React.ReactNode }) {
-  return <div className="border-y border-hairline bg-charcoal">{children}</div>;
+  return <div className="rule-chrome-y bg-charcoal">{children}</div>;
 }
 
 const textLink =
@@ -232,7 +232,7 @@ function Hero() {
       <Eyebrow>{SERVICE_AREA_SHORT}</Eyebrow>
 
       {/* No forced <br> on mobile: it overflows narrow viewports. */}
-      <h1 className="mt-4 font-display text-4xl font-bold leading-[1.02] tracking-tight text-ink drop-shadow-[0_2px_24px_rgba(0,0,0,0.6)] sm:text-6xl sm:leading-[0.98]">
+      <h1 className="mt-4 font-display text-4xl font-bold leading-[1.02] tracking-tight text-metal drop-shadow-[0_2px_24px_rgba(0,0,0,0.6)] sm:text-6xl sm:leading-[0.98]">
         A showroom finish,
         <br className="hidden sm:inline" />{" "}
         in your driveway.
@@ -252,7 +252,7 @@ function Hero() {
       <ul className="mt-7 flex flex-wrap items-center justify-center gap-x-7 gap-y-3">
         {trustChips.map((chip) => (
           <li key={chip} className="flex items-center gap-2 text-sm text-chrome">
-            <Icon name="check" className="h-4 w-4 text-royal-light" />
+            <Icon name="check" className="h-4 w-4 text-chrome" />
             {chip}
           </li>
         ))}
@@ -271,7 +271,7 @@ function Hero() {
 
 function TrustBar() {
   return (
-    <div className="border-b border-hairline bg-charcoal">
+    <div className="surface-brushed rule-chrome-b">
       <Container>
         <div className="py-6">
           <ul className="grid grid-cols-2 items-start gap-x-4 gap-y-5 sm:grid-cols-3 lg:grid-cols-5">
@@ -280,9 +280,9 @@ function TrustBar() {
                 key={badge.label}
                 className="flex items-start justify-center gap-2 text-center"
               >
-                <Icon name="shield" className="mt-0.5 h-4 w-4 shrink-0 text-royal-light" />
+                <Icon name="shield" className="mt-0.5 h-4 w-4 shrink-0 text-chrome" />
                 <span className="min-w-0">
-                  <span className="block text-sm font-medium text-chrome">
+                  <span className="text-metal block text-sm font-semibold">
                     {badge.label}
                   </span>
                   {badge.detail ? (
@@ -332,7 +332,7 @@ function TrustBar() {
 
 function VehiclesStrip() {
   return (
-    <div className="border-b border-hairline">
+    <div className="surface-brushed rule-chrome-b">
       <Container>
         <p className="flex flex-wrap items-center justify-center gap-x-3 gap-y-2 py-5 text-center text-sm text-muted">
           <span className="font-semibold uppercase tracking-[0.18em] text-chrome">
@@ -340,7 +340,7 @@ function VehiclesStrip() {
           </span>
           {vehicleTypes.map((type) => (
             <span key={type} className="flex items-center gap-3">
-              <span aria-hidden="true" className="text-royal-light">
+              <span aria-hidden="true" className="text-chrome/60">
                 ·
               </span>
               {type}
@@ -357,7 +357,7 @@ function ComeToYou() {
     <Section className="!py-20 sm:!py-24">
       <div className="grid items-center gap-12 lg:grid-cols-[22rem_minmax(0,1fr)] lg:gap-16">
         <Reveal className="mx-auto w-full max-w-[22rem] lg:mx-0">
-          <div className="relative aspect-[3/4] overflow-hidden rounded-2xl border border-chrome/20 shadow-2xl">
+          <div className="relative aspect-[3/4] overflow-hidden rounded-2xl edge-chrome shadow-2xl">
             <Image
               src={rigImage.src}
               alt={rigImage.alt}
@@ -381,7 +381,7 @@ function ComeToYou() {
           <ul className="mt-8 space-y-3">
             {mobilePoints.map((point) => (
               <li key={point} className="flex gap-3 text-sm leading-relaxed text-chrome">
-                <Icon name="check" className="mt-0.5 h-4 w-4 shrink-0 text-royal-light" />
+                <Icon name="check" className="mt-0.5 h-4 w-4 shrink-0 text-chrome" />
                 {point}
               </li>
             ))}
@@ -468,7 +468,7 @@ function CeramicFeature() {
       <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
         <Reveal>
           <Eyebrow>Our flagship service</Eyebrow>
-          <h2 className="mt-4 font-display text-4xl font-bold leading-[1.05] tracking-tight text-ink sm:text-5xl">
+          <h2 className="mt-4 font-display text-4xl font-bold leading-[1.05] tracking-tight text-metal sm:text-5xl">
             {ceramicCoating.name}
           </h2>
           <p className="mt-4 text-lg text-chrome">{ceramicCoating.tagline}</p>
@@ -482,7 +482,7 @@ function CeramicFeature() {
                 key={level.name}
                 className="flex gap-3 rounded-xl border border-hairline bg-surface px-4 py-3 text-sm font-medium text-chrome"
               >
-                <Icon name="shield" className="mt-0.5 h-4 w-4 shrink-0 text-royal-light" />
+                <Icon name="shield" className="mt-0.5 h-4 w-4 shrink-0 text-chrome" />
                 {level.name}
               </li>
             ))}
@@ -510,7 +510,7 @@ function CeramicFeature() {
         </Reveal>
 
         <Reveal delay={100}>
-          <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl border border-chrome/20 shadow-2xl">
+          <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl edge-chrome shadow-2xl">
             <Image
               src={ceramicImage.src}
               alt={ceramicImage.alt}
@@ -546,7 +546,7 @@ function Specialization() {
               <Reveal delay={i * 80}>
                 <Link
                   href="/gallery"
-                  className="group relative block aspect-[3/4] overflow-hidden rounded-xl border border-chrome/20 shadow-card focus:outline-none focus-visible:ring-2 focus-visible:ring-royal-light focus-visible:ring-offset-2 focus-visible:ring-offset-charcoal"
+                  className="group relative block aspect-[3/4] overflow-hidden rounded-xl edge-chrome shadow-card focus:outline-none focus-visible:ring-2 focus-visible:ring-royal-light focus-visible:ring-offset-2 focus-visible:ring-offset-charcoal"
                 >
                   <Image
                     src={image.src}
@@ -593,7 +593,7 @@ function HowItWorks() {
         {steps.map((step, i) => (
           <Reveal as="li" key={step.number} delay={i * 80}>
             <Card className="h-full">
-              <span className="font-display text-3xl font-bold text-royal-light">
+              <span className="text-metal font-display text-3xl font-bold">
                 {step.number}
               </span>
               <h3 className="mt-4 font-display text-lg font-bold text-ink">{step.title}</h3>
@@ -621,7 +621,7 @@ function WhyRoyalRinse() {
           {valueProps.map((prop, i) => (
             <Reveal key={prop.title} delay={(i % 2) * 80}>
               <Card className="flex h-full gap-4">
-                <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-royal/15 text-royal-light">
+                <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-chrome/10 text-chrome">
                   <Icon name="check" className="h-4 w-4" />
                 </span>
                 <div>
@@ -654,7 +654,7 @@ function AddOnsShowcase() {
           {photoAddOns.map((addOn, i) => (
             <li key={addOn.name}>
               <Reveal delay={i * 80}>
-                <figure className="overflow-hidden rounded-xl border border-hairline bg-surface shadow-card">
+                <figure className="overflow-hidden rounded-xl surface-machined edge-chrome shadow-card">
                   <div className="relative aspect-[4/5]">
                     <Image
                       src={addOn.image.src}
@@ -685,7 +685,7 @@ function AddOnsShowcase() {
           <ul className="grid gap-x-8 gap-y-5 sm:grid-cols-2">
             {textAddOns.map((addOn) => (
               <li key={addOn.name} className="flex gap-3">
-                <Icon name="check" className="mt-1 h-4 w-4 shrink-0 text-royal-light" />
+                <Icon name="check" className="mt-1 h-4 w-4 shrink-0 text-chrome" />
                 <p className="text-sm leading-relaxed text-muted">
                   <span className="font-semibold text-ink">{addOn.name}</span>: {addOn.desc}
                 </p>
@@ -740,7 +740,7 @@ function Testimonials() {
     <Section className="!py-20 sm:!py-24">
       <Reveal className="max-w-2xl">
         <Eyebrow>Reviews</Eyebrow>
-        <h2 className="mt-4 font-display text-4xl font-bold leading-[1.05] tracking-tight text-ink sm:text-5xl">
+        <h2 className="mt-4 font-display text-4xl font-bold leading-[1.05] tracking-tight text-metal sm:text-5xl">
           Loved on Google
         </h2>
         <GoogleRatingSummary className="mt-5" />
@@ -835,7 +835,7 @@ function MaintenancePlans() {
             {planSchedules.map((schedule) => (
               <li
                 key={schedule}
-                className="inline-flex rounded-xl border border-royal/50 bg-royal/10 px-4 py-2 text-sm font-semibold text-ink"
+                className="btn-metal inline-flex rounded-xl px-4 py-2 text-sm font-semibold text-ink hover:!bg-graphite"
               >
                 {schedule}
               </li>
@@ -866,7 +866,7 @@ function MaintenancePlans() {
             <ul className="mt-5 space-y-3">
               {maintenancePlan.includes.map((item) => (
                 <li key={item} className="flex gap-3 text-sm leading-relaxed text-muted">
-                  <Icon name="check" className="mt-0.5 h-4 w-4 shrink-0 text-royal-light" />
+                  <Icon name="check" className="mt-0.5 h-4 w-4 shrink-0 text-chrome" />
                   {item}
                 </li>
               ))}
@@ -938,7 +938,7 @@ function HomeFaq() {
                 {faq.question}
                 <span
                   aria-hidden="true"
-                  className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-hairline text-royal-light motion-safe:transition-transform motion-safe:duration-300 group-open:rotate-45"
+                  className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full btn-metal text-chrome motion-safe:transition-transform motion-safe:duration-300 group-open:rotate-45"
                 >
                   +
                 </span>
@@ -963,7 +963,7 @@ function FinalCta() {
   return (
     <Section className="!pt-0">
       <Reveal>
-        <div className="relative overflow-hidden rounded-xl border border-hairline bg-surface px-6 py-16 text-center shadow-card sm:px-12">
+        <div className="relative overflow-hidden rounded-xl surface-machined edge-chrome px-6 py-16 text-center shadow-card sm:px-12">
           <div
             aria-hidden="true"
             className="pointer-events-none absolute -bottom-24 left-1/2 h-64 w-[36rem] -translate-x-1/2 rounded-full bg-royal/25 blur-3xl"

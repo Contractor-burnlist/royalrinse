@@ -59,7 +59,7 @@ export function ReviewCard({ review }: { review: Review }) {
   const avatar = avatarColor(review.name);
 
   return (
-    <figure className="flex h-full flex-col rounded-xl border border-hairline bg-surface p-6 shadow-card">
+    <figure className="flex h-full flex-col sheen edge-chrome surface-machined rounded-xl p-6 shadow-card">
       <div className="flex items-start justify-between gap-3">
         <div className="flex items-center gap-3">
           <span

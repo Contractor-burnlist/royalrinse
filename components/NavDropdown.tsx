@@ -186,7 +186,7 @@ export function NavDropdown({ config }: { config: NavMenuConfig }) {
         }`}
       >
         <div
-          className={`${panelWidthClass} rounded-2xl border border-hairline bg-surface p-2 shadow-2xl`}
+          className={`${panelWidthClass} edge-chrome surface-machined rounded-2xl p-2 shadow-2xl`}
         >
           {config.groups.map((group, groupIndex) => (
             <div key={group.label ?? groupIndex}>

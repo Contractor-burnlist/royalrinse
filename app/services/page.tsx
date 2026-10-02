@@ -34,7 +34,7 @@ function DirectoryCard({
 }) {
   return (
     <Card className="flex flex-col">
-      <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-royal/15 text-royal-light">
+      <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-chrome/10 text-chrome">
         <Icon name={icon} className="h-5 w-5" />
       </span>
       <h3 className="mt-5 font-display text-lg font-bold text-ink">{name}</h3>
@@ -62,10 +62,10 @@ const tierIcons: Record<string, string> = {
 export default function ServicesPage() {
   return (
     <>
-      <div className="border-b border-hairline bg-charcoal">
+      <div className="surface-brushed rule-chrome-b">
         <Container className="py-16 sm:py-20">
           <Eyebrow>Services</Eyebrow>
-          <h1 className="mt-3 font-display text-4xl font-bold tracking-tight text-ink sm:text-5xl">
+          <h1 className="mt-3 font-display text-4xl font-bold tracking-tight text-metal sm:text-5xl">
             Detailing, delivered to you
           </h1>
           <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted">
@@ -111,7 +111,7 @@ export default function ServicesPage() {
           <ul className="grid gap-x-8 gap-y-5 sm:grid-cols-2">
             {addOns.map((addOn) => (
               <li key={addOn.name} className="flex gap-3">
-                <Icon name="check" className="mt-1 h-4 w-4 shrink-0 text-royal-light" />
+                <Icon name="check" className="mt-1 h-4 w-4 shrink-0 text-chrome" />
                 <p className="text-sm leading-relaxed text-muted">
                   <span className="font-semibold text-ink">{addOn.name}</span>: {addOn.desc}
                 </p>
@@ -120,7 +120,7 @@ export default function ServicesPage() {
           </ul>
 
           <figure className="w-full max-w-xs">
-            <div className="relative aspect-[4/5] overflow-hidden rounded-2xl border border-chrome/20 shadow-2xl">
+            <div className="relative aspect-[4/5] overflow-hidden rounded-2xl edge-chrome shadow-2xl">
               <Image
                 src={addOnsPhoto.src}
                 alt={addOnsPhoto.alt}

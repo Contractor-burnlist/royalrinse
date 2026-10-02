@@ -108,7 +108,7 @@ export function LightboxGrid({
   const active = openIndex === null ? null : images[openIndex];
 
   const tileClasses =
-    "group relative block w-full overflow-hidden rounded-xl border border-hairline bg-surface shadow-card transition-colors hover:border-royal focus:outline-none focus-visible:ring-2 focus-visible:ring-royal-light focus-visible:ring-offset-2 focus-visible:ring-offset-base";
+    "group relative block w-full overflow-hidden rounded-xl edge-chrome bg-surface shadow-card focus:outline-none focus-visible:ring-2 focus-visible:ring-royal-light focus-visible:ring-offset-2 focus-visible:ring-offset-base";
 
   return (
     <>
@@ -195,7 +195,7 @@ export function LightboxGrid({
             type="button"
             onClick={close}
             aria-label="Close photo"
-            className="absolute right-4 top-4 z-10 flex h-11 w-11 items-center justify-center rounded-xl border border-hairline bg-surface text-ink transition-colors hover:border-chrome/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-royal-light"
+            className="absolute right-4 top-4 z-10 flex h-11 w-11 items-center justify-center rounded-xl btn-metal text-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-royal-light"
           >
             <svg
               viewBox="0 0 24 24"
@@ -254,7 +254,7 @@ function LightboxNav({
       type="button"
       onClick={onClick}
       aria-label={isPrev ? "Previous photo" : "Next photo"}
-      className={`absolute top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-xl border border-hairline bg-surface text-ink transition-colors hover:border-chrome/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-royal-light ${
+      className={`absolute top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-xl btn-metal text-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-royal-light ${
         isPrev ? "left-4" : "right-4"
       }`}
     >

@@ -24,10 +24,10 @@ export const metadata: Metadata = buildMetadata({
 export default function BookPage() {
   return (
     <>
-      <div className="border-b border-hairline bg-charcoal">
+      <div className="surface-brushed rule-chrome-b">
         <Container className="py-16 sm:py-20">
           <Eyebrow>Book online</Eyebrow>
-          <h1 className="mt-3 font-display text-4xl font-bold tracking-tight text-ink sm:text-5xl">
+          <h1 className="mt-3 font-display text-4xl font-bold tracking-tight text-metal sm:text-5xl">
             Book Your Detail
           </h1>
           <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted">
@@ -40,7 +40,7 @@ export default function BookPage() {
       <Section>
         {/* Generous min-height so the service list and calendar aren't cramped;
             it grows taller on larger screens. */}
-        <div className="overflow-hidden rounded-2xl border border-hairline bg-surface shadow-card">
+        <div className="overflow-hidden rounded-2xl surface-machined edge-chrome shadow-card">
           <iframe
             src={HCP_BOOKING_URL}
             title="Book Royal Rinse online"
@@ -55,7 +55,7 @@ export default function BookPage() {
             screen, there's always a way through. */}
         <div className="mt-8 flex flex-col items-start gap-3 rounded-xl border border-hairline bg-surface px-5 py-4 text-sm text-muted sm:flex-row sm:items-center sm:gap-5">
           <span className="flex items-center gap-2 font-medium text-chrome">
-            <Icon name="check" className="h-4 w-4 shrink-0 text-royal-light" />
+            <Icon name="check" className="h-4 w-4 shrink-0 text-chrome" />
             Trouble booking?
           </span>
 

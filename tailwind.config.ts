@@ -16,6 +16,11 @@ const config: Config = {
         base: "#0B0D10",
         charcoal: "#14181D",
         surface: "#1B2027",
+        // Metal tones. Mirrored as CSS variables in app/globals.css, where the
+        // brushed and machined surface classes are built from them.
+        graphite: "#22272E",
+        gunmetal: "#2E343C",
+        "chrome-bright": "#E8ECF2",
         royal: {
           DEFAULT: "#1D4ED8",
           hover: "#2563EB",
@@ -38,7 +43,9 @@ const config: Config = {
         xl: "0.875rem",
       },
       boxShadow: {
-        card: "0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -12px rgba(0,0,0,0.6)",
+        // Layered so a card reads as a raised metal panel: a lit top lip, a
+        // tight contact shadow, then a soft wide one.
+        card: "inset 0 1px 0 rgba(232,236,242,0.07), inset 0 -1px 0 rgba(0,0,0,0.45), 0 1px 1px rgba(0,0,0,0.5), 0 6px 12px -4px rgba(0,0,0,0.55), 0 22px 40px -22px rgba(0,0,0,0.85)",
         glow: "0 8px 30px -8px rgba(29, 78, 216, 0.45)",
       },
       maxWidth: {

@@ -131,7 +131,7 @@ function ServicesGrid({ intro, cityName }: { intro: string; cityName: string }) 
       <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {services.map((service) => (
           <Card key={service.slug} className="flex flex-col">
-            <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-royal/15 text-royal-light">
+            <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-chrome/10 text-chrome">
               <Icon name={service.icon} className="h-5 w-5" />
             </span>
             <h3 className="mt-5 font-display text-lg font-bold text-ink">
@@ -175,7 +175,7 @@ function ServicesGrid({ intro, cityName }: { intro: string; cityName: string }) 
 function CityCta({ ctaLine }: { ctaLine: string }) {
   return (
     <Section>
-      <div className="relative overflow-hidden rounded-xl border border-hairline bg-surface px-6 py-14 text-center shadow-card sm:px-12">
+      <div className="relative overflow-hidden rounded-xl surface-machined edge-chrome px-6 py-14 text-center shadow-card sm:px-12">
         <div
           aria-hidden="true"
           className="pointer-events-none absolute -bottom-24 left-1/2 h-64 w-[36rem] -translate-x-1/2 rounded-full bg-royal/25 blur-3xl"
@@ -212,12 +212,12 @@ function UniqueCityPage({ city, page }: { city: City; page: CityPage }) {
       <CitySchema city={city} />
 
       {/* Hero: copy on the left, a unique framed cover photo on the right. */}
-      <div className="border-b border-hairline bg-charcoal">
+      <div className="rule-chrome-b bg-charcoal">
         <Container className="py-12 sm:py-16">
           <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
             <div>
               <Eyebrow>{city.county} County</Eyebrow>
-              <h1 className="mt-3 font-display text-4xl font-bold tracking-tight text-ink sm:text-5xl">
+              <h1 className="mt-3 font-display text-4xl font-bold tracking-tight text-metal sm:text-5xl">
                 Mobile Auto Detailing in {city.name}
               </h1>
               <p className="mt-4 max-w-xl text-base leading-relaxed text-chrome">
@@ -234,7 +234,7 @@ function UniqueCityPage({ city, page }: { city: City; page: CityPage }) {
             </div>
 
             {cover ? (
-              <div className="relative aspect-[3/2] w-full overflow-hidden rounded-2xl border border-chrome/20 shadow-2xl">
+              <div className="relative aspect-[3/2] w-full overflow-hidden rounded-2xl edge-chrome shadow-2xl">
                 <Image
                   src={cover.src}
                   alt={`Mobile auto detailing in ${city.name}, CA`}
@@ -263,7 +263,7 @@ function UniqueCityPage({ city, page }: { city: City; page: CityPage }) {
 
       {/* Local angle: which services matter most here. */}
       <Section className="!pb-0">
-        <div className="rounded-2xl border border-hairline bg-surface p-6 shadow-card sm:p-10">
+        <div className="rounded-2xl surface-machined edge-chrome p-6 shadow-card sm:p-10">
           <Eyebrow>Local focus</Eyebrow>
           <h2 className="mt-3 font-display text-2xl font-bold tracking-tight text-ink sm:text-3xl">
             {page.angleHeading}
@@ -287,10 +287,10 @@ function TemplatedCityPage({ city }: { city: City }) {
     <>
       <CitySchema city={city} />
 
-      <div className="border-b border-hairline bg-charcoal">
+      <div className="rule-chrome-b bg-charcoal">
         <Container className="py-16 sm:py-20">
           <Eyebrow>{city.county} County</Eyebrow>
-          <h1 className="mt-3 font-display text-4xl font-bold tracking-tight text-ink sm:text-5xl">
+          <h1 className="mt-3 font-display text-4xl font-bold tracking-tight text-metal sm:text-5xl">
             Mobile Auto Detailing in {city.name}
           </h1>
           <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted">

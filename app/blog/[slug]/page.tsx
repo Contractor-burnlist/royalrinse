@@ -73,11 +73,11 @@ export default function BlogPostPage({ params }: { params: Params }) {
       />
 
       <article>
-        <div className="border-b border-hairline bg-charcoal">
+        <div className="surface-brushed rule-chrome-b">
           <Container className="py-16 sm:py-20">
             <Eyebrow>Blog</Eyebrow>
 
-            <h1 className="mt-3 max-w-4xl font-display text-4xl font-bold leading-[1.1] tracking-tight text-ink sm:text-5xl">
+            <h1 className="mt-3 max-w-4xl font-display text-4xl font-bold leading-[1.1] tracking-tight text-metal sm:text-5xl">
               {post.title}
             </h1>
 
@@ -103,7 +103,7 @@ export default function BlogPostPage({ params }: { params: Params }) {
           <Container className="pt-10 sm:pt-14">
             {/* 21:9 keeps a portrait source from eating the fold while still
                 reading as a banner. Sized to the container, never the viewport. */}
-            <div className="relative aspect-[21/9] w-full overflow-hidden rounded-2xl border border-chrome/20 shadow-2xl">
+            <div className="relative aspect-[21/9] w-full overflow-hidden rounded-2xl edge-chrome shadow-2xl">
               <Image
                 src={post.coverImage.src}
                 alt={post.coverImage.alt}
@@ -124,7 +124,7 @@ export default function BlogPostPage({ params }: { params: Params }) {
 
       {/* Closing CTA band. */}
       <Section>
-        <div className="relative overflow-hidden rounded-2xl border border-hairline bg-surface px-6 py-14 text-center shadow-card sm:px-12">
+        <div className="relative overflow-hidden rounded-2xl surface-machined edge-chrome px-6 py-14 text-center shadow-card sm:px-12">
           <div
             aria-hidden="true"
             className="pointer-events-none absolute -bottom-24 left-1/2 h-64 w-[36rem] -translate-x-1/2 rounded-full bg-royal/25 blur-3xl"

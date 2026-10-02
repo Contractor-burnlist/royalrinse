@@ -15,10 +15,10 @@ export const metadata: Metadata = buildMetadata({
 export default function GalleryPage() {
   return (
     <>
-      <div className="border-b border-hairline bg-charcoal">
+      <div className="surface-brushed rule-chrome-b">
         <Container className="py-16 sm:py-20">
           <Eyebrow>Gallery</Eyebrow>
-          <h1 className="mt-3 font-display text-4xl font-bold tracking-tight text-ink sm:text-5xl">
+          <h1 className="mt-3 font-display text-4xl font-bold tracking-tight text-metal sm:text-5xl">
             Our work
           </h1>
           <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted">

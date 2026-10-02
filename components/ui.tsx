@@ -33,7 +33,7 @@ export function Section({
 
 export function Eyebrow({ children }: { children: ReactNode }) {
   return (
-    <p className="text-xs font-semibold uppercase tracking-[0.22em] text-royal-light">
+    <p className="text-xs font-semibold uppercase tracking-[0.16em] text-chrome">
       {children}
     </p>
   );
@@ -51,7 +51,7 @@ export function SectionHeading({
   return (
     <div className="max-w-2xl">
       {eyebrow ? <Eyebrow>{eyebrow}</Eyebrow> : null}
-      <h2 className="mt-4 font-display text-4xl font-bold leading-[1.05] tracking-tight text-ink sm:text-5xl">
+      <h2 className="mt-4 font-display text-4xl font-bold leading-[1.05] tracking-tight text-metal sm:text-5xl">
         {title}
       </h2>
       {intro ? (
@@ -67,8 +67,8 @@ const buttonBase =
   "inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3 text-sm font-semibold transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-royal-light focus-visible:ring-offset-2 focus-visible:ring-offset-base";
 
 const buttonVariants: Record<ButtonVariant, string> = {
-  primary: "bg-royal text-ink shadow-glow hover:bg-royal-hover",
-  secondary: "border border-hairline bg-surface text-ink hover:border-chrome/40 hover:bg-charcoal",
+  primary: "bg-royal text-ink btn-machined hover:bg-royal-hover",
+  secondary: "btn-metal text-ink",
   ghost: "text-chrome hover:text-ink",
 };
 
@@ -119,7 +119,7 @@ export function Card({
 }) {
   return (
     <div
-      className={`rounded-xl border border-hairline bg-surface p-6 shadow-card ${className}`}
+      className={`sheen edge-chrome surface-machined rounded-xl p-6 shadow-card ${className}`}
     >
       {children}
     </div>

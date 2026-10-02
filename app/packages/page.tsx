@@ -60,11 +60,11 @@ function TrustLine({ className = "" }: { className?: string }) {
       className={`flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-xs font-medium text-muted ${className}`}
     >
       <span className="text-chrome">Licensed &amp; Insured</span>
-      <span aria-hidden="true" className="text-royal-light">
+      <span aria-hidden="true" className="text-chrome/60">
         ·
       </span>
       <span className="text-chrome">10% Military Discount</span>
-      <span aria-hidden="true" className="text-royal-light">
+      <span aria-hidden="true" className="text-chrome/60">
         ·
       </span>
       <span className="text-chrome">Mobile: We Come To You</span>
@@ -94,8 +94,8 @@ function TierCard({ tier, rank }: { tier: (typeof tiers)[number]; rank: number }
 
   const article = (
     <article
-      className={`group relative overflow-hidden rounded-xl bg-surface shadow-card motion-safe:transition-all motion-safe:duration-500 motion-safe:hover:-translate-y-1 hover:shadow-glow ${
-        isTop ? "" : "border border-hairline hover:border-royal/40"
+      className={`group relative overflow-hidden surface-machined rounded-xl shadow-card motion-safe:transition-transform motion-safe:duration-300 motion-safe:hover:-translate-y-0.5 ${
+        isTop ? "" : "edge-chrome"
       }`}
     >
       {/*
@@ -146,7 +146,7 @@ function TierCard({ tier, rank }: { tier: (typeof tiers)[number]; rank: number }
                 key={item}
                 className="flex gap-3 text-sm leading-relaxed text-muted"
               >
-                <Icon name="check" className="mt-0.5 h-4 w-4 shrink-0 text-royal-light" />
+                <Icon name="check" className="mt-0.5 h-4 w-4 shrink-0 text-chrome" />
                 {item}
               </li>
             ))}
@@ -219,7 +219,7 @@ function CtaBand({
   bookLabel?: string;
 }) {
   return (
-    <div className="relative overflow-hidden rounded-xl border border-hairline bg-surface px-6 py-14 text-center shadow-card sm:px-12">
+    <div className="relative overflow-hidden rounded-xl surface-machined edge-chrome px-6 py-14 text-center shadow-card sm:px-12">
       <div
         aria-hidden="true"
         className="pointer-events-none absolute -bottom-24 left-1/2 h-64 w-[36rem] -translate-x-1/2 rounded-full bg-royal/25 blur-3xl"
@@ -301,7 +301,7 @@ export default function PackagesPage() {
         <div aria-hidden="true" className="absolute inset-0 bg-base/30" />
         <Container className="relative py-14 sm:py-20">
           <Eyebrow>Packages</Eyebrow>
-          <h1 className="mt-3 max-w-3xl font-display text-4xl font-bold tracking-tight text-ink drop-shadow-[0_2px_12px_rgba(0,0,0,0.6)] sm:text-5xl">
+          <h1 className="mt-3 max-w-3xl font-display text-4xl font-bold tracking-tight text-metal drop-shadow-[0_2px_12px_rgba(0,0,0,0.6)] sm:text-5xl">
             Our Detailing Packages
           </h1>
           <p className="mt-4 max-w-2xl text-base leading-relaxed text-chrome drop-shadow-[0_1px_8px_rgba(0,0,0,0.7)]">
@@ -341,7 +341,7 @@ export default function PackagesPage() {
       {/* Ceramic coating — its own section with a glossy photo. */}
       <Section className="!pt-0">
         <Reveal>
-          <div className="group relative overflow-hidden rounded-xl border border-hairline bg-surface shadow-card">
+          <div className="group relative overflow-hidden rounded-xl surface-machined edge-chrome shadow-card">
             <div className="relative h-44 w-full overflow-hidden sm:h-52 lg:absolute lg:inset-y-0 lg:right-0 lg:h-auto lg:w-1/2">
               <Image
                 src={packageImage(ceramicCoating.slug).src}
@@ -409,7 +409,7 @@ export default function PackagesPage() {
       {/* Add-ons — same card treatment as ceramic, with an engine-bay photo. */}
       <Section className="!pt-0">
         <Reveal>
-          <div className="group relative overflow-hidden rounded-xl border border-hairline bg-surface shadow-card">
+          <div className="group relative overflow-hidden rounded-xl surface-machined edge-chrome shadow-card">
             <div className="relative h-44 w-full overflow-hidden sm:h-52 lg:absolute lg:inset-y-0 lg:right-0 lg:h-auto lg:w-1/2">
               <Image
                 src={packagesAddOnsPhoto.src}

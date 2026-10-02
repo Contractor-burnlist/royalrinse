@@ -229,7 +229,7 @@ export function HeroCarousel({ children }: { children: ReactNode }) {
 
                 /**
                  * The lead tile is the featured shot (see the ordering note in
-                 * lib/gallery.ts). It gets a royal ring and a warmer shadow so
+                 * lib/gallery.ts). It gets a brighter chrome edge so
                  * it reads as the hero image, and a higher quality since it is
                  * the one tile guaranteed to be on screen at first paint.
                  * This is styling only — it must not affect track geometry, or
@@ -251,8 +251,8 @@ export function HeroCarousel({ children }: { children: ReactNode }) {
                     <div
                       className={`relative aspect-[3/4] overflow-hidden rounded-2xl bg-surface shadow-2xl ${
                         featured
-                          ? "border-2 border-royal/70 shadow-royal/20 ring-1 ring-royal/30"
-                          : "border border-chrome/20"
+                          ? "edge-chrome edge-chrome-bright"
+                          : "edge-chrome"
                       }`}
                     >
                       <Image
@@ -296,7 +296,7 @@ export function HeroCarousel({ children }: { children: ReactNode }) {
               type="button"
               onClick={() => setUserPaused(!stopped)}
               aria-label={stopped ? "Play photo rotation" : "Pause photo rotation"}
-              className="flex h-10 w-10 items-center justify-center rounded-full border border-hairline bg-surface/60 text-chrome backdrop-blur-sm transition-colors hover:border-chrome/50 hover:text-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-royal-light"
+              className="flex h-10 w-10 items-center justify-center rounded-full btn-metal text-chrome transition-colors hover:text-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-royal-light"
             >
               <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" className="h-4 w-4">
                 <path d={stopped ? "M8 5v14l11-7L8 5Z" : "M7 5h4v14H7zM13 5h4v14h-4z"} />
@@ -348,7 +348,7 @@ function CarouselArrow({
       type="button"
       onClick={onClick}
       aria-label={isPrev ? "Previous photos" : "Next photos"}
-      className="flex h-10 w-10 items-center justify-center rounded-full border border-hairline bg-surface/60 text-chrome backdrop-blur-sm transition-colors hover:border-chrome/50 hover:text-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-royal-light"
+      className="flex h-10 w-10 items-center justify-center rounded-full btn-metal text-chrome transition-colors hover:text-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-royal-light"
     >
       <svg
         viewBox="0 0 24 24"

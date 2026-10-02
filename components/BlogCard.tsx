@@ -14,7 +14,7 @@ export function BlogCard({
   return (
     <Link
       href={`/blog/${post.slug}`}
-      className="group flex h-full flex-col overflow-hidden rounded-xl border border-hairline bg-surface shadow-card transition-all duration-500 motion-safe:hover:-translate-y-1 hover:border-royal/50 focus:outline-none focus-visible:ring-2 focus-visible:ring-royal-light focus-visible:ring-offset-2 focus-visible:ring-offset-base"
+      className="group flex h-full flex-col overflow-hidden sheen edge-chrome surface-machined rounded-xl shadow-card transition-transform duration-300 motion-safe:hover:-translate-y-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-royal-light focus-visible:ring-offset-2 focus-visible:ring-offset-base"
     >
       {post.coverImage ? (
         <div className="relative aspect-[3/2] overflow-hidden border-b border-hairline">

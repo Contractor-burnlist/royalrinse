@@ -7,7 +7,7 @@ import { ButtonAnchor, Section } from "@/components/ui";
 export function QuoteCta({ heading = "Ready for a showroom finish?" }: { heading?: string }) {
   return (
     <Section>
-      <div className="relative overflow-hidden rounded-xl border border-hairline bg-surface px-6 py-14 text-center shadow-card sm:px-12">
+      <div className="relative overflow-hidden rounded-xl surface-machined edge-chrome px-6 py-14 text-center shadow-card sm:px-12">
         <div
           aria-hidden="true"
           className="pointer-events-none absolute -bottom-24 left-1/2 h-64 w-[36rem] -translate-x-1/2 rounded-full bg-royal/25 blur-3xl"

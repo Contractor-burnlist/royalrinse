@@ -22,7 +22,7 @@ export function GoogleReviewsLink({
     "inline-flex items-center gap-2 font-semibold transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-royal-light focus-visible:ring-offset-2 focus-visible:ring-offset-base";
   const styles =
     variant === "button"
-      ? "rounded-xl border border-hairline bg-surface px-5 py-3 text-sm text-ink hover:border-royal hover:bg-charcoal"
+      ? "btn-metal rounded-xl px-5 py-3 text-sm text-ink"
       : "text-sm text-royal-light hover:text-chrome";
 
   return (

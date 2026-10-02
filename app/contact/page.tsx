@@ -55,10 +55,10 @@ const details: { icon: string; label: string; value: string; href?: string; aria
 export default function ContactPage() {
   return (
     <>
-      <div className="border-b border-hairline bg-charcoal">
+      <div className="surface-brushed rule-chrome-b">
         <Container className="py-16 sm:py-20">
           <Eyebrow>Contact</Eyebrow>
-          <h1 className="mt-3 font-display text-4xl font-bold tracking-tight text-ink sm:text-5xl">
+          <h1 className="mt-3 font-display text-4xl font-bold tracking-tight text-metal sm:text-5xl">
             Contact {site.legalName}
           </h1>
           <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted">
@@ -75,7 +75,7 @@ export default function ContactPage() {
               <dl className="space-y-6">
                 {details.map((row) => (
                   <div key={row.label} className="flex gap-4">
-                    <span className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-royal/15 text-royal-light">
+                    <span className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-chrome/10 text-chrome">
                       <Icon name={row.icon} className="h-5 w-5" />
                     </span>
                     <div>

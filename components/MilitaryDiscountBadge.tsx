@@ -50,7 +50,7 @@ export function MilitaryDiscountBadge({
     <div
       className={`inline-flex items-center gap-3.5 rounded-xl border border-royal/40 bg-royal/10 px-4 py-3 ${className}`}
     >
-      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-royal/20 text-royal-light">
+      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-chrome/10 text-chrome">
         <ChevronBadge className="h-5 w-5" />
       </span>
       <span className="min-w-0">

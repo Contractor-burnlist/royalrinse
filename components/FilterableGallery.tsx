@@ -62,8 +62,8 @@ export function FilterableGallery({ images }: { images: GalleryImage[] }) {
               onClick={() => setActive(tab.key)}
               className={`inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-semibold transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-royal-light focus-visible:ring-offset-2 focus-visible:ring-offset-base ${
                 isActive
-                  ? "border-royal bg-royal text-ink shadow-glow"
-                  : "border-hairline bg-surface text-chrome hover:border-royal hover:text-ink"
+                  ? "border-transparent bg-royal text-ink btn-machined"
+                  : "border-transparent btn-metal text-chrome hover:text-ink"
               }`}
             >
               {/* Not colour alone: the active pill also carries a check. */}

@@ -42,7 +42,7 @@ export default function ServiceDetailPage({ params }: { params: Params }) {
   // Only some services have a photo; the layout is unchanged for the rest.
   const photo = serviceDetailPhoto(detail.slug);
   const photoFigure = photo ? (
-    <div className="relative aspect-[4/5] w-full max-w-sm overflow-hidden rounded-2xl border border-chrome/20 shadow-2xl">
+    <div className="relative aspect-[4/5] w-full max-w-sm overflow-hidden rounded-2xl edge-chrome shadow-2xl">
       <Image
         src={photo.src}
         alt={photo.alt}
@@ -73,10 +73,10 @@ export default function ServiceDetailPage({ params }: { params: Params }) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
       />
-      <div className="border-b border-hairline bg-charcoal">
+      <div className="surface-brushed rule-chrome-b">
         <Container className="py-16 sm:py-20">
           <Eyebrow>Service</Eyebrow>
-          <h1 className="mt-3 font-display text-4xl font-bold tracking-tight text-ink sm:text-5xl">
+          <h1 className="mt-3 font-display text-4xl font-bold tracking-tight text-metal sm:text-5xl">
             {detail.name}
           </h1>
           <p className="mt-3 text-lg text-chrome">{detail.tagline}</p>
@@ -104,7 +104,7 @@ export default function ServiceDetailPage({ params }: { params: Params }) {
               <ul className="mt-6 space-y-3">
                 {detail.includes.map((item) => (
                   <li key={item} className="flex gap-3 text-sm leading-relaxed text-muted">
-                    <Icon name="check" className="mt-0.5 h-4 w-4 shrink-0 text-royal-light" />
+                    <Icon name="check" className="mt-0.5 h-4 w-4 shrink-0 text-chrome" />
                     {item}
                   </li>
                 ))}

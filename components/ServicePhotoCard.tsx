@@ -25,8 +25,8 @@ export function ServicePhotoCard({
   return (
     <Link
       href={href}
-      className={`group relative flex min-h-[22rem] flex-col justify-end overflow-hidden rounded-2xl border shadow-card transition-all duration-500 motion-safe:hover:-translate-y-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-royal-light focus-visible:ring-offset-2 focus-visible:ring-offset-base ${
-        featured ? "border-royal/50 shadow-glow" : "border-hairline hover:border-royal/50"
+      className={`group relative flex min-h-[22rem] flex-col justify-end overflow-hidden edge-chrome rounded-2xl shadow-card transition-transform duration-300 motion-safe:hover:-translate-y-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-royal-light focus-visible:ring-offset-2 focus-visible:ring-offset-base ${
+        featured ? "edge-chrome-bright" : ""
       }`}
     >
       <Image
@@ -49,7 +49,7 @@ export function ServicePhotoCard({
       />
 
       <div className="relative p-6">
-        <span className="flex h-11 w-11 items-center justify-center rounded-xl border border-hairline bg-base/60 text-royal-light backdrop-blur-sm">
+        <span className="flex h-11 w-11 items-center justify-center rounded-xl btn-metal text-chrome">
           <Icon name={icon} className="h-5 w-5" />
         </span>
 
