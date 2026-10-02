@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import {
@@ -7,6 +8,7 @@ import {
   getServiceDetail,
   serviceDetails,
 } from "@/lib/services";
+import { serviceDetailPhoto } from "@/lib/serviceImages";
 import { SERVICE_AREA_LINE, site } from "@/lib/site";
 import { buildMetadata } from "@/lib/seo";
 import { absoluteUrl, siteUrl } from "@/lib/url";
@@ -36,6 +38,23 @@ export function generateMetadata({ params }: { params: Params }): Metadata {
 export default function ServiceDetailPage({ params }: { params: Params }) {
   const detail = getServiceDetail(params.slug);
   if (!detail) notFound();
+
+  // Only some services have a photo; the layout is unchanged for the rest.
+  const photo = serviceDetailPhoto(detail.slug);
+  const photoFigure = photo ? (
+    <div className="relative aspect-[4/5] w-full max-w-sm overflow-hidden rounded-2xl border border-chrome/20 shadow-2xl">
+      <Image
+        src={photo.src}
+        alt={photo.alt}
+        fill
+        loading="lazy"
+        quality={85}
+        // Capped at max-w-sm (384px); narrower phones get the column width.
+        sizes="(min-width: 432px) 384px, 92vw"
+        className="object-cover"
+      />
+    </div>
+  ) : null;
 
   const serviceSchema = {
     "@context": "https://schema.org",
@@ -91,7 +110,10 @@ export default function ServiceDetailPage({ params }: { params: Params }) {
                 ))}
               </ul>
             </div>
-          ) : null}
+          ) : (
+            // No "included" list (ceramic coating): the photo takes its column.
+            photoFigure
+          )}
 
           <div className="space-y-10">
             {detail.variants ? (
@@ -145,6 +167,8 @@ export default function ServiceDetailPage({ params }: { params: Params }) {
                 </Link>
               </p>
             ) : null}
+
+            {detail.includes ? photoFigure : null}
           </div>
         </div>
 

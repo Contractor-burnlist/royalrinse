@@ -3,13 +3,18 @@ import { buildMetadata } from "@/lib/seo";
 import Image from "next/image";
 import Link from "next/link";
 import {
+  addOns,
   CERAMIC_WARRANTY_PATH,
   CERAMIC_WARRANTY_TRUST,
   ceramicCoating,
   quoteNote,
   tiers,
 } from "@/lib/services";
-import { packageImage, packagesHeroImage } from "@/lib/serviceImages";
+import {
+  packageImage,
+  packagesAddOnsPhoto,
+  packagesHeroImage,
+} from "@/lib/serviceImages";
 import { PHONE_ARIA, SERVICE_AREA_LINE, telHref } from "@/lib/site";
 import { absoluteUrl, siteUrl } from "@/lib/url";
 import { BookNowButton } from "@/components/BookNowButton";
@@ -394,6 +399,58 @@ export default function PackagesPage() {
                 className="mt-5 inline-flex items-center gap-1.5 text-xs font-semibold text-muted transition-colors hover:text-royal"
               >
                 Learn more about {ceramicCoating.name}
+                <span aria-hidden="true">→</span>
+              </Link>
+            </div>
+          </div>
+        </Reveal>
+      </Section>
+
+      {/* Add-ons — same card treatment as ceramic, with an engine-bay photo. */}
+      <Section className="!pt-0">
+        <Reveal>
+          <div className="group relative overflow-hidden rounded-xl border border-hairline bg-surface shadow-card">
+            <div className="relative h-44 w-full overflow-hidden sm:h-52 lg:absolute lg:inset-y-0 lg:right-0 lg:h-auto lg:w-1/2">
+              <Image
+                src={packagesAddOnsPhoto.src}
+                alt={packagesAddOnsPhoto.alt}
+                fill
+                loading="lazy"
+                quality={85}
+                sizes="(min-width: 1024px) 560px, 100vw"
+                className="object-cover object-[center_62%] motion-safe:transition-transform motion-safe:duration-700 motion-safe:ease-out motion-safe:group-hover:scale-105"
+              />
+              {/* Lighter than the tier cards' scrim: this photo is the proof,
+                  so the right half stays clear. */}
+              <div className="absolute inset-0 bg-gradient-to-t from-surface via-surface/30 to-transparent lg:bg-gradient-to-r lg:from-surface lg:via-surface/40 lg:to-transparent" />
+            </div>
+
+            <div className="relative z-10 p-6 sm:p-8 lg:w-[54%]">
+              <Eyebrow>Add-ons</Eyebrow>
+              <h2 className="mt-3 font-display text-3xl font-bold tracking-tight text-ink sm:text-4xl">
+                Bolt on what your vehicle needs
+              </h2>
+              <p className="mt-4 text-sm leading-relaxed text-muted">
+                Any of these can be added to a package, from engine bay cleaning
+                to rim coating and odor treatment.
+              </p>
+
+              <ul className="mt-6 flex flex-wrap gap-2.5">
+                {addOns.map((addOn) => (
+                  <li
+                    key={addOn.name}
+                    className="inline-flex rounded-xl border border-hairline bg-charcoal px-3.5 py-1.5 text-sm font-medium text-chrome"
+                  >
+                    {addOn.name}
+                  </li>
+                ))}
+              </ul>
+
+              <Link
+                href="/services#add-ons"
+                className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-royal transition-colors hover:text-chrome"
+              >
+                See what each add-on does
                 <span aria-hidden="true">→</span>
               </Link>
             </div>

@@ -30,6 +30,11 @@
  * a cabin shot doesn't fit an exterior vehicle-type bucket, so any interior
  * lands here regardless of the vehicle. Categories were assigned by looking at
  * each photo, not by filename.
+ *
+ * "Details" is the same kind of exception for close-ups — a wheel or an engine
+ * bay shows a SERVICE, not a vehicle, so those are filed together rather than
+ * scattered across the vehicle buckets (where a wheel on a sports car would
+ * also have been pulled toward the exotics-only hero).
  */
 export type GalleryCategory =
   | "Exotic"
@@ -37,7 +42,8 @@ export type GalleryCategory =
   | "SUVs"
   | "Trucks"
   | "Vans"
-  | "Interiors";
+  | "Interiors"
+  | "Details";
 
 export type GalleryImage = {
   src: string;
@@ -312,12 +318,71 @@ export const exteriorGallery: GalleryImage[] = [
     height: 1600,
     category: "SUVs",
   },
+  {
+    src: "/royal-feature/white-porsche-1.jpeg",
+    alt: `Mobile car detailing in ${AREA}, white sports coupe with a gloss finish, detailed in a residential driveway`,
+    width: 2268,
+    height: 4032,
+    category: "Exotic",
+  },
+  // Doubles as the proof shot of the mobile setup: the open, stocked van is in
+  // frame behind the car. 768px wide — keep it in slots of ~384px or less.
+  {
+    src: "/royal-feature/mobile-rig-1.jpeg",
+    alt: `Mobile detailing service at a customer's home in ${AREA}, electric SUV detailed in the driveway beside the stocked Royal Rinse van`,
+    width: 768,
+    height: 1024,
+    category: "SUVs",
+  },
+];
+
+/**
+ * Close-ups: wheels and engine bays. All 2268x4032, so sharp in any slot.
+ * Each is placed once elsewhere on the site as proof of a service that was
+ * otherwise only described in text — see lib/serviceImages.ts.
+ */
+export const detailGallery: GalleryImage[] = [
+  {
+    src: "/royal-feature/wheel-detail-1.jpeg",
+    alt: `Wheel and rim detailing in ${AREA}, gloss black wheel with a cleaned and dressed tire`,
+    width: 2268,
+    height: 4032,
+    category: "Details",
+  },
+  {
+    src: "/royal-feature/wheel-detail-2.jpeg",
+    alt: `Wheel and tire detailing in ${AREA}, cleaned black wheel and dressed tire on a sports car`,
+    width: 2268,
+    height: 4032,
+    category: "Details",
+  },
+  {
+    src: "/royal-feature/wheel-detail-3.jpeg",
+    alt: `Wheel and rim detailing in ${AREA}, cleaned silver wheel and glossy paintwork on a sports coupe`,
+    width: 2268,
+    height: 4032,
+    category: "Details",
+  },
+  {
+    src: "/royal-feature/engine-bay-1.jpeg",
+    alt: `Engine bay cleaning in ${AREA}, degreased and dressed engine bay under an open hood`,
+    width: 2268,
+    height: 4032,
+    category: "Details",
+  },
+  {
+    src: "/royal-feature/engine-bay-2.jpeg",
+    alt: `Engine bay cleaning in ${AREA}, cleaned engine bay with dressed plastics and hoses`,
+    width: 2268,
+    height: 4032,
+    category: "Details",
+  },
 ];
 
 /**
  * Photos in public/royal-interior/. Feeds interiorGallery, which feeds
  * allGalleryImages — so anything added here shows up on /gallery,
- * /gallery/interior and in the homepage hero carousel automatically.
+ * automatically. (Not the homepage hero — that is an explicit allow-list.)
  */
 export const royalInteriorGallery: GalleryImage[] = [
   {
@@ -391,6 +456,7 @@ export const allGalleryImages: GalleryImage[] = Array.from(
       ]),
       ...exteriorGallery,
       ...interiorGallery,
+      ...detailGallery,
     ].map((image) => [image.src, image]),
   ).values(),
 );
@@ -405,7 +471,7 @@ export const allGalleryImages: GalleryImage[] = Array.from(
  * apart in the same driveway.
  *
  * Nothing here removes a photo from the SITE. /gallery renders
- * allGalleryImages, so anything dropped below is still on /gallery.
+ * allGalleryImages, so anything left out below is still on /gallery.
  */
 
 /**
@@ -424,73 +490,49 @@ const NEAR_DUPLICATE_SRCS = new Set(["/royal-feature/ferrari-hero.jpeg"]);
 export const isNearDuplicate = (src: string) => NEAR_DUPLICATE_SRCS.has(src);
 
 /**
- * Hero order: EXOTICS FIRST, opening with the cream striped Ferrari, then every
- * other category in gallery order. Explicit and deterministic (not random), so
- * it's identical on every load.
+ * Hero rotation: EXOTICS ONLY — the Ferraris, the Porsches and the blue classic
+ * coupe. No trucks, SUVs, vans, interiors or close-ups.
  *
- * HERO_EXOTIC_ORDER is the exact front sequence of exotic shots. The cream
- * Ferrari (ferrari-hero.jpeg — the driveway shot in front of the Spanish house)
- * is pinned first, so it's HeroCarousel's slide 0: priority/eager-loaded, with
- * the "featured" ring. The rest are hand-sequenced strongest-first, with no two
- * shots of the same car adjacent and the two cream-Ferrari angles ≥4 apart.
+ * HERO_ORDER is an ALLOW-LIST and the exact slide sequence. Nothing reaches the
+ * hero unless it is named here, so adding a photo to the gallery (even an
+ * "Exotic" one) can never change the carousel by accident. Explicit and
+ * deterministic (not random), so it's identical on every load.
+ *
+ * The cream Ferrari (ferrari-hero.jpeg — the driveway shot in front of the
+ * Spanish house) is pinned first, so it's HeroCarousel's slide 0:
+ * priority/eager-loaded, with the "featured" ring. The rest are hand-sequenced
+ * strongest-first, with no two shots of the same car adjacent and the two
+ * cream-Ferrari angles 5 apart.
  *
  * The blue classic coupe (corvette-c2-1.jpeg) sits at slide 1, directly behind
- * the lead. That slot used to hold the white Ferrari, which put two Ferraris in
- * the opening desktop row (3 tiles); a different car, era and colour between
- * them makes the first viewport read as range rather than repetition. Nothing
- * below it was reordered — the white Ferrari and the green Porsche each shift
- * down one and keep their relative places.
+ * the lead: a different car, era and colour makes the first viewport read as
+ * range rather than repetition.
  *
- * ferrari-hero-2.jpeg is EXCLUDED from the hero: it's the same front-3/4
- * framing as the pinned lead (its sharper twin), so showing both would repeat
- * one shot. (isNearDuplicate still governs the homepage masonry, which keeps
- * -2 and drops -1 there — each surface shows exactly one of the pair.)
+ * The white Porsche sits at slide 4, between the green Porsche and the cream
+ * Ferrari — neither neighbour is white, which keeps it clear of the white
+ * Ferraris either side of that stretch.
+ *
+ * Deliberately NOT here (all still on /gallery):
+ *   ferrari-hero-2 ........ same front-3/4 framing as the pinned lead (its
+ *                           sharper twin). isNearDuplicate still governs the
+ *                           homepage masonry, which keeps -2 and drops -1.
+ *   corvette-c2-2 / -3 .... the classic coupe earns ONE hero slot, not three.
+ *   vehicle-2-ext-3 ....... wheel close-up, not a car shot.
+ *   exterior-1 ............ the classic Chevy — filed "Exotic" for the gallery
+ *                           filter, but not a Ferrari, Porsche or the coupe.
  */
-const HERO_EXOTIC_ORDER = [
+const HERO_ORDER = [
   "/royal-feature/ferrari-hero.jpeg", // cream Ferrari, stripe — LEAD (slide 0)
   "/royal-feature/corvette-c2-1.jpeg", // blue classic coupe (slide 1)
   "/royal-exterior/ferrari-exterior-1.jpeg", // white Ferrari
   "/royal-feature/vehicle-2-ext-1.jpg", // green Porsche
-  "/royal-feature/ferrari-hero-3.jpeg", // cream Ferrari, door open (gap 4 from lead)
-  "/royal-exterior/exterior-1.jpg", // classic Chevy
+  "/royal-feature/white-porsche-1.jpeg", // white Porsche
+  "/royal-feature/ferrari-hero-3.jpeg", // cream Ferrari, door open (gap 5 from lead)
   "/royal-feature/vehicle-1-ext-1.jpg", // white Ferrari Roma
   "/royal-feature/vehicle-2-ext-2.jpg", // green Porsche
   "/royal-feature/vehicle-1-ext-2.jpg", // white Ferrari Roma
-  "/royal-feature/vehicle-2-ext-3.jpg", // green Porsche, wheel detail
 ];
 
-/**
- * ferrari-hero-2: the pinned lead's sharper twin — see the note above.
- *
- * corvette-c2-2 / -3: the classic coupe earns ONE hero slot, not three. Every
- * exotic reaches the hero by default (the sort below gives unlisted exotics a
- * place after the listed ones), so keeping the other two angles out takes an
- * explicit exclusion — without it, adding them to the gallery would have put
- * three shots of the same blue car in the rotation. Both still show on
- * /gallery, and each is placed elsewhere on the site (/about, /service-area).
- */
-const HERO_EXCLUDE = new Set([
-  "/royal-feature/ferrari-hero-2.jpeg",
-  "/royal-feature/corvette-c2-2.jpeg",
-  "/royal-feature/corvette-c2-3.jpeg",
-]);
-
-export const heroSlides: GalleryImage[] = (() => {
-  const usable = allGalleryImages.filter((image) => !HERO_EXCLUDE.has(image.src));
-  const rank = new Map(HERO_EXOTIC_ORDER.map((src, index) => [src, index]));
-
-  // All exotics first, in HERO_EXOTIC_ORDER; any exotic not listed keeps its
-  // gallery order after the listed ones (stable sort) so future additions still
-  // land in the exotic block rather than among the other categories.
-  const exotics = usable
-    .filter((image) => image.category === "Exotic")
-    .sort(
-      (a, b) =>
-        (rank.get(a.src) ?? Number.MAX_SAFE_INTEGER) -
-        (rank.get(b.src) ?? Number.MAX_SAFE_INTEGER),
-    );
-
-  const rest = usable.filter((image) => image.category !== "Exotic");
-
-  return [...exotics, ...rest];
-})();
+export const heroSlides: GalleryImage[] = HERO_ORDER.map((src) =>
+  allGalleryImages.find((image) => image.src === src),
+).filter((image): image is GalleryImage => Boolean(image));

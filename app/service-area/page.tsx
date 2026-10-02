@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { buildMetadata } from "@/lib/seo";
+import Image from "next/image";
 import Link from "next/link";
+import { allGalleryImages } from "@/lib/gallery";
 import { citiesInCounty, counties } from "@/lib/serviceAreas";
 import { QuoteCta } from "@/components/QuoteCta";
 import { Container, Eyebrow, Icon, Section } from "@/components/ui";
@@ -12,19 +14,46 @@ export const metadata: Metadata = buildMetadata({
   path: "/service-area",
 });
 
+/**
+ * The car in a customer's driveway with the stocked van open behind it — the
+ * "we come to you" claim, shown. It is a 768px source, so the frame is a fixed
+ * 320px (640 device pixels on retina): under native width, never upscaled.
+ */
+const rigImage = allGalleryImages.find((image) =>
+  image.src.endsWith("mobile-rig-1.jpeg"),
+);
+
 export default function ServiceAreaPage() {
   return (
     <>
       <div className="border-b border-hairline bg-charcoal">
         <Container className="py-16 sm:py-20">
-          <Eyebrow>Service area</Eyebrow>
-          <h1 className="mt-3 font-display text-4xl font-bold tracking-tight text-ink sm:text-5xl">
-            Serving Riverside &amp; San Diego County, We Come To You
-          </h1>
-          <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted">
-            Our mobile rig is fully self-contained, so we detail your vehicle right where
-            it sits, at your home or your office. No drop-off, no waiting room.
-          </p>
+          <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,1fr)_20rem] lg:gap-14">
+            <div>
+              <Eyebrow>Service area</Eyebrow>
+              <h1 className="mt-3 font-display text-4xl font-bold tracking-tight text-ink sm:text-5xl">
+                Serving Riverside &amp; San Diego County, We Come To You
+              </h1>
+              <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted">
+                Our mobile rig is fully self-contained, so we detail your vehicle right
+                where it sits, at your home or your office. No drop-off, no waiting room.
+              </p>
+            </div>
+
+            {rigImage ? (
+              <div className="relative aspect-[3/4] w-full max-w-xs overflow-hidden rounded-2xl border border-chrome/20 shadow-2xl">
+                <Image
+                  src={rigImage.src}
+                  alt={rigImage.alt}
+                  fill
+                  priority
+                  quality={85}
+                  sizes="320px"
+                  className="object-cover"
+                />
+              </div>
+            ) : null}
+          </div>
         </Container>
       </div>
 

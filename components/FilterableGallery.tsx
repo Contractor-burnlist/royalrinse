@@ -12,6 +12,7 @@ const CATEGORY_ORDER: GalleryCategory[] = [
   "Trucks",
   "Vans",
   "Interiors",
+  "Details",
 ];
 
 type Filter = "All" | GalleryCategory;

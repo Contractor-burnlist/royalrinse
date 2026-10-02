@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { buildMetadata } from "@/lib/seo";
+import Image from "next/image";
 import Link from "next/link";
 import {
   addOns,
@@ -8,6 +9,7 @@ import {
   rvDetailing,
   tiers,
 } from "@/lib/services";
+import { addOnsPhoto } from "@/lib/serviceImages";
 import { QuoteCta } from "@/components/QuoteCta";
 import { Card, Container, Eyebrow, Icon, Section } from "@/components/ui";
 
@@ -103,16 +105,38 @@ export default function ServicesPage() {
           Bolt any of these onto a package.
         </p>
 
-        <ul className="mt-8 grid gap-x-8 gap-y-5 sm:grid-cols-2 lg:grid-cols-3">
-          {addOns.map((addOn) => (
-            <li key={addOn.name} className="flex gap-3">
-              <Icon name="check" className="mt-1 h-4 w-4 shrink-0 text-royal" />
-              <p className="text-sm leading-relaxed text-muted">
-                <span className="font-semibold text-ink">{addOn.name}</span>: {addOn.desc}
-              </p>
-            </li>
-          ))}
-        </ul>
+        {/* List on the left, one proof photo on the right (below on mobile). */}
+        <div className="mt-8 grid items-start gap-10 lg:grid-cols-[minmax(0,1fr)_20rem] lg:gap-14">
+          <ul className="grid gap-x-8 gap-y-5 sm:grid-cols-2">
+            {addOns.map((addOn) => (
+              <li key={addOn.name} className="flex gap-3">
+                <Icon name="check" className="mt-1 h-4 w-4 shrink-0 text-royal" />
+                <p className="text-sm leading-relaxed text-muted">
+                  <span className="font-semibold text-ink">{addOn.name}</span>: {addOn.desc}
+                </p>
+              </li>
+            ))}
+          </ul>
+
+          <figure className="w-full max-w-xs">
+            <div className="relative aspect-[4/5] overflow-hidden rounded-2xl border border-chrome/20 shadow-2xl">
+              <Image
+                src={addOnsPhoto.src}
+                alt={addOnsPhoto.alt}
+                fill
+                loading="lazy"
+                quality={85}
+                // The figure is capped at 20rem on every breakpoint, so the
+                // slot is a flat 320px — a 2268px source, never upscaled.
+                sizes="320px"
+                className="object-cover object-[center_70%]"
+              />
+            </div>
+            <figcaption className="mt-3 text-xs font-medium text-chrome">
+              Engine Bay Cleaning, done on site.
+            </figcaption>
+          </figure>
+        </div>
       </Section>
 
       <Section>

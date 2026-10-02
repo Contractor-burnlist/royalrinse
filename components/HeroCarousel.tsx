@@ -8,9 +8,9 @@ import { Container } from "@/components/ui";
 const AUTO_ADVANCE_MS = 4500;
 
 /**
- * Nearly every photo on the site, ordered so no two shots of the same vehicle
- * land in the same viewport. See the HERO ROTATION block in lib/gallery.ts for
- * what it drops and why — change the rotation there, not here.
+ * Exotics only, in a fixed hand-picked order. See the HERO ROTATION block in
+ * lib/gallery.ts for what is in it and why — change the rotation there, not
+ * here.
  */
 const slides = heroSlides;
 
@@ -23,8 +23,8 @@ const slides = heroSlides;
  * ------------------------------------------------------------------
  *  SHARPNESS BUDGET — why the tiles stop growing at 450px.
  * ------------------------------------------------------------------
- * The sources are phone-resolution. By native width, of 24 photos:
- *      576px x4      900px x12      1024px x2      2268px+ x6
+ * Most sources are phone-resolution. By native width, of the 9 slides:
+ *      576px x3      900px x3      1024px x1      2268px+ x2
  * So 900px is the binding constraint for the bulk of the set. On a 2x
  * display a tile W CSS pixels wide needs 2W real pixels, which makes
  *      900 / 2 = 450px  the widest a tile can be and still be pixel-exact.
@@ -37,7 +37,7 @@ const slides = heroSlides;
  * 2-up on desktop, starts upscaling the 900px sources and they go soft.
  * The only real fix is re-exporting the originals larger.
  *
- * The four 576px sources DO upscale ~1.6x at this size — see the note on
+ * The three 576px sources DO upscale ~1.6x at this size — see the note on
  * MAX_ROW_PX. They are the oldest shots in the set.
  */
 function perViewFor(width: number) {
@@ -86,8 +86,8 @@ export function HeroCarousel({ children }: { children: ReactNode }) {
   }, [maxIndex]);
 
   /**
-   * maxIndex is FRACTIONAL when perView is (22.8 for 24 slides at 1.2-up), so
-   * stepping by a whole 1 can jump past the end: index 23 against a 22.8 limit
+   * maxIndex is FRACTIONAL when perView is (7.8 for 9 slides at 1.2-up), so
+   * stepping by a whole 1 can jump past the end: index 8 against a 7.8 limit
    * would translate the track further than it has tiles and open a blank gap
    * at the right edge. Overshoot therefore lands ON maxIndex first — a flush
    * final frame — and only wraps to 0 on the step after that.
@@ -211,7 +211,7 @@ export function HeroCarousel({ children }: { children: ReactNode }) {
                  * lazy-loading does NOT reliably fire for tiles inside a
                  * translated track — they slid in blank — so loading is driven
                  * off the carousel index instead. Offscreen tiles beyond the
-                 * lookahead stay lazy, so the page doesn't pull all 11 up front.
+                 * lookahead stay lazy, so the page doesn't pull every slide up front.
                  */
                 const load = index <= Math.max(perView, current + perView);
 
@@ -279,7 +279,7 @@ export function HeroCarousel({ children }: { children: ReactNode }) {
 
             <span className="font-display text-xs font-semibold tabular-nums tracking-[0.14em] text-chrome">
               {/* ceil: perView is fractional on mobile (1.2), and a counter
-                  reading "1.2 / 24" is nonsense. Round up to the last tile
+                  reading "1.2 / 09" is nonsense. Round up to the last tile
                   that has any part of itself on screen. */}
               {String(
                 Math.ceil(Math.min(current + perView, slides.length)),

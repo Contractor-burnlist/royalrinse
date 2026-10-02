@@ -81,3 +81,35 @@ export const packagesHeroImage: GalleryImage =
 export function packageImage(slug: string): GalleryImage {
   return packageCardImages[slug] ?? FALLBACK;
 }
+
+/**
+ * Proof shots for services that were otherwise only described in text.
+ *
+ * ONE PHOTO PER SECTION, ONE SECTION PER PHOTO — the six below (plus the
+ * mobile-rig shot on /service-area) each appear exactly once, on different
+ * pages:
+ *
+ *   /services#add-ons            engine-bay-2    Engine Bay Cleaning add-on
+ *   /packages add-ons section    engine-bay-1    same add-on, different engine
+ *   /services/bronze             wheel-detail-1  wheel + tire clean, tire shine
+ *   /services/maintenance-plans  wheel-detail-2  wheels cleaned and dressed
+ *   /services/ceramic-coating    wheel-detail-3  coated wheels and paint
+ *
+ * All five are 2268x4032, so every slot they sit in is well under native
+ * width — nothing upscales.
+ */
+export const addOnsPhoto: GalleryImage = byFile("engine-bay-2.jpeg") ?? FALLBACK;
+
+export const packagesAddOnsPhoto: GalleryImage =
+  byFile("engine-bay-1.jpeg") ?? FALLBACK;
+
+/** Optional photo on a /services/[slug] page. Most slugs have none. */
+const serviceDetailPhotos: Record<string, GalleryImage | undefined> = {
+  bronze: byFile("wheel-detail-1.jpeg"),
+  "maintenance-plans": byFile("wheel-detail-2.jpeg"),
+  "ceramic-coating": byFile("wheel-detail-3.jpeg"),
+};
+
+export function serviceDetailPhoto(slug: string): GalleryImage | undefined {
+  return serviceDetailPhotos[slug];
+}
