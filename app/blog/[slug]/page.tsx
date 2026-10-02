@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { formatPostDate, getPost, posts, readingMinutes } from "@/lib/blog";
-import { PHONE_ARIA, SERVICE_AREA_LINE, site, telHref } from "@/lib/site";
+import { SERVICE_AREA_LINE, site, telHref } from "@/lib/site";
 import { absoluteUrl } from "@/lib/url";
 import { BlogBody } from "@/components/BlogBody";
 import { BookNowButton } from "@/components/BookNowButton";
@@ -91,7 +91,7 @@ export default function BlogPostPage({ params }: { params: Params }) {
 
             <Link
               href="/blog"
-              className="mt-8 inline-flex items-center gap-1.5 text-sm font-semibold text-royal transition-colors hover:text-chrome"
+              className="mt-8 inline-flex items-center gap-1.5 text-sm font-semibold text-royal-light transition-colors hover:text-chrome"
             >
               <span aria-hidden="true">←</span>
               All articles
@@ -139,7 +139,7 @@ export default function BlogPostPage({ params }: { params: Params }) {
             </p>
 
             <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-              <ButtonAnchor href={telHref} aria-label={PHONE_ARIA}>
+              <ButtonAnchor href={telHref}>
                 Call now for an instant quote
               </ButtonAnchor>
               <BookNowButton variant="secondary" />

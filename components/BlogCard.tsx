@@ -14,7 +14,7 @@ export function BlogCard({
   return (
     <Link
       href={`/blog/${post.slug}`}
-      className="group flex h-full flex-col overflow-hidden rounded-xl border border-hairline bg-surface shadow-card transition-all duration-500 hover:-translate-y-1 hover:border-royal/50 focus:outline-none focus-visible:ring-2 focus-visible:ring-royal focus-visible:ring-offset-2 focus-visible:ring-offset-base"
+      className="group flex h-full flex-col overflow-hidden rounded-xl border border-hairline bg-surface shadow-card transition-all duration-500 motion-safe:hover:-translate-y-1 hover:border-royal/50 focus:outline-none focus-visible:ring-2 focus-visible:ring-royal-light focus-visible:ring-offset-2 focus-visible:ring-offset-base"
     >
       {post.coverImage ? (
         <div className="relative aspect-[3/2] overflow-hidden border-b border-hairline">
@@ -26,7 +26,7 @@ export function BlogCard({
             // Real card width in the 3-col grid, not the viewport.
             sizes="(max-width: 640px) 92vw, (max-width: 1024px) 46vw, 30vw"
             quality={85}
-            className="object-cover object-center transition-transform duration-700 ease-out motion-safe:group-hover:scale-105"
+            className="object-cover object-center transition-transform duration-700 ease-out motion-safe:group-motion-safe:hover:scale-105"
           />
         </div>
       ) : null}
@@ -38,7 +38,7 @@ export function BlogCard({
           <span>{readingMinutes(post)} min read</span>
         </p>
 
-        <Heading className="mt-3 font-display text-xl font-bold leading-snug tracking-tight text-ink transition-colors group-hover:text-royal">
+        <Heading className="mt-3 font-display text-xl font-bold leading-snug tracking-tight text-ink transition-colors group-hover:text-royal-light">
           {post.title}
         </Heading>
 
@@ -46,11 +46,11 @@ export function BlogCard({
           {post.excerpt}
         </p>
 
-        <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-royal transition-colors group-hover:text-ink">
+        <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-royal-light transition-colors group-hover:text-ink">
           Read article
           <span
             aria-hidden="true"
-            className="transition-transform duration-300 group-hover:translate-x-1"
+            className="transition-transform duration-300 motion-safe:group-hover:translate-x-1"
           >
             →
           </span>

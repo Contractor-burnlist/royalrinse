@@ -3,8 +3,6 @@ import Image from "next/image";
 import Link from "next/link";
 import {
   GOOGLE_REVIEWS_URL,
-  PHONE_ARIA,
-  PHONE_SMS_ARIA,
   REVIEW_COUNT_DISPLAY,
   REVIEW_RATING_DISPLAY,
   SERVICE_AREA_PRIORITY,
@@ -225,7 +223,7 @@ function Band({ children }: { children: React.ReactNode }) {
 }
 
 const textLink =
-  "inline-flex items-center gap-1.5 text-sm font-semibold text-royal transition-colors hover:text-chrome";
+  "inline-flex items-center gap-1.5 text-sm font-semibold text-royal-light transition-colors hover:text-chrome";
 
 function Hero() {
   return (
@@ -245,7 +243,7 @@ function Hero() {
       </p>
 
       <div className="mt-7 flex flex-col justify-center gap-3 sm:flex-row">
-        <ButtonAnchor href={telHref} aria-label={PHONE_ARIA}>
+        <ButtonAnchor href={telHref}>
           Call {site.phone}
         </ButtonAnchor>
         <BookNowButton variant="secondary" />
@@ -254,7 +252,7 @@ function Hero() {
       <ul className="mt-7 flex flex-wrap items-center justify-center gap-x-7 gap-y-3">
         {trustChips.map((chip) => (
           <li key={chip} className="flex items-center gap-2 text-sm text-chrome">
-            <Icon name="check" className="h-4 w-4 text-royal" />
+            <Icon name="check" className="h-4 w-4 text-royal-light" />
             {chip}
           </li>
         ))}
@@ -282,7 +280,7 @@ function TrustBar() {
                 key={badge.label}
                 className="flex items-start justify-center gap-2 text-center"
               >
-                <Icon name="shield" className="mt-0.5 h-4 w-4 shrink-0 text-royal" />
+                <Icon name="shield" className="mt-0.5 h-4 w-4 shrink-0 text-royal-light" />
                 <span className="min-w-0">
                   <span className="block text-sm font-medium text-chrome">
                     {badge.label}
@@ -304,7 +302,7 @@ function TrustBar() {
                 href={GOOGLE_REVIEWS_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex items-start gap-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-royal focus-visible:ring-offset-2 focus-visible:ring-offset-charcoal"
+                className="group flex items-start gap-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-royal-light focus-visible:ring-offset-2 focus-visible:ring-offset-charcoal"
               >
                 <GoogleMark className="mt-0.5 h-4 w-4 shrink-0" />
                 <span className="min-w-0">
@@ -342,7 +340,7 @@ function VehiclesStrip() {
           </span>
           {vehicleTypes.map((type) => (
             <span key={type} className="flex items-center gap-3">
-              <span aria-hidden="true" className="text-royal">
+              <span aria-hidden="true" className="text-royal-light">
                 ·
               </span>
               {type}
@@ -383,7 +381,7 @@ function ComeToYou() {
           <ul className="mt-8 space-y-3">
             {mobilePoints.map((point) => (
               <li key={point} className="flex gap-3 text-sm leading-relaxed text-chrome">
-                <Icon name="check" className="mt-0.5 h-4 w-4 shrink-0 text-royal" />
+                <Icon name="check" className="mt-0.5 h-4 w-4 shrink-0 text-royal-light" />
                 {point}
               </li>
             ))}
@@ -440,20 +438,20 @@ function Services() {
 
         <p className="mt-6 text-sm text-muted">
           Also offering{" "}
-          <Link href="/services#add-ons" className="font-semibold text-royal hover:text-chrome">
+          <Link href="/services#add-ons" className="font-semibold text-royal-light hover:text-chrome">
             add-ons
           </Link>
           ,{" "}
           <Link
             href="/services/maintenance-plans"
-            className="font-semibold text-royal hover:text-chrome"
+            className="font-semibold text-royal-light hover:text-chrome"
           >
             maintenance plans
           </Link>
           , and{" "}
           <Link
             href="/services/rv-detailing"
-            className="font-semibold text-royal hover:text-chrome"
+            className="font-semibold text-royal-light hover:text-chrome"
           >
             RV detailing
           </Link>
@@ -484,7 +482,7 @@ function CeramicFeature() {
                 key={level.name}
                 className="flex gap-3 rounded-xl border border-hairline bg-surface px-4 py-3 text-sm font-medium text-chrome"
               >
-                <Icon name="shield" className="mt-0.5 h-4 w-4 shrink-0 text-royal" />
+                <Icon name="shield" className="mt-0.5 h-4 w-4 shrink-0 text-royal-light" />
                 {level.name}
               </li>
             ))}
@@ -495,7 +493,7 @@ function CeramicFeature() {
             {CERAMIC_WARRANTY_TRUST}{" "}
             <Link
               href={CERAMIC_WARRANTY_PATH}
-              className="font-semibold text-royal transition-colors hover:text-chrome"
+              className="font-semibold text-royal-light transition-colors hover:text-chrome"
             >
               See warranty details
             </Link>
@@ -505,7 +503,7 @@ function CeramicFeature() {
             <ButtonLink href={`/services/${ceramicCoating.slug}`}>
               Explore ceramic coating
             </ButtonLink>
-            <ButtonAnchor href={telHref} aria-label={PHONE_ARIA} variant="secondary">
+            <ButtonAnchor href={telHref} variant="secondary">
               Call for a coating quote
             </ButtonAnchor>
           </div>
@@ -548,7 +546,7 @@ function Specialization() {
               <Reveal delay={i * 80}>
                 <Link
                   href="/gallery"
-                  className="group relative block aspect-[3/4] overflow-hidden rounded-xl border border-chrome/20 shadow-card focus:outline-none focus-visible:ring-2 focus-visible:ring-royal focus-visible:ring-offset-2 focus-visible:ring-offset-charcoal"
+                  className="group relative block aspect-[3/4] overflow-hidden rounded-xl border border-chrome/20 shadow-card focus:outline-none focus-visible:ring-2 focus-visible:ring-royal-light focus-visible:ring-offset-2 focus-visible:ring-offset-charcoal"
                 >
                   <Image
                     src={image.src}
@@ -558,7 +556,7 @@ function Specialization() {
                     quality={85}
                     // 4-up in the 72rem container is 260px; 2-up below lg.
                     sizes="(min-width: 1152px) 260px, (min-width: 1024px) 23vw, 46vw"
-                    className="object-cover transition-transform duration-700 ease-out motion-safe:group-hover:scale-105"
+                    className="object-cover transition-transform duration-700 ease-out motion-safe:group-motion-safe:hover:scale-105"
                   />
                 </Link>
               </Reveal>
@@ -595,7 +593,7 @@ function HowItWorks() {
         {steps.map((step, i) => (
           <Reveal as="li" key={step.number} delay={i * 80}>
             <Card className="h-full">
-              <span className="font-display text-3xl font-bold text-royal">
+              <span className="font-display text-3xl font-bold text-royal-light">
                 {step.number}
               </span>
               <h3 className="mt-4 font-display text-lg font-bold text-ink">{step.title}</h3>
@@ -623,7 +621,7 @@ function WhyRoyalRinse() {
           {valueProps.map((prop, i) => (
             <Reveal key={prop.title} delay={(i % 2) * 80}>
               <Card className="flex h-full gap-4">
-                <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-royal/15 text-royal">
+                <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-royal/15 text-royal-light">
                   <Icon name="check" className="h-4 w-4" />
                 </span>
                 <div>
@@ -687,7 +685,7 @@ function AddOnsShowcase() {
           <ul className="grid gap-x-8 gap-y-5 sm:grid-cols-2">
             {textAddOns.map((addOn) => (
               <li key={addOn.name} className="flex gap-3">
-                <Icon name="check" className="mt-1 h-4 w-4 shrink-0 text-royal" />
+                <Icon name="check" className="mt-1 h-4 w-4 shrink-0 text-royal-light" />
                 <p className="text-sm leading-relaxed text-muted">
                   <span className="font-semibold text-ink">{addOn.name}</span>: {addOn.desc}
                 </p>
@@ -717,7 +715,7 @@ function Gallery() {
         />
         <Link
           href="/gallery"
-          className="inline-flex items-center gap-1.5 text-sm font-semibold text-royal transition-colors hover:text-chrome"
+          className="inline-flex items-center gap-1.5 text-sm font-semibold text-royal-light transition-colors hover:text-chrome"
         >
           View full gallery
           <span aria-hidden="true">→</span>
@@ -810,9 +808,10 @@ function ServiceAreaTeaser() {
           <li>
             <Link
               href="/service-area"
-              className="inline-flex rounded-xl border border-hairline bg-surface px-4 py-2 text-sm font-semibold text-royal transition-colors hover:border-royal hover:text-ink"
+              className="inline-flex rounded-xl border border-hairline bg-surface px-4 py-2 text-sm font-semibold text-royal-light transition-colors hover:border-royal hover:text-ink"
             >
-              View all →
+              View all<span className="sr-only"> service areas</span>{" "}
+              <span aria-hidden="true">→</span>
             </Link>
           </li>
         </ul>
@@ -844,7 +843,7 @@ function MaintenancePlans() {
           </ul>
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <ButtonAnchor href={telHref} aria-label={PHONE_ARIA}>
+            <ButtonAnchor href={telHref}>
               Call {site.phone}
             </ButtonAnchor>
             <BookNowButton variant="secondary" />
@@ -867,7 +866,7 @@ function MaintenancePlans() {
             <ul className="mt-5 space-y-3">
               {maintenancePlan.includes.map((item) => (
                 <li key={item} className="flex gap-3 text-sm leading-relaxed text-muted">
-                  <Icon name="check" className="mt-0.5 h-4 w-4 shrink-0 text-royal" />
+                  <Icon name="check" className="mt-0.5 h-4 w-4 shrink-0 text-royal-light" />
                   {item}
                 </li>
               ))}
@@ -935,11 +934,11 @@ function HomeFaq() {
         <div className="mt-12 max-w-3xl divide-y divide-hairline border-y border-hairline">
           {homeFaqs.map((faq) => (
             <details key={faq.question} className="group">
-              <summary className="flex cursor-pointer list-none items-center justify-between gap-6 py-5 font-display text-base font-bold text-ink transition-colors hover:text-chrome focus:outline-none focus-visible:ring-2 focus-visible:ring-royal sm:text-lg [&::-webkit-details-marker]:hidden">
+              <summary className="flex cursor-pointer list-none items-center justify-between gap-6 py-5 font-display text-base font-bold text-ink transition-colors hover:text-chrome focus:outline-none focus-visible:ring-2 focus-visible:ring-royal-light sm:text-lg [&::-webkit-details-marker]:hidden">
                 {faq.question}
                 <span
                   aria-hidden="true"
-                  className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-hairline text-royal motion-safe:transition-transform motion-safe:duration-300 group-open:rotate-45"
+                  className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-hairline text-royal-light motion-safe:transition-transform motion-safe:duration-300 group-open:rotate-45"
                 >
                   +
                 </span>
@@ -981,10 +980,10 @@ function FinalCta() {
               Same-week appointments available. Reserve yours before they fill.
             </p>
             <div className="mt-5 flex flex-col justify-center gap-3 sm:flex-row">
-              <ButtonAnchor href={telHref} aria-label={PHONE_ARIA}>
+              <ButtonAnchor href={telHref}>
                 Call {site.phone}
               </ButtonAnchor>
-              <ButtonAnchor href={smsHref} aria-label={PHONE_SMS_ARIA} variant="secondary">
+              <ButtonAnchor href={smsHref} variant="secondary">
                 Text us
               </ButtonAnchor>
               <BookNowButton variant="secondary" />

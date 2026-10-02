@@ -49,7 +49,7 @@ export function PhotoBand({
 
       <div
         aria-hidden="true"
-        className="absolute inset-0 bg-gradient-to-r from-base via-base/80 to-base/40 lg:via-base/60 lg:to-transparent"
+        className="absolute inset-0 bg-gradient-to-r from-base via-base/85 to-base/70 lg:via-base/60 lg:to-transparent"
       />
       <div
         aria-hidden="true"

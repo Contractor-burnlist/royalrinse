@@ -75,7 +75,7 @@ export default function ContactPage() {
               <dl className="space-y-6">
                 {details.map((row) => (
                   <div key={row.label} className="flex gap-4">
-                    <span className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-royal/15 text-royal">
+                    <span className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-royal/15 text-royal-light">
                       <Icon name={row.icon} className="h-5 w-5" />
                     </span>
                     <div>
@@ -87,7 +87,7 @@ export default function ContactPage() {
                           <a
                             href={row.href}
                             aria-label={row.aria}
-                            className="font-semibold text-ink transition-colors hover:text-royal"
+                            className="font-semibold text-ink transition-colors hover:text-royal-light"
                           >
                             {row.value}
                           </a>
@@ -107,7 +107,7 @@ export default function ContactPage() {
             </p>
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <ButtonAnchor href={telHref} aria-label={PHONE_ARIA}>
+              <ButtonAnchor href={telHref}>
                 Call {site.phone}
               </ButtonAnchor>
               <BookNowButton variant="secondary" />
@@ -115,7 +115,7 @@ export default function ContactPage() {
 
             <p className="mt-6 text-sm text-muted">
               Prefer to read first? See our{" "}
-              <Link href="/faq" className="font-semibold text-royal hover:text-chrome">
+              <Link href="/faq" className="font-semibold text-royal-light hover:text-chrome">
                 FAQ
               </Link>{" "}
               or{" "}
@@ -123,9 +123,10 @@ export default function ContactPage() {
                 href={GOOGLE_REVIEWS_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-semibold text-royal hover:text-chrome"
+                className="font-semibold text-royal-light hover:text-chrome"
               >
                 reviews on Google
+                <span className="sr-only"> (opens Google in a new tab)</span>
               </a>
               .
             </p>

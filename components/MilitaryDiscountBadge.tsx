@@ -40,7 +40,7 @@ export function MilitaryDiscountBadge({
       <span
         className={`inline-flex items-center justify-center gap-2 rounded-xl border border-royal/40 bg-royal/10 px-3 py-1.5 text-center text-sm font-semibold text-ink transition-colors hover:border-royal/70 ${className}`}
       >
-        <ChevronBadge className="h-4 w-4 shrink-0 text-royal" />
+        <ChevronBadge className="h-4 w-4 shrink-0 text-royal-light" />
         10% Military Discount
       </span>
     );
@@ -50,7 +50,7 @@ export function MilitaryDiscountBadge({
     <div
       className={`inline-flex items-center gap-3.5 rounded-xl border border-royal/40 bg-royal/10 px-4 py-3 ${className}`}
     >
-      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-royal/20 text-royal">
+      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-royal/20 text-royal-light">
         <ChevronBadge className="h-5 w-5" />
       </span>
       <span className="min-w-0">

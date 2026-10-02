@@ -34,14 +34,15 @@ function DirectoryCard({
 }) {
   return (
     <Card className="flex flex-col">
-      <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-royal/15 text-royal">
+      <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-royal/15 text-royal-light">
         <Icon name={icon} className="h-5 w-5" />
       </span>
       <h3 className="mt-5 font-display text-lg font-bold text-ink">{name}</h3>
       <p className="mt-2 flex-1 text-sm leading-relaxed text-muted">{tagline}</p>
       <Link
         href={href}
-        className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-royal transition-colors hover:text-chrome"
+        aria-label={`Learn more about ${name}`}
+        className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-royal-light transition-colors hover:text-chrome"
       >
         Learn more
         <span aria-hidden="true">→</span>
@@ -110,7 +111,7 @@ export default function ServicesPage() {
           <ul className="grid gap-x-8 gap-y-5 sm:grid-cols-2">
             {addOns.map((addOn) => (
               <li key={addOn.name} className="flex gap-3">
-                <Icon name="check" className="mt-1 h-4 w-4 shrink-0 text-royal" />
+                <Icon name="check" className="mt-1 h-4 w-4 shrink-0 text-royal-light" />
                 <p className="text-sm leading-relaxed text-muted">
                   <span className="font-semibold text-ink">{addOn.name}</span>: {addOn.desc}
                 </p>
@@ -159,7 +160,8 @@ export default function ServicesPage() {
               </p>
               <Link
                 href={`/services/${service.slug}`}
-                className="inline-flex shrink-0 items-center gap-1.5 text-sm font-semibold text-royal transition-colors hover:text-chrome"
+                aria-label={`Learn more about ${service.name}`}
+                className="inline-flex shrink-0 items-center gap-1.5 text-sm font-semibold text-royal-light transition-colors hover:text-chrome"
               >
                 Learn more
                 <span aria-hidden="true">→</span>

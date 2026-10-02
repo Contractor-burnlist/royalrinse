@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { PHONE_ARIA, PHONE_DISPLAY, telHref } from "@/lib/site";
+import { PHONE_DISPLAY, telHref } from "@/lib/site";
 import { BookNowButton } from "@/components/BookNowButton";
 import { Icon, buttonClasses } from "@/components/ui";
 
@@ -110,7 +110,6 @@ export function StickyCallCta() {
       <div className="flex items-center gap-2 border-t border-hairline bg-base/95 px-4 py-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] shadow-[0_-6px_24px_rgba(0,0,0,0.45)] backdrop-blur sm:rounded-2xl sm:border sm:border-chrome/20 sm:px-3 sm:py-3 sm:pb-3 sm:shadow-2xl">
         <a
           href={telHref}
-          aria-label={PHONE_ARIA}
           className={buttonClasses("primary", "flex-1 whitespace-nowrap sm:flex-none")}
         >
           <Icon name="phone" className="h-4 w-4" />

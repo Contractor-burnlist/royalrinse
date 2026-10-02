@@ -33,7 +33,7 @@ export function Section({
 
 export function Eyebrow({ children }: { children: ReactNode }) {
   return (
-    <p className="text-xs font-semibold uppercase tracking-[0.22em] text-royal">
+    <p className="text-xs font-semibold uppercase tracking-[0.22em] text-royal-light">
       {children}
     </p>
   );
@@ -64,7 +64,7 @@ export function SectionHeading({
 export type ButtonVariant = "primary" | "secondary" | "ghost";
 
 const buttonBase =
-  "inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3 text-sm font-semibold transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-royal focus-visible:ring-offset-2 focus-visible:ring-offset-base";
+  "inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3 text-sm font-semibold transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-royal-light focus-visible:ring-offset-2 focus-visible:ring-offset-base";
 
 const buttonVariants: Record<ButtonVariant, string> = {
   primary: "bg-royal text-ink shadow-glow hover:bg-royal-hover",
@@ -97,13 +97,16 @@ export function ButtonLink({
 export function ButtonAnchor({
   variant = "primary",
   className = "",
+  children,
   ...props
 }: ComponentProps<"a"> & { variant?: ButtonVariant }) {
   return (
     <a
       className={`${buttonBase} ${buttonVariants[variant]} ${className}`}
       {...props}
-    />
+    >
+      {children}
+    </a>
   );
 }
 

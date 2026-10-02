@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { buildMetadata } from "@/lib/seo";
 import Image from "next/image";
 import Link from "next/link";
-import { PHONE_ARIA, site, telHref } from "@/lib/site";
+import { site, telHref } from "@/lib/site";
 import { allGalleryImages } from "@/lib/gallery";
 import { BookNowButton } from "@/components/BookNowButton";
 import { MilitaryDiscountBadge } from "@/components/MilitaryDiscountBadge";
@@ -148,7 +148,7 @@ function WhyRoyalRinse() {
         <div className="mt-12 grid gap-6 sm:grid-cols-2">
           {whyRoyalRinse.map((prop) => (
             <Card key={prop.title} className="flex gap-4">
-              <span className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-royal/15 text-royal">
+              <span className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-royal/15 text-royal-light">
                 <Icon name={prop.icon} className="h-5 w-5" />
               </span>
               <div>
@@ -199,7 +199,7 @@ function OurStandard() {
         {/* Trust line */}
         <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-4 border-t border-hairline pt-8">
           <span className="flex items-center gap-2 text-sm text-chrome">
-            <Icon name="shield" className="h-4 w-4 shrink-0 text-royal" />
+            <Icon name="shield" className="h-4 w-4 shrink-0 text-royal-light" />
             Licensed &amp; Insured
             <span className="font-mono text-[11px] text-muted">
               CA DLSE {site.licenseNumber}
@@ -209,7 +209,7 @@ function OurStandard() {
           <MilitaryDiscountBadge size="sm" />
 
           <span className="flex items-center gap-2 text-sm text-chrome">
-            <Icon name="sparkle" className="h-4 w-4 shrink-0 text-royal" />
+            <Icon name="sparkle" className="h-4 w-4 shrink-0 text-royal-light" />
             5-Star Rated
           </span>
         </div>
@@ -235,7 +235,7 @@ function AboutCta() {
           </p>
 
           <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-            <ButtonAnchor href={telHref} aria-label={PHONE_ARIA}>
+            <ButtonAnchor href={telHref}>
               Call {site.phone}
             </ButtonAnchor>
             <BookNowButton variant="secondary" />
@@ -245,7 +245,7 @@ function AboutCta() {
             Serving Riverside &amp; San Diego County,{" "}
             <Link
               href="/service-area"
-              className="font-semibold text-royal transition-colors hover:text-chrome"
+              className="font-semibold text-royal-light transition-colors hover:text-chrome"
             >
               see if we cover your city
             </Link>

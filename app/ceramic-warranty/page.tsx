@@ -2,8 +2,6 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { buildMetadata } from "@/lib/seo";
 import {
-  PHONE_ARIA,
-  PHONE_SMS_ARIA,
   SERVICE_AREA_LINE,
   site,
   smsHref,
@@ -108,7 +106,7 @@ export default function CeramicWarrantyPage() {
 
           <Link
             href="/services/ceramic-coating"
-            className="mt-8 inline-flex items-center gap-1.5 text-sm font-semibold text-royal transition-colors hover:text-chrome"
+            className="mt-8 inline-flex items-center gap-1.5 text-sm font-semibold text-royal-light transition-colors hover:text-chrome"
           >
             <span aria-hidden="true">←</span>
             Ceramic coating service
@@ -122,7 +120,7 @@ export default function CeramicWarrantyPage() {
           {/* Manufacturer product warranty */}
           <Card className="flex flex-col">
             <div className="flex items-center justify-between gap-3">
-              <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-royal/15 text-royal">
+              <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-royal/15 text-royal-light">
                 <Icon name="shield" className="h-5 w-5" />
               </span>
               <ProvidedBy>Provided by the coating manufacturer</ProvidedBy>
@@ -151,7 +149,7 @@ export default function CeramicWarrantyPage() {
           {/* Royal Rinse workmanship warranty */}
           <Card className="flex flex-col">
             <div className="flex items-center justify-between gap-3">
-              <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-royal/15 text-royal">
+              <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-royal/15 text-royal-light">
                 <Icon name="check" className="h-5 w-5" />
               </span>
               <ProvidedBy>Provided by Royal Rinse</ProvidedBy>
@@ -187,14 +185,14 @@ export default function CeramicWarrantyPage() {
             helps you meet manufacturer care requirements. You can add it to any{" "}
             <Link
               href="/packages"
-              className="font-semibold text-royal transition-colors hover:text-chrome"
+              className="font-semibold text-royal-light transition-colors hover:text-chrome"
             >
               detailing package
             </Link>{" "}
             or set up a recurring{" "}
             <Link
               href="/services/maintenance-plans"
-              className="font-semibold text-royal transition-colors hover:text-chrome"
+              className="font-semibold text-royal-light transition-colors hover:text-chrome"
             >
               maintenance plan
             </Link>
@@ -218,7 +216,7 @@ export default function CeramicWarrantyPage() {
           <ul className="mt-6 space-y-3">
             {aftercare.map((item) => (
               <li key={item} className="flex gap-3 text-sm leading-relaxed text-muted">
-                <Icon name="check" className="mt-0.5 h-4 w-4 shrink-0 text-royal" />
+                <Icon name="check" className="mt-0.5 h-4 w-4 shrink-0 text-royal-light" />
                 {item}
               </li>
             ))}
@@ -266,13 +264,12 @@ export default function CeramicWarrantyPage() {
               Call, text, or book online and we will recommend the right level.
             </p>
             <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-              <ButtonAnchor href={telHref} aria-label={PHONE_ARIA}>
+              <ButtonAnchor href={telHref}>
                 Call {site.phone}
               </ButtonAnchor>
               <BookNowButton />
               <ButtonAnchor
                 href={smsHref}
-                aria-label={PHONE_SMS_ARIA}
                 variant="secondary"
               >
                 Text us

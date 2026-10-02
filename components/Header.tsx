@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { PHONE_ARIA, nav, site, telHref } from "@/lib/site";
 import {
   packagesMenu,
@@ -26,7 +26,7 @@ function Logo({ compact }: { compact: boolean }) {
     <Link
       href="/"
       // `group` drives the hover lift on the image.
-      className="group flex items-center rounded-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-royal focus-visible:ring-offset-2 focus-visible:ring-offset-base"
+      className="group flex items-center rounded-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-royal-light focus-visible:ring-offset-2 focus-visible:ring-offset-base"
       aria-label="Royal Rinse, home"
     >
       {/* Logo ships with its own near-black background, so it sits flush on the
@@ -44,7 +44,7 @@ function Logo({ compact }: { compact: boolean }) {
         height={1254}
         priority
         sizes="160px"
-        className={`w-auto rounded-xl border border-hairline transition-[height,transform,filter,box-shadow] duration-300 ease-out motion-safe:animate-logo-in motion-safe:group-hover:scale-[1.05] motion-safe:group-hover:border-chrome/40 motion-safe:group-hover:brightness-110 motion-safe:group-hover:shadow-glow ${
+        className={`w-auto rounded-xl border border-hairline transition-[height,transform,filter,box-shadow] duration-300 ease-out motion-safe:animate-logo-in motion-safe:group-motion-safe:hover:scale-[1.05] motion-safe:group-hover:border-chrome/40 motion-safe:group-hover:brightness-110 motion-safe:group-hover:shadow-glow ${
           compact ? "h-20 sm:h-24" : "h-24 sm:h-32"
         }`}
       />
@@ -63,6 +63,22 @@ export function Header() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+
+  // Escape closes the mobile menu and hands focus back to the button that
+  // opened it, so keyboard users are not left on a control that just vanished.
+  useEffect(() => {
+    if (!open) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setOpen(false);
+        menuButtonRef.current?.focus();
+      }
+    };
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [open]);
 
   const solid = scrolled || open;
 
@@ -85,21 +101,26 @@ export function Header() {
         >
           <Logo compact={solid} />
 
-          <nav className="hidden items-center gap-x-4 xl:flex 2xl:gap-x-6">
-            {nav.map((item) => {
-              const menu = dropdownByLabel[item.label];
-              return menu ? (
-                <NavDropdown key={item.href} config={menu} />
-              ) : (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className="text-sm font-medium text-muted transition-colors hover:text-ink"
-                >
-                  {item.label}
-                </Link>
-              );
-            })}
+          <nav aria-label="Primary" className="hidden xl:block">
+            <ul className="flex items-center gap-x-4 2xl:gap-x-6">
+              {nav.map((item) => {
+                const menu = dropdownByLabel[item.label];
+                return (
+                  <li key={item.href}>
+                    {menu ? (
+                      <NavDropdown config={menu} />
+                    ) : (
+                      <Link
+                        href={item.href}
+                        className="text-sm font-medium text-muted transition-colors hover:text-ink"
+                      >
+                        {item.label}
+                      </Link>
+                    )}
+                  </li>
+                );
+              })}
+            </ul>
           </nav>
 
           <div className="hidden items-center gap-4 xl:flex">
@@ -114,6 +135,7 @@ export function Header() {
           </div>
 
           <button
+            ref={menuButtonRef}
             type="button"
             onClick={() => setOpen((v) => !v)}
             aria-expanded={open}
@@ -141,34 +163,40 @@ export function Header() {
       </Container>
 
       {open ? (
-        <div id="mobile-menu" className="border-t border-hairline bg-charcoal xl:hidden">
+        <div
+          id="mobile-menu"
+          className="border-t border-hairline bg-charcoal xl:hidden"
+        >
           <Container className="py-5">
-            <nav className="flex flex-col gap-1">
-              {nav.map((item) => {
-                const menu = dropdownByLabel[item.label];
-                return menu ? (
-                  <NavDropdownMobile
-                    key={item.href}
-                    config={menu}
-                    onNavigate={() => setOpen(false)}
-                  />
-                ) : (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    onClick={() => setOpen(false)}
-                    className="rounded-xl px-3 py-2.5 text-base font-medium text-muted transition-colors hover:bg-surface hover:text-ink"
-                  >
-                    {item.label}
-                  </Link>
-                );
-              })}
+            <nav aria-label="Primary">
+              <ul className="flex flex-col gap-1">
+                {nav.map((item) => {
+                  const menu = dropdownByLabel[item.label];
+                  return (
+                    <li key={item.href}>
+                      {menu ? (
+                        <NavDropdownMobile
+                          config={menu}
+                          onNavigate={() => setOpen(false)}
+                        />
+                      ) : (
+                        <Link
+                          href={item.href}
+                          onClick={() => setOpen(false)}
+                          className="block rounded-xl px-3 py-2.5 text-base font-medium text-muted transition-colors hover:bg-surface hover:text-ink"
+                        >
+                          {item.label}
+                        </Link>
+                      )}
+                    </li>
+                  );
+                })}
+              </ul>
             </nav>
 
             <div className="mt-5 flex flex-col gap-3 border-t border-hairline pt-5">
               <a
                 href={telHref}
-                aria-label={PHONE_ARIA}
                 className="px-3 text-sm font-semibold text-chrome"
                 onClick={() => setOpen(false)}
               >

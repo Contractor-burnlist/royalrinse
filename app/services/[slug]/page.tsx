@@ -86,7 +86,7 @@ export default function ServiceDetailPage({ params }: { params: Params }) {
 
           <Link
             href="/services"
-            className="mt-8 inline-flex items-center gap-1.5 text-sm font-semibold text-royal transition-colors hover:text-chrome"
+            className="mt-8 inline-flex items-center gap-1.5 text-sm font-semibold text-royal-light transition-colors hover:text-chrome"
           >
             <span aria-hidden="true">←</span>
             All services
@@ -104,7 +104,7 @@ export default function ServiceDetailPage({ params }: { params: Params }) {
               <ul className="mt-6 space-y-3">
                 {detail.includes.map((item) => (
                   <li key={item} className="flex gap-3 text-sm leading-relaxed text-muted">
-                    <Icon name="check" className="mt-0.5 h-4 w-4 shrink-0 text-royal" />
+                    <Icon name="check" className="mt-0.5 h-4 w-4 shrink-0 text-royal-light" />
                     {item}
                   </li>
                 ))}
@@ -161,7 +161,7 @@ export default function ServiceDetailPage({ params }: { params: Params }) {
                 {detail.addOnNote}{" "}
                 <Link
                   href="/services#add-ons"
-                  className="font-semibold text-royal transition-colors hover:text-chrome"
+                  className="font-semibold text-royal-light transition-colors hover:text-chrome"
                 >
                   See all add-ons
                 </Link>
@@ -178,7 +178,7 @@ export default function ServiceDetailPage({ params }: { params: Params }) {
             {CERAMIC_WARRANTY_TRUST}{" "}
             <Link
               href={CERAMIC_WARRANTY_PATH}
-              className="font-semibold text-royal transition-colors hover:text-chrome"
+              className="font-semibold text-royal-light transition-colors hover:text-chrome"
             >
               See warranty details
             </Link>

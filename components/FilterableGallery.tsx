@@ -60,16 +60,31 @@ export function FilterableGallery({ images }: { images: GalleryImage[] }) {
               type="button"
               aria-pressed={isActive}
               onClick={() => setActive(tab.key)}
-              className={`inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-semibold transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-royal focus-visible:ring-offset-2 focus-visible:ring-offset-base ${
+              className={`inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-semibold transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-royal-light focus-visible:ring-offset-2 focus-visible:ring-offset-base ${
                 isActive
                   ? "border-royal bg-royal text-ink shadow-glow"
                   : "border-hairline bg-surface text-chrome hover:border-royal hover:text-ink"
               }`}
             >
+              {/* Not colour alone: the active pill also carries a check. */}
+              {isActive ? (
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth={2.2}
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
+                  className="h-3.5 w-3.5"
+                >
+                  <path d="M4 12.5l5 5L20 6.5" />
+                </svg>
+              ) : null}
               {tab.key}
               <span
                 className={`text-xs tabular-nums ${
-                  isActive ? "text-ink/70" : "text-muted"
+                  isActive ? "text-ink" : "text-muted"
                 }`}
               >
                 {tab.count}
@@ -79,17 +94,16 @@ export function FilterableGallery({ images }: { images: GalleryImage[] }) {
         })}
       </div>
 
-      {/* Remounting on filter change replays a gentle fade — dropped for
-          reduced-motion, where it swaps instantly. aria-live announces the
-          count change to screen readers. */}
-      <div
-        key={active}
-        aria-live="polite"
-        className="mt-8 motion-safe:animate-[fadeIn_300ms_ease-out]"
-      >
-        <span className="sr-only">
-          Showing {visible.length} {active === "All" ? "" : `${active} `}photos
-        </span>
+      {/* A persistent status region: it outlives the filter change, so screen
+          readers announce the new count. (It used to sit on the grid wrapper,
+          which remounts on every change and so was never announced.) */}
+      <p role="status" className="sr-only">
+        Showing {visible.length} {active === "All" ? "" : `${active} `}photos
+      </p>
+
+      {/* Remounting on filter change replays a gentle fade, dropped for
+          reduced-motion, where it swaps instantly. */}
+      <div key={active} className="mt-8 motion-safe:animate-[fadeIn_300ms_ease-out]">
         <LightboxGrid
           images={visible}
           variant="grid"

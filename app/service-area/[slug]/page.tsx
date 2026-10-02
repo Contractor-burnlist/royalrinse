@@ -7,7 +7,6 @@ import { cityCover, getCityPage, type CityPage } from "@/lib/cityPages";
 import { ceramicCoating, tiers } from "@/lib/services";
 import {
   GOOGLE_MAPS_URL,
-  PHONE_ARIA,
   PHONE_DISPLAY,
   site,
   telHref,
@@ -101,7 +100,7 @@ function TrustLine({ className = "" }: { className?: string }) {
       {items.map((item, index) => (
         <span key={item} className="flex items-center gap-2">
           {index > 0 ? (
-            <span aria-hidden="true" className="text-royal">
+            <span aria-hidden="true" className="text-royal-light">
               ·
             </span>
           ) : null}
@@ -122,7 +121,7 @@ function ServicesGrid({ intro, cityName }: { intro: string; cityName: string }) 
         {intro} See the full lineup on our{" "}
         <Link
           href="/packages"
-          className="font-semibold text-royal transition-colors hover:text-chrome"
+          className="font-semibold text-royal-light transition-colors hover:text-chrome"
         >
           packages page
         </Link>
@@ -132,7 +131,7 @@ function ServicesGrid({ intro, cityName }: { intro: string; cityName: string }) 
       <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {services.map((service) => (
           <Card key={service.slug} className="flex flex-col">
-            <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-royal/15 text-royal">
+            <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-royal/15 text-royal-light">
               <Icon name={service.icon} className="h-5 w-5" />
             </span>
             <h3 className="mt-5 font-display text-lg font-bold text-ink">
@@ -143,7 +142,7 @@ function ServicesGrid({ intro, cityName }: { intro: string; cityName: string }) 
             </p>
             <Link
               href={`/services/${service.slug}`}
-              className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-royal transition-colors hover:text-chrome"
+              className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-royal-light transition-colors hover:text-chrome"
             >
               Learn more
               <span aria-hidden="true">→</span>
@@ -155,14 +154,14 @@ function ServicesGrid({ intro, cityName }: { intro: string; cityName: string }) 
       <div className="mt-10 flex flex-wrap gap-4">
         <Link
           href="/services"
-          className="inline-flex items-center gap-1.5 text-sm font-semibold text-royal transition-colors hover:text-chrome"
+          className="inline-flex items-center gap-1.5 text-sm font-semibold text-royal-light transition-colors hover:text-chrome"
         >
           All services
           <span aria-hidden="true">→</span>
         </Link>
         <Link
           href="/packages"
-          className="inline-flex items-center gap-1.5 text-sm font-semibold text-royal transition-colors hover:text-chrome"
+          className="inline-flex items-center gap-1.5 text-sm font-semibold text-royal-light transition-colors hover:text-chrome"
         >
           Compare packages
           <span aria-hidden="true">→</span>
@@ -191,7 +190,7 @@ function CityCta({ ctaLine }: { ctaLine: string }) {
           </p>
 
           <div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row">
-            <ButtonAnchor href={telHref} aria-label={PHONE_ARIA}>
+            <ButtonAnchor href={telHref}>
               Call now for an instant quote
             </ButtonAnchor>
             <BookNowButton variant="secondary">Book Now</BookNowButton>
@@ -227,7 +226,7 @@ function UniqueCityPage({ city, page }: { city: City; page: CityPage }) {
               <TrustLine className="mt-6" />
               <Link
                 href="/service-area"
-                className="mt-8 inline-flex items-center gap-1.5 text-sm font-semibold text-royal transition-colors hover:text-chrome"
+                className="mt-8 inline-flex items-center gap-1.5 text-sm font-semibold text-royal-light transition-colors hover:text-chrome"
               >
                 <span aria-hidden="true">←</span>
                 All service areas
@@ -302,7 +301,7 @@ function TemplatedCityPage({ city }: { city: City }) {
           <TrustLine className="mt-6" />
           <Link
             href="/service-area"
-            className="mt-8 inline-flex items-center gap-1.5 text-sm font-semibold text-royal transition-colors hover:text-chrome"
+            className="mt-8 inline-flex items-center gap-1.5 text-sm font-semibold text-royal-light transition-colors hover:text-chrome"
           >
             <span aria-hidden="true">←</span>
             All service areas

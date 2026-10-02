@@ -33,7 +33,6 @@ export function BookNowButton({
     <button
       type="button"
       onClick={openBooking}
-      aria-label="Book Royal Rinse online"
       className={buttonClasses(variant, className)}
     >
       {children}

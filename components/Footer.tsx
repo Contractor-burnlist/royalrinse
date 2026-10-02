@@ -15,9 +15,9 @@ import { Container } from "@/components/ui";
 
 function ColumnHeading({ children }: { children: React.ReactNode }) {
   return (
-    <h3 className="text-xs font-semibold uppercase tracking-[0.18em] text-chrome">
+    <h2 className="text-xs font-semibold uppercase tracking-[0.18em] text-chrome">
       {children}
-    </h3>
+    </h2>
   );
 }
 
@@ -88,7 +88,7 @@ export function Footer() {
             </ul>
           </div>
 
-          <div>
+          <nav aria-label="Service areas">
             <ColumnHeading>Service Area</ColumnHeading>
             <ul className="mt-4 space-y-2 text-sm text-muted">
               {featuredCities.map((city) => (
@@ -106,13 +106,13 @@ export function Footer() {
                   href="/service-area"
                   className="font-semibold text-chrome transition-colors hover:text-ink"
                 >
-                  View all service areas →
+                  View all service areas <span aria-hidden="true">→</span>
                 </Link>
               </li>
             </ul>
-          </div>
+          </nav>
 
-          <div>
+          <nav aria-label="Footer">
             <ColumnHeading>Services</ColumnHeading>
             <ul className="mt-4 space-y-2 text-sm text-muted">
               {[...tiers, ceramicCoating].map((service) => (
@@ -159,7 +159,7 @@ export function Footer() {
                 </Link>
               </li>
             </ul>
-          </div>
+          </nav>
         </div>
 
         <div className="flex flex-col gap-2 border-t border-hairline py-6 text-xs text-muted sm:flex-row sm:items-center sm:justify-between">

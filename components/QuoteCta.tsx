@@ -1,5 +1,5 @@
 import { quoteNote } from "@/lib/services";
-import { PHONE_ARIA, site, telHref } from "@/lib/site";
+import { site, telHref } from "@/lib/site";
 import { BookNowButton } from "@/components/BookNowButton";
 import { ButtonAnchor, Section } from "@/components/ui";
 
@@ -18,7 +18,7 @@ export function QuoteCta({ heading = "Ready for a showroom finish?" }: { heading
           </h2>
           <p className="mx-auto mt-4 max-w-xl text-base text-muted">{quoteNote}</p>
           <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-            <ButtonAnchor href={telHref} aria-label={PHONE_ARIA}>
+            <ButtonAnchor href={telHref}>
               Call {site.phone}
             </ButtonAnchor>
             <BookNowButton variant="secondary" />

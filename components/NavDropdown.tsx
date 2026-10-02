@@ -14,6 +14,12 @@ import type { NavMenuConfig } from "@/lib/navMenus";
  * One dropdown component shared by every nav item that has a menu (Services,
  * Packages, Service Area), driven entirely by a NavMenuConfig. The top label
  * still links to the item's overview page; a chevron button toggles the panel.
+ *
+ * This is the DISCLOSURE pattern (a button with aria-expanded that shows a list
+ * of links), not an ARIA menu. The menu role promises application-style
+ * keyboard behaviour and hides the links' own semantics from screen readers;
+ * for site navigation a plain list of links behind a toggle is the recommended
+ * shape.
  */
 
 const Chevron = ({ className = "" }: { className?: string }) => (
@@ -32,23 +38,25 @@ const Chevron = ({ className = "" }: { className?: string }) => (
 );
 
 const itemClass =
-  "block rounded-lg px-3 py-2 text-sm text-muted transition-colors hover:bg-charcoal hover:text-ink focus:bg-charcoal focus:text-ink focus:outline-none focus-visible:ring-1 focus-visible:ring-royal";
+  "block rounded-lg px-3 py-2 text-sm text-muted transition-colors hover:bg-charcoal hover:text-ink focus:outline-none focus-visible:bg-charcoal focus-visible:text-ink focus-visible:ring-2 focus-visible:ring-royal-light";
 
-const footerItemClass = `${itemClass} font-semibold text-royal hover:text-ink`;
+const footerItemClass = `${itemClass} font-semibold text-royal-light hover:text-ink`;
 
 const sectionLabelClass =
-  "px-3 pb-1 pt-1 text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-royal";
+  "px-3 pb-1 pt-1 text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-royal-light";
 
-/** Desktop dropdown: hover- and focus/click-openable, keyboard accessible. */
+/**
+ * Desktop dropdown. Opens on hover for pointer users and on click, Enter, Space
+ * or ArrowDown from the chevron button for keyboard users. Escape closes it and
+ * returns focus to the button. While closed the panel is `invisible`, which
+ * removes its links from the tab order and the accessibility tree.
+ */
 export function NavDropdown({ config }: { config: NavMenuConfig }) {
   const [open, setOpen] = useState(false);
   const wrapRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout>>();
-  // Escape returns focus to the trigger, which sits inside the wrapper and
-  // would re-fire onFocus and reopen the menu. This flag suppresses that.
-  const suppressFocusOpen = useRef(false);
 
   const close = useCallback(() => setOpen(false), []);
 
@@ -60,11 +68,7 @@ export function NavDropdown({ config }: { config: NavMenuConfig }) {
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         setOpen(false);
-        suppressFocusOpen.current = true;
         triggerRef.current?.focus();
-        setTimeout(() => {
-          suppressFocusOpen.current = false;
-        }, 0);
       }
     };
     document.addEventListener("mousedown", onPointerDown);
@@ -87,14 +91,14 @@ export function NavDropdown({ config }: { config: NavMenuConfig }) {
   };
 
   const menuItems = () =>
-    Array.from(
-      panelRef.current?.querySelectorAll<HTMLElement>('[role="menuitem"]') ?? [],
-    );
+    Array.from(panelRef.current?.querySelectorAll<HTMLElement>("a") ?? []);
 
   const onTriggerKeyDown = (event: ReactKeyboardEvent) => {
     if (event.key === "ArrowDown") {
       event.preventDefault();
-      menuItems()[0]?.focus();
+      setOpen(true);
+      // The panel is `invisible` until the re-render; focus after it shows.
+      requestAnimationFrame(() => menuItems()[0]?.focus());
     }
   };
 
@@ -122,20 +126,20 @@ export function NavDropdown({ config }: { config: NavMenuConfig }) {
     }
   };
 
-  const tabIndex = open ? 0 : -1;
   const menuId = `${config.id}-menu`;
   // Literal classes so Tailwind's scanner (which doesn't read /lib) generates them.
-  const panelWidthClass = config.panelWidth === "narrow" ? "w-[15rem]" : "w-[20rem]";
+  const panelWidthClass =
+    config.panelWidth === "narrow" ? "w-[15rem]" : "w-[20rem]";
 
   return (
+    // The hover handlers are a pointer convenience only; the chevron button is
+    // the real control, so the wrapper itself needs no role or key handler.
+    // eslint-disable-next-line jsx-a11y/no-static-element-interactions
     <div
       ref={wrapRef}
       className="relative"
       onMouseEnter={openNow}
       onMouseLeave={closeSoon}
-      onFocus={() => {
-        if (!suppressFocusOpen.current) setOpen(true);
-      }}
       onBlur={(event) => {
         if (!wrapRef.current?.contains(event.relatedTarget as Node | null)) {
           setOpen(false);
@@ -153,13 +157,12 @@ export function NavDropdown({ config }: { config: NavMenuConfig }) {
         <button
           ref={triggerRef}
           type="button"
-          aria-haspopup="true"
           aria-expanded={open}
           aria-controls={menuId}
-          aria-label={`Toggle ${config.ariaLabel} menu`}
+          aria-label={`${config.ariaLabel} submenu`}
           onClick={() => setOpen((value) => !value)}
           onKeyDown={onTriggerKeyDown}
-          className="flex h-6 w-6 items-center justify-center rounded-md text-muted transition-colors hover:text-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-royal"
+          className="flex h-6 w-6 items-center justify-center rounded-md text-muted transition-colors hover:text-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-royal-light"
         >
           <Chevron
             className={`h-3.5 w-3.5 transition-transform duration-200 ${
@@ -169,18 +172,17 @@ export function NavDropdown({ config }: { config: NavMenuConfig }) {
         </button>
       </div>
 
+      {/* Arrow keys are an extra on top of Tab, which already walks the links. */}
+      {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
       <div
         id={menuId}
-        role="menu"
-        aria-label={config.ariaLabel}
-        aria-hidden={!open}
         ref={panelRef}
         onKeyDown={onPanelKeyDown}
         // Transparent pt bridges the gap to the trigger so hover never drops.
         className={`absolute left-0 top-full z-50 pt-3 motion-safe:transition-all motion-safe:duration-200 ${
           open
-            ? "translate-y-0 opacity-100"
-            : "pointer-events-none -translate-y-1 opacity-0"
+            ? "visible translate-y-0 opacity-100"
+            : "pointer-events-none invisible -translate-y-1 opacity-0"
         }`}
       >
         <div
@@ -194,28 +196,30 @@ export function NavDropdown({ config }: { config: NavMenuConfig }) {
               {group.label ? (
                 <p className={sectionLabelClass}>{group.label}</p>
               ) : null}
-              <div className={group.columns === 2 ? "grid grid-cols-2 gap-0.5" : ""}>
+              <ul
+                aria-label={group.label ?? config.ariaLabel}
+                className={
+                  group.columns === 2 ? "grid grid-cols-2 gap-0.5" : ""
+                }
+              >
                 {group.links.map((link) => (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    role="menuitem"
-                    tabIndex={tabIndex}
-                    onClick={close}
-                    className={itemClass}
-                  >
-                    {link.label}
-                  </Link>
+                  <li key={link.href}>
+                    <Link
+                      href={link.href}
+                      onClick={close}
+                      className={itemClass}
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
                 ))}
-              </div>
+              </ul>
             </div>
           ))}
 
           <div className="my-2 border-t border-hairline" />
           <Link
             href={config.footer.href}
-            role="menuitem"
-            tabIndex={tabIndex}
             onClick={close}
             className={footerItemClass}
           >
@@ -272,16 +276,19 @@ export function NavDropdownMobile({
               {group.label ? (
                 <p className={sectionLabelClass}>{group.label}</p>
               ) : null}
-              {group.links.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  onClick={onNavigate}
-                  className={linkClass}
-                >
-                  {link.label}
-                </Link>
-              ))}
+              <ul aria-label={group.label ?? config.ariaLabel}>
+                {group.links.map((link) => (
+                  <li key={link.href}>
+                    <Link
+                      href={link.href}
+                      onClick={onNavigate}
+                      className={linkClass}
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
             </div>
           ))}
 
@@ -289,7 +296,7 @@ export function NavDropdownMobile({
           <Link
             href={config.footer.href}
             onClick={onNavigate}
-            className="block rounded-lg px-3 py-2 text-sm font-semibold text-royal transition-colors hover:bg-surface hover:text-ink"
+            className="block rounded-lg px-3 py-2 text-sm font-semibold text-royal-light transition-colors hover:bg-surface hover:text-ink"
           >
             {config.footer.label}
           </Link>

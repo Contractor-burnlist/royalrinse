@@ -59,8 +59,20 @@ const MAX_ROW_PX = 1398;
 export function HeroCarousel({ children }: { children: ReactNode }) {
   const [current, setCurrent] = useState(0);
   const [perView, setPerView] = useState(4);
-  const [paused, setPaused] = useState(false);
+  // Hover/focus on the arrows: a temporary hold.
+  const [hoverPaused, setHoverPaused] = useState(false);
+  // The Pause/Play button. null = no choice made yet, so the default applies.
+  const [userPaused, setUserPaused] = useState<boolean | null>(null);
   const [reducedMotion, setReducedMotion] = useState(false);
+
+  /**
+   * WCAG 2.2.2: anything that moves on its own for more than five seconds
+   * needs a way to stop it. The Pause button is that control. Under
+   * prefers-reduced-motion the rotation starts stopped; pressing Play is an
+   * explicit choice and is honoured.
+   */
+  const stopped = userPaused ?? reducedMotion;
+  const paused = hoverPaused || stopped;
 
   // Last index we can scroll to without running past the final tile.
   const maxIndex = Math.max(0, slides.length - perView);
@@ -145,10 +157,10 @@ export function HeroCarousel({ children }: { children: ReactNode }) {
    * "auto-scroll is broken". Focus-pause is kept for keyboard users.
    */
   const pauseHandlers = {
-    onMouseEnter: () => setPaused(true),
-    onMouseLeave: () => setPaused(false),
-    onFocusCapture: () => setPaused(true),
-    onBlurCapture: () => setPaused(false),
+    onMouseEnter: () => setHoverPaused(true),
+    onMouseLeave: () => setHoverPaused(false),
+    onFocusCapture: () => setHoverPaused(true),
+    onBlurCapture: () => setHoverPaused(false),
   };
 
   return (
@@ -192,9 +204,9 @@ export function HeroCarousel({ children }: { children: ReactNode }) {
         >
           {/* Viewport. overflow-hidden clips the track; no page overflow. */}
           <div className="overflow-hidden">
-            {/* Under prefers-reduced-motion the row still advances, but jumps
-                instantly instead of sliding — the ANIMATION is what that
-                setting asks us to drop, not the content rotation. */}
+            {/* Under prefers-reduced-motion the row does not rotate on its own
+                (see `stopped`), and the arrows jump instantly instead of
+                sliding. */}
             <div
               data-autoscroll="hero"
               data-index={current}
@@ -228,6 +240,9 @@ export function HeroCarousel({ children }: { children: ReactNode }) {
                 return (
                   <div
                     key={slide.src}
+                    role="group"
+                    aria-roledescription="slide"
+                    aria-label={`${index + 1} of ${slides.length}`}
                     // No gap on the track: the tile width is an exact fraction
                     // so the translate lands cleanly. Gutter is inner padding.
                     className="shrink-0 px-1.5 sm:px-2"
@@ -277,7 +292,25 @@ export function HeroCarousel({ children }: { children: ReactNode }) {
               <CarouselArrow direction="prev" onClick={() => go(-1)} />
             </span>
 
-            <span className="font-display text-xs font-semibold tabular-nums tracking-[0.14em] text-chrome">
+            <button
+              type="button"
+              onClick={() => setUserPaused(!stopped)}
+              aria-label={stopped ? "Play photo rotation" : "Pause photo rotation"}
+              className="flex h-10 w-10 items-center justify-center rounded-full border border-hairline bg-surface/60 text-chrome backdrop-blur-sm transition-colors hover:border-chrome/50 hover:text-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-royal-light"
+            >
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" className="h-4 w-4">
+                <path d={stopped ? "M8 5v14l11-7L8 5Z" : "M7 5h4v14H7zM13 5h4v14h-4z"} />
+              </svg>
+            </button>
+
+            {/* Announced only while rotation is stopped, so the arrows report
+                the new position but auto-rotation never interrupts a reader. */}
+            <span
+              aria-live={stopped ? "polite" : "off"}
+              aria-atomic="true"
+              className="font-display text-xs font-semibold tabular-nums tracking-[0.14em] text-chrome"
+            >
+              <span className="sr-only">Showing photo </span>
               {/* ceil: perView is fractional on mobile (1.2), and a counter
                   reading "1.2 / 09" is nonsense. Round up to the last tile
                   that has any part of itself on screen. */}
@@ -286,7 +319,9 @@ export function HeroCarousel({ children }: { children: ReactNode }) {
               ).padStart(2, "0")}
               <span className="text-muted">
                 {" "}
-                / {String(slides.length).padStart(2, "0")}
+                <span aria-hidden="true">/</span>
+                <span className="sr-only">of</span>{" "}
+                {String(slides.length).padStart(2, "0")}
               </span>
             </span>
 
@@ -313,7 +348,7 @@ function CarouselArrow({
       type="button"
       onClick={onClick}
       aria-label={isPrev ? "Previous photos" : "Next photos"}
-      className="flex h-10 w-10 items-center justify-center rounded-full border border-hairline bg-surface/60 text-chrome backdrop-blur-sm transition-colors hover:border-chrome/50 hover:text-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-royal"
+      className="flex h-10 w-10 items-center justify-center rounded-full border border-hairline bg-surface/60 text-chrome backdrop-blur-sm transition-colors hover:border-chrome/50 hover:text-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-royal-light"
     >
       <svg
         viewBox="0 0 24 24"

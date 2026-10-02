@@ -7,6 +7,19 @@
     scroll-behavior: smooth;
   }
 
+  /* One visible keyboard focus ring everywhere. Components that draw their own
+     ring opt out with focus:outline-none; everything else gets this, so no
+     control depends on a browser default that may vanish on the dark theme. */
+  :focus-visible {
+    outline: 2px solid #6b9bff;
+    outline-offset: 2px;
+  }
+
+  /* The skip link moves focus to <main>; it is not a control, so no ring. */
+  main:focus {
+    outline: none;
+  }
+
   ::selection {
     background-color: #1d4ed8;
     color: #f5f7fa;

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { faqs } from "@/lib/faq";
-import { PHONE_ARIA, site, telHref } from "@/lib/site";
+import { site, telHref } from "@/lib/site";
 import { buildMetadata } from "@/lib/seo";
 import { QuoteCta } from "@/components/QuoteCta";
 import { Container, Eyebrow, Section } from "@/components/ui";
@@ -43,8 +43,7 @@ export default function FaqPage() {
             Riverside &amp; San Diego County. Still have a question?{" "}
             <a
               href={telHref}
-              aria-label={PHONE_ARIA}
-              className="font-semibold text-royal transition-colors hover:text-chrome"
+              className="font-semibold text-royal-light transition-colors hover:text-chrome"
             >
               Call {site.phone}
             </a>
@@ -69,15 +68,15 @@ export default function FaqPage() {
 
         <p className="mx-auto mt-10 max-w-3xl text-sm text-muted">
           Looking for something specific? See our{" "}
-          <Link href="/services" className="font-semibold text-royal hover:text-chrome">
+          <Link href="/services" className="font-semibold text-royal-light hover:text-chrome">
             services
           </Link>
           ,{" "}
-          <Link href="/packages" className="font-semibold text-royal hover:text-chrome">
+          <Link href="/packages" className="font-semibold text-royal-light hover:text-chrome">
             packages
           </Link>
           , or the{" "}
-          <Link href="/service-area" className="font-semibold text-royal hover:text-chrome">
+          <Link href="/service-area" className="font-semibold text-royal-light hover:text-chrome">
             areas we serve
           </Link>
           .

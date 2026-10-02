@@ -33,6 +33,7 @@ export function LightboxGrid({
 }) {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
   const lastFocused = useRef<HTMLElement | null>(null);
 
   const close = useCallback(() => setOpenIndex(null), []);
@@ -54,12 +55,40 @@ export function LightboxGrid({
       if (event.key === "Escape") close();
       if (event.key === "ArrowRight") step(1);
       if (event.key === "ArrowLeft") step(-1);
+
+      // Focus trap: Tab and Shift+Tab cycle through the viewer's own controls
+      // and never reach the page behind it.
+      if (event.key === "Tab") {
+        const controls = Array.from(
+          dialogRef.current?.querySelectorAll<HTMLElement>(
+            "button:not([tabindex='-1'])",
+          ) ?? [],
+        );
+        if (!controls.length) return;
+        const first = controls[0];
+        const last = controls[controls.length - 1];
+        const current = document.activeElement;
+        if (!dialogRef.current?.contains(current)) {
+          event.preventDefault();
+          first.focus();
+        } else if (event.shiftKey && current === first) {
+          event.preventDefault();
+          last.focus();
+        } else if (!event.shiftKey && current === last) {
+          event.preventDefault();
+          first.focus();
+        }
+      }
     };
 
     document.addEventListener("keydown", onKeyDown);
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
-    closeRef.current?.focus();
+    // Only on open: stepping re-runs this effect and must not steal focus
+    // from the Previous / Next button the user is on.
+    if (!dialogRef.current?.contains(document.activeElement)) {
+      closeRef.current?.focus();
+    }
 
     return () => {
       document.removeEventListener("keydown", onKeyDown);
@@ -79,36 +108,37 @@ export function LightboxGrid({
   const active = openIndex === null ? null : images[openIndex];
 
   const tileClasses =
-    "group relative block w-full overflow-hidden rounded-xl border border-hairline bg-surface shadow-card transition-colors hover:border-royal focus:outline-none focus-visible:ring-2 focus-visible:ring-royal focus-visible:ring-offset-2 focus-visible:ring-offset-base";
+    "group relative block w-full overflow-hidden rounded-xl border border-hairline bg-surface shadow-card transition-colors hover:border-royal focus:outline-none focus-visible:ring-2 focus-visible:ring-royal-light focus-visible:ring-offset-2 focus-visible:ring-offset-base";
 
   return (
     <>
       {variant === "masonry" ? (
-        <div className={className}>
+        <ul className={className}>
           {images.map((image, index) => (
-            <button
-              key={image.src}
-              type="button"
-              onClick={() => open(index)}
-              className={`${tileClasses} mb-4 break-inside-avoid`}
-            >
-              {/* width/height are the real file dimensions, so the tile keeps
+            <li key={image.src} className="mb-4 break-inside-avoid">
+              <button
+                type="button"
+                onClick={() => open(index)}
+                className={tileClasses}
+              >
+                {/* width/height are the real file dimensions, so the tile keeps
                   the photo's native ratio — no crop, no squish. */}
-              <Image
-                src={image.src}
-                alt={image.alt}
-                width={image.width}
-                height={image.height}
-                loading={index < eagerCount ? "eager" : "lazy"}
-                priority={index < eagerCount}
-                quality={90}
-                sizes={sizes}
-                className="h-auto w-full transition-transform duration-500 group-hover:scale-105"
-              />
-              <span className="sr-only">Enlarge photo</span>
-            </button>
+                <Image
+                  src={image.src}
+                  alt={image.alt}
+                  width={image.width}
+                  height={image.height}
+                  loading={index < eagerCount ? "eager" : "lazy"}
+                  priority={index < eagerCount}
+                  quality={90}
+                  sizes={sizes}
+                  className="h-auto w-full transition-transform duration-500 motion-safe:group-hover:scale-105"
+                />
+                <span className="sr-only">Enlarge photo</span>
+              </button>
+            </li>
           ))}
-        </div>
+        </ul>
       ) : (
         <ul className={className}>
           {images.map((image, index) => (
@@ -128,7 +158,7 @@ export function LightboxGrid({
                   // Matches the real tile width so the optimizer serves the
                   // right size (and never upscales past the source).
                   sizes={sizes}
-                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  className="object-cover transition-transform duration-500 motion-safe:group-hover:scale-105"
                 />
                 <span className="sr-only">Enlarge photo</span>
               </button>
@@ -142,15 +172,30 @@ export function LightboxGrid({
           role="dialog"
           aria-modal="true"
           aria-label="Photo viewer"
-          onClick={close}
           className="fixed inset-0 z-[100] flex animate-[fadeIn_260ms_ease-out] items-center justify-center bg-base/97 p-4 backdrop-blur-xl sm:p-6"
         >
+          {/* Click-away backdrop. A real button so the handler is not on a
+              bare div; out of the tab order because the Close button and
+              Escape already do the same job for keyboard users. */}
+          <button
+            type="button"
+            tabIndex={-1}
+            aria-hidden="true"
+            onClick={close}
+            className="absolute inset-0 cursor-default"
+          />
+
+          {/* Announces the position as the photo changes. */}
+          <p role="status" className="sr-only">
+            Photo {(openIndex ?? 0) + 1} of {images.length}
+          </p>
+
           <button
             ref={closeRef}
             type="button"
             onClick={close}
             aria-label="Close photo"
-            className="absolute right-4 top-4 z-10 flex h-11 w-11 items-center justify-center rounded-xl border border-hairline bg-surface text-ink transition-colors hover:border-chrome/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-royal"
+            className="absolute right-4 top-4 z-10 flex h-11 w-11 items-center justify-center rounded-xl border border-hairline bg-surface text-ink transition-colors hover:border-chrome/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-royal-light"
           >
             <svg
               viewBox="0 0 24 24"
@@ -167,28 +212,17 @@ export function LightboxGrid({
 
           {images.length > 1 ? (
             <>
-              <LightboxNav
-                direction="prev"
-                onClick={(event) => {
-                  event.stopPropagation();
-                  step(-1);
-                }}
-              />
-              <LightboxNav
-                direction="next"
-                onClick={(event) => {
-                  event.stopPropagation();
-                  step(1);
-                }}
-              />
+              <LightboxNav direction="prev" onClick={() => step(-1)} />
+              <LightboxNav direction="next" onClick={() => step(1)} />
             </>
           ) : null}
 
           {/* Image only — no caption, no vehicle label. */}
+          {/* pointer-events-none: clicks beside the letterboxed photo fall
+              through to the backdrop and close the viewer. */}
           <div
             key={active.src}
-            onClick={(event) => event.stopPropagation()}
-            className="relative h-[88vh] w-full max-w-6xl animate-[fadeIn_320ms_ease-out]"
+            className="pointer-events-none relative h-[88vh] w-full max-w-6xl animate-[fadeIn_320ms_ease-out]"
           >
             {/* object-contain: shows the whole frame at its true ratio. */}
             <Image
@@ -212,7 +246,7 @@ function LightboxNav({
   onClick,
 }: {
   direction: "prev" | "next";
-  onClick: (event: React.MouseEvent) => void;
+  onClick: () => void;
 }) {
   const isPrev = direction === "prev";
   return (
@@ -220,7 +254,7 @@ function LightboxNav({
       type="button"
       onClick={onClick}
       aria-label={isPrev ? "Previous photo" : "Next photo"}
-      className={`absolute top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-xl border border-hairline bg-surface text-ink transition-colors hover:border-chrome/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-royal ${
+      className={`absolute top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-xl border border-hairline bg-surface text-ink transition-colors hover:border-chrome/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-royal-light ${
         isPrev ? "left-4" : "right-4"
       }`}
     >

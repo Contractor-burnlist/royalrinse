@@ -15,7 +15,7 @@ import {
   packagesAddOnsPhoto,
   packagesHeroImage,
 } from "@/lib/serviceImages";
-import { PHONE_ARIA, SERVICE_AREA_LINE, telHref } from "@/lib/site";
+import { SERVICE_AREA_LINE, telHref } from "@/lib/site";
 import { absoluteUrl, siteUrl } from "@/lib/url";
 import { BookNowButton } from "@/components/BookNowButton";
 import { Reveal } from "@/components/Reveal";
@@ -60,11 +60,11 @@ function TrustLine({ className = "" }: { className?: string }) {
       className={`flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-xs font-medium text-muted ${className}`}
     >
       <span className="text-chrome">Licensed &amp; Insured</span>
-      <span aria-hidden="true" className="text-royal">
+      <span aria-hidden="true" className="text-royal-light">
         ·
       </span>
       <span className="text-chrome">10% Military Discount</span>
-      <span aria-hidden="true" className="text-royal">
+      <span aria-hidden="true" className="text-royal-light">
         ·
       </span>
       <span className="text-chrome">Mobile: We Come To You</span>
@@ -77,7 +77,7 @@ function CtaRow() {
     <div className="mt-8">
       <div className="flex flex-col gap-3 sm:flex-row">
         <BookNowButton>Book now, spots fill fast</BookNowButton>
-        <ButtonAnchor href={telHref} aria-label={PHONE_ARIA} variant="secondary">
+        <ButtonAnchor href={telHref} variant="secondary">
           Call now for an instant quote
         </ButtonAnchor>
       </div>
@@ -113,7 +113,7 @@ function TierCard({ tier, rank }: { tier: (typeof tiers)[number]; rank: number }
           loading="lazy"
           quality={85}
           sizes="(min-width: 1024px) 680px, 100vw"
-          className="object-cover object-center motion-safe:transition-transform motion-safe:duration-700 motion-safe:ease-out motion-safe:group-hover:scale-105"
+          className="object-cover object-center motion-safe:transition-transform motion-safe:duration-700 motion-safe:ease-out motion-safe:group-motion-safe:hover:scale-105"
         />
         {/* Mobile: fade the band's bottom into the content. lg: fade the left
             edge into surface so the overlaid copy reads cleanly. */}
@@ -146,7 +146,7 @@ function TierCard({ tier, rank }: { tier: (typeof tiers)[number]; rank: number }
                 key={item}
                 className="flex gap-3 text-sm leading-relaxed text-muted"
               >
-                <Icon name="check" className="mt-0.5 h-4 w-4 shrink-0 text-royal" />
+                <Icon name="check" className="mt-0.5 h-4 w-4 shrink-0 text-royal-light" />
                 {item}
               </li>
             ))}
@@ -179,7 +179,7 @@ function TierCard({ tier, rank }: { tier: (typeof tiers)[number]; rank: number }
 
         <Link
           href={`/services/${tier.slug}`}
-          className="mt-5 inline-flex items-center gap-1.5 text-xs font-semibold text-muted transition-colors hover:text-royal"
+          className="mt-5 inline-flex items-center gap-1.5 text-xs font-semibold text-muted transition-colors hover:text-royal-light"
         >
           Learn more about {tier.name}
           <span aria-hidden="true">→</span>
@@ -237,7 +237,7 @@ function CtaBand({
 
         <div className="mt-5 flex flex-col justify-center gap-3 sm:flex-row">
           <BookNowButton>{bookLabel}</BookNowButton>
-          <ButtonAnchor href={telHref} aria-label={PHONE_ARIA} variant="secondary">
+          <ButtonAnchor href={telHref} variant="secondary">
             Call now for an instant quote
           </ButtonAnchor>
         </div>
@@ -351,7 +351,7 @@ export default function PackagesPage() {
                 loading="lazy"
                 quality={85}
                 sizes="(min-width: 1024px) 560px, 100vw"
-                className="object-cover object-center motion-safe:transition-transform motion-safe:duration-700 motion-safe:ease-out motion-safe:group-hover:scale-105"
+                className="object-cover object-center motion-safe:transition-transform motion-safe:duration-700 motion-safe:ease-out motion-safe:group-motion-safe:hover:scale-105"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-surface via-surface/45 to-transparent lg:bg-gradient-to-r lg:from-surface lg:via-surface/85 lg:to-surface/25" />
             </div>
@@ -386,7 +386,7 @@ export default function PackagesPage() {
                 {CERAMIC_WARRANTY_TRUST}{" "}
                 <Link
                   href={CERAMIC_WARRANTY_PATH}
-                  className="font-semibold text-royal transition-colors hover:text-chrome"
+                  className="font-semibold text-royal-light transition-colors hover:text-chrome"
                 >
                   See warranty details
                 </Link>
@@ -396,7 +396,7 @@ export default function PackagesPage() {
 
               <Link
                 href={`/services/${ceramicCoating.slug}`}
-                className="mt-5 inline-flex items-center gap-1.5 text-xs font-semibold text-muted transition-colors hover:text-royal"
+                className="mt-5 inline-flex items-center gap-1.5 text-xs font-semibold text-muted transition-colors hover:text-royal-light"
               >
                 Learn more about {ceramicCoating.name}
                 <span aria-hidden="true">→</span>
@@ -418,7 +418,7 @@ export default function PackagesPage() {
                 loading="lazy"
                 quality={85}
                 sizes="(min-width: 1024px) 560px, 100vw"
-                className="object-cover object-[center_62%] motion-safe:transition-transform motion-safe:duration-700 motion-safe:ease-out motion-safe:group-hover:scale-105"
+                className="object-cover object-[center_62%] motion-safe:transition-transform motion-safe:duration-700 motion-safe:ease-out motion-safe:group-motion-safe:hover:scale-105"
               />
               {/* Lighter than the tier cards' scrim: this photo is the proof,
                   so the right half stays clear. */}
@@ -448,7 +448,7 @@ export default function PackagesPage() {
 
               <Link
                 href="/services#add-ons"
-                className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-royal transition-colors hover:text-chrome"
+                className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-royal-light transition-colors hover:text-chrome"
               >
                 See what each add-on does
                 <span aria-hidden="true">→</span>

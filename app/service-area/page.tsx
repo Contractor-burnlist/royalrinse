@@ -74,7 +74,7 @@ export default function ServiceAreaPage() {
                       {city.name}
                       <span
                         aria-hidden="true"
-                        className="text-royal opacity-0 transition-opacity group-hover:opacity-100"
+                        className="text-royal-light opacity-0 transition-opacity group-hover:opacity-100"
                       >
                         →
                       </span>
@@ -87,7 +87,7 @@ export default function ServiceAreaPage() {
         </div>
 
         <p className="mt-14 flex items-center gap-2 text-sm text-muted">
-          <Icon name="check" className="h-4 w-4 shrink-0 text-royal" />
+          <Icon name="check" className="h-4 w-4 shrink-0 text-royal-light" />
           Don&rsquo;t see your city? Give us a call. If you&rsquo;re nearby, we can
           usually get to you.
         </p>

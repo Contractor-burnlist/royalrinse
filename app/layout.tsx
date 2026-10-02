@@ -63,8 +63,17 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
         />
+        {/* First focusable element on every page. Hidden until focused. */}
+        <a
+          href="#main"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[200] focus:rounded-xl focus:bg-royal focus:px-5 focus:py-3 focus:text-sm focus:font-semibold focus:text-ink focus:shadow-glow"
+        >
+          Skip to main content
+        </a>
         <Header />
-        <main className="flex-1">{children}</main>
+        <main id="main" tabIndex={-1} className="flex-1">
+          {children}
+        </main>
         <Footer />
 
         {/* One floating call/book CTA for the whole site. Fades in past the

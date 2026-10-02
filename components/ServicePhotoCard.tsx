@@ -25,7 +25,7 @@ export function ServicePhotoCard({
   return (
     <Link
       href={href}
-      className={`group relative flex min-h-[22rem] flex-col justify-end overflow-hidden rounded-2xl border shadow-card transition-all duration-500 hover:-translate-y-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-royal focus-visible:ring-offset-2 focus-visible:ring-offset-base ${
+      className={`group relative flex min-h-[22rem] flex-col justify-end overflow-hidden rounded-2xl border shadow-card transition-all duration-500 motion-safe:hover:-translate-y-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-royal-light focus-visible:ring-offset-2 focus-visible:ring-offset-base ${
         featured ? "border-royal/50 shadow-glow" : "border-hairline hover:border-royal/50"
       }`}
     >
@@ -39,7 +39,7 @@ export function ServicePhotoCard({
         // Matches the real card width (~346px in a 3-col grid), not the
         // viewport — so the browser fetches a small file and nothing upscales.
         sizes="(max-width: 640px) 92vw, (max-width: 1024px) 45vw, 24vw"
-        className="object-cover transition-transform duration-700 ease-out motion-safe:group-hover:scale-110"
+        className="object-cover transition-transform duration-700 ease-out motion-safe:group-motion-safe:hover:scale-110"
       />
 
       {/* Readability scrim — deepens on hover. */}
@@ -49,7 +49,7 @@ export function ServicePhotoCard({
       />
 
       <div className="relative p-6">
-        <span className="flex h-11 w-11 items-center justify-center rounded-xl border border-hairline bg-base/60 text-royal backdrop-blur-sm">
+        <span className="flex h-11 w-11 items-center justify-center rounded-xl border border-hairline bg-base/60 text-royal-light backdrop-blur-sm">
           <Icon name={icon} className="h-5 w-5" />
         </span>
 
@@ -58,11 +58,11 @@ export function ServicePhotoCard({
         </h3>
         <p className="mt-2 text-sm leading-relaxed text-chrome">{tagline}</p>
 
-        <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-royal transition-colors group-hover:text-ink">
+        <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-royal-light transition-colors group-hover:text-ink">
           Learn more
           <span
             aria-hidden="true"
-            className="transition-transform duration-300 group-hover:translate-x-1"
+            className="transition-transform duration-300 motion-safe:group-hover:translate-x-1"
           >
             →
           </span>
