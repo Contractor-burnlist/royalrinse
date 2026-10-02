@@ -94,7 +94,7 @@ function TierCard({ tier, rank }: { tier: (typeof tiers)[number]; rank: number }
 
   const article = (
     <article
-      className={`group relative overflow-hidden surface-machined rounded-xl shadow-card motion-safe:transition-transform motion-safe:duration-300 motion-safe:hover:-translate-y-0.5 ${
+      className={`group relative overflow-hidden rounded-xl bg-surface shadow-card motion-safe:transition-transform motion-safe:duration-300 motion-safe:hover:-translate-y-0.5 ${
         isTop ? "" : "edge-chrome"
       }`}
     >
@@ -124,7 +124,7 @@ function TierCard({ tier, rank }: { tier: (typeof tiers)[number]; rank: number }
         <div className="flex flex-wrap items-center justify-between gap-4">
           <TierRank rank={rank} />
           {isTop ? (
-            <span className="inline-flex rounded-full bg-accent px-3 py-1 text-xs font-semibold uppercase tracking-[0.12em] text-white">
+            <span className="inline-flex rounded-full bg-accent px-3 py-1 text-xs font-semibold uppercase tracking-[0.12em] text-canvas">
               Most Complete
             </span>
           ) : null}
@@ -199,7 +199,7 @@ function TierCard({ tier, rank }: { tier: (typeof tiers)[number]; rank: number }
   return (
     <div className="relative overflow-hidden rounded-[calc(0.75rem+1.5px)] p-[1.5px] shadow-glow">
       <div aria-hidden="true" className="absolute inset-0">
-        <div className="absolute left-1/2 top-1/2 aspect-square w-[200%] -translate-x-1/2 -translate-y-1/2 bg-[conic-gradient(from_0deg,transparent_0deg,rgba(15,42,128,0.75)_55deg,transparent_130deg,transparent_230deg,rgba(20,21,22,0.5)_300deg,transparent_360deg)] motion-safe:animate-spin [animation-duration:9s]" />
+        <div className="absolute left-1/2 top-1/2 aspect-square w-[200%] -translate-x-1/2 -translate-y-1/2 bg-[conic-gradient(from_0deg,transparent_0deg,rgba(233,237,242,0.8)_55deg,transparent_130deg,transparent_230deg,rgba(201,206,214,0.5)_300deg,transparent_360deg)] motion-safe:animate-spin [animation-duration:9s]" />
       </div>
       <div className="relative">{article}</div>
     </div>
@@ -341,7 +341,7 @@ export default function PackagesPage() {
       {/* Ceramic coating — its own section with a glossy photo. */}
       <Section className="!pt-0">
         <Reveal>
-          <div className="group relative overflow-hidden rounded-xl surface-machined edge-chrome shadow-card">
+          <div className="group relative overflow-hidden rounded-xl bg-surface edge-chrome shadow-card">
             <div className="relative h-44 w-full overflow-hidden sm:h-52 lg:absolute lg:inset-y-0 lg:right-0 lg:h-auto lg:w-1/2">
               <Image
                 src={packageImage(ceramicCoating.slug).src}
@@ -409,7 +409,7 @@ export default function PackagesPage() {
       {/* Add-ons — same card treatment as ceramic, with an engine-bay photo. */}
       <Section className="!pt-0">
         <Reveal>
-          <div className="group relative overflow-hidden rounded-xl surface-machined edge-chrome shadow-card">
+          <div className="group relative overflow-hidden rounded-xl bg-surface edge-chrome shadow-card">
             <div className="relative h-44 w-full overflow-hidden sm:h-52 lg:absolute lg:inset-y-0 lg:right-0 lg:h-auto lg:w-1/2">
               <Image
                 src={packagesAddOnsPhoto.src}

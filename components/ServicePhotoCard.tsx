@@ -42,11 +42,11 @@ export function ServicePhotoCard({
         className="object-cover transition-transform duration-700 ease-out motion-safe:group-motion-safe:hover:scale-110"
       />
 
-      {/* Readability wash: solid page colour under the copy (bottom 40%), so the
-          dark text never sits on the photo itself; the photo shows clear above. */}
+      {/* Readability scrim: near-solid gunmetal under the copy, fading out so the
+          photo shows clear above it. */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 bg-gradient-to-t from-canvas from-40% via-canvas/90 via-60% to-canvas/10"
+        className="absolute inset-0 bg-gradient-to-t from-canvas from-25% via-canvas/85 via-55% to-canvas/10"
       />
 
       <div className="relative p-6">

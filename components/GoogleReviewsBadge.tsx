@@ -11,7 +11,7 @@ export function GoldStars({
 }) {
   return (
     <span
-      className="inline-flex gap-0.5 text-amber-800"
+      className="inline-flex gap-0.5 text-amber-400"
       role="img"
       aria-label={label}
     >

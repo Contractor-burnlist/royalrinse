@@ -39,13 +39,13 @@ const config: Config = {
         gunmetal: "rgb(var(--c-gunmetal) / <alpha-value>)",
         accent: "rgb(var(--c-accent) / <alpha-value>)",
         royal: {
-          DEFAULT: "#1A44C2",
-          hover: "#15389F",
+          DEFAULT: "#1D4ED8",
+          hover: "#2158E0",
         },
         chrome: "rgb(var(--c-chrome) / <alpha-value>)",
         ink: "rgb(var(--c-ink) / <alpha-value>)",
         muted: "rgb(var(--c-muted) / <alpha-value>)",
-        hairline: "rgb(var(--c-line) / 0.22)",
+        hairline: "rgb(var(--c-line) / 0.14)",
       },
       fontFamily: {
         display: ["var(--font-display)", "system-ui", "sans-serif"],
@@ -55,10 +55,10 @@ const config: Config = {
         xl: "0.875rem",
       },
       boxShadow: {
-        // A plate resting on the sheet: lit top lip, tight contact shadow,
-        // then a soft wide one. Light theme, so the shadows are gentle.
-        card: "inset 0 1px 0 rgba(255,255,255,0.7), inset 0 -1px 0 rgba(0,0,0,0.12), 0 1px 1px rgba(0,0,0,0.14), 0 6px 14px -6px rgba(0,0,0,0.22), 0 22px 40px -24px rgba(0,0,0,0.3)",
-        glow: "0 8px 30px -8px rgba(26, 68, 194, 0.45)",
+        // A glossy plate above the page: bright top lip, tight contact shadow,
+        // then a soft wide one.
+        card: "inset 0 1px 0 rgba(255,255,255,0.26), inset 0 -1px 0 rgba(0,0,0,0.4), 0 1px 1px rgba(0,0,0,0.35), 0 8px 16px -6px rgba(0,0,0,0.45), 0 24px 44px -24px rgba(0,0,0,0.7)",
+        glow: "0 8px 30px -8px rgba(29, 78, 216, 0.5)",
       },
       maxWidth: {
         container: "72rem",

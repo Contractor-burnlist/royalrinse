@@ -44,7 +44,7 @@ function StarRow({ rating }: { rating: number }) {
           viewBox="0 0 20 20"
           fill="currentColor"
           aria-hidden="true"
-          className={`h-4 w-4 ${i < clamped ? "text-amber-800" : "text-chrome/25"}`}
+          className={`h-4 w-4 ${i < clamped ? "text-amber-400" : "text-chrome/25"}`}
         >
           <path d="M10 1.5l2.6 5.3 5.9.9-4.2 4.1 1 5.8-5.3-2.8-5.3 2.8 1-5.8L1.5 7.7l5.9-.9L10 1.5Z" />
         </svg>
