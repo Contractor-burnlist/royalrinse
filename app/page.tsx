@@ -65,10 +65,7 @@ export const metadata: Metadata = buildMetadata({
   path: "/",
 });
 
-const trustChips = [
-  "Licensed, Insured & Bonded",
-  "Mobile: We Come To You",
-];
+const trustChips = ["Licensed, Insured & Bonded", "Mobile: We Come To You"];
 
 // `detail` renders as a smaller muted line beneath the label: used to surface
 // the DLSE licence number itself, not just the claim of being licensed.
@@ -117,7 +114,9 @@ const homeServices = [
  */
 const homeGalleryShots: GalleryImage[] = [
   ...featureVehicles
-    .map((vehicle) => vehicle.exterior.find((image) => !isNearDuplicate(image.src)))
+    .map((vehicle) =>
+      vehicle.exterior.find((image) => !isNearDuplicate(image.src)),
+    )
     .filter((image): image is GalleryImage => Boolean(image))
     .slice(0, 4),
   ...exteriorGallery.slice(0, 2),
@@ -128,7 +127,8 @@ const homeGalleryShots: GalleryImage[] = [
  * at different photos the moment new vehicles were added ahead of them.
  */
 const photo = (file: string): GalleryImage =>
-  allGalleryImages.find((image) => image.src.endsWith(file)) ?? allGalleryImages[0];
+  allGalleryImages.find((image) => image.src.endsWith(file)) ??
+  allGalleryImages[0];
 
 /** Full-bleed interstitial: wheel and paint close-up. */
 const showroomBandImage = photo("vehicle-2-ext-3.jpg");
@@ -174,7 +174,8 @@ const exoticThumbs: GalleryImage[] = [
 ]
   .map((file) => allGalleryImages.find((image) => image.src.endsWith(file)))
   .filter(
-    (image): image is GalleryImage => Boolean(image) && image?.category === "Exotic",
+    (image): image is GalleryImage =>
+      Boolean(image) && image?.category === "Exotic",
   );
 
 /** Related reading for the specialization section. Missing posts are skipped. */
@@ -203,7 +204,10 @@ const latestPosts = sortedPosts.slice(0, 3);
  * The homepage shows the FAQs minus two that repeat other answers here (home
  * base and how to book). The full list lives on /faq.
  */
-const HOME_FAQ_SKIP = new Set(["Are you located in Menifee?", "How do I book?"]);
+const HOME_FAQ_SKIP = new Set([
+  "Are you located in Menifee?",
+  "How do I book?",
+]);
 const homeFaqs = faqs.filter((faq) => !HOME_FAQ_SKIP.has(faq.question));
 
 /** FAQPage structured data for exactly the questions rendered on this page. */
@@ -217,13 +221,35 @@ const homeFaqSchema = {
   })),
 };
 
-/** The slightly lighter band that alternates with the base background. */
-function Band({ children }: { children: React.ReactNode }) {
-  return <div className="rule-chrome-y bg-charcoal">{children}</div>;
+/**
+ * The slightly lighter band that alternates with the base background.
+ * `slant` cuts its top and bottom edges on a diagonal that echoes the metal
+ * sweep. Used on two bands only, so the page is not a stack of rectangles
+ * but the effect stays an accent.
+ */
+function Band({
+  children,
+  slant = false,
+}: {
+  children: React.ReactNode;
+  slant?: boolean;
+}) {
+  return (
+    <div
+      className={slant ? "band-slant bg-charcoal" : "rule-chrome-y bg-charcoal"}
+    >
+      {children}
+    </div>
+  );
+}
+
+/** A full-bleed bar of polished steel between major sections. Decorative. */
+function MetalDivider() {
+  return <div aria-hidden="true" className="metal-bar h-3 sm:h-4" />;
 }
 
 const textLink =
-  "inline-flex items-center gap-1.5 text-sm font-semibold text-royal-light transition-colors hover:text-chrome";
+  "inline-flex items-center gap-1.5 text-sm font-semibold text-chrome-bright transition-colors hover:text-ink";
 
 function Hero() {
   return (
@@ -234,8 +260,7 @@ function Hero() {
       {/* No forced <br> on mobile: it overflows narrow viewports. */}
       <h1 className="mt-4 font-display text-4xl font-bold leading-[1.02] tracking-tight text-metal drop-shadow-[0_2px_24px_rgba(0,0,0,0.6)] sm:text-6xl sm:leading-[0.98]">
         A showroom finish,
-        <br className="hidden sm:inline" />{" "}
-        in your driveway.
+        <br className="hidden sm:inline" /> in your driveway.
       </h1>
 
       <p className="mx-auto mt-4 max-w-xl text-lg text-chrome sm:text-xl">
@@ -243,15 +268,16 @@ function Hero() {
       </p>
 
       <div className="mt-7 flex flex-col justify-center gap-3 sm:flex-row">
-        <ButtonAnchor href={telHref}>
-          Call {site.phone}
-        </ButtonAnchor>
+        <ButtonAnchor href={telHref}>Call {site.phone}</ButtonAnchor>
         <BookNowButton variant="secondary" />
       </div>
 
       <ul className="mt-7 flex flex-wrap items-center justify-center gap-x-7 gap-y-3">
         {trustChips.map((chip) => (
-          <li key={chip} className="flex items-center gap-2 text-sm text-chrome">
+          <li
+            key={chip}
+            className="flex items-center gap-2 text-sm text-chrome"
+          >
             <Icon name="check" className="h-4 w-4 text-chrome" />
             {chip}
           </li>
@@ -271,7 +297,7 @@ function Hero() {
 
 function TrustBar() {
   return (
-    <div className="surface-brushed rule-chrome-b">
+    <div className="metal-strong metal-dim metal-edge-b">
       <Container>
         <div className="py-6">
           <ul className="grid grid-cols-2 items-start gap-x-4 gap-y-5 sm:grid-cols-3 lg:grid-cols-5">
@@ -280,7 +306,10 @@ function TrustBar() {
                 key={badge.label}
                 className="flex items-start justify-center gap-2 text-center"
               >
-                <Icon name="shield" className="mt-0.5 h-4 w-4 shrink-0 text-chrome" />
+                <Icon
+                  name="shield"
+                  className="mt-0.5 h-4 w-4 shrink-0 text-chrome"
+                />
                 <span className="min-w-0">
                   <span className="text-metal block text-sm font-semibold">
                     {badge.label}
@@ -302,7 +331,7 @@ function TrustBar() {
                 href={GOOGLE_REVIEWS_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex items-start gap-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-royal-light focus-visible:ring-offset-2 focus-visible:ring-offset-charcoal"
+                className="group flex items-start gap-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-chrome-bright focus-visible:ring-offset-2 focus-visible:ring-offset-charcoal"
               >
                 <GoogleMark className="mt-0.5 h-4 w-4 shrink-0" />
                 <span className="min-w-0">
@@ -332,7 +361,7 @@ function TrustBar() {
 
 function VehiclesStrip() {
   return (
-    <div className="surface-brushed rule-chrome-b">
+    <div className="rule-chrome-b">
       <Container>
         <p className="flex flex-wrap items-center justify-center gap-x-3 gap-y-2 py-5 text-center text-sm text-muted">
           <span className="font-semibold uppercase tracking-[0.18em] text-chrome">
@@ -354,7 +383,7 @@ function VehiclesStrip() {
 
 function ComeToYou() {
   return (
-    <Section className="!py-20 sm:!py-24">
+    <Section className="!py-16 sm:!py-20">
       <div className="grid items-center gap-12 lg:grid-cols-[22rem_minmax(0,1fr)] lg:gap-16">
         <Reveal className="mx-auto w-full max-w-[22rem] lg:mx-0">
           <div className="relative aspect-[3/4] overflow-hidden rounded-2xl edge-chrome shadow-2xl">
@@ -380,8 +409,14 @@ function ComeToYou() {
 
           <ul className="mt-8 space-y-3">
             {mobilePoints.map((point) => (
-              <li key={point} className="flex gap-3 text-sm leading-relaxed text-chrome">
-                <Icon name="check" className="mt-0.5 h-4 w-4 shrink-0 text-chrome" />
+              <li
+                key={point}
+                className="flex gap-3 text-sm leading-relaxed text-chrome"
+              >
+                <Icon
+                  name="check"
+                  className="mt-0.5 h-4 w-4 shrink-0 text-chrome"
+                />
                 {point}
               </li>
             ))}
@@ -406,8 +441,8 @@ function ComeToYou() {
 
 function Services() {
   return (
-    <Band>
-      <Section className="!py-20 sm:!py-24">
+    <Band slant>
+      <Section className="!py-24 sm:!py-28">
         <Reveal>
           <SectionHeading
             eyebrow="What we do"
@@ -438,20 +473,23 @@ function Services() {
 
         <p className="mt-6 text-sm text-muted">
           Also offering{" "}
-          <Link href="/services#add-ons" className="font-semibold text-royal-light hover:text-chrome">
+          <Link
+            href="/services#add-ons"
+            className="font-semibold text-chrome-bright hover:text-ink"
+          >
             add-ons
           </Link>
           ,{" "}
           <Link
             href="/services/maintenance-plans"
-            className="font-semibold text-royal-light hover:text-chrome"
+            className="font-semibold text-chrome-bright hover:text-ink"
           >
             maintenance plans
           </Link>
           , and{" "}
           <Link
             href="/services/rv-detailing"
-            className="font-semibold text-royal-light hover:text-chrome"
+            className="font-semibold text-chrome-bright hover:text-ink"
           >
             RV detailing
           </Link>
@@ -464,7 +502,7 @@ function Services() {
 
 function CeramicFeature() {
   return (
-    <Section className="!py-20 sm:!py-24">
+    <Section className="!pb-14 !pt-24 sm:!pb-16 sm:!pt-32">
       <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
         <Reveal>
           <Eyebrow>Our flagship service</Eyebrow>
@@ -482,7 +520,10 @@ function CeramicFeature() {
                 key={level.name}
                 className="flex gap-3 rounded-xl border border-hairline bg-surface px-4 py-3 text-sm font-medium text-chrome"
               >
-                <Icon name="shield" className="mt-0.5 h-4 w-4 shrink-0 text-chrome" />
+                <Icon
+                  name="shield"
+                  className="mt-0.5 h-4 w-4 shrink-0 text-chrome"
+                />
                 {level.name}
               </li>
             ))}
@@ -493,7 +534,7 @@ function CeramicFeature() {
             {CERAMIC_WARRANTY_TRUST}{" "}
             <Link
               href={CERAMIC_WARRANTY_PATH}
-              className="font-semibold text-royal-light transition-colors hover:text-chrome"
+              className="font-semibold text-chrome-bright transition-colors hover:text-ink"
             >
               See warranty details
             </Link>
@@ -530,23 +571,17 @@ function CeramicFeature() {
 
 function Specialization() {
   return (
-    <Band>
-      <Section className="!py-20 sm:!py-24">
-        <Reveal>
-          <SectionHeading
-            eyebrow="Luxury, exotic and classic"
-            title="Cars that need a different approach"
-            intro="We regularly care for Porsche, Ferrari, Corvette, Mercedes, Tesla and classic collector cars. Single stage paint, delicate trim, and irreplaceable interiors get a different approach."
-          />
-        </Reveal>
-
-        <ul className="mt-12 grid grid-cols-2 gap-4 lg:grid-cols-4">
+    // Mirror of the ceramic section above it: photos left, copy right, and a
+    // tight top so the two read as one zig-zag rather than two stacked blocks.
+    <Section className="!pb-20 !pt-0 sm:!pb-28">
+      <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
+        <ul className="order-2 grid grid-cols-2 gap-4 lg:order-1">
           {exoticThumbs.map((image, i) => (
-            <li key={image.src}>
+            <li key={image.src} className={i % 2 === 1 ? "lg:mt-10" : ""}>
               <Reveal delay={i * 80}>
                 <Link
                   href="/gallery"
-                  className="group relative block aspect-[3/4] overflow-hidden rounded-xl edge-chrome shadow-card focus:outline-none focus-visible:ring-2 focus-visible:ring-royal-light focus-visible:ring-offset-2 focus-visible:ring-offset-charcoal"
+                  className="group relative block aspect-[3/4] overflow-hidden rounded-xl edge-chrome shadow-card focus:outline-none focus-visible:ring-2 focus-visible:ring-chrome-bright focus-visible:ring-offset-2 focus-visible:ring-offset-base"
                 >
                   <Image
                     src={image.src}
@@ -554,9 +589,9 @@ function Specialization() {
                     fill
                     loading="lazy"
                     quality={85}
-                    // 4-up in the 72rem container is 260px; 2-up below lg.
+                    // 2-up in half the 72rem container on lg, 2-up below.
                     sizes="(min-width: 1152px) 260px, (min-width: 1024px) 23vw, 46vw"
-                    className="object-cover transition-transform duration-700 ease-out motion-safe:group-motion-safe:hover:scale-105"
+                    className="object-cover transition-transform duration-700 ease-out motion-safe:group-hover:scale-105"
                   />
                 </Link>
               </Reveal>
@@ -564,73 +599,110 @@ function Specialization() {
           ))}
         </ul>
 
-        <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-4">
-          <ButtonLink href="/gallery" variant="secondary">
-            See the full gallery
-          </ButtonLink>
-          {specialtyPosts.map((post) => (
-            <Link key={post.slug} href={`/blog/${post.slug}`} className={textLink}>
-              {post.slug.startsWith("classic")
-                ? "How we care for classics"
-                : "Detailing luxury and exotic cars"}
-              <span aria-hidden="true">→</span>
-            </Link>
-          ))}
-        </div>
-      </Section>
-    </Band>
+        <Reveal className="order-1 lg:order-2">
+          <SectionHeading
+            eyebrow="Luxury, exotic and classic"
+            title="Cars that need a different approach"
+            intro="We regularly care for Porsche, Ferrari, Corvette, Mercedes, Tesla and classic collector cars. Single stage paint, delicate trim, and irreplaceable interiors get a different approach."
+          />
+
+          <div className="mt-8 flex flex-col items-start gap-4">
+            <ButtonLink href="/gallery" variant="secondary">
+              See the full gallery
+            </ButtonLink>
+            {specialtyPosts.map((post) => (
+              <Link
+                key={post.slug}
+                href={`/blog/${post.slug}`}
+                className={textLink}
+              >
+                {post.slug.startsWith("classic")
+                  ? "How we care for classics"
+                  : "Detailing luxury and exotic cars"}
+                <span aria-hidden="true">→</span>
+              </Link>
+            ))}
+          </div>
+        </Reveal>
+      </div>
+    </Section>
   );
 }
 
 function HowItWorks() {
   return (
-    <Section className="!py-20 sm:!py-24">
-      <Reveal>
-        <SectionHeading eyebrow="How it works" title="Three steps. Zero hassle." />
-      </Reveal>
+    // Asymmetric: the heading holds the narrow left column while the steps
+    // run down the wide right one, divided by chrome rules instead of boxed
+    // into three equal cards.
+    <Section className="!py-20 sm:!py-28">
+      <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] lg:gap-20">
+        <Reveal>
+          <SectionHeading
+            eyebrow="How it works"
+            title="Three steps. Zero hassle."
+          />
+        </Reveal>
 
-      <ol className="mt-12 grid gap-6 md:grid-cols-3">
-        {steps.map((step, i) => (
-          <Reveal as="li" key={step.number} delay={i * 80}>
-            <Card className="h-full">
-              <span className="text-metal font-display text-3xl font-bold">
+        <ol>
+          {steps.map((step, i) => (
+            <Reveal
+              as="li"
+              key={step.number}
+              delay={i * 80}
+              className="rule-chrome-t grid grid-cols-[4.5rem_minmax(0,1fr)] gap-x-4 py-8 first:pt-0 first:before:hidden sm:grid-cols-[6.5rem_minmax(0,1fr)]"
+            >
+              <span className="text-metal font-display text-4xl font-bold sm:text-5xl">
                 {step.number}
               </span>
-              <h3 className="mt-4 font-display text-lg font-bold text-ink">{step.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-muted">{step.description}</p>
-            </Card>
-          </Reveal>
-        ))}
-      </ol>
+              <div>
+                <h3 className="font-display text-xl font-bold text-ink">
+                  {step.title}
+                </h3>
+                <p className="mt-2 max-w-xl text-base leading-relaxed text-muted">
+                  {step.description}
+                </p>
+              </div>
+            </Reveal>
+          ))}
+        </ol>
+      </div>
     </Section>
   );
 }
 
 function WhyRoyalRinse() {
   return (
-    <Band>
+    // Reverse of How It Works: cards take the wide left, heading the narrow
+    // right. The band itself is cut on the diagonal.
+    <Band slant>
       <Section className="!py-20 sm:!py-24">
-        <Reveal>
-          <SectionHeading
-            eyebrow="Why Royal Rinse"
-            title="The care a car deserves, without the errand"
-          />
-        </Reveal>
+        <div className="grid gap-12 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)] lg:gap-16">
+          <div className="order-2 grid gap-6 sm:grid-cols-2 lg:order-1">
+            {valueProps.map((prop, i) => (
+              <Reveal key={prop.title} delay={(i % 2) * 80}>
+                <Card className="flex h-full gap-4">
+                  <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-chrome/10 text-chrome">
+                    <Icon name="check" className="h-4 w-4" />
+                  </span>
+                  <div>
+                    <h3 className="font-display text-base font-bold text-ink">
+                      {prop.title}
+                    </h3>
+                    <p className="mt-1.5 text-sm leading-relaxed text-muted">
+                      {prop.description}
+                    </p>
+                  </div>
+                </Card>
+              </Reveal>
+            ))}
+          </div>
 
-        <div className="mt-12 grid gap-6 sm:grid-cols-2">
-          {valueProps.map((prop, i) => (
-            <Reveal key={prop.title} delay={(i % 2) * 80}>
-              <Card className="flex h-full gap-4">
-                <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-chrome/10 text-chrome">
-                  <Icon name="check" className="h-4 w-4" />
-                </span>
-                <div>
-                  <h3 className="font-display text-base font-bold text-ink">{prop.title}</h3>
-                  <p className="mt-1.5 text-sm leading-relaxed text-muted">{prop.description}</p>
-                </div>
-              </Card>
-            </Reveal>
-          ))}
+          <Reveal className="order-1 lg:order-2 lg:pt-2">
+            <SectionHeading
+              eyebrow="Why Royal Rinse"
+              title="The care a car deserves, without the errand"
+            />
+          </Reveal>
         </div>
       </Section>
     </Band>
@@ -685,9 +757,13 @@ function AddOnsShowcase() {
           <ul className="grid gap-x-8 gap-y-5 sm:grid-cols-2">
             {textAddOns.map((addOn) => (
               <li key={addOn.name} className="flex gap-3">
-                <Icon name="check" className="mt-1 h-4 w-4 shrink-0 text-chrome" />
+                <Icon
+                  name="check"
+                  className="mt-1 h-4 w-4 shrink-0 text-chrome"
+                />
                 <p className="text-sm leading-relaxed text-muted">
-                  <span className="font-semibold text-ink">{addOn.name}</span>: {addOn.desc}
+                  <span className="font-semibold text-ink">{addOn.name}</span>:{" "}
+                  {addOn.desc}
                 </p>
               </li>
             ))}
@@ -705,8 +781,7 @@ function AddOnsShowcase() {
 
 function Gallery() {
   return (
-    <Band>
-    <Section className="!py-20 sm:!py-24">
+    <Section className="!py-16 sm:!py-20">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <SectionHeading
           eyebrow="Gallery"
@@ -715,7 +790,7 @@ function Gallery() {
         />
         <Link
           href="/gallery"
-          className="inline-flex items-center gap-1.5 text-sm font-semibold text-royal-light transition-colors hover:text-chrome"
+          className="inline-flex items-center gap-1.5 text-sm font-semibold text-chrome-bright transition-colors hover:text-ink"
         >
           View full gallery
           <span aria-hidden="true">→</span>
@@ -731,98 +806,99 @@ function Gallery() {
         sizes="(max-width: 1023px) 50vw, 33vw"
       />
     </Section>
-    </Band>
   );
 }
 
 function Testimonials() {
   return (
-    <Section className="!py-20 sm:!py-24">
-      <Reveal className="max-w-2xl">
-        <Eyebrow>Reviews</Eyebrow>
-        <h2 className="mt-4 font-display text-4xl font-bold leading-[1.05] tracking-tight text-metal sm:text-5xl">
-          Loved on Google
-        </h2>
-        <GoogleRatingSummary className="mt-5" />
-        <p className="mt-4 text-base leading-relaxed text-muted">
-          {REVIEW_COUNT_DISPLAY} five-star reviews from real customers. Here
-          are a few of our favorites. Read them all on our verified Google
-          Business Profile.
-        </p>
-      </Reveal>
-
-      <div className="mt-12 grid gap-6 md:grid-cols-3">
-        {featuredReviews.map((review, i) => (
-          <Reveal key={review.name} delay={i * 80}>
-            <ReviewCard review={review} />
-          </Reveal>
-        ))}
-      </div>
-
-      <div className="mt-10 flex justify-center">
-        <GoogleReviewsLink variant="button">See all reviews on Google</GoogleReviewsLink>
-      </div>
-    </Section>
-  );
-}
-
-function ServiceAreaTeaser() {
-  return (
     <Band>
-      <Section className="!py-20 sm:!py-24">
-        <SectionHeading
-          eyebrow="Service area"
-          title="Based in Menifee, we come to you"
-          intro="Rooted in Menifee, we're quickest across Menifee, Temecula, and Murrieta, and we cover all of Riverside & San Diego County. Don't see your neighborhood? Just ask."
-        />
+      <Section className="!py-24 sm:!py-28">
+        <Reveal className="max-w-2xl">
+          <Eyebrow>Reviews</Eyebrow>
+          <h2 className="mt-4 font-display text-4xl font-bold leading-[1.05] tracking-tight text-metal sm:text-5xl">
+            Loved on Google
+          </h2>
+          <GoogleRatingSummary className="mt-5" />
+          <p className="mt-4 text-base leading-relaxed text-muted">
+            {REVIEW_COUNT_DISPLAY} five-star reviews from real customers. Here
+            are a few of our favorites. Read them all on our verified Google
+            Business Profile.
+          </p>
+        </Reveal>
 
-        {/* Priority markets, called out prominently ahead of the full list. */}
-        <div className="mt-8 flex flex-wrap gap-3">
-          <Link
-            href="/service-area/menifee"
-            className="inline-flex items-center gap-1.5 rounded-xl border border-royal/50 bg-royal/10 px-4 py-2.5 text-sm font-semibold text-ink transition-colors hover:border-royal hover:bg-royal/20"
-          >
-            Detailing in Menifee
-            <span aria-hidden="true">→</span>
-          </Link>
-          <Link
-            href="/service-area/temecula"
-            className="inline-flex items-center gap-1.5 rounded-xl border border-royal/50 bg-royal/10 px-4 py-2.5 text-sm font-semibold text-ink transition-colors hover:border-royal hover:bg-royal/20"
-          >
-            Detailing in Temecula
-            <span aria-hidden="true">→</span>
-          </Link>
+        <div className="mt-12 grid gap-6 md:grid-cols-3">
+          {featuredReviews.map((review, i) => (
+            <Reveal key={review.name} delay={i * 80}>
+              <ReviewCard review={review} />
+            </Reveal>
+          ))}
         </div>
 
-        <ul className="mt-6 flex flex-wrap gap-3">
-          {featuredCities.map((city) => (
-            <li key={city.slug}>
-              <Link
-                href={`/service-area/${city.slug}`}
-                className="inline-flex rounded-xl border border-hairline bg-surface px-4 py-2 text-sm font-medium text-chrome transition-colors hover:border-royal hover:text-ink"
-              >
-                {city.name}
-              </Link>
-            </li>
-          ))}
-          <li>
-            <Link
-              href="/service-area"
-              className="inline-flex rounded-xl border border-hairline bg-surface px-4 py-2 text-sm font-semibold text-royal-light transition-colors hover:border-royal hover:text-ink"
-            >
-              View all<span className="sr-only"> service areas</span>{" "}
-              <span aria-hidden="true">→</span>
-            </Link>
-          </li>
-        </ul>
+        <div className="mt-10 flex justify-center">
+          <GoogleReviewsLink variant="button">
+            See all reviews on Google
+          </GoogleReviewsLink>
+        </div>
       </Section>
     </Band>
   );
 }
 
+function ServiceAreaTeaser() {
+  return (
+    <Section className="!py-16 sm:!py-20">
+      <SectionHeading
+        eyebrow="Service area"
+        title="Based in Menifee, we come to you"
+        intro="Rooted in Menifee, we're quickest across Menifee, Temecula, and Murrieta, and we cover all of Riverside & San Diego County. Don't see your neighborhood? Just ask."
+      />
+
+      {/* Priority markets, called out prominently ahead of the full list. */}
+      <div className="mt-8 flex flex-wrap gap-3">
+        <Link
+          href="/service-area/menifee"
+          className="inline-flex items-center gap-1.5 btn-metal rounded-xl px-4 py-2.5 text-sm font-semibold text-ink"
+        >
+          Detailing in Menifee
+          <span aria-hidden="true">→</span>
+        </Link>
+        <Link
+          href="/service-area/temecula"
+          className="inline-flex items-center gap-1.5 btn-metal rounded-xl px-4 py-2.5 text-sm font-semibold text-ink"
+        >
+          Detailing in Temecula
+          <span aria-hidden="true">→</span>
+        </Link>
+      </div>
+
+      <ul className="mt-6 flex flex-wrap gap-3">
+        {featuredCities.map((city) => (
+          <li key={city.slug}>
+            <Link
+              href={`/service-area/${city.slug}`}
+              className="inline-flex rounded-xl border border-hairline bg-surface px-4 py-2 text-sm font-medium text-chrome transition-colors hover:border-chrome/50 hover:text-ink"
+            >
+              {city.name}
+            </Link>
+          </li>
+        ))}
+        <li>
+          <Link
+            href="/service-area"
+            className="inline-flex rounded-xl border border-hairline bg-surface px-4 py-2 text-sm font-semibold text-chrome-bright transition-colors hover:border-chrome/50 hover:text-ink"
+          >
+            View all<span className="sr-only"> service areas</span>{" "}
+            <span aria-hidden="true">→</span>
+          </Link>
+        </li>
+      </ul>
+    </Section>
+  );
+}
+
 function MaintenancePlans() {
   return (
-    <Section className="!py-20 sm:!py-24">
+    <Section className="!py-24 sm:!py-32">
       <div className="grid items-start gap-12 lg:grid-cols-2 lg:gap-16">
         <Reveal>
           <SectionHeading
@@ -831,7 +907,10 @@ function MaintenancePlans() {
             intro={maintenancePlan.intro}
           />
 
-          <ul className="mt-8 flex flex-wrap gap-3" aria-label="Available schedules">
+          <ul
+            className="mt-8 flex flex-wrap gap-3"
+            aria-label="Available schedules"
+          >
             {planSchedules.map((schedule) => (
               <li
                 key={schedule}
@@ -843,9 +922,7 @@ function MaintenancePlans() {
           </ul>
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <ButtonAnchor href={telHref}>
-              Call {site.phone}
-            </ButtonAnchor>
+            <ButtonAnchor href={telHref}>Call {site.phone}</ButtonAnchor>
             <BookNowButton variant="secondary" />
           </div>
 
@@ -865,15 +942,21 @@ function MaintenancePlans() {
             </h3>
             <ul className="mt-5 space-y-3">
               {maintenancePlan.includes.map((item) => (
-                <li key={item} className="flex gap-3 text-sm leading-relaxed text-muted">
-                  <Icon name="check" className="mt-0.5 h-4 w-4 shrink-0 text-chrome" />
+                <li
+                  key={item}
+                  className="flex gap-3 text-sm leading-relaxed text-muted"
+                >
+                  <Icon
+                    name="check"
+                    className="mt-0.5 h-4 w-4 shrink-0 text-chrome"
+                  />
                   {item}
                 </li>
               ))}
             </ul>
             <p className="mt-6 border-t border-hairline pt-5 text-sm leading-relaxed text-chrome">
-              {maintenancePlan.tagline} Quoted per vehicle, on the schedule
-              that suits how you drive.
+              {maintenancePlan.tagline} Quoted per vehicle, on the schedule that
+              suits how you drive.
             </p>
           </Card>
         </Reveal>
@@ -921,77 +1004,72 @@ function FromTheBlog() {
  */
 function HomeFaq() {
   return (
-    <Section className="!py-20 sm:!py-24">
-      <Reveal>
-        <SectionHeading
-          eyebrow="Good to know"
-          title="Common questions"
-          intro="Quick answers about how mobile detailing with Royal Rinse works."
-        />
-      </Reveal>
+    <Section className="!py-20 sm:!py-28">
+      <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] lg:gap-20">
+        <Reveal>
+          <SectionHeading
+            eyebrow="Good to know"
+            title="Common questions"
+            intro="Quick answers about how mobile detailing with Royal Rinse works."
+          />
+          <Link href="/faq" className={`mt-8 ${textLink}`}>
+            See all FAQs
+            <span aria-hidden="true">→</span>
+          </Link>
+        </Reveal>
 
-      <Reveal delay={80}>
-        <div className="mt-12 max-w-3xl divide-y divide-hairline border-y border-hairline">
-          {homeFaqs.map((faq) => (
-            <details key={faq.question} className="group">
-              <summary className="flex cursor-pointer list-none items-center justify-between gap-6 py-5 font-display text-base font-bold text-ink transition-colors hover:text-chrome focus:outline-none focus-visible:ring-2 focus-visible:ring-royal-light sm:text-lg [&::-webkit-details-marker]:hidden">
-                {faq.question}
-                <span
-                  aria-hidden="true"
-                  className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full btn-metal text-chrome motion-safe:transition-transform motion-safe:duration-300 group-open:rotate-45"
-                >
-                  +
-                </span>
-              </summary>
-              <p className="pb-6 pr-12 text-sm leading-relaxed text-muted sm:text-base">
-                {faq.answer}
-              </p>
-            </details>
-          ))}
-        </div>
-      </Reveal>
-
-      <Link href="/faq" className={`mt-10 ${textLink}`}>
-        See all FAQs
-        <span aria-hidden="true">→</span>
-      </Link>
+        <Reveal delay={80}>
+          <div className="divide-y divide-hairline border-y border-hairline">
+            {homeFaqs.map((faq) => (
+              <details key={faq.question} className="group">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-6 py-5 font-display text-base font-bold text-ink transition-colors hover:text-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-chrome-bright sm:text-lg [&::-webkit-details-marker]:hidden">
+                  {faq.question}
+                  <span
+                    aria-hidden="true"
+                    className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full btn-metal text-chrome motion-safe:transition-transform motion-safe:duration-300 group-open:rotate-45"
+                  >
+                    +
+                  </span>
+                </summary>
+                <p className="pb-6 pr-12 text-sm leading-relaxed text-muted sm:text-base">
+                  {faq.answer}
+                </p>
+              </details>
+            ))}
+          </div>
+        </Reveal>
+      </div>
     </Section>
   );
 }
 
 function FinalCta() {
   return (
-    <Section className="!pt-0">
-      <Reveal>
-        <div className="relative overflow-hidden rounded-xl surface-machined edge-chrome px-6 py-16 text-center shadow-card sm:px-12">
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute -bottom-24 left-1/2 h-64 w-[36rem] -translate-x-1/2 rounded-full bg-royal/25 blur-3xl"
-          />
-          <div className="relative">
-            <h2 className="font-display text-3xl font-bold tracking-tight text-ink sm:text-4xl">
-              Ready for a showroom finish?
-            </h2>
-            <p className="mx-auto mt-4 max-w-xl text-base text-muted">
-              Book online in under a minute, or call or text and we&rsquo;ll find
-              a time that works.
-            </p>
-            <p className="mx-auto mt-6 max-w-md text-sm font-semibold text-chrome">
-              Same-week appointments available. Reserve yours before they fill.
-            </p>
-            <div className="mt-5 flex flex-col justify-center gap-3 sm:flex-row">
-              <ButtonAnchor href={telHref}>
-                Call {site.phone}
-              </ButtonAnchor>
-              <ButtonAnchor href={smsHref} variant="secondary">
-                Text us
-              </ButtonAnchor>
-              <BookNowButton variant="secondary" />
-            </div>
+    // Full-bleed steel band rather than a contained card: the page ends on
+    // the widest metal surface on it.
+    <section className="metal-strong metal-dim metal-edge-t">
+      <Container className="py-20 text-center sm:py-28">
+        <Reveal>
+          <h2 className="text-metal font-display text-4xl font-bold tracking-tight sm:text-5xl">
+            Ready for a showroom finish?
+          </h2>
+          <p className="mx-auto mt-4 max-w-xl text-base text-chrome">
+            Book online in under a minute, or call or text and we&rsquo;ll find
+            a time that works.
+          </p>
+          <p className="mx-auto mt-6 max-w-md text-sm font-semibold text-ink">
+            Same-week appointments available. Reserve yours before they fill.
+          </p>
+          <div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row">
+            <ButtonAnchor href={telHref}>Call {site.phone}</ButtonAnchor>
+            <ButtonAnchor href={smsHref} variant="secondary">
+              Text us
+            </ButtonAnchor>
+            <BookNowButton variant="secondary" />
           </div>
-        </div>
-      </Reveal>
-    </Section>
+        </Reveal>
+      </Container>
+    </section>
   );
 }
 
@@ -1010,6 +1088,7 @@ export default function Home() {
       <Services />
       <CeramicFeature />
       <Specialization />
+      <MetalDivider />
       <HowItWorks />
       <WhyRoyalRinse />
       <AddOnsShowcase />
@@ -1023,6 +1102,7 @@ export default function Home() {
       <Gallery />
       <Testimonials />
       <ServiceAreaTeaser />
+      <MetalDivider />
       <MaintenancePlans />
       <FromTheBlog />
       <HomeFaq />

@@ -25,7 +25,7 @@ export function ServicePhotoCard({
   return (
     <Link
       href={href}
-      className={`group relative flex min-h-[22rem] flex-col justify-end overflow-hidden edge-chrome rounded-2xl shadow-card transition-transform duration-300 motion-safe:hover:-translate-y-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-royal-light focus-visible:ring-offset-2 focus-visible:ring-offset-base ${
+      className={`group relative flex min-h-[22rem] flex-col justify-end overflow-hidden edge-chrome rounded-2xl shadow-card transition-transform duration-300 motion-safe:hover:-translate-y-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-chrome-bright focus-visible:ring-offset-2 focus-visible:ring-offset-base ${
         featured ? "edge-chrome-bright" : ""
       }`}
     >
@@ -58,7 +58,7 @@ export function ServicePhotoCard({
         </h3>
         <p className="mt-2 text-sm leading-relaxed text-chrome">{tagline}</p>
 
-        <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-royal-light transition-colors group-hover:text-ink">
+        <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-chrome-bright transition-colors group-hover:text-ink">
           Learn more
           <span
             aria-hidden="true"

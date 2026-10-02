@@ -42,7 +42,7 @@ function DirectoryCard({
       <Link
         href={href}
         aria-label={`Learn more about ${name}`}
-        className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-royal-light transition-colors hover:text-chrome"
+        className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-chrome-bright transition-colors hover:text-ink"
       >
         Learn more
         <span aria-hidden="true">→</span>
@@ -62,7 +62,7 @@ const tierIcons: Record<string, string> = {
 export default function ServicesPage() {
   return (
     <>
-      <div className="surface-brushed rule-chrome-b">
+      <div className="metal-strong metal-edge-b">
         <Container className="py-16 sm:py-20">
           <Eyebrow>Services</Eyebrow>
           <h1 className="mt-3 font-display text-4xl font-bold tracking-tight text-metal sm:text-5xl">
@@ -161,7 +161,7 @@ export default function ServicesPage() {
               <Link
                 href={`/services/${service.slug}`}
                 aria-label={`Learn more about ${service.name}`}
-                className="inline-flex shrink-0 items-center gap-1.5 text-sm font-semibold text-royal-light transition-colors hover:text-chrome"
+                className="inline-flex shrink-0 items-center gap-1.5 text-sm font-semibold text-chrome-bright transition-colors hover:text-ink"
               >
                 Learn more
                 <span aria-hidden="true">→</span>

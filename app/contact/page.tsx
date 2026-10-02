@@ -55,7 +55,7 @@ const details: { icon: string; label: string; value: string; href?: string; aria
 export default function ContactPage() {
   return (
     <>
-      <div className="surface-brushed rule-chrome-b">
+      <div className="metal-strong metal-edge-b">
         <Container className="py-16 sm:py-20">
           <Eyebrow>Contact</Eyebrow>
           <h1 className="mt-3 font-display text-4xl font-bold tracking-tight text-metal sm:text-5xl">
@@ -87,7 +87,7 @@ export default function ContactPage() {
                           <a
                             href={row.href}
                             aria-label={row.aria}
-                            className="font-semibold text-ink transition-colors hover:text-royal-light"
+                            className="font-semibold text-ink transition-colors hover:text-chrome-bright"
                           >
                             {row.value}
                           </a>
@@ -115,7 +115,7 @@ export default function ContactPage() {
 
             <p className="mt-6 text-sm text-muted">
               Prefer to read first? See our{" "}
-              <Link href="/faq" className="font-semibold text-royal-light hover:text-chrome">
+              <Link href="/faq" className="font-semibold text-chrome-bright hover:text-ink">
                 FAQ
               </Link>{" "}
               or{" "}
@@ -123,7 +123,7 @@ export default function ContactPage() {
                 href={GOOGLE_REVIEWS_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-semibold text-royal-light hover:text-chrome"
+                className="font-semibold text-chrome-bright hover:text-ink"
               >
                 reviews on Google
                 <span className="sr-only"> (opens Google in a new tab)</span>

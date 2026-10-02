@@ -41,7 +41,7 @@ function Inline({ text }: { text: string }) {
             <Link
               key={index}
               href={link[2]}
-              className="font-medium text-royal-light underline decoration-royal/40 underline-offset-2 transition-colors hover:text-chrome hover:decoration-chrome/60"
+              className="font-medium text-chrome-bright underline decoration-chrome/50 underline-offset-2 transition-colors hover:text-ink hover:decoration-chrome/60"
             >
               {link[1]}
             </Link>
@@ -95,7 +95,7 @@ export function BlogBody({ blocks }: { blocks: BlogBlock[] }) {
                   <li key={itemIndex} className="flex gap-3">
                     <span
                       aria-hidden="true"
-                      className="mt-[0.6em] h-1.5 w-1.5 shrink-0 rounded-full bg-royal"
+                      className="mt-[0.6em] h-1.5 w-1.5 shrink-0 rounded-full bg-chrome"
                     />
                     <span>
                       <Inline text={item} />
@@ -146,7 +146,7 @@ export function BlogBody({ blocks }: { blocks: BlogBlock[] }) {
             return (
               <p
                 key={index}
-                className="mt-8 rounded-xl border border-hairline border-l-2 border-l-royal bg-surface px-5 py-4 text-base font-medium leading-relaxed text-chrome"
+                className="mt-8 rounded-xl border border-hairline border-l-2 border-l-chrome bg-surface px-5 py-4 text-base font-medium leading-relaxed text-chrome"
               >
                 <Inline text={block.text} />
               </p>

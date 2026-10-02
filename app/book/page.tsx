@@ -24,7 +24,7 @@ export const metadata: Metadata = buildMetadata({
 export default function BookPage() {
   return (
     <>
-      <div className="surface-brushed rule-chrome-b">
+      <div className="metal-strong metal-edge-b">
         <Container className="py-16 sm:py-20">
           <Eyebrow>Book online</Eyebrow>
           <h1 className="mt-3 font-display text-4xl font-bold tracking-tight text-metal sm:text-5xl">
@@ -64,7 +64,7 @@ export default function BookPage() {
             <a
               href={telHref}
               aria-label={PHONE_ARIA}
-              className="font-semibold text-royal-light transition-colors hover:text-chrome"
+              className="font-semibold text-chrome-bright transition-colors hover:text-ink"
             >
               {site.phone}
             </a>
@@ -73,7 +73,7 @@ export default function BookPage() {
               href={HCP_BOOKING_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="font-semibold text-royal-light transition-colors hover:text-chrome"
+              className="font-semibold text-chrome-bright transition-colors hover:text-ink"
             >
               Book in a new window
               <span aria-hidden="true"> ↗</span>

@@ -100,7 +100,7 @@ function TrustLine({ className = "" }: { className?: string }) {
       {items.map((item, index) => (
         <span key={item} className="flex items-center gap-2">
           {index > 0 ? (
-            <span aria-hidden="true" className="text-royal-light">
+            <span aria-hidden="true" className="text-chrome-bright">
               ·
             </span>
           ) : null}
@@ -121,7 +121,7 @@ function ServicesGrid({ intro, cityName }: { intro: string; cityName: string }) 
         {intro} See the full lineup on our{" "}
         <Link
           href="/packages"
-          className="font-semibold text-royal-light transition-colors hover:text-chrome"
+          className="font-semibold text-chrome-bright transition-colors hover:text-ink"
         >
           packages page
         </Link>
@@ -142,7 +142,7 @@ function ServicesGrid({ intro, cityName }: { intro: string; cityName: string }) 
             </p>
             <Link
               href={`/services/${service.slug}`}
-              className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-royal-light transition-colors hover:text-chrome"
+              className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-chrome-bright transition-colors hover:text-ink"
             >
               Learn more
               <span aria-hidden="true">→</span>
@@ -154,14 +154,14 @@ function ServicesGrid({ intro, cityName }: { intro: string; cityName: string }) 
       <div className="mt-10 flex flex-wrap gap-4">
         <Link
           href="/services"
-          className="inline-flex items-center gap-1.5 text-sm font-semibold text-royal-light transition-colors hover:text-chrome"
+          className="inline-flex items-center gap-1.5 text-sm font-semibold text-chrome-bright transition-colors hover:text-ink"
         >
           All services
           <span aria-hidden="true">→</span>
         </Link>
         <Link
           href="/packages"
-          className="inline-flex items-center gap-1.5 text-sm font-semibold text-royal-light transition-colors hover:text-chrome"
+          className="inline-flex items-center gap-1.5 text-sm font-semibold text-chrome-bright transition-colors hover:text-ink"
         >
           Compare packages
           <span aria-hidden="true">→</span>
@@ -175,10 +175,10 @@ function ServicesGrid({ intro, cityName }: { intro: string; cityName: string }) 
 function CityCta({ ctaLine }: { ctaLine: string }) {
   return (
     <Section>
-      <div className="relative overflow-hidden rounded-xl surface-machined edge-chrome px-6 py-14 text-center shadow-card sm:px-12">
+      <div className="relative overflow-hidden rounded-xl metal-strong metal-dim metal-edge-t edge-chrome px-6 py-14 text-center shadow-card sm:px-12">
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute -bottom-24 left-1/2 h-64 w-[36rem] -translate-x-1/2 rounded-full bg-royal/25 blur-3xl"
+          className="pointer-events-none absolute -bottom-24 left-1/2 h-64 w-[36rem] -translate-x-1/2 rounded-full bg-chrome/5 blur-3xl"
         />
         <div className="relative">
           <h2 className="font-display text-2xl font-bold tracking-tight text-ink sm:text-3xl">
@@ -226,7 +226,7 @@ function UniqueCityPage({ city, page }: { city: City; page: CityPage }) {
               <TrustLine className="mt-6" />
               <Link
                 href="/service-area"
-                className="mt-8 inline-flex items-center gap-1.5 text-sm font-semibold text-royal-light transition-colors hover:text-chrome"
+                className="mt-8 inline-flex items-center gap-1.5 text-sm font-semibold text-chrome-bright transition-colors hover:text-ink"
               >
                 <span aria-hidden="true">←</span>
                 All service areas
@@ -301,7 +301,7 @@ function TemplatedCityPage({ city }: { city: City }) {
           <TrustLine className="mt-6" />
           <Link
             href="/service-area"
-            className="mt-8 inline-flex items-center gap-1.5 text-sm font-semibold text-royal-light transition-colors hover:text-chrome"
+            className="mt-8 inline-flex items-center gap-1.5 text-sm font-semibold text-chrome-bright transition-colors hover:text-ink"
           >
             <span aria-hidden="true">←</span>
             All service areas

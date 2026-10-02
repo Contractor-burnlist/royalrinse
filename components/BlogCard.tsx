@@ -14,7 +14,7 @@ export function BlogCard({
   return (
     <Link
       href={`/blog/${post.slug}`}
-      className="group flex h-full flex-col overflow-hidden sheen edge-chrome surface-machined rounded-xl shadow-card transition-transform duration-300 motion-safe:hover:-translate-y-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-royal-light focus-visible:ring-offset-2 focus-visible:ring-offset-base"
+      className="group flex h-full flex-col overflow-hidden sheen edge-chrome metal-soft rounded-xl transition-transform duration-300 motion-safe:hover:-translate-y-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-chrome-bright focus-visible:ring-offset-2 focus-visible:ring-offset-base"
     >
       {post.coverImage ? (
         <div className="relative aspect-[3/2] overflow-hidden border-b border-hairline">
@@ -38,7 +38,7 @@ export function BlogCard({
           <span>{readingMinutes(post)} min read</span>
         </p>
 
-        <Heading className="mt-3 font-display text-xl font-bold leading-snug tracking-tight text-ink transition-colors group-hover:text-royal-light">
+        <Heading className="mt-3 font-display text-xl font-bold leading-snug tracking-tight text-ink transition-colors group-hover:text-chrome-bright">
           {post.title}
         </Heading>
 
@@ -46,7 +46,7 @@ export function BlogCard({
           {post.excerpt}
         </p>
 
-        <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-royal-light transition-colors group-hover:text-ink">
+        <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-chrome-bright transition-colors group-hover:text-ink">
           Read article
           <span
             aria-hidden="true"

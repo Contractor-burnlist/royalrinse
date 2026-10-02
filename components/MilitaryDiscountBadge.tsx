@@ -38,9 +38,9 @@ export function MilitaryDiscountBadge({
   if (size === "sm") {
     return (
       <span
-        className={`inline-flex items-center justify-center gap-2 rounded-xl border border-royal/40 bg-royal/10 px-3 py-1.5 text-center text-sm font-semibold text-ink transition-colors hover:border-royal/70 ${className}`}
+        className={`inline-flex items-center justify-center gap-2 edge-chrome rounded-xl bg-base/70 px-3 py-1.5 text-center text-sm font-semibold text-ink ${className}`}
       >
-        <ChevronBadge className="h-4 w-4 shrink-0 text-royal-light" />
+        <ChevronBadge className="h-4 w-4 shrink-0 text-chrome-bright" />
         10% Military Discount
       </span>
     );
@@ -48,7 +48,7 @@ export function MilitaryDiscountBadge({
 
   return (
     <div
-      className={`inline-flex items-center gap-3.5 rounded-xl border border-royal/40 bg-royal/10 px-4 py-3 ${className}`}
+      className={`inline-flex items-center gap-3.5 edge-chrome rounded-xl bg-base/70 px-4 py-3 ${className}`}
     >
       <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-chrome/10 text-chrome">
         <ChevronBadge className="h-5 w-5" />

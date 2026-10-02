@@ -60,7 +60,7 @@ const storyImage =
 
 function Hero() {
   return (
-    <div className="surface-brushed rule-chrome-b">
+    <div className="metal-strong metal-edge-b">
       <Container className="py-16 sm:py-20">
         <Eyebrow>About</Eyebrow>
         <h1 className="mt-3 font-display text-4xl font-bold tracking-tight text-metal sm:text-5xl">
@@ -221,10 +221,10 @@ function OurStandard() {
 function AboutCta() {
   return (
     <Section className="!pt-0">
-      <div className="relative overflow-hidden rounded-2xl surface-machined edge-chrome px-6 py-16 text-center shadow-card sm:px-12">
+      <div className="relative overflow-hidden rounded-2xl metal-strong metal-dim metal-edge-t edge-chrome px-6 py-16 text-center shadow-card sm:px-12">
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute -bottom-24 left-1/2 h-64 w-[36rem] -translate-x-1/2 rounded-full bg-royal/25 blur-3xl"
+          className="pointer-events-none absolute -bottom-24 left-1/2 h-64 w-[36rem] -translate-x-1/2 rounded-full bg-chrome/5 blur-3xl"
         />
         <div className="relative">
           <h2 className="font-display text-3xl font-bold tracking-tight text-ink sm:text-4xl">
@@ -245,7 +245,7 @@ function AboutCta() {
             Serving Riverside &amp; San Diego County,{" "}
             <Link
               href="/service-area"
-              className="font-semibold text-royal-light transition-colors hover:text-chrome"
+              className="font-semibold text-chrome-bright transition-colors hover:text-ink"
             >
               see if we cover your city
             </Link>

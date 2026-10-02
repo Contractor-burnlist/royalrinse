@@ -38,12 +38,12 @@ const Chevron = ({ className = "" }: { className?: string }) => (
 );
 
 const itemClass =
-  "block rounded-lg px-3 py-2 text-sm text-muted transition-colors hover:bg-charcoal hover:text-ink focus:outline-none focus-visible:bg-charcoal focus-visible:text-ink focus-visible:ring-2 focus-visible:ring-royal-light";
+  "block rounded-lg px-3 py-2 text-sm text-muted transition-colors hover:bg-charcoal hover:text-ink focus:outline-none focus-visible:bg-charcoal focus-visible:text-ink focus-visible:ring-2 focus-visible:ring-chrome-bright";
 
-const footerItemClass = `${itemClass} font-semibold text-royal-light hover:text-ink`;
+const footerItemClass = `${itemClass} font-semibold text-chrome-bright hover:text-ink`;
 
 const sectionLabelClass =
-  "px-3 pb-1 pt-1 text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-royal-light";
+  "px-3 pb-1 pt-1 text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-chrome-bright";
 
 /**
  * Desktop dropdown. Opens on hover for pointer users and on click, Enter, Space
@@ -162,7 +162,7 @@ export function NavDropdown({ config }: { config: NavMenuConfig }) {
           aria-label={`${config.ariaLabel} submenu`}
           onClick={() => setOpen((value) => !value)}
           onKeyDown={onTriggerKeyDown}
-          className="flex h-6 w-6 items-center justify-center rounded-md text-muted transition-colors hover:text-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-royal-light"
+          className="flex h-6 w-6 items-center justify-center rounded-md text-muted transition-colors hover:text-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-chrome-bright"
         >
           <Chevron
             className={`h-3.5 w-3.5 transition-transform duration-200 ${
@@ -186,7 +186,7 @@ export function NavDropdown({ config }: { config: NavMenuConfig }) {
         }`}
       >
         <div
-          className={`${panelWidthClass} edge-chrome surface-machined rounded-2xl p-2 shadow-2xl`}
+          className={`${panelWidthClass} edge-chrome metal-soft rounded-2xl p-2`}
         >
           {config.groups.map((group, groupIndex) => (
             <div key={group.label ?? groupIndex}>
@@ -296,7 +296,7 @@ export function NavDropdownMobile({
           <Link
             href={config.footer.href}
             onClick={onNavigate}
-            className="block rounded-lg px-3 py-2 text-sm font-semibold text-royal-light transition-colors hover:bg-surface hover:text-ink"
+            className="block rounded-lg px-3 py-2 text-sm font-semibold text-chrome-bright transition-colors hover:bg-surface hover:text-ink"
           >
             {config.footer.label}
           </Link>

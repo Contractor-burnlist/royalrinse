@@ -89,7 +89,7 @@ export default function CeramicWarrantyPage() {
       />
 
       {/* Hero */}
-      <div className="surface-brushed rule-chrome-b">
+      <div className="metal-strong metal-edge-b">
         <Container className="py-16 sm:py-20">
           <Eyebrow>Ceramic Coating</Eyebrow>
           <h1 className="mt-3 font-display text-4xl font-bold tracking-tight text-metal sm:text-5xl">
@@ -106,7 +106,7 @@ export default function CeramicWarrantyPage() {
 
           <Link
             href="/services/ceramic-coating"
-            className="mt-8 inline-flex items-center gap-1.5 text-sm font-semibold text-royal-light transition-colors hover:text-chrome"
+            className="mt-8 inline-flex items-center gap-1.5 text-sm font-semibold text-chrome-bright transition-colors hover:text-ink"
           >
             <span aria-hidden="true">←</span>
             Ceramic coating service
@@ -185,14 +185,14 @@ export default function CeramicWarrantyPage() {
             helps you meet manufacturer care requirements. You can add it to any{" "}
             <Link
               href="/packages"
-              className="font-semibold text-royal-light transition-colors hover:text-chrome"
+              className="font-semibold text-chrome-bright transition-colors hover:text-ink"
             >
               detailing package
             </Link>{" "}
             or set up a recurring{" "}
             <Link
               href="/services/maintenance-plans"
-              className="font-semibold text-royal-light transition-colors hover:text-chrome"
+              className="font-semibold text-chrome-bright transition-colors hover:text-ink"
             >
               maintenance plan
             </Link>
@@ -250,10 +250,10 @@ export default function CeramicWarrantyPage() {
 
       {/* CTA band: Call / Book / Text */}
       <Section className="!pt-0">
-        <div className="relative overflow-hidden rounded-xl surface-machined edge-chrome px-6 py-14 text-center shadow-card sm:px-12">
+        <div className="relative overflow-hidden rounded-xl metal-strong metal-dim metal-edge-t edge-chrome px-6 py-14 text-center shadow-card sm:px-12">
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute -bottom-24 left-1/2 h-64 w-[36rem] -translate-x-1/2 rounded-full bg-royal/25 blur-3xl"
+            className="pointer-events-none absolute -bottom-24 left-1/2 h-64 w-[36rem] -translate-x-1/2 rounded-full bg-chrome/5 blur-3xl"
           />
           <div className="relative">
             <h2 className="font-display text-2xl font-bold tracking-tight text-ink sm:text-3xl">

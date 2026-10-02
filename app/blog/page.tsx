@@ -17,7 +17,7 @@ export const metadata: Metadata = buildMetadata({
 export default function BlogIndexPage() {
   return (
     <>
-      <div className="surface-brushed rule-chrome-b">
+      <div className="metal-strong metal-edge-b">
         <Container className="py-16 sm:py-20">
           <Eyebrow>Blog</Eyebrow>
           <h1 className="mt-3 font-display text-4xl font-bold tracking-tight text-metal sm:text-5xl">

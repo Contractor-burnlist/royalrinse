@@ -73,7 +73,7 @@ export default function ServiceDetailPage({ params }: { params: Params }) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
       />
-      <div className="surface-brushed rule-chrome-b">
+      <div className="metal-strong metal-edge-b">
         <Container className="py-16 sm:py-20">
           <Eyebrow>Service</Eyebrow>
           <h1 className="mt-3 font-display text-4xl font-bold tracking-tight text-metal sm:text-5xl">
@@ -86,7 +86,7 @@ export default function ServiceDetailPage({ params }: { params: Params }) {
 
           <Link
             href="/services"
-            className="mt-8 inline-flex items-center gap-1.5 text-sm font-semibold text-royal-light transition-colors hover:text-chrome"
+            className="mt-8 inline-flex items-center gap-1.5 text-sm font-semibold text-chrome-bright transition-colors hover:text-ink"
           >
             <span aria-hidden="true">←</span>
             All services
@@ -161,7 +161,7 @@ export default function ServiceDetailPage({ params }: { params: Params }) {
                 {detail.addOnNote}{" "}
                 <Link
                   href="/services#add-ons"
-                  className="font-semibold text-royal-light transition-colors hover:text-chrome"
+                  className="font-semibold text-chrome-bright transition-colors hover:text-ink"
                 >
                   See all add-ons
                 </Link>
@@ -178,7 +178,7 @@ export default function ServiceDetailPage({ params }: { params: Params }) {
             {CERAMIC_WARRANTY_TRUST}{" "}
             <Link
               href={CERAMIC_WARRANTY_PATH}
-              className="font-semibold text-royal-light transition-colors hover:text-chrome"
+              className="font-semibold text-chrome-bright transition-colors hover:text-ink"
             >
               See warranty details
             </Link>

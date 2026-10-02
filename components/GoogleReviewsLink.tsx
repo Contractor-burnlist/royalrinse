@@ -19,11 +19,11 @@ export function GoogleReviewsLink({
   className?: string;
 }) {
   const base =
-    "inline-flex items-center gap-2 font-semibold transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-royal-light focus-visible:ring-offset-2 focus-visible:ring-offset-base";
+    "inline-flex items-center gap-2 font-semibold transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-chrome-bright focus-visible:ring-offset-2 focus-visible:ring-offset-base";
   const styles =
     variant === "button"
       ? "btn-metal rounded-xl px-5 py-3 text-sm text-ink"
-      : "text-sm text-royal-light hover:text-chrome";
+      : "text-sm text-chrome-bright hover:text-ink";
 
   return (
     <a

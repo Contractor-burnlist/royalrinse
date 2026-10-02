@@ -32,7 +32,7 @@ export default function FaqPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
 
-      <div className="surface-brushed rule-chrome-b">
+      <div className="metal-strong metal-edge-b">
         <Container className="py-16 sm:py-20">
           <Eyebrow>FAQ</Eyebrow>
           <h1 className="mt-3 font-display text-4xl font-bold tracking-tight text-metal sm:text-5xl">
@@ -43,7 +43,7 @@ export default function FaqPage() {
             Riverside &amp; San Diego County. Still have a question?{" "}
             <a
               href={telHref}
-              className="font-semibold text-royal-light transition-colors hover:text-chrome"
+              className="font-semibold text-chrome-bright transition-colors hover:text-ink"
             >
               Call {site.phone}
             </a>
@@ -68,15 +68,15 @@ export default function FaqPage() {
 
         <p className="mx-auto mt-10 max-w-3xl text-sm text-muted">
           Looking for something specific? See our{" "}
-          <Link href="/services" className="font-semibold text-royal-light hover:text-chrome">
+          <Link href="/services" className="font-semibold text-chrome-bright hover:text-ink">
             services
           </Link>
           ,{" "}
-          <Link href="/packages" className="font-semibold text-royal-light hover:text-chrome">
+          <Link href="/packages" className="font-semibold text-chrome-bright hover:text-ink">
             packages
           </Link>
           , or the{" "}
-          <Link href="/service-area" className="font-semibold text-royal-light hover:text-chrome">
+          <Link href="/service-area" className="font-semibold text-chrome-bright hover:text-ink">
             areas we serve
           </Link>
           .

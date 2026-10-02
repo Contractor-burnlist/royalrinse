@@ -24,11 +24,6 @@ const config: Config = {
         royal: {
           DEFAULT: "#1D4ED8",
           hover: "#2563EB",
-          // For TEXT, icons and focus rings on the dark backgrounds. The brand
-          // royal is 2.4:1 to 2.9:1 against them, under the WCAG AA minimums
-          // (4.5:1 text, 3:1 UI); this tint is 6.0:1 or better on all three.
-          // DEFAULT stays the fill colour for buttons and badges.
-          light: "#6B9BFF",
         },
         chrome: "#C9CED6",
         ink: "#F5F7FA",

@@ -73,7 +73,7 @@ export default function BlogPostPage({ params }: { params: Params }) {
       />
 
       <article>
-        <div className="surface-brushed rule-chrome-b">
+        <div className="metal-strong metal-edge-b">
           <Container className="py-16 sm:py-20">
             <Eyebrow>Blog</Eyebrow>
 
@@ -91,7 +91,7 @@ export default function BlogPostPage({ params }: { params: Params }) {
 
             <Link
               href="/blog"
-              className="mt-8 inline-flex items-center gap-1.5 text-sm font-semibold text-royal-light transition-colors hover:text-chrome"
+              className="mt-8 inline-flex items-center gap-1.5 text-sm font-semibold text-chrome-bright transition-colors hover:text-ink"
             >
               <span aria-hidden="true">←</span>
               All articles
@@ -124,10 +124,10 @@ export default function BlogPostPage({ params }: { params: Params }) {
 
       {/* Closing CTA band. */}
       <Section>
-        <div className="relative overflow-hidden rounded-2xl surface-machined edge-chrome px-6 py-14 text-center shadow-card sm:px-12">
+        <div className="relative overflow-hidden rounded-2xl metal-strong metal-dim metal-edge-t edge-chrome px-6 py-14 text-center shadow-card sm:px-12">
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute -bottom-24 left-1/2 h-64 w-[36rem] -translate-x-1/2 rounded-full bg-royal/25 blur-3xl"
+            className="pointer-events-none absolute -bottom-24 left-1/2 h-64 w-[36rem] -translate-x-1/2 rounded-full bg-chrome/5 blur-3xl"
           />
           <div className="relative">
             <h2 className="font-display text-2xl font-bold tracking-tight text-ink sm:text-3xl">
