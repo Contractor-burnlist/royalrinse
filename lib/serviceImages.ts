@@ -113,3 +113,16 @@ const serviceDetailPhotos: Record<string, GalleryImage | undefined> = {
 export function serviceDetailPhoto(slug: string): GalleryImage | undefined {
   return serviceDetailPhotos[slug];
 }
+
+/**
+ * Homepage add-ons showcase: the add-ons that have a photo, keyed by the
+ * add-on's name in lib/services.ts. Anything not listed renders as text.
+ */
+const addOnPhotos: Record<string, GalleryImage | undefined> = {
+  "Engine Bay Cleaning": byFile("engine-bay-1.jpeg"),
+  "Rim Coating": byFile("wheel-detail-2.jpeg"),
+};
+
+export function addOnPhoto(name: string): GalleryImage | undefined {
+  return addOnPhotos[name];
+}

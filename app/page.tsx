@@ -1,12 +1,16 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import {
   GOOGLE_REVIEWS_URL,
   PHONE_ARIA,
+  PHONE_SMS_ARIA,
   REVIEW_COUNT_DISPLAY,
   REVIEW_RATING_DISPLAY,
+  SERVICE_AREA_PRIORITY,
   SERVICE_AREA_SHORT,
   site,
+  smsHref,
   steps,
   telHref,
   valueProps,
@@ -15,7 +19,15 @@ import { buildMetadata } from "@/lib/seo";
 import { faqs } from "@/lib/faq";
 import { featuredReviews } from "@/lib/reviews";
 import { featuredCities } from "@/lib/serviceAreas";
-import { ceramicCoating, tiers } from "@/lib/services";
+import { getPost, sortedPosts } from "@/lib/blog";
+import {
+  addOns,
+  CERAMIC_WARRANTY_PATH,
+  CERAMIC_WARRANTY_TRUST,
+  ceramicCoating,
+  maintenancePlan,
+  tiers,
+} from "@/lib/services";
 import {
   allGalleryImages,
   exteriorGallery,
@@ -23,7 +35,8 @@ import {
   isNearDuplicate,
   type GalleryImage,
 } from "@/lib/gallery";
-import { serviceImage } from "@/lib/serviceImages";
+import { addOnPhoto, serviceImage } from "@/lib/serviceImages";
+import { BlogCard } from "@/components/BlogCard";
 import { BookNowButton } from "@/components/BookNowButton";
 import { GoogleMark } from "@/components/GoogleMark";
 import { GoogleRatingSummary } from "@/components/GoogleRatingSummary";
@@ -38,6 +51,7 @@ import { ReviewCard } from "@/components/ReviewCard";
 import { ServicePhotoCard } from "@/components/ServicePhotoCard";
 import {
   ButtonAnchor,
+  ButtonLink,
   Card,
   Container,
   Eyebrow,
@@ -58,7 +72,7 @@ const trustChips = [
   "Mobile: We Come To You",
 ];
 
-// `detail` renders as a smaller muted line beneath the label — used to surface
+// `detail` renders as a smaller muted line beneath the label: used to surface
 // the DLSE licence number itself, not just the claim of being licensed.
 // Four credentials; the fifth grid slot is the Google-reviews stat (below).
 const trustBadges: { label: string; detail?: string }[] = [
@@ -100,7 +114,7 @@ const homeServices = [
  *
  * Taking one shot per vehicle rather than slicing the flattened list is what
  * keeps the two near-identical Ferrari framings from landing beside each other
- * — flatMap().slice(0, 4) put ferrari-hero and ferrari-hero-2 in adjacent
+ *: flatMap().slice(0, 4) put ferrari-hero and ferrari-hero-2 in adjacent
  * masonry tiles, the same stutter the hero row was fixed for.
  */
 const homeGalleryShots: GalleryImage[] = [
@@ -112,22 +126,106 @@ const homeGalleryShots: GalleryImage[] = [
 ];
 
 /**
- * Full-bleed interstitials, picked BY FILENAME on purpose.
- *
- * These were positional (heroExteriors[3] / [4]) and silently pointed at
- * different photos the moment new vehicles were added ahead of them — the
- * "we come to you" band ended up on a cabin close-up, which does not show a
- * van at all. The van is the whole point of that headline, so the two shots
- * are now named outright and adding photos cannot shift them again.
+ * Photos are picked BY FILENAME on purpose. Positional picks silently pointed
+ * at different photos the moment new vehicles were added ahead of them.
  */
-const bandImage = (file: string): GalleryImage =>
+const photo = (file: string): GalleryImage =>
   allGalleryImages.find((image) => image.src.endsWith(file)) ?? allGalleryImages[0];
 
-const bandImages = {
-  // Royal Rinse van parked behind the car.
-  comeToYou: bandImage("vehicle-2-ext-2.jpg"),
-  showroom: bandImage("vehicle-2-ext-3.jpg"),
+/** Full-bleed interstitial: wheel and paint close-up. */
+const showroomBandImage = photo("vehicle-2-ext-3.jpg");
+
+/**
+ * The customer's car in the driveway with the stocked van open behind it. A
+ * 768px source, so its frame is capped at 352px (704 device pixels on retina).
+ */
+const rigImage = photo("mobile-rig-1.jpeg");
+
+/** 3840px source: sharp at any width the ceramic section gives it. */
+const ceramicImage = photo("ferrari-hero-3.jpeg");
+
+const vehicleTypes = [
+  "Exotics",
+  "Luxury sedans",
+  "Sports cars",
+  "Classics",
+  "Teslas and EVs",
+  "SUVs",
+  "Trucks",
+  "Vans",
+  "RVs",
+];
+
+const mobilePoints = [
+  "Fully self-contained setup: we bring our own water and power",
+  "Deionized water for a spot-free rinse, even in hard-water areas",
+  "Your car never leaves your driveway, at home or at the office",
+  "No drop-off, no shuttle, no waiting room",
+];
+
+/**
+ * Thumbnails for the specialization section. Named so the mix is deliberate
+ * (a Porsche, a Ferrari, the classic coupe, a classic Chevy), then filtered to
+ * the Exotic category so a recategorized photo drops out instead of lingering.
+ */
+const exoticThumbs: GalleryImage[] = [
+  "white-porsche-1.jpeg",
+  "ferrari-hero-2.jpeg",
+  "corvette-c2-2.jpeg",
+  "exterior-1.jpg",
+]
+  .map((file) => allGalleryImages.find((image) => image.src.endsWith(file)))
+  .filter(
+    (image): image is GalleryImage => Boolean(image) && image?.category === "Exotic",
+  );
+
+/** Related reading for the specialization section. Missing posts are skipped. */
+const specialtyPosts = [
+  "luxury-exotic-car-detailing-temecula-menifee",
+  "classic-car-detailing-care",
+]
+  .map((slug) => getPost(slug))
+  .filter((post): post is NonNullable<typeof post> => Boolean(post));
+
+const deionizedPost = getPost("deionized-water-detailing");
+
+/** Add-ons with a photo lead the showcase; the rest follow as a text list. */
+const photoAddOns = addOns.flatMap((addOn) => {
+  const image = addOnPhoto(addOn.name);
+  return image ? [{ ...addOn, image }] : [];
+});
+const textAddOns = addOns.filter((addOn) => !addOnPhoto(addOn.name));
+
+const planSchedules = ["Weekly", "Bi-weekly", "Monthly"];
+
+/** Sorted newest first in lib/blog.ts, so this always tracks the latest three. */
+const latestPosts = sortedPosts.slice(0, 3);
+
+/**
+ * The homepage shows the FAQs minus two that repeat other answers here (home
+ * base and how to book). The full list lives on /faq.
+ */
+const HOME_FAQ_SKIP = new Set(["Are you located in Menifee?", "How do I book?"]);
+const homeFaqs = faqs.filter((faq) => !HOME_FAQ_SKIP.has(faq.question));
+
+/** FAQPage structured data for exactly the questions rendered on this page. */
+const homeFaqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: homeFaqs.map((faq) => ({
+    "@type": "Question",
+    name: faq.question,
+    acceptedAnswer: { "@type": "Answer", text: faq.answer },
+  })),
 };
+
+/** The slightly lighter band that alternates with the base background. */
+function Band({ children }: { children: React.ReactNode }) {
+  return <div className="border-y border-hairline bg-charcoal">{children}</div>;
+}
+
+const textLink =
+  "inline-flex items-center gap-1.5 text-sm font-semibold text-royal transition-colors hover:text-chrome";
 
 function Hero() {
   return (
@@ -135,7 +233,7 @@ function Hero() {
       {/* Centered stack. HeroCarousel already centres and caps this block. */}
       <Eyebrow>{SERVICE_AREA_SHORT}</Eyebrow>
 
-      {/* No forced <br> on mobile — it overflows narrow viewports. */}
+      {/* No forced <br> on mobile: it overflows narrow viewports. */}
       <h1 className="mt-4 font-display text-4xl font-bold leading-[1.02] tracking-tight text-ink drop-shadow-[0_2px_24px_rgba(0,0,0,0.6)] sm:text-6xl sm:leading-[0.98]">
         A showroom finish,
         <br className="hidden sm:inline" />{" "}
@@ -190,7 +288,7 @@ function TrustBar() {
                     {badge.label}
                   </span>
                   {badge.detail ? (
-                    // The credential itself — muted and slightly smaller so it
+                    // The credential itself: muted and slightly smaller so it
                     // reads as detail, not another headline claim.
                     <span className="mt-0.5 block break-words font-mono text-[11px] tracking-tight text-muted">
                       {badge.detail}
@@ -200,7 +298,7 @@ function TrustBar() {
               </li>
             ))}
 
-            {/* Google reviews stat — clickable, gold stars + G, real figures. */}
+            {/* Google reviews stat: clickable, gold stars + G, real figures. */}
             <li className="flex items-start justify-center gap-2 text-center">
               <a
                 href={GOOGLE_REVIEWS_URL}
@@ -223,7 +321,7 @@ function TrustBar() {
             </li>
           </ul>
 
-          {/* Its own row — squeezed into the badge grid it wrapped and crowded
+          {/* Its own row: squeezed into the badge grid it wrapped and crowded
               the other marks. It's an offer, not just another trust mark. */}
           <div className="mt-5 flex justify-center border-t border-hairline pt-5">
             <MilitaryDiscountBadge size="sm" />
@@ -234,102 +332,437 @@ function TrustBar() {
   );
 }
 
+function VehiclesStrip() {
+  return (
+    <div className="border-b border-hairline">
+      <Container>
+        <p className="flex flex-wrap items-center justify-center gap-x-3 gap-y-2 py-5 text-center text-sm text-muted">
+          <span className="font-semibold uppercase tracking-[0.18em] text-chrome">
+            Vehicles we detail
+          </span>
+          {vehicleTypes.map((type) => (
+            <span key={type} className="flex items-center gap-3">
+              <span aria-hidden="true" className="text-royal">
+                ·
+              </span>
+              {type}
+            </span>
+          ))}
+        </p>
+      </Container>
+    </div>
+  );
+}
+
+function ComeToYou() {
+  return (
+    <Section className="!py-20 sm:!py-24">
+      <div className="grid items-center gap-12 lg:grid-cols-[22rem_minmax(0,1fr)] lg:gap-16">
+        <Reveal className="mx-auto w-full max-w-[22rem] lg:mx-0">
+          <div className="relative aspect-[3/4] overflow-hidden rounded-2xl border border-chrome/20 shadow-2xl">
+            <Image
+              src={rigImage.src}
+              alt={rigImage.alt}
+              fill
+              loading="lazy"
+              quality={85}
+              // Fixed 22rem frame on every breakpoint; under the 768px source.
+              sizes="352px"
+              className="object-cover"
+            />
+          </div>
+        </Reveal>
+
+        <Reveal delay={100}>
+          <SectionHeading
+            eyebrow="Mobile detailing"
+            title="We come to you"
+            intro={`Our rig is a complete detail bay on wheels. We pull up, set up, and do the work right where your car is parked. Serving ${SERVICE_AREA_PRIORITY}.`}
+          />
+
+          <ul className="mt-8 space-y-3">
+            {mobilePoints.map((point) => (
+              <li key={point} className="flex gap-3 text-sm leading-relaxed text-chrome">
+                <Icon name="check" className="mt-0.5 h-4 w-4 shrink-0 text-royal" />
+                {point}
+              </li>
+            ))}
+          </ul>
+
+          <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-4">
+            <ButtonLink href="/service-area" variant="secondary">
+              See where we travel
+            </ButtonLink>
+            {deionizedPost ? (
+              <Link href={`/blog/${deionizedPost.slug}`} className={textLink}>
+                Why deionized water matters
+                <span aria-hidden="true">→</span>
+              </Link>
+            ) : null}
+          </div>
+        </Reveal>
+      </div>
+    </Section>
+  );
+}
+
 function Services() {
   return (
-    <Section>
-      <SectionHeading
-        eyebrow="What we do"
-        title="Detailing services, delivered to you"
-        intro="Every service runs off our fully self-contained mobile rig: no shop visit, no drop-off."
-      />
+    <Band>
+      <Section className="!py-20 sm:!py-24">
+        <Reveal>
+          <SectionHeading
+            eyebrow="What we do"
+            title="Detailing services, delivered to you"
+            intro="Every service runs off our fully self-contained mobile rig: no shop visit, no drop-off."
+          />
+        </Reveal>
 
-      <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {homeServices.map((service, i) => (
-          <Reveal key={service.slug} delay={(i % 3) * 80}>
-            <ServicePhotoCard
-              name={service.name}
-              tagline={service.tagline}
-              href={`/services/${service.slug}`}
-              icon={service.icon}
-              image={service.image}
-              featured={service.slug === "diamond"}
+        <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {homeServices.map((service, i) => (
+            <Reveal key={service.slug} delay={(i % 3) * 80}>
+              <ServicePhotoCard
+                name={service.name}
+                tagline={service.tagline}
+                href={`/services/${service.slug}`}
+                icon={service.icon}
+                image={service.image}
+                featured={service.slug === "diamond"}
+              />
+            </Reveal>
+          ))}
+        </div>
+
+        <div className="mt-10 flex flex-col gap-3 sm:flex-row">
+          <ButtonLink href="/packages">Compare all packages</ButtonLink>
+          <BookNowButton variant="secondary" />
+        </div>
+
+        <p className="mt-6 text-sm text-muted">
+          Also offering{" "}
+          <Link href="/services#add-ons" className="font-semibold text-royal hover:text-chrome">
+            add-ons
+          </Link>
+          ,{" "}
+          <Link
+            href="/services/maintenance-plans"
+            className="font-semibold text-royal hover:text-chrome"
+          >
+            maintenance plans
+          </Link>
+          , and{" "}
+          <Link
+            href="/services/rv-detailing"
+            className="font-semibold text-royal hover:text-chrome"
+          >
+            RV detailing
+          </Link>
+          .
+        </p>
+      </Section>
+    </Band>
+  );
+}
+
+function CeramicFeature() {
+  return (
+    <Section className="!py-20 sm:!py-24">
+      <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
+        <Reveal>
+          <Eyebrow>Our flagship service</Eyebrow>
+          <h2 className="mt-4 font-display text-4xl font-bold leading-[1.05] tracking-tight text-ink sm:text-5xl">
+            {ceramicCoating.name}
+          </h2>
+          <p className="mt-4 text-lg text-chrome">{ceramicCoating.tagline}</p>
+          <p className="mt-4 text-base leading-relaxed text-muted">
+            {ceramicCoating.intro}
+          </p>
+
+          <ul className="mt-8 grid gap-3 sm:grid-cols-2">
+            {ceramicCoating.levels.map((level) => (
+              <li
+                key={level.name}
+                className="flex gap-3 rounded-xl border border-hairline bg-surface px-4 py-3 text-sm font-medium text-chrome"
+              >
+                <Icon name="shield" className="mt-0.5 h-4 w-4 shrink-0 text-royal" />
+                {level.name}
+              </li>
+            ))}
+          </ul>
+
+          <p className="mt-6 text-sm leading-relaxed text-chrome">
+            <span className="font-semibold text-ink">Warranty:</span>{" "}
+            {CERAMIC_WARRANTY_TRUST}{" "}
+            <Link
+              href={CERAMIC_WARRANTY_PATH}
+              className="font-semibold text-royal transition-colors hover:text-chrome"
+            >
+              See warranty details
+            </Link>
+          </p>
+
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+            <ButtonLink href={`/services/${ceramicCoating.slug}`}>
+              Explore ceramic coating
+            </ButtonLink>
+            <ButtonAnchor href={telHref} aria-label={PHONE_ARIA} variant="secondary">
+              Call for a coating quote
+            </ButtonAnchor>
+          </div>
+        </Reveal>
+
+        <Reveal delay={100}>
+          <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl border border-chrome/20 shadow-2xl">
+            <Image
+              src={ceramicImage.src}
+              alt={ceramicImage.alt}
+              fill
+              loading="lazy"
+              quality={85}
+              // Half the 72rem container less padding and gutter on lg.
+              sizes="(min-width: 1024px) 512px, 92vw"
+              className="object-cover"
             />
-          </Reveal>
-        ))}
+          </div>
+        </Reveal>
       </div>
-
-      <p className="mt-10 text-sm text-muted">
-        Also offering{" "}
-        <Link href="/services#add-ons" className="font-semibold text-royal hover:text-chrome">
-          add-ons
-        </Link>
-        ,{" "}
-        <Link
-          href="/services/maintenance-plans"
-          className="font-semibold text-royal hover:text-chrome"
-        >
-          maintenance plans
-        </Link>
-        , and{" "}
-        <Link
-          href="/services/rv-detailing"
-          className="font-semibold text-royal hover:text-chrome"
-        >
-          RV detailing
-        </Link>
-        .
-      </p>
     </Section>
+  );
+}
+
+function Specialization() {
+  return (
+    <Band>
+      <Section className="!py-20 sm:!py-24">
+        <Reveal>
+          <SectionHeading
+            eyebrow="Luxury, exotic and classic"
+            title="Cars that need a different approach"
+            intro="We regularly care for Porsche, Ferrari, Corvette, Mercedes, Tesla and classic collector cars. Single stage paint, delicate trim, and irreplaceable interiors get a different approach."
+          />
+        </Reveal>
+
+        <ul className="mt-12 grid grid-cols-2 gap-4 lg:grid-cols-4">
+          {exoticThumbs.map((image, i) => (
+            <li key={image.src}>
+              <Reveal delay={i * 80}>
+                <Link
+                  href="/gallery"
+                  className="group relative block aspect-[3/4] overflow-hidden rounded-xl border border-chrome/20 shadow-card focus:outline-none focus-visible:ring-2 focus-visible:ring-royal focus-visible:ring-offset-2 focus-visible:ring-offset-charcoal"
+                >
+                  <Image
+                    src={image.src}
+                    alt={image.alt}
+                    fill
+                    loading="lazy"
+                    quality={85}
+                    // 4-up in the 72rem container is 260px; 2-up below lg.
+                    sizes="(min-width: 1152px) 260px, (min-width: 1024px) 23vw, 46vw"
+                    className="object-cover transition-transform duration-700 ease-out motion-safe:group-hover:scale-105"
+                  />
+                </Link>
+              </Reveal>
+            </li>
+          ))}
+        </ul>
+
+        <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-4">
+          <ButtonLink href="/gallery" variant="secondary">
+            See the full gallery
+          </ButtonLink>
+          {specialtyPosts.map((post) => (
+            <Link key={post.slug} href={`/blog/${post.slug}`} className={textLink}>
+              {post.slug.startsWith("classic")
+                ? "How we care for classics"
+                : "Detailing luxury and exotic cars"}
+              <span aria-hidden="true">→</span>
+            </Link>
+          ))}
+        </div>
+      </Section>
+    </Band>
   );
 }
 
 function HowItWorks() {
   return (
-    <div className="border-y border-hairline bg-charcoal">
-      <Section className="!py-20 sm:!py-24">
-        <SectionHeading
-          eyebrow="How it works"
-          title="Three steps. Zero hassle."
-        />
+    <Section className="!py-20 sm:!py-24">
+      <Reveal>
+        <SectionHeading eyebrow="How it works" title="Three steps. Zero hassle." />
+      </Reveal>
 
-        <ol className="mt-12 grid gap-6 md:grid-cols-3">
-          {steps.map((step) => (
-            <li key={step.number}>
-              <Card className="h-full">
-                <span className="font-display text-3xl font-bold text-royal">
-                  {step.number}
-                </span>
-                <h3 className="mt-4 font-display text-lg font-bold text-ink">{step.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted">{step.description}</p>
-              </Card>
-            </li>
-          ))}
-        </ol>
-      </Section>
-    </div>
+      <ol className="mt-12 grid gap-6 md:grid-cols-3">
+        {steps.map((step, i) => (
+          <Reveal as="li" key={step.number} delay={i * 80}>
+            <Card className="h-full">
+              <span className="font-display text-3xl font-bold text-royal">
+                {step.number}
+              </span>
+              <h3 className="mt-4 font-display text-lg font-bold text-ink">{step.title}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-muted">{step.description}</p>
+            </Card>
+          </Reveal>
+        ))}
+      </ol>
+    </Section>
   );
 }
 
 function WhyRoyalRinse() {
   return (
-    <Section>
-      <SectionHeading
-        eyebrow="Why Royal Rinse"
-        title="The care a car deserves, without the errand"
-      />
+    <Band>
+      <Section className="!py-20 sm:!py-24">
+        <Reveal>
+          <SectionHeading
+            eyebrow="Why Royal Rinse"
+            title="The care a car deserves, without the errand"
+          />
+        </Reveal>
 
-      <div className="mt-12 grid gap-6 sm:grid-cols-2">
-        {valueProps.map((prop) => (
-          <Card key={prop.title} className="flex gap-4">
-            <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-royal/15 text-royal">
-              <Icon name="check" className="h-4 w-4" />
-            </span>
-            <div>
-              <h3 className="font-display text-base font-bold text-ink">{prop.title}</h3>
-              <p className="mt-1.5 text-sm leading-relaxed text-muted">{prop.description}</p>
-            </div>
-          </Card>
+        <div className="mt-12 grid gap-6 sm:grid-cols-2">
+          {valueProps.map((prop, i) => (
+            <Reveal key={prop.title} delay={(i % 2) * 80}>
+              <Card className="flex h-full gap-4">
+                <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-royal/15 text-royal">
+                  <Icon name="check" className="h-4 w-4" />
+                </span>
+                <div>
+                  <h3 className="font-display text-base font-bold text-ink">{prop.title}</h3>
+                  <p className="mt-1.5 text-sm leading-relaxed text-muted">{prop.description}</p>
+                </div>
+              </Card>
+            </Reveal>
+          ))}
+        </div>
+      </Section>
+    </Band>
+  );
+}
+
+function AddOnsShowcase() {
+  return (
+    <Section className="!py-20 sm:!py-24">
+      <Reveal>
+        <SectionHeading
+          eyebrow="Add-ons"
+          title="Bolt on exactly what your vehicle needs"
+          intro="Any of these can be added to a package, from the engine bay to the wheels."
+        />
+      </Reveal>
+
+      <div className="mt-12 grid gap-10 lg:grid-cols-2 lg:gap-14">
+        {/* The add-ons we have photos of lead, as proof of the work. */}
+        <ul className="grid grid-cols-2 items-start gap-4 sm:gap-6">
+          {photoAddOns.map((addOn, i) => (
+            <li key={addOn.name}>
+              <Reveal delay={i * 80}>
+                <figure className="overflow-hidden rounded-xl border border-hairline bg-surface shadow-card">
+                  <div className="relative aspect-[4/5]">
+                    <Image
+                      src={addOn.image.src}
+                      alt={addOn.image.alt}
+                      fill
+                      loading="lazy"
+                      quality={85}
+                      // Two-up inside half the container on lg, two-up below.
+                      sizes="(min-width: 1024px) 260px, 46vw"
+                      className="object-cover object-[center_65%]"
+                    />
+                  </div>
+                  <figcaption className="p-4">
+                    <h3 className="font-display text-base font-bold text-ink">
+                      {addOn.name}
+                    </h3>
+                    <p className="mt-1.5 text-sm leading-relaxed text-muted">
+                      {addOn.desc}
+                    </p>
+                  </figcaption>
+                </figure>
+              </Reveal>
+            </li>
+          ))}
+        </ul>
+
+        <Reveal delay={120}>
+          <ul className="grid gap-x-8 gap-y-5 sm:grid-cols-2">
+            {textAddOns.map((addOn) => (
+              <li key={addOn.name} className="flex gap-3">
+                <Icon name="check" className="mt-1 h-4 w-4 shrink-0 text-royal" />
+                <p className="text-sm leading-relaxed text-muted">
+                  <span className="font-semibold text-ink">{addOn.name}</span>: {addOn.desc}
+                </p>
+              </li>
+            ))}
+          </ul>
+
+          <Link href="/services" className={`mt-8 ${textLink}`}>
+            See all services and add-ons
+            <span aria-hidden="true">→</span>
+          </Link>
+        </Reveal>
+      </div>
+    </Section>
+  );
+}
+
+function Gallery() {
+  return (
+    <Band>
+    <Section className="!py-20 sm:!py-24">
+      <div className="flex flex-wrap items-end justify-between gap-4">
+        <SectionHeading
+          eyebrow="Gallery"
+          title="Recent work"
+          intro="Real results from real driveways across Riverside and San Diego County."
+        />
+        <Link
+          href="/gallery"
+          className="inline-flex items-center gap-1.5 text-sm font-semibold text-royal transition-colors hover:text-chrome"
+        >
+          View full gallery
+          <span aria-hidden="true">→</span>
+        </Link>
+      </div>
+
+      {/* Masonry, not a forced 4:3 crop: the sources are portrait and a
+          landscape tile threw away ~58% of every frame. */}
+      <LightboxGrid
+        images={homeGalleryShots}
+        variant="masonry"
+        className="mt-14 columns-2 gap-4 lg:columns-3"
+        sizes="(max-width: 1023px) 50vw, 33vw"
+      />
+    </Section>
+    </Band>
+  );
+}
+
+function Testimonials() {
+  return (
+    <Section className="!py-20 sm:!py-24">
+      <Reveal className="max-w-2xl">
+        <Eyebrow>Reviews</Eyebrow>
+        <h2 className="mt-4 font-display text-4xl font-bold leading-[1.05] tracking-tight text-ink sm:text-5xl">
+          Loved on Google
+        </h2>
+        <GoogleRatingSummary className="mt-5" />
+        <p className="mt-4 text-base leading-relaxed text-muted">
+          {REVIEW_COUNT_DISPLAY} five-star reviews from real customers. Here
+          are a few of our favorites. Read them all on our verified Google
+          Business Profile.
+        </p>
+      </Reveal>
+
+      <div className="mt-12 grid gap-6 md:grid-cols-3">
+        {featuredReviews.map((review, i) => (
+          <Reveal key={review.name} delay={i * 80}>
+            <ReviewCard review={review} />
+          </Reveal>
         ))}
+      </div>
+
+      <div className="mt-10 flex justify-center">
+        <GoogleReviewsLink variant="button">See all reviews on Google</GoogleReviewsLink>
       </div>
     </Section>
   );
@@ -337,7 +770,7 @@ function WhyRoyalRinse() {
 
 function ServiceAreaTeaser() {
   return (
-    <div className="border-y border-hairline bg-charcoal">
+    <Band>
       <Section className="!py-20 sm:!py-24">
         <SectionHeading
           eyebrow="Service area"
@@ -384,127 +817,142 @@ function ServiceAreaTeaser() {
           </li>
         </ul>
       </Section>
-    </div>
+    </Band>
   );
 }
 
-function Gallery() {
+function MaintenancePlans() {
   return (
-    <Section>
-      <div className="flex flex-wrap items-end justify-between gap-4">
-        <SectionHeading
-          eyebrow="Gallery"
-          title="Recent work"
-          intro="Real results from real driveways across Riverside and San Diego County."
-        />
-        <Link
-          href="/gallery"
-          className="inline-flex items-center gap-1.5 text-sm font-semibold text-royal transition-colors hover:text-chrome"
-        >
-          View full gallery
-          <span aria-hidden="true">→</span>
-        </Link>
-      </div>
+    <Section className="!py-20 sm:!py-24">
+      <div className="grid items-start gap-12 lg:grid-cols-2 lg:gap-16">
+        <Reveal>
+          <SectionHeading
+            eyebrow={maintenancePlan.name}
+            title="Keep it looking new"
+            intro={maintenancePlan.intro}
+          />
 
-      {/* Masonry, not a forced 4:3 crop — the sources are portrait and a
-          landscape tile threw away ~58% of every frame. */}
-      <LightboxGrid
-        images={homeGalleryShots}
-        variant="masonry"
-        className="mt-14 columns-2 gap-4 lg:columns-3"
-        sizes="(max-width: 1023px) 50vw, 33vw"
-      />
-    </Section>
-  );
-}
+          <ul className="mt-8 flex flex-wrap gap-3" aria-label="Available schedules">
+            {planSchedules.map((schedule) => (
+              <li
+                key={schedule}
+                className="inline-flex rounded-xl border border-royal/50 bg-royal/10 px-4 py-2 text-sm font-semibold text-ink"
+              >
+                {schedule}
+              </li>
+            ))}
+          </ul>
 
-function Testimonials() {
-  return (
-    <div className="border-y border-hairline bg-charcoal">
-      <Section className="!py-20 sm:!py-24">
-        <div className="max-w-2xl">
-          <Eyebrow>Reviews</Eyebrow>
-          <h2 className="mt-4 font-display text-4xl font-bold leading-[1.05] tracking-tight text-ink sm:text-5xl">
-            Loved on Google
-          </h2>
-          <GoogleRatingSummary className="mt-5" />
-          <p className="mt-4 text-base leading-relaxed text-muted">
-            A few of our favorite reviews from real customers, read them all on
-            our verified Google Business Profile.
-          </p>
-        </div>
-
-        <div className="mt-12 grid gap-6 md:grid-cols-3">
-          {featuredReviews.map((review) => (
-            <ReviewCard key={review.name} review={review} />
-          ))}
-        </div>
-
-        <div className="mt-10 flex justify-center">
-          <GoogleReviewsLink variant="button">
-            See all reviews on Google
-          </GoogleReviewsLink>
-        </div>
-      </Section>
-    </div>
-  );
-}
-
-function FinalCta() {
-  return (
-    <Section>
-      <div className="relative overflow-hidden rounded-xl border border-hairline bg-surface px-6 py-16 text-center shadow-card sm:px-12">
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute -bottom-24 left-1/2 h-64 w-[36rem] -translate-x-1/2 rounded-full bg-royal/25 blur-3xl"
-        />
-        <div className="relative">
-          <h2 className="font-display text-3xl font-bold tracking-tight text-ink sm:text-4xl">
-            Ready for a showroom finish?
-          </h2>
-          <p className="mx-auto mt-4 max-w-xl text-base text-muted">
-            Book online in under a minute, or call and we&rsquo;ll find a time that works.
-          </p>
-          <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <ButtonAnchor href={telHref} aria-label={PHONE_ARIA}>
               Call {site.phone}
             </ButtonAnchor>
             <BookNowButton variant="secondary" />
           </div>
-        </div>
+
+          <Link
+            href={`/services/${maintenancePlan.slug}`}
+            className={`mt-6 ${textLink}`}
+          >
+            How maintenance plans work
+            <span aria-hidden="true">→</span>
+          </Link>
+        </Reveal>
+
+        <Reveal delay={100}>
+          <Card>
+            <h3 className="text-xs font-semibold uppercase tracking-[0.18em] text-chrome">
+              Every visit includes
+            </h3>
+            <ul className="mt-5 space-y-3">
+              {maintenancePlan.includes.map((item) => (
+                <li key={item} className="flex gap-3 text-sm leading-relaxed text-muted">
+                  <Icon name="check" className="mt-0.5 h-4 w-4 shrink-0 text-royal" />
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <p className="mt-6 border-t border-hairline pt-5 text-sm leading-relaxed text-chrome">
+              {maintenancePlan.tagline} Quoted per vehicle, on the schedule
+              that suits how you drive.
+            </p>
+          </Card>
+        </Reveal>
       </div>
     </Section>
   );
 }
 
+function FromTheBlog() {
+  if (latestPosts.length === 0) return null;
+
+  return (
+    <Band>
+      <Section className="!py-20 sm:!py-24">
+        <Reveal className="flex flex-wrap items-end justify-between gap-4">
+          <SectionHeading
+            eyebrow="From the blog"
+            title="Detailing, explained"
+            intro="Straight answers on paint, protection, and upkeep for Southern California drivers."
+          />
+          <Link href="/blog" className={textLink}>
+            Read the blog
+            <span aria-hidden="true">→</span>
+          </Link>
+        </Reveal>
+
+        <ul className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          {latestPosts.map((post, i) => (
+            <li key={post.slug}>
+              <Reveal delay={i * 80} className="h-full">
+                <BlogCard post={post} headingAs="h3" />
+              </Reveal>
+            </li>
+          ))}
+        </ul>
+      </Section>
+    </Band>
+  );
+}
+
 /**
- * A few common questions in plain text on the homepage — so the core facts
- * (we come to you, areas served, quote-based pricing, licensing, military
- * discount) are extractable by search and AI answer engines, not just buried in
- * buttons. The full list + FAQPage schema live on /faq.
+ * Accordion built on native details/summary: no client JS, keyboard support
+ * for free, and the answers stay in the HTML for search and answer engines.
+ * The full list lives on /faq.
  */
 function HomeFaq() {
   return (
-    <Section className="!pt-0">
-      <SectionHeading
-        eyebrow="Good to know"
-        title="Common questions"
-        intro="Quick answers about how mobile detailing with Royal Rinse works."
-      />
-      <dl className="mt-12 grid gap-x-12 gap-y-8 lg:grid-cols-2">
-        {faqs.slice(0, 4).map((faq) => (
-          <div key={faq.question}>
-            <dt className="font-display text-base font-bold text-ink">
-              {faq.question}
-            </dt>
-            <dd className="mt-2 text-sm leading-relaxed text-muted">{faq.answer}</dd>
-          </div>
-        ))}
-      </dl>
-      <Link
-        href="/faq"
-        className="mt-10 inline-flex items-center gap-1.5 text-sm font-semibold text-royal transition-colors hover:text-chrome"
-      >
+    <Section className="!py-20 sm:!py-24">
+      <Reveal>
+        <SectionHeading
+          eyebrow="Good to know"
+          title="Common questions"
+          intro="Quick answers about how mobile detailing with Royal Rinse works."
+        />
+      </Reveal>
+
+      <Reveal delay={80}>
+        <div className="mt-12 max-w-3xl divide-y divide-hairline border-y border-hairline">
+          {homeFaqs.map((faq) => (
+            <details key={faq.question} className="group">
+              <summary className="flex cursor-pointer list-none items-center justify-between gap-6 py-5 font-display text-base font-bold text-ink transition-colors hover:text-chrome focus:outline-none focus-visible:ring-2 focus-visible:ring-royal sm:text-lg [&::-webkit-details-marker]:hidden">
+                {faq.question}
+                <span
+                  aria-hidden="true"
+                  className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-hairline text-royal motion-safe:transition-transform motion-safe:duration-300 group-open:rotate-45"
+                >
+                  +
+                </span>
+              </summary>
+              <p className="pb-6 pr-12 text-sm leading-relaxed text-muted sm:text-base">
+                {faq.answer}
+              </p>
+            </details>
+          ))}
+        </div>
+      </Reveal>
+
+      <Link href="/faq" className={`mt-10 ${textLink}`}>
         See all FAQs
         <span aria-hidden="true">→</span>
       </Link>
@@ -512,31 +960,72 @@ function HomeFaq() {
   );
 }
 
+function FinalCta() {
+  return (
+    <Section className="!pt-0">
+      <Reveal>
+        <div className="relative overflow-hidden rounded-xl border border-hairline bg-surface px-6 py-16 text-center shadow-card sm:px-12">
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute -bottom-24 left-1/2 h-64 w-[36rem] -translate-x-1/2 rounded-full bg-royal/25 blur-3xl"
+          />
+          <div className="relative">
+            <h2 className="font-display text-3xl font-bold tracking-tight text-ink sm:text-4xl">
+              Ready for a showroom finish?
+            </h2>
+            <p className="mx-auto mt-4 max-w-xl text-base text-muted">
+              Book online in under a minute, or call or text and we&rsquo;ll find
+              a time that works.
+            </p>
+            <p className="mx-auto mt-6 max-w-md text-sm font-semibold text-chrome">
+              Same-week appointments available. Reserve yours before they fill.
+            </p>
+            <div className="mt-5 flex flex-col justify-center gap-3 sm:flex-row">
+              <ButtonAnchor href={telHref} aria-label={PHONE_ARIA}>
+                Call {site.phone}
+              </ButtonAnchor>
+              <ButtonAnchor href={smsHref} aria-label={PHONE_SMS_ARIA} variant="secondary">
+                Text us
+              </ButtonAnchor>
+              <BookNowButton variant="secondary" />
+            </div>
+          </div>
+        </div>
+      </Reveal>
+    </Section>
+  );
+}
+
 export default function Home() {
   return (
     <>
-      <Hero />
-      <TrustBar />
-      <Services />
-
-      <PhotoBand
-        image={bandImages.comeToYou}
-        headline="We come to you."
-        sub="Our rig carries its own water and power. Your driveway is the shop."
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(homeFaqSchema) }}
       />
 
+      <Hero />
+      <TrustBar />
+      <VehiclesStrip />
+      <ComeToYou />
+      <Services />
+      <CeramicFeature />
+      <Specialization />
       <HowItWorks />
       <WhyRoyalRinse />
+      <AddOnsShowcase />
 
       <PhotoBand
-        image={bandImages.showroom}
+        image={showroomBandImage}
         headline="Showroom finish, every time."
         sub="The finish is in the parts most people skip: every vent, seam, and panel."
       />
 
-      <ServiceAreaTeaser />
       <Gallery />
       <Testimonials />
+      <ServiceAreaTeaser />
+      <MaintenancePlans />
+      <FromTheBlog />
       <HomeFaq />
       <FinalCta />
     </>
