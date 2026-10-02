@@ -85,6 +85,11 @@ export function Footer() {
                   FAQ
                 </Link>
               </li>
+              <li>
+                <Link href="/accessibility" className="transition-colors hover:text-ink">
+                  Accessibility
+                </Link>
+              </li>
             </ul>
           </div>
 
