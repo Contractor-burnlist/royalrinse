@@ -74,7 +74,7 @@ export default function ServiceAreaPage() {
                       {city.name}
                       <span
                         aria-hidden="true"
-                        className="text-chrome-bright opacity-0 transition-opacity group-hover:opacity-100"
+                        className="text-accent opacity-0 transition-opacity group-hover:opacity-100"
                       >
                         →
                       </span>

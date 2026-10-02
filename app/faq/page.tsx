@@ -43,7 +43,7 @@ export default function FaqPage() {
             Riverside &amp; San Diego County. Still have a question?{" "}
             <a
               href={telHref}
-              className="font-semibold text-chrome-bright transition-colors hover:text-ink"
+              className="font-semibold text-accent transition-colors hover:text-ink"
             >
               Call {site.phone}
             </a>
@@ -68,15 +68,15 @@ export default function FaqPage() {
 
         <p className="mx-auto mt-10 max-w-3xl text-sm text-muted">
           Looking for something specific? See our{" "}
-          <Link href="/services" className="font-semibold text-chrome-bright hover:text-ink">
+          <Link href="/services" className="font-semibold text-accent hover:text-ink">
             services
           </Link>
           ,{" "}
-          <Link href="/packages" className="font-semibold text-chrome-bright hover:text-ink">
+          <Link href="/packages" className="font-semibold text-accent hover:text-ink">
             packages
           </Link>
           , or the{" "}
-          <Link href="/service-area" className="font-semibold text-chrome-bright hover:text-ink">
+          <Link href="/service-area" className="font-semibold text-accent hover:text-ink">
             areas we serve
           </Link>
           .

@@ -64,7 +64,7 @@ export default function BookPage() {
             <a
               href={telHref}
               aria-label={PHONE_ARIA}
-              className="font-semibold text-chrome-bright transition-colors hover:text-ink"
+              className="font-semibold text-accent transition-colors hover:text-ink"
             >
               {site.phone}
             </a>
@@ -73,7 +73,7 @@ export default function BookPage() {
               href={HCP_BOOKING_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="font-semibold text-chrome-bright transition-colors hover:text-ink"
+              className="font-semibold text-accent transition-colors hover:text-ink"
             >
               Book in a new window
               <span aria-hidden="true"> ↗</span>

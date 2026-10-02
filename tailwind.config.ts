@@ -13,24 +13,39 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Named `canvas`, not `base`: a colour called `base` makes the font-size
-        // class text-base also set this as the TEXT colour.
-        canvas: "#211E1C",
-        charcoal: "#1A1816",
-        surface: "#3A3531",
-        // Metal tones. Mirrored as CSS variables in app/globals.css, where the
-        // brushed and machined surface classes are built from them.
-        graphite: "#48423D",
-        gunmetal: "#554E48",
-        "chrome-bright": "#EDEAE6",
+        /**
+         * Every theme colour is a CSS variable (RGB triplets in
+         * app/globals.css), so the palette flips in ONE place and a section
+         * can opt back into the dark palette with the `on-dark` class (the
+         * footer and the photo viewer do).
+         *
+         * Names describe the ROLE, not a hue:
+         *   canvas   page base colour (also used for scrims over photos)
+         *   surface  cards and panels
+         *   charcoal a step toward the darker side: chips, hover fills
+         *   ink      headings and strongest text
+         *   chrome   secondary text, icons, lines
+         *   muted    body copy
+         *   accent   links, focus rings, small indicators
+         *   royal    primary CTA buttons only (always white text)
+         *
+         * `canvas`, not `base`: a colour called `base` makes the font-size
+         * class text-base also set it as the TEXT colour.
+         */
+        canvas: "rgb(var(--c-canvas) / <alpha-value>)",
+        charcoal: "rgb(var(--c-charcoal) / <alpha-value>)",
+        surface: "rgb(var(--c-surface) / <alpha-value>)",
+        graphite: "rgb(var(--c-graphite) / <alpha-value>)",
+        gunmetal: "rgb(var(--c-gunmetal) / <alpha-value>)",
+        accent: "rgb(var(--c-accent) / <alpha-value>)",
         royal: {
-          DEFAULT: "#1D4ED8",
-          hover: "#2563EB",
+          DEFAULT: "#1A44C2",
+          hover: "#15389F",
         },
-        chrome: "#D6D2CC",
-        ink: "#F7F5F2",
-        muted: "#C2BDB7",
-        hairline: "rgba(214, 210, 204, 0.16)",
+        chrome: "rgb(var(--c-chrome) / <alpha-value>)",
+        ink: "rgb(var(--c-ink) / <alpha-value>)",
+        muted: "rgb(var(--c-muted) / <alpha-value>)",
+        hairline: "rgb(var(--c-line) / 0.22)",
       },
       fontFamily: {
         display: ["var(--font-display)", "system-ui", "sans-serif"],
@@ -40,10 +55,10 @@ const config: Config = {
         xl: "0.875rem",
       },
       boxShadow: {
-        // Layered so a card reads as a raised metal panel: a lit top lip, a
-        // tight contact shadow, then a soft wide one.
-        card: "inset 0 1px 0 rgba(232,236,242,0.07), inset 0 -1px 0 rgba(0,0,0,0.45), 0 1px 1px rgba(0,0,0,0.5), 0 6px 12px -4px rgba(0,0,0,0.55), 0 22px 40px -22px rgba(0,0,0,0.85)",
-        glow: "0 8px 30px -8px rgba(29, 78, 216, 0.45)",
+        // A plate resting on the sheet: lit top lip, tight contact shadow,
+        // then a soft wide one. Light theme, so the shadows are gentle.
+        card: "inset 0 1px 0 rgba(255,255,255,0.7), inset 0 -1px 0 rgba(0,0,0,0.12), 0 1px 1px rgba(0,0,0,0.14), 0 6px 14px -6px rgba(0,0,0,0.22), 0 22px 40px -24px rgba(0,0,0,0.3)",
+        glow: "0 8px 30px -8px rgba(26, 68, 194, 0.45)",
       },
       maxWidth: {
         container: "72rem",

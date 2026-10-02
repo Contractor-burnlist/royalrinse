@@ -38,12 +38,12 @@ const Chevron = ({ className = "" }: { className?: string }) => (
 );
 
 const itemClass =
-  "block rounded-lg px-3 py-2 text-sm text-muted transition-colors hover:bg-charcoal hover:text-ink focus:outline-none focus-visible:bg-charcoal focus-visible:text-ink focus-visible:ring-2 focus-visible:ring-chrome-bright";
+  "block rounded-lg px-3 py-2 text-sm text-muted transition-colors hover:bg-charcoal hover:text-ink focus:outline-none focus-visible:bg-charcoal focus-visible:text-ink focus-visible:ring-2 focus-visible:ring-accent";
 
-const footerItemClass = `${itemClass} font-semibold text-chrome-bright hover:text-ink`;
+const footerItemClass = `${itemClass} font-semibold text-accent hover:text-ink`;
 
 const sectionLabelClass =
-  "px-3 pb-1 pt-1 text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-chrome-bright";
+  "px-3 pb-1 pt-1 text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-accent";
 
 /**
  * Desktop dropdown. Opens on hover for pointer users and on click, Enter, Space
@@ -162,7 +162,7 @@ export function NavDropdown({ config }: { config: NavMenuConfig }) {
           aria-label={`${config.ariaLabel} submenu`}
           onClick={() => setOpen((value) => !value)}
           onKeyDown={onTriggerKeyDown}
-          className="flex h-6 w-6 items-center justify-center rounded-md text-muted transition-colors hover:text-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-chrome-bright"
+          className="flex h-6 w-6 items-center justify-center rounded-md text-muted transition-colors hover:text-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
         >
           <Chevron
             className={`h-3.5 w-3.5 transition-transform duration-200 ${
@@ -296,7 +296,7 @@ export function NavDropdownMobile({
           <Link
             href={config.footer.href}
             onClick={onNavigate}
-            className="block rounded-lg px-3 py-2 text-sm font-semibold text-chrome-bright transition-colors hover:bg-surface hover:text-ink"
+            className="block rounded-lg px-3 py-2 text-sm font-semibold text-accent transition-colors hover:bg-surface hover:text-ink"
           >
             {config.footer.label}
           </Link>

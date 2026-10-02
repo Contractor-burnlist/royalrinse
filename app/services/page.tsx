@@ -42,7 +42,7 @@ function DirectoryCard({
       <Link
         href={href}
         aria-label={`Learn more about ${name}`}
-        className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-chrome-bright transition-colors hover:text-ink"
+        className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-accent transition-colors hover:text-ink"
       >
         Learn more
         <span aria-hidden="true">→</span>
@@ -161,7 +161,7 @@ export default function ServicesPage() {
               <Link
                 href={`/services/${service.slug}`}
                 aria-label={`Learn more about ${service.name}`}
-                className="inline-flex shrink-0 items-center gap-1.5 text-sm font-semibold text-chrome-bright transition-colors hover:text-ink"
+                className="inline-flex shrink-0 items-center gap-1.5 text-sm font-semibold text-accent transition-colors hover:text-ink"
               >
                 Learn more
                 <span aria-hidden="true">→</span>

@@ -245,7 +245,7 @@ function AboutCta() {
             Serving Riverside &amp; San Diego County,{" "}
             <Link
               href="/service-area"
-              className="font-semibold text-chrome-bright transition-colors hover:text-ink"
+              className="font-semibold text-accent transition-colors hover:text-ink"
             >
               see if we cover your city
             </Link>

@@ -108,7 +108,7 @@ export function LightboxGrid({
   const active = openIndex === null ? null : images[openIndex];
 
   const tileClasses =
-    "group relative block w-full overflow-hidden rounded-xl edge-chrome bg-surface shadow-card focus:outline-none focus-visible:ring-2 focus-visible:ring-chrome-bright focus-visible:ring-offset-2 focus-visible:ring-offset-canvas";
+    "group relative block w-full overflow-hidden rounded-xl edge-chrome bg-surface shadow-card focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-canvas";
 
   return (
     <>
@@ -172,7 +172,7 @@ export function LightboxGrid({
           role="dialog"
           aria-modal="true"
           aria-label="Photo viewer"
-          className="fixed inset-0 z-[100] flex animate-[fadeIn_260ms_ease-out] items-center justify-center bg-canvas/97 p-4 backdrop-blur-xl sm:p-6"
+          className="on-dark fixed inset-0 z-[100] flex animate-[fadeIn_260ms_ease-out] items-center justify-center bg-canvas/97 p-4 backdrop-blur-xl sm:p-6"
         >
           {/* Click-away backdrop. A real button so the handler is not on a
               bare div; out of the tab order because the Close button and
@@ -195,7 +195,7 @@ export function LightboxGrid({
             type="button"
             onClick={close}
             aria-label="Close photo"
-            className="absolute right-4 top-4 z-10 flex h-11 w-11 items-center justify-center rounded-xl btn-metal text-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-chrome-bright"
+            className="absolute right-4 top-4 z-10 flex h-11 w-11 items-center justify-center rounded-xl btn-metal text-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
           >
             <svg
               viewBox="0 0 24 24"
@@ -254,7 +254,7 @@ function LightboxNav({
       type="button"
       onClick={onClick}
       aria-label={isPrev ? "Previous photo" : "Next photo"}
-      className={`absolute top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-xl btn-metal text-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-chrome-bright ${
+      className={`absolute top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-xl btn-metal text-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-accent ${
         isPrev ? "left-4" : "right-4"
       }`}
     >

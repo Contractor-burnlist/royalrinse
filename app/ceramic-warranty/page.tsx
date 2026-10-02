@@ -106,7 +106,7 @@ export default function CeramicWarrantyPage() {
 
           <Link
             href="/services/ceramic-coating"
-            className="mt-8 inline-flex items-center gap-1.5 text-sm font-semibold text-chrome-bright transition-colors hover:text-ink"
+            className="mt-8 inline-flex items-center gap-1.5 text-sm font-semibold text-accent transition-colors hover:text-ink"
           >
             <span aria-hidden="true">←</span>
             Ceramic coating service
@@ -185,14 +185,14 @@ export default function CeramicWarrantyPage() {
             helps you meet manufacturer care requirements. You can add it to any{" "}
             <Link
               href="/packages"
-              className="font-semibold text-chrome-bright transition-colors hover:text-ink"
+              className="font-semibold text-accent transition-colors hover:text-ink"
             >
               detailing package
             </Link>{" "}
             or set up a recurring{" "}
             <Link
               href="/services/maintenance-plans"
-              className="font-semibold text-chrome-bright transition-colors hover:text-ink"
+              className="font-semibold text-accent transition-colors hover:text-ink"
             >
               maintenance plan
             </Link>

@@ -87,7 +87,7 @@ export default function ContactPage() {
                           <a
                             href={row.href}
                             aria-label={row.aria}
-                            className="font-semibold text-ink transition-colors hover:text-chrome-bright"
+                            className="font-semibold text-ink transition-colors hover:text-accent"
                           >
                             {row.value}
                           </a>
@@ -115,7 +115,7 @@ export default function ContactPage() {
 
             <p className="mt-6 text-sm text-muted">
               Prefer to read first? See our{" "}
-              <Link href="/faq" className="font-semibold text-chrome-bright hover:text-ink">
+              <Link href="/faq" className="font-semibold text-accent hover:text-ink">
                 FAQ
               </Link>{" "}
               or{" "}
@@ -123,7 +123,7 @@ export default function ContactPage() {
                 href={GOOGLE_REVIEWS_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-semibold text-chrome-bright hover:text-ink"
+                className="font-semibold text-accent hover:text-ink"
               >
                 reviews on Google
                 <span className="sr-only"> (opens Google in a new tab)</span>

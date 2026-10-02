@@ -40,7 +40,7 @@ export function MilitaryDiscountBadge({
       <span
         className={`inline-flex items-center justify-center gap-2 edge-chrome rounded-xl bg-canvas/70 px-3 py-1.5 text-center text-sm font-semibold text-ink ${className}`}
       >
-        <ChevronBadge className="h-4 w-4 shrink-0 text-chrome-bright" />
+        <ChevronBadge className="h-4 w-4 shrink-0 text-accent" />
         10% Military Discount
       </span>
     );

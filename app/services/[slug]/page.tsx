@@ -86,7 +86,7 @@ export default function ServiceDetailPage({ params }: { params: Params }) {
 
           <Link
             href="/services"
-            className="mt-8 inline-flex items-center gap-1.5 text-sm font-semibold text-chrome-bright transition-colors hover:text-ink"
+            className="mt-8 inline-flex items-center gap-1.5 text-sm font-semibold text-accent transition-colors hover:text-ink"
           >
             <span aria-hidden="true">←</span>
             All services
@@ -161,7 +161,7 @@ export default function ServiceDetailPage({ params }: { params: Params }) {
                 {detail.addOnNote}{" "}
                 <Link
                   href="/services#add-ons"
-                  className="font-semibold text-chrome-bright transition-colors hover:text-ink"
+                  className="font-semibold text-accent transition-colors hover:text-ink"
                 >
                   See all add-ons
                 </Link>
@@ -178,7 +178,7 @@ export default function ServiceDetailPage({ params }: { params: Params }) {
             {CERAMIC_WARRANTY_TRUST}{" "}
             <Link
               href={CERAMIC_WARRANTY_PATH}
-              className="font-semibold text-chrome-bright transition-colors hover:text-ink"
+              className="font-semibold text-accent transition-colors hover:text-ink"
             >
               See warranty details
             </Link>

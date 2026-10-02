@@ -26,7 +26,7 @@ function Logo({ compact }: { compact: boolean }) {
     <Link
       href="/"
       // `group` drives the hover lift on the image.
-      className="group flex items-center rounded-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-chrome-bright focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
+      className="group flex items-center rounded-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
       aria-label="Royal Rinse, home"
     >
       {/* Logo ships with its own near-black background, so it sits flush on the
@@ -86,7 +86,7 @@ export function Header() {
     <header
       className={`sticky top-0 z-50 transition-all duration-500 ${
         solid
-          ? "metal-header metal-edge-b"
+          ? "metal-header metal-edge-b backdrop-blur-xl backdrop-saturate-150"
           : "bg-gradient-to-b from-canvas/80 via-canvas/40 to-transparent"
       }`}
     >

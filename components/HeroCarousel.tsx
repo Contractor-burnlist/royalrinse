@@ -251,7 +251,7 @@ export function HeroCarousel({ children }: { children: ReactNode }) {
                     <div
                       className={`relative aspect-[3/4] overflow-hidden rounded-2xl bg-surface shadow-2xl ${
                         featured
-                          ? "edge-chrome edge-chrome-bright"
+                          ? "edge-chrome edge-accent"
                           : "edge-chrome"
                       }`}
                     >
@@ -296,7 +296,7 @@ export function HeroCarousel({ children }: { children: ReactNode }) {
               type="button"
               onClick={() => setUserPaused(!stopped)}
               aria-label={stopped ? "Play photo rotation" : "Pause photo rotation"}
-              className="flex h-10 w-10 items-center justify-center rounded-full btn-metal text-chrome transition-colors hover:text-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-chrome-bright"
+              className="flex h-10 w-10 items-center justify-center rounded-full btn-metal text-chrome transition-colors hover:text-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
             >
               <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" className="h-4 w-4">
                 <path d={stopped ? "M8 5v14l11-7L8 5Z" : "M7 5h4v14H7zM13 5h4v14h-4z"} />
@@ -348,7 +348,7 @@ function CarouselArrow({
       type="button"
       onClick={onClick}
       aria-label={isPrev ? "Previous photos" : "Next photos"}
-      className="flex h-10 w-10 items-center justify-center rounded-full btn-metal text-chrome transition-colors hover:text-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-chrome-bright"
+      className="flex h-10 w-10 items-center justify-center rounded-full btn-metal text-chrome transition-colors hover:text-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
     >
       <svg
         viewBox="0 0 24 24"

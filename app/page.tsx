@@ -249,7 +249,7 @@ function MetalDivider() {
 }
 
 const textLink =
-  "inline-flex items-center gap-1.5 text-sm font-semibold text-chrome-bright transition-colors hover:text-ink";
+  "inline-flex items-center gap-1.5 text-sm font-semibold text-accent transition-colors hover:text-ink";
 
 function Hero() {
   return (
@@ -258,7 +258,7 @@ function Hero() {
       <Eyebrow>{SERVICE_AREA_SHORT}</Eyebrow>
 
       {/* No forced <br> on mobile: it overflows narrow viewports. */}
-      <h1 className="mt-4 font-display text-4xl font-bold leading-[1.02] tracking-tight text-metal drop-shadow-[0_2px_24px_rgba(0,0,0,0.6)] sm:text-6xl sm:leading-[0.98]">
+      <h1 className="mt-4 font-display text-4xl font-bold leading-[1.02] tracking-tight text-metal sm:text-6xl sm:leading-[0.98]">
         A showroom finish,
         <br className="hidden sm:inline" /> in your driveway.
       </h1>
@@ -331,7 +331,7 @@ function TrustBar() {
                 href={GOOGLE_REVIEWS_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex items-start gap-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-chrome-bright focus-visible:ring-offset-2 focus-visible:ring-offset-charcoal"
+                className="group flex items-start gap-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-charcoal"
               >
                 <GoogleMark className="mt-0.5 h-4 w-4 shrink-0" />
                 <span className="min-w-0">
@@ -475,21 +475,21 @@ function Services() {
           Also offering{" "}
           <Link
             href="/services#add-ons"
-            className="font-semibold text-chrome-bright hover:text-ink"
+            className="font-semibold text-accent hover:text-ink"
           >
             add-ons
           </Link>
           ,{" "}
           <Link
             href="/services/maintenance-plans"
-            className="font-semibold text-chrome-bright hover:text-ink"
+            className="font-semibold text-accent hover:text-ink"
           >
             maintenance plans
           </Link>
           , and{" "}
           <Link
             href="/services/rv-detailing"
-            className="font-semibold text-chrome-bright hover:text-ink"
+            className="font-semibold text-accent hover:text-ink"
           >
             RV detailing
           </Link>
@@ -534,7 +534,7 @@ function CeramicFeature() {
             {CERAMIC_WARRANTY_TRUST}{" "}
             <Link
               href={CERAMIC_WARRANTY_PATH}
-              className="font-semibold text-chrome-bright transition-colors hover:text-ink"
+              className="font-semibold text-accent transition-colors hover:text-ink"
             >
               See warranty details
             </Link>
@@ -581,7 +581,7 @@ function Specialization() {
               <Reveal delay={i * 80}>
                 <Link
                   href="/gallery"
-                  className="group relative block aspect-[3/4] overflow-hidden rounded-xl edge-chrome shadow-card focus:outline-none focus-visible:ring-2 focus-visible:ring-chrome-bright focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
+                  className="group relative block aspect-[3/4] overflow-hidden rounded-xl edge-chrome shadow-card focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
                 >
                   <Image
                     src={image.src}
@@ -790,7 +790,7 @@ function Gallery() {
         />
         <Link
           href="/gallery"
-          className="inline-flex items-center gap-1.5 text-sm font-semibold text-chrome-bright transition-colors hover:text-ink"
+          className="inline-flex items-center gap-1.5 text-sm font-semibold text-accent transition-colors hover:text-ink"
         >
           View full gallery
           <span aria-hidden="true">→</span>
@@ -885,7 +885,7 @@ function ServiceAreaTeaser() {
         <li>
           <Link
             href="/service-area"
-            className="inline-flex rounded-xl border border-hairline bg-surface px-4 py-2 text-sm font-semibold text-chrome-bright transition-colors hover:border-chrome/50 hover:text-ink"
+            className="inline-flex rounded-xl border border-hairline bg-surface px-4 py-2 text-sm font-semibold text-accent transition-colors hover:border-chrome/50 hover:text-ink"
           >
             View all<span className="sr-only"> service areas</span>{" "}
             <span aria-hidden="true">→</span>
@@ -1022,7 +1022,7 @@ function HomeFaq() {
           <div className="divide-y divide-hairline border-y border-hairline">
             {homeFaqs.map((faq) => (
               <details key={faq.question} className="group">
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-6 py-5 font-display text-base font-bold text-ink transition-colors hover:text-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-chrome-bright sm:text-lg [&::-webkit-details-marker]:hidden">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-6 py-5 font-display text-base font-bold text-ink transition-colors hover:text-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-accent sm:text-lg [&::-webkit-details-marker]:hidden">
                   {faq.question}
                   <span
                     aria-hidden="true"

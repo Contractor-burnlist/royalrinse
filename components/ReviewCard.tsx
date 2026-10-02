@@ -13,13 +13,13 @@ import { GoogleMark } from "@/components/GoogleMark";
 // Each pairs with the initial colour that clears 4.5:1 on it: white on the
 // darker hues, near-black on the lighter ones (white on the yellow is 1.9:1).
 const AVATAR_COLORS: { bg: string; fg: string }[] = [
-  { bg: "#4285F4", fg: "#0B0D10" },
-  { bg: "#0F9D58", fg: "#0B0D10" },
-  { bg: "#DB4437", fg: "#0B0D10" },
-  { bg: "#F4B400", fg: "#0B0D10" },
+  { bg: "#4285F4", fg: "#141516" },
+  { bg: "#0F9D58", fg: "#141516" },
+  { bg: "#DB4437", fg: "#141516" },
+  { bg: "#F4B400", fg: "#141516" },
   { bg: "#AB47BC", fg: "#FFFFFF" },
   { bg: "#00838F", fg: "#FFFFFF" },
-  { bg: "#E8710A", fg: "#0B0D10" },
+  { bg: "#E8710A", fg: "#141516" },
   { bg: "#5C6BC0", fg: "#FFFFFF" },
 ];
 
@@ -44,7 +44,7 @@ function StarRow({ rating }: { rating: number }) {
           viewBox="0 0 20 20"
           fill="currentColor"
           aria-hidden="true"
-          className={`h-4 w-4 ${i < clamped ? "text-amber-400" : "text-chrome/25"}`}
+          className={`h-4 w-4 ${i < clamped ? "text-amber-800" : "text-chrome/25"}`}
         >
           <path d="M10 1.5l2.6 5.3 5.9.9-4.2 4.1 1 5.8-5.3-2.8-5.3 2.8 1-5.8L1.5 7.7l5.9-.9L10 1.5Z" />
         </svg>

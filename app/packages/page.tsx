@@ -41,7 +41,7 @@ function TierRank({ rank }: { rank: number }) {
           <span
             key={i}
             className={`h-1.5 w-5 rounded-full ${
-              i < rank ? "bg-chrome-bright" : "bg-chrome/20"
+              i < rank ? "bg-accent" : "bg-chrome/20"
             }`}
           />
         ))}
@@ -124,7 +124,7 @@ function TierCard({ tier, rank }: { tier: (typeof tiers)[number]; rank: number }
         <div className="flex flex-wrap items-center justify-between gap-4">
           <TierRank rank={rank} />
           {isTop ? (
-            <span className="inline-flex rounded-full bg-chrome-bright px-3 py-1 text-xs font-semibold uppercase tracking-[0.12em] text-canvas">
+            <span className="inline-flex rounded-full bg-accent px-3 py-1 text-xs font-semibold uppercase tracking-[0.12em] text-white">
               Most Complete
             </span>
           ) : null}
@@ -179,7 +179,7 @@ function TierCard({ tier, rank }: { tier: (typeof tiers)[number]; rank: number }
 
         <Link
           href={`/services/${tier.slug}`}
-          className="mt-5 inline-flex items-center gap-1.5 text-xs font-semibold text-muted transition-colors hover:text-chrome-bright"
+          className="mt-5 inline-flex items-center gap-1.5 text-xs font-semibold text-muted transition-colors hover:text-accent"
         >
           Learn more about {tier.name}
           <span aria-hidden="true">→</span>
@@ -199,7 +199,7 @@ function TierCard({ tier, rank }: { tier: (typeof tiers)[number]; rank: number }
   return (
     <div className="relative overflow-hidden rounded-[calc(0.75rem+1.5px)] p-[1.5px] shadow-glow">
       <div aria-hidden="true" className="absolute inset-0">
-        <div className="absolute left-1/2 top-1/2 aspect-square w-[200%] -translate-x-1/2 -translate-y-1/2 bg-[conic-gradient(from_0deg,transparent_0deg,rgba(232,236,242,0.75)_55deg,transparent_130deg,transparent_230deg,rgba(201,206,214,0.55)_300deg,transparent_360deg)] motion-safe:animate-spin [animation-duration:9s]" />
+        <div className="absolute left-1/2 top-1/2 aspect-square w-[200%] -translate-x-1/2 -translate-y-1/2 bg-[conic-gradient(from_0deg,transparent_0deg,rgba(15,42,128,0.75)_55deg,transparent_130deg,transparent_230deg,rgba(20,21,22,0.5)_300deg,transparent_360deg)] motion-safe:animate-spin [animation-duration:9s]" />
       </div>
       <div className="relative">{article}</div>
     </div>
@@ -296,15 +296,15 @@ export default function PackagesPage() {
         {/* Scrims: darken overall, then deepen the bottom where the text sits. */}
         <div
           aria-hidden="true"
-          className="absolute inset-0 bg-gradient-to-t from-canvas via-canvas/80 to-canvas/55"
+          className="absolute inset-0 bg-gradient-to-t from-canvas via-canvas/90 to-canvas/80"
         />
         <div aria-hidden="true" className="absolute inset-0 bg-canvas/30" />
         <Container className="relative py-14 sm:py-20">
           <Eyebrow>Packages</Eyebrow>
-          <h1 className="mt-3 max-w-3xl font-display text-4xl font-bold tracking-tight text-metal drop-shadow-[0_2px_12px_rgba(0,0,0,0.6)] sm:text-5xl">
+          <h1 className="mt-3 max-w-3xl font-display text-4xl font-bold tracking-tight text-metal sm:text-5xl">
             Our Detailing Packages
           </h1>
-          <p className="mt-4 max-w-2xl text-base leading-relaxed text-chrome drop-shadow-[0_1px_8px_rgba(0,0,0,0.7)]">
+          <p className="mt-4 max-w-2xl text-base leading-relaxed text-chrome">
             From an essential refresh to a full showroom reset, pick the level
             that fits. We come to you across Riverside &amp; San Diego County.
           </p>
@@ -386,7 +386,7 @@ export default function PackagesPage() {
                 {CERAMIC_WARRANTY_TRUST}{" "}
                 <Link
                   href={CERAMIC_WARRANTY_PATH}
-                  className="font-semibold text-chrome-bright transition-colors hover:text-ink"
+                  className="font-semibold text-accent transition-colors hover:text-ink"
                 >
                   See warranty details
                 </Link>
@@ -396,7 +396,7 @@ export default function PackagesPage() {
 
               <Link
                 href={`/services/${ceramicCoating.slug}`}
-                className="mt-5 inline-flex items-center gap-1.5 text-xs font-semibold text-muted transition-colors hover:text-chrome-bright"
+                className="mt-5 inline-flex items-center gap-1.5 text-xs font-semibold text-muted transition-colors hover:text-accent"
               >
                 Learn more about {ceramicCoating.name}
                 <span aria-hidden="true">→</span>
@@ -448,7 +448,7 @@ export default function PackagesPage() {
 
               <Link
                 href="/services#add-ons"
-                className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-chrome-bright transition-colors hover:text-ink"
+                className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-accent transition-colors hover:text-ink"
               >
                 See what each add-on does
                 <span aria-hidden="true">→</span>

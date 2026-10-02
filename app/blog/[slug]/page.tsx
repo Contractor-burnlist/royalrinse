@@ -91,7 +91,7 @@ export default function BlogPostPage({ params }: { params: Params }) {
 
             <Link
               href="/blog"
-              className="mt-8 inline-flex items-center gap-1.5 text-sm font-semibold text-chrome-bright transition-colors hover:text-ink"
+              className="mt-8 inline-flex items-center gap-1.5 text-sm font-semibold text-accent transition-colors hover:text-ink"
             >
               <span aria-hidden="true">←</span>
               All articles

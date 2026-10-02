@@ -11,7 +11,7 @@ export function GoldStars({
 }) {
   return (
     <span
-      className="inline-flex gap-0.5 text-amber-400"
+      className="inline-flex gap-0.5 text-amber-800"
       role="img"
       aria-label={label}
     >
@@ -50,7 +50,7 @@ export function GoogleReviewsBadge({
       href={GOOGLE_REVIEWS_URL}
       target="_blank"
       rel="noopener noreferrer"
-      className={`inline-flex items-center gap-2 font-semibold transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-chrome-bright focus-visible:ring-offset-2 focus-visible:ring-offset-canvas ${className}`}
+      className={`inline-flex items-center gap-2 font-semibold transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-canvas ${className}`}
     >
       <GoldStars className={starClassName} />
       <GoogleMark className="h-4 w-4" />

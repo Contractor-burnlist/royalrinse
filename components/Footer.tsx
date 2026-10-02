@@ -25,7 +25,7 @@ export function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="metal-edge-t metal-inset">
+    <footer className="on-dark metal-footer">
       <Container>
         <div className="grid gap-12 py-16 sm:grid-cols-2 lg:grid-cols-4">
           <div>

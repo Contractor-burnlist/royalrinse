@@ -66,7 +66,7 @@ export default function RootLayout({
         {/* First focusable element on every page. Hidden until focused. */}
         <a
           href="#main"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[200] focus:rounded-xl focus:bg-royal focus:px-5 focus:py-3 focus:text-sm focus:font-semibold focus:text-ink focus:shadow-glow"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[200] focus:rounded-xl focus:bg-royal focus:px-5 focus:py-3 focus:text-sm focus:font-semibold focus:text-white focus:shadow-glow"
         >
           Skip to main content
         </a>

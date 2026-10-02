@@ -25,8 +25,8 @@ export function ServicePhotoCard({
   return (
     <Link
       href={href}
-      className={`group relative flex min-h-[22rem] flex-col justify-end overflow-hidden edge-chrome rounded-2xl shadow-card transition-transform duration-300 motion-safe:hover:-translate-y-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-chrome-bright focus-visible:ring-offset-2 focus-visible:ring-offset-canvas ${
-        featured ? "edge-chrome-bright" : ""
+      className={`group relative flex min-h-[22rem] flex-col justify-end overflow-hidden edge-chrome rounded-2xl shadow-card transition-transform duration-300 motion-safe:hover:-translate-y-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-canvas ${
+        featured ? "edge-accent" : ""
       }`}
     >
       <Image
@@ -42,10 +42,11 @@ export function ServicePhotoCard({
         className="object-cover transition-transform duration-700 ease-out motion-safe:group-motion-safe:hover:scale-110"
       />
 
-      {/* Readability scrim — deepens on hover. */}
+      {/* Readability wash: solid page colour under the copy (bottom 40%), so the
+          dark text never sits on the photo itself; the photo shows clear above. */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 bg-gradient-to-t from-canvas via-canvas/85 to-canvas/25 transition-opacity duration-500 group-hover:from-canvas group-hover:via-canvas/75"
+        className="absolute inset-0 bg-gradient-to-t from-canvas from-40% via-canvas/90 via-60% to-canvas/10"
       />
 
       <div className="relative p-6">
@@ -58,7 +59,7 @@ export function ServicePhotoCard({
         </h3>
         <p className="mt-2 text-sm leading-relaxed text-chrome">{tagline}</p>
 
-        <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-chrome-bright transition-colors group-hover:text-ink">
+        <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-accent transition-colors group-hover:text-ink">
           Learn more
           <span
             aria-hidden="true"

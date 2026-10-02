@@ -41,7 +41,7 @@ function Inline({ text }: { text: string }) {
             <Link
               key={index}
               href={link[2]}
-              className="font-medium text-chrome-bright underline decoration-chrome/50 underline-offset-2 transition-colors hover:text-ink hover:decoration-chrome/60"
+              className="font-medium text-accent underline decoration-chrome/50 underline-offset-2 transition-colors hover:text-ink hover:decoration-chrome/60"
             >
               {link[1]}
             </Link>

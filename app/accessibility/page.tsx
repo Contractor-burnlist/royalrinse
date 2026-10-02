@@ -34,7 +34,7 @@ const measures = [
 ];
 
 const contactLink =
-  "font-semibold text-chrome-bright underline decoration-chrome-bright/50 underline-offset-4 transition-colors hover:text-ink";
+  "font-semibold text-accent underline decoration-accent/50 underline-offset-4 transition-colors hover:text-ink";
 
 const h2 = "font-display text-2xl font-bold tracking-tight text-ink sm:text-3xl";
 const prose = "mt-4 space-y-4 text-base leading-relaxed text-chrome";
@@ -124,7 +124,7 @@ export default function AccessibilityPage() {
           {/* The most important section: set apart so it is easy to find. */}
           <section
             aria-labelledby="feedback"
-            className="rounded-2xl border border-chrome-bright/60 bg-surface p-6 shadow-card sm:p-10"
+            className="rounded-2xl border border-accent/60 bg-surface p-6 shadow-card sm:p-10"
           >
             <h2 id="feedback" className={h2}>
               Feedback and help
