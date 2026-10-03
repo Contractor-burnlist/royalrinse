@@ -4,8 +4,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { formatPostDate, getPost, posts, readingMinutes } from "@/lib/blog";
 import { SERVICE_AREA_LINE, site, telHref } from "@/lib/site";
-import { absoluteUrl } from "@/lib/url";
-import { breadcrumbJsonLd } from "@/lib/seo";
+import { absoluteUrl, siteUrl } from "@/lib/url";
+import { breadcrumbJsonLd, LOGO_URL } from "@/lib/seo";
 import { JsonLd } from "@/components/JsonLd";
 import { BlogBody } from "@/components/BlogBody";
 import { BookNowButton } from "@/components/BookNowButton";
@@ -24,16 +24,19 @@ export function generateMetadata({ params }: { params: Params }): Metadata {
 
   const canonical = `/blog/${post.slug}`;
 
+  const description = post.metaDescription ?? post.excerpt.slice(0, 155);
+
   return {
-    title: `${post.title} | Royal Rinse`,
-    description: post.excerpt.slice(0, 155),
+    title: post.seoTitle ?? `${post.title} | Royal Rinse`,
+    description,
     alternates: { canonical },
     openGraph: {
       type: "article",
       title: post.title,
-      description: post.excerpt.slice(0, 155),
+      description,
       url: canonical,
       publishedTime: post.date,
+      modifiedTime: post.dateModified ?? post.date,
       authors: [post.author],
       images: post.coverImage ? [{ url: post.coverImage.src }] : undefined,
     },
@@ -45,21 +48,30 @@ export default function BlogPostPage({ params }: { params: Params }) {
   if (!post) notFound();
 
   /**
-   * BlogPosting schema. Kept to fields we can state truthfully — there is no
-   * dateModified because we don't track edits, and no fabricated publisher
-   * logo dimensions. Google is happier with fewer accurate fields than with
-   * invented ones.
+   * BlogPosting schema. Kept to fields we can state truthfully: dateModified
+   * is the post's own dateModified (or its publish date when it has never
+   * been edited), and the logo is the real 1254x1254 file.
    */
   const articleSchema = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
     headline: post.title,
-    description: post.excerpt,
+    description: post.metaDescription ?? post.excerpt,
     abstract: post.summary,
     datePublished: post.date,
-    author: { "@type": "Organization", name: post.author },
-    publisher: { "@type": "Organization", name: site.name },
-    // Absolute — crawlers resolve JSON-LD URLs from their own origin, so a
+    dateModified: post.dateModified ?? post.date,
+    author: {
+      "@type": "Organization",
+      name: site.legalName,
+      url: siteUrl,
+    },
+    publisher: {
+      "@type": "Organization",
+      "@id": `${siteUrl}/#organization`,
+      name: site.legalName,
+      logo: { "@type": "ImageObject", url: LOGO_URL, width: 1254, height: 1254 },
+    },
+    // Absolute: crawlers resolve JSON-LD URLs from their own origin, so a
     // bare "/blog/x" here is either ignored or resolved against the wrong host.
     mainEntityOfPage: {
       "@type": "WebPage",
@@ -68,9 +80,22 @@ export default function BlogPostPage({ params }: { params: Params }) {
     ...(post.coverImage ? { image: [absoluteUrl(post.coverImage.src)] } : {}),
   };
 
+  const faqSchema = post.faqs?.length
+    ? {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        mainEntity: post.faqs.map((faq) => ({
+          "@type": "Question",
+          name: faq.question,
+          acceptedAnswer: { "@type": "Answer", text: faq.answer },
+        })),
+      }
+    : null;
+
   return (
     <>
       <JsonLd data={breadcrumbJsonLd([{ name: "Blog", path: "/blog" }, { name: post.title, path: `/blog/${post.slug}` }])} />
+      {faqSchema ? <JsonLd data={faqSchema} /> : null}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
@@ -110,7 +135,7 @@ export default function BlogPostPage({ params }: { params: Params }) {
             <div className="relative aspect-[21/9] w-full overflow-hidden rounded-2xl edge-chrome shadow-2xl">
               <Image
                 src={post.coverImage.src}
-                alt={post.coverImage.alt}
+                alt={post.coverAlt ?? post.coverImage.alt}
                 fill
                 priority
                 quality={90}
@@ -155,6 +180,27 @@ export default function BlogPostPage({ params }: { params: Params }) {
           <div className="mt-12">
             <BlogBody blocks={post.body} />
           </div>
+
+          {post.faqs?.length ? (
+            <section aria-labelledby="post-faq" className="mt-16 max-w-[54ch]">
+              <h2
+                id="post-faq"
+                className="font-display text-2xl font-bold tracking-tight text-ink sm:text-3xl"
+              >
+                Frequently asked questions
+              </h2>
+              <div className="mt-6 divide-y divide-hairline border-y border-hairline">
+                {post.faqs.map((faq) => (
+                  <div key={faq.question} className="py-5">
+                    <h3 className="font-display text-lg font-bold text-ink">
+                      {faq.question}
+                    </h3>
+                    <p className="mt-2 text-base leading-relaxed text-muted">{faq.answer}</p>
+                  </div>
+                ))}
+              </div>
+            </section>
+          ) : null}
         </Section>
       </article>
 
