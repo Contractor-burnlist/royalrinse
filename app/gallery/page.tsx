@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { buildMetadata } from "@/lib/seo";
+import { JsonLd } from "@/components/JsonLd";
+import { breadcrumbJsonLd, buildMetadata } from "@/lib/seo";
 import { allGalleryImages } from "@/lib/gallery";
 import { FilterableGallery } from "@/components/FilterableGallery";
 import { QuoteCta } from "@/components/QuoteCta";
@@ -15,6 +16,7 @@ export const metadata: Metadata = buildMetadata({
 export default function GalleryPage() {
   return (
     <>
+      <JsonLd data={breadcrumbJsonLd([{ name: "Gallery", path: "/gallery" }])} />
       <div className="metal-strong metal-edge-b">
         <Container className="py-16 sm:py-20">
           <Eyebrow>Gallery</Eyebrow>

@@ -10,6 +10,7 @@ import {
 } from "@/lib/site";
 import { featuredCities } from "@/lib/serviceAreas";
 import { ceramicCoating, tiers } from "@/lib/services";
+import { BusinessFacts } from "@/components/BusinessFacts";
 import { MilitaryDiscountBadge } from "@/components/MilitaryDiscountBadge";
 import { Container } from "@/components/ui";
 
@@ -27,6 +28,8 @@ export function Footer() {
   return (
     <footer className="on-dark metal-footer">
       <Container>
+        <BusinessFacts />
+
         <div className="grid gap-12 py-16 sm:grid-cols-2 lg:grid-cols-4">
           <div>
             <Link href="/" className="inline-flex" aria-label="Royal Rinse, home">

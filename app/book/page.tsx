@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { buildMetadata } from "@/lib/seo";
+import { JsonLd } from "@/components/JsonLd";
+import { breadcrumbJsonLd, buildMetadata } from "@/lib/seo";
 import { PHONE_ARIA, site, telHref } from "@/lib/site";
 import { Container, Eyebrow, Icon, Section } from "@/components/ui";
 
@@ -24,6 +25,7 @@ export const metadata: Metadata = buildMetadata({
 export default function BookPage() {
   return (
     <>
+      <JsonLd data={breadcrumbJsonLd([{ name: "Book Online", path: "/book" }])} />
       <div className="metal-strong metal-edge-b">
         <Container className="py-16 sm:py-20">
           <Eyebrow>Book online</Eyebrow>

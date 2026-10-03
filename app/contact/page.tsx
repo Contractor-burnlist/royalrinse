@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { JsonLd } from "@/components/JsonLd";
 import Link from "next/link";
 import {
   GOOGLE_MAP_EMBED_URL,
@@ -9,7 +10,7 @@ import {
   site,
   telHref,
 } from "@/lib/site";
-import { buildMetadata } from "@/lib/seo";
+import { breadcrumbJsonLd, buildMetadata } from "@/lib/seo";
 import { BookNowButton } from "@/components/BookNowButton";
 import { ButtonAnchor, Container, Eyebrow, Icon, Section } from "@/components/ui";
 
@@ -55,6 +56,7 @@ const details: { icon: string; label: string; value: string; href?: string; aria
 export default function ContactPage() {
   return (
     <>
+      <JsonLd data={breadcrumbJsonLd([{ name: "Contact", path: "/contact" }])} />
       <div className="metal-strong metal-edge-b">
         <Container className="py-16 sm:py-20">
           <Eyebrow>Contact</Eyebrow>

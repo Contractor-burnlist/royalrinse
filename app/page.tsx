@@ -201,14 +201,24 @@ const planSchedules = ["Weekly", "Bi-weekly", "Monthly"];
 const latestPosts = sortedPosts.slice(0, 3);
 
 /**
- * The homepage shows the FAQs minus two that repeat other answers here (home
- * base and how to book). The full list lives on /faq.
+ * The homepage shows eight of the FAQs: the five-city question, coming to
+ * you, cost, ceramic coating, exotic and classic cars, timing, licensing and
+ * the military discount. Picked by position-independent prefix so reordering
+ * lib/faq.ts never changes which ones appear. The full list lives on /faq.
  */
-const HOME_FAQ_SKIP = new Set([
-  "Are you located in Menifee?",
-  "How do I book?",
-]);
-const homeFaqs = faqs.filter((faq) => !HOME_FAQ_SKIP.has(faq.question));
+const HOME_FAQ_PREFIXES = [
+  "Do you offer mobile detailing in",
+  "Do you come to my home",
+  "How much does",
+  "What is ceramic coating",
+  "Do you detail exotic",
+  "How long does a full detail",
+  "Are you licensed",
+  "Do you offer a military",
+];
+const homeFaqs = HOME_FAQ_PREFIXES.map((prefix) =>
+  faqs.find((faq) => faq.question.startsWith(prefix)),
+).filter((faq): faq is (typeof faqs)[number] => Boolean(faq));
 
 /** FAQPage structured data for exactly the questions rendered on this page. */
 const homeFaqSchema = {
@@ -850,45 +860,28 @@ function ServiceAreaTeaser() {
       <SectionHeading
         eyebrow="Service area"
         title="Based in Menifee, we come to you"
-        intro="Rooted in Menifee, we're quickest across Menifee, Temecula, and Murrieta, and we cover all of Riverside & San Diego County. Don't see your neighborhood? Just ask."
+        intro="Royal Rinse is based in Menifee and provides mobile auto detailing in Menifee, Temecula, Murrieta, Riverside, and San Diego, and the surrounding areas of Riverside County and San Diego County. Don't see your neighborhood? Just ask."
       />
 
-      {/* Priority markets, called out prominently ahead of the full list. */}
-      <div className="mt-8 flex flex-wrap gap-3">
-        <Link
-          href="/service-area/menifee"
-          className="inline-flex items-center gap-1.5 btn-metal rounded-xl px-4 py-2.5 text-sm font-semibold text-ink"
-        >
-          Detailing in Menifee
-          <span aria-hidden="true">→</span>
-        </Link>
-        <Link
-          href="/service-area/temecula"
-          className="inline-flex items-center gap-1.5 btn-metal rounded-xl px-4 py-2.5 text-sm font-semibold text-ink"
-        >
-          Detailing in Temecula
-          <span aria-hidden="true">→</span>
-        </Link>
-      </div>
-
-      <ul className="mt-6 flex flex-wrap gap-3">
+      {/* The five priority markets, each linking to its own page. */}
+      <ul className="mt-8 flex flex-wrap gap-3">
         {featuredCities.map((city) => (
           <li key={city.slug}>
             <Link
               href={`/service-area/${city.slug}`}
-              className="inline-flex rounded-xl border border-hairline bg-surface px-4 py-2 text-sm font-medium text-chrome transition-colors hover:border-chrome/50 hover:text-ink"
+              className="inline-flex items-center gap-1.5 btn-metal rounded-xl px-4 py-2.5 text-sm font-semibold text-ink"
             >
-              {city.name}
+              Detailing in {city.name}
+              <span aria-hidden="true">→</span>
             </Link>
           </li>
         ))}
         <li>
           <Link
             href="/service-area"
-            className="inline-flex rounded-xl border border-hairline bg-surface px-4 py-2 text-sm font-semibold text-accent transition-colors hover:border-chrome/50 hover:text-ink"
+            className="inline-flex items-center rounded-xl border border-hairline bg-surface px-4 py-2.5 text-sm font-semibold text-accent transition-colors hover:border-chrome/50 hover:text-ink"
           >
-            View all<span className="sr-only"> service areas</span>{" "}
-            <span aria-hidden="true">→</span>
+            All service areas<span aria-hidden="true">&nbsp;→</span>
           </Link>
         </li>
       </ul>

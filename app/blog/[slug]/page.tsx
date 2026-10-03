@@ -5,6 +5,8 @@ import { notFound } from "next/navigation";
 import { formatPostDate, getPost, posts, readingMinutes } from "@/lib/blog";
 import { SERVICE_AREA_LINE, site, telHref } from "@/lib/site";
 import { absoluteUrl } from "@/lib/url";
+import { breadcrumbJsonLd } from "@/lib/seo";
+import { JsonLd } from "@/components/JsonLd";
 import { BlogBody } from "@/components/BlogBody";
 import { BookNowButton } from "@/components/BookNowButton";
 import { ButtonAnchor, Container, Eyebrow, Section } from "@/components/ui";
@@ -53,6 +55,7 @@ export default function BlogPostPage({ params }: { params: Params }) {
     "@type": "BlogPosting",
     headline: post.title,
     description: post.excerpt,
+    abstract: post.summary,
     datePublished: post.date,
     author: { "@type": "Organization", name: post.author },
     publisher: { "@type": "Organization", name: site.name },
@@ -67,6 +70,7 @@ export default function BlogPostPage({ params }: { params: Params }) {
 
   return (
     <>
+      <JsonLd data={breadcrumbJsonLd([{ name: "Blog", path: "/blog" }, { name: post.title, path: `/blog/${post.slug}` }])} />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
@@ -118,7 +122,39 @@ export default function BlogPostPage({ params }: { params: Params }) {
         ) : null}
 
         <Section className="!pb-0 !pt-12 sm:!pt-16">
-          <BlogBody blocks={post.body} />
+          {/* The direct answer comes first, then the facts worth lifting,
+              then the full article. */}
+          <div className="max-w-[54ch]">
+            <p className="font-display text-xl font-semibold leading-snug text-ink sm:text-2xl">
+              {post.summary}
+            </p>
+            <section
+              aria-labelledby="key-takeaways"
+              className="metal-soft edge-chrome mt-8 rounded-xl p-6"
+            >
+              <h2
+                id="key-takeaways"
+                className="text-xs font-semibold uppercase tracking-[0.18em] text-chrome"
+              >
+                Key takeaways
+              </h2>
+              <ul className="mt-4 space-y-2.5 text-sm leading-relaxed text-muted sm:text-base">
+                {post.takeaways.map((takeaway) => (
+                  <li key={takeaway} className="flex gap-3">
+                    <span
+                      aria-hidden="true"
+                      className="mt-[0.6em] h-1.5 w-1.5 shrink-0 rounded-full bg-chrome"
+                    />
+                    <span>{takeaway}</span>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          </div>
+
+          <div className="mt-12">
+            <BlogBody blocks={post.body} />
+          </div>
         </Section>
       </article>
 

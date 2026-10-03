@@ -69,6 +69,14 @@ export type BlogPost = {
   date: string;
   author: string;
   coverImage?: GalleryImage;
+  /**
+   * One direct, quotable sentence that answers the post's question. Rendered
+   * first, above the body, so it is the opening sentence of the article (the
+   * one search and AI engines are most likely to lift).
+   */
+  summary: string;
+  /** Factual bullets drawn from the post itself, shown near the top. */
+  takeaways: string[];
   body: BlogBlock[];
 };
 
@@ -94,13 +102,22 @@ export const posts: BlogPost[] = [
     // 3840x5120 — the only Ferrari shot large enough to run wide without
     // upscaling, and deep gloss is exactly what this article is about.
     coverImage: photo("ferrari-hero-2.jpeg"),
+    summary:
+      "A ceramic coating is a liquid polymer that chemically bonds to your car's clear coat, forming a hard, transparent layer that lasts years rather than the few weeks a wax lasts.",
+    takeaways: [
+      "Ceramic coating bonds with the clear coat instead of sitting on top of it, so it does not wash away like wax.",
+      "It adds gloss, sheds water, resists UV and contaminants, and makes washing easier. It does not stop rock chips or deep scratches.",
+      "Wax lasts a few weeks to a couple of months, sealant several months, and a professional ceramic coating years, depending on the level and how the car is maintained.",
+      "Most of the work is the prep: decontamination and paint correction before the coating goes on.",
+      "Royal Rinse offers a 1-Year Ceramic Wax Polish and Level 1 to 3 multi-year coatings, applied at your home or office.",
+    ],
     body: [
       {
         type: "p",
         text: "Ceramic coating is the service we get asked about most, and the one surrounded by the most noise. It's easy to lose track of what a coating actually does, and whether it makes sense for your car. So here's a straight explanation, without the hype.",
       },
 
-      { type: "h2", text: "What ceramic coating actually is" },
+      { type: "h2", text: "What is ceramic coating?" },
       {
         type: "p",
         text: "A ceramic coating is a liquid polymer, usually silica-based, applied by hand to your paint. As it cures it forms a **chemical bond with the clear coat** rather than resting on the surface, creating a hard, transparent, semi-permanent layer that becomes part of the car.",
@@ -114,7 +131,7 @@ export const posts: BlogPost[] = [
         text: "The short version: wax is something you put on your paint. A ceramic coating becomes part of it.",
       },
 
-      { type: "h2", text: "What a ceramic coating does for your car" },
+      { type: "h2", text: "What does a ceramic coating do for your car?" },
       {
         type: "p",
         text: "A quality coating does several jobs at once, and most are about what doesn't happen to your paint over the next few years.",
@@ -245,6 +262,15 @@ export const posts: BlogPost[] = [
     author: "Royal Rinse",
     // 2921x2958 — glossy white exterior, large enough to run wide unscaled.
     coverImage: photo("tesla-2.jpeg"),
+    summary:
+      "Wax lasts weeks, sealant lasts a few months, and ceramic coating bonds to the paint and lasts years, so the right choice depends on how long you keep the car and how much upkeep you want.",
+    takeaways: [
+      "Wax is the cheapest and easiest option, with a warm shine, but it wears off in a few weeks to a couple of months.",
+      "Sealant is a synthetic step up that typically lasts several months and handles heat and detergents better than wax.",
+      "Ceramic coating lasts years with proper care and gives the strongest protection and gloss, but costs more up front and needs real prep.",
+      "If you keep a car for years, a coating usually delivers the most value; for a short ownership, wax or sealant can be enough.",
+      "Royal Rinse offers everything from a ceramic wax polish to Level 1 to 3 ceramic coatings, all applied in your driveway.",
+    ],
     body: [
       {
         type: "p",
@@ -325,7 +351,7 @@ export const posts: BlogPost[] = [
         ],
       },
 
-      { type: "h2", text: "How to choose" },
+      { type: "h2", text: "Which paint protection should you choose?" },
       {
         type: "p",
         text: "There's no single right answer: the best protection is the one that matches how you actually use your car. A few honest questions usually settle it:",
@@ -369,13 +395,22 @@ export const posts: BlogPost[] = [
     author: "Royal Rinse",
     // 2268x4032 — the Royal Rinse mobile rig; on-theme for a mobile-cost post.
     coverImage: photo("royal-truck-1.jpeg"),
+    summary:
+      "Mobile detailing in Temecula and Menifee is priced by quote, because the cost depends on your vehicle's size, its condition, the service level, and any add-ons.",
+    takeaways: [
+      "The biggest price factors are vehicle size, condition, service level, and whether you book the interior, the exterior, or both.",
+      "Add-ons such as pet hair removal, ozone odor treatment, engine bay cleaning, and headlight restoration add time and cost.",
+      "A maintenance wash is the entry point, a full interior and exterior detail sits higher, and ceramic coating is the premium end because of the prep.",
+      "Mobile detailing saves the hidden cost of your time: no drop-off, no ride across town, no waiting room.",
+      "Royal Rinse is licensed, insured, and bonded, quotes every vehicle up front, and offers 10% off for active and veteran military.",
+    ],
     body: [
       {
         type: "p",
         text: "\"How much does it cost?\" is the first thing most people want to know, and the honest answer is that it depends, for reasons that actually matter. Detailing isn't one fixed service, so a good detailer quotes based on your specific vehicle and what it needs. Here's what goes into that number so you can budget with your eyes open.",
       },
 
-      { type: "h2", text: "What affects the price of a detail" },
+      { type: "h2", text: "What affects the price of a mobile detail?" },
       {
         type: "p",
         text: "Four things move the needle more than anything else:",
@@ -416,7 +451,7 @@ export const posts: BlogPost[] = [
         text: "The premium end, because the prep is the real work: decontamination and often paint correction before anything is applied, since a coating locks in whatever's underneath. In exchange you get protection measured in years. We explain the process in full in [what ceramic coating is and how long it lasts](/blog/what-is-ceramic-coating), and you can see every tier on our [packages page](/packages).",
       },
 
-      { type: "h2", text: "Why mobile detailing is worth it here" },
+      { type: "h2", text: "Is mobile detailing worth it in Temecula and Menifee?" },
       {
         type: "p",
         text: "Mobile detailing removes the hidden cost people forget to count: your time. There's no dropping the car across town and arranging a ride, no half-day in a waiting room, no rescheduling your afternoon around a shop's hours. We come to you, at home or the office in [Menifee](/service-area/menifee), [Temecula](/service-area/temecula), Murrieta, and across the region, with a fully self-contained rig that carries its own water and power, so all you do is hand over the keys.",
@@ -462,6 +497,15 @@ export const posts: BlogPost[] = [
     date: "2026-09-04",
     author: "Royal Rinse",
     coverImage: photo("ferrari-hero-3.jpeg"),
+    summary:
+      "Luxury and exotic cars need specialist detailing because their softer clear coats, delicate interior materials, and high value leave very little room for error.",
+    takeaways: [
+      "Many exotics have softer clear coats that swirl easily, and a brush tunnel or the wrong wash mitt can mar them in one pass.",
+      "Alcantara, aniline leather, real wood, carbon fiber, and matte or satin paint each need specific products and technique.",
+      "Specialist care means a paint-safe hand wash, thorough decontamination, careful paint correction, suitable ceramic protection, and meticulous interior work.",
+      "Royal Rinse regularly cares for luxury and exotic vehicles such as Porsche, Ferrari, Mercedes-Benz, and Tesla.",
+      "Mobile service removes transport risk: the car is detailed in your own driveway and nobody else drives it.",
+    ],
     body: [
       {
         type: "p",
@@ -472,7 +516,7 @@ export const posts: BlogPost[] = [
         text: "Royal Rinse is a mobile detailing company based in Menifee that specializes in high-end automotive care across Temecula, Menifee, and all of Riverside & San Diego County. Here's why these vehicles demand a specialist, and what specialized care actually looks like.",
       },
 
-      { type: "h2", text: "Why luxury and exotic vehicles need specialist care" },
+      { type: "h2", text: "Why do luxury and exotic vehicles need specialist care?" },
       {
         type: "p",
         text: "The stakes are simply higher. On a six-figure car, a single wash-induced swirl or an etched water spot isn't a cosmetic annoyance. It's damage to an expensive, sometimes hard-to-match finish that can surface at resale. The very things that make these cars special are what make them unforgiving:",
@@ -491,7 +535,7 @@ export const posts: BlogPost[] = [
         text: "On a high-end vehicle the margin for error is small and the cost of a mistake is large. That's exactly where a generic wash tunnel, or an untrained detailer, becomes a real risk.",
       },
 
-      { type: "h2", text: "What specialized care actually looks like" },
+      { type: "h2", text: "What does specialized care look like?" },
       {
         type: "p",
         text: "Specialist detailing is defined less by products than by method and restraint. On a premium vehicle we lead with:",
@@ -556,6 +600,15 @@ export const posts: BlogPost[] = [
     date: "2026-09-18",
     author: "Royal Rinse",
     coverImage: photo("vehicle-2-ext-1.jpg"),
+    summary:
+      "On exotic and luxury vehicles, paint correction restores the finish and ceramic coating protects it, and the correction should always come first.",
+    takeaways: [
+      "Premium paint often has softer clear coats or specialty finishes, so wash and polish technique matters more.",
+      "Satin and matte finishes must never be polished or coated like gloss paint.",
+      "Paint correction removes swirls and haze, and on a valuable finish the goal is to remove as little clear coat as possible.",
+      "A ceramic coating adds depth and gloss, protects against UV and light etching, and makes upkeep washes gentler.",
+      "Royal Rinse offers protection from a 1-year ceramic wax polish up to Level 1 to 3 coatings, with paint correction built into the higher levels.",
+    ],
     body: [
       {
         type: "p",
@@ -566,7 +619,7 @@ export const posts: BlogPost[] = [
         text: "Royal Rinse specializes in paint protection for luxury and exotic vehicles across Menifee, Temecula, and Riverside & San Diego County. Here's how correction and coating work on premium paint, and why our climate makes them especially worthwhile.",
       },
 
-      { type: "h2", text: "Why exotic and luxury paint is different" },
+      { type: "h2", text: "Why is exotic and luxury paint different?" },
       {
         type: "p",
         text: "Premium cars often wear premium paint: multi-stage finishes with layered basecoats and tinted clears, or specialty finishes like satin and matte. They look extraordinary and behave differently from ordinary paint:",
@@ -625,7 +678,7 @@ export const posts: BlogPost[] = [
         text: "Our climate punishes premium paint from both directions. Inland, the [Temecula](/service-area/temecula) and [Menifee](/service-area/menifee) heat brings relentless sun and UV that fade and oxidize unprotected finishes. Toward the coast, San Diego's salt air and marine layer invite water spotting and early corrosion. A quality ceramic coating addresses both: UV resistance for the inland sun and a salt- and moisture-shedding barrier for the coast.",
       },
 
-      { type: "h2", text: "Choosing the right level" },
+      { type: "h2", text: "Which ceramic coating level is right for your car?" },
       {
         type: "p",
         text: "Not every vehicle needs the top tier, and we'll tell you when it doesn't. Our ceramic protection runs from a machine-applied 1-year ceramic wax polish up through multi-year Level 1-3 coatings, with paint correction built into the higher levels. The right choice depends on the paint's condition, how you drive and store the car, and how long you plan to keep it. Compare the options on our [packages page](/packages).",
@@ -662,13 +715,22 @@ export const posts: BlogPost[] = [
     // spot-free, deep-gloss finish this article is about. Distinct from
     // every other post's cover.
     coverImage: photo("ferrari-exterior-1.jpeg"),
+    summary:
+      "Deionized (DI) water is water with the dissolved minerals removed, so it dries without leaving water spots, and Royal Rinse uses it in its detailing process.",
+    takeaways: [
+      "Southern California tap water is hard, and the minerals it leaves behind dry into water spots that can etch clear coat and glass.",
+      "Using DI water for the wash and every rinse means no new minerals are added to the paint while it is being cleaned.",
+      "A final DI rinse dries spot-free, which also means less towel drying, one of the common causes of swirl marks.",
+      "The result is deeper gloss, streak-free glass and chrome, and a finish that still looks flawless after the car dries.",
+      "Royal Rinse brings deionized water to your driveway across Menifee, Temecula, and Riverside and San Diego County.",
+    ],
     body: [
       {
         type: "p",
         text: "Most people judge a detailer by the wax, the polish, or the shine on delivery day. But one of the biggest differences between a good detail and a truly flawless one comes down to something far less glamorous: the water. Professional detailers use **deionized water (DI)**, also known as \"spot-free water\", and once you understand what it does, you won't want your car washed with anything else.",
       },
 
-      { type: "h2", text: "What deionized water (DI) is" },
+      { type: "h2", text: "What is deionized water (DI)?" },
       {
         type: "p",
         text: "Deionized water is ordinary water run through a deionization process that strips out the dissolved minerals, calcium, magnesium, sodium, and other impurities that everyday water carries. What's left is water so pure that when it dries, it leaves **nothing behind**. That's exactly why it's nicknamed \"spot-free water\": no minerals means no mineral spots on the paint.",
@@ -692,7 +754,7 @@ export const posts: BlogPost[] = [
         text: "On a hot inland afternoon, spot-free water isn't a luxury. It's the difference between a finish that stays clean and one that's already freckled with mineral spots before the detailer has packed up.",
       },
 
-      { type: "h2", text: "Why DI water is crucial to the process" },
+      { type: "h2", text: "Why is deionized water crucial to detailing?" },
       {
         type: "p",
         text: "Using DI water isn't just about the final rinse. It matters at **every stage**. When the wash and every rinse are done with deionized water, no new mineral contamination is being introduced onto the paint while it's being cleaned. You're never adding the very thing a good detail is trying to remove.",
@@ -765,6 +827,15 @@ export const posts: BlogPost[] = [
      * column instead, where the same files stretch about 1.7x.
      */
     coverImage: photo("corvette-c2-3.jpeg"),
+    summary:
+      "Classic cars need a gentler detailing approach than modern cars, because many have single-stage paint, original chrome and trim, and interiors that cannot be replaced.",
+    takeaways: [
+      "Many classics have single-stage paint or lacquer with no clear coat, so every polishing pass removes original finish. We test first and start with the least aggressive method.",
+      "Real chrome, stainless, anodized aluminum, and pot metal each need dedicated metal polishes, not modern all-purpose cleaners.",
+      "Classics are not sealed like modern cars, so we use minimal water and dry every seam with forced air to prevent rust.",
+      "Original interiors and engine bays get gentle, low-moisture cleaning that preserves original finishes, labels, and patina.",
+      "Royal Rinse details classic and collector cars on site at your home or storage unit across Menifee, Temecula, Riverside County, and San Diego County.",
+    ],
     body: [
       {
         type: "p",

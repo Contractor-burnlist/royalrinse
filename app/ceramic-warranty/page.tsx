@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
+import { JsonLd } from "@/components/JsonLd";
 import Link from "next/link";
-import { buildMetadata } from "@/lib/seo";
+import { breadcrumbJsonLd, buildMetadata } from "@/lib/seo";
 import {
   SERVICE_AREA_LINE,
   site,
@@ -83,6 +84,7 @@ function ProvidedBy({ children }: { children: React.ReactNode }) {
 export default function CeramicWarrantyPage() {
   return (
     <>
+      <JsonLd data={breadcrumbJsonLd([{ name: "Ceramic Coating Warranty", path: "/ceramic-warranty" }])} />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}

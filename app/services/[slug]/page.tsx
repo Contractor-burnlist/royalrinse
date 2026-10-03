@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { JsonLd } from "@/components/JsonLd";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -9,9 +10,9 @@ import {
   serviceDetails,
 } from "@/lib/services";
 import { serviceDetailPhoto } from "@/lib/serviceImages";
-import { SERVICE_AREA_LINE, site } from "@/lib/site";
-import { buildMetadata } from "@/lib/seo";
-import { absoluteUrl, siteUrl } from "@/lib/url";
+import { SERVICE_AREA_LINE } from "@/lib/site";
+import { AREA_SERVED_PRIMARY, breadcrumbJsonLd, buildMetadata, PROVIDER_REF } from "@/lib/seo";
+import { absoluteUrl } from "@/lib/url";
 import { QuoteCta } from "@/components/QuoteCta";
 import { Card, Container, Eyebrow, Icon, Section } from "@/components/ui";
 
@@ -62,13 +63,15 @@ export default function ServiceDetailPage({ params }: { params: Params }) {
     name: `${detail.name}, Mobile Auto Detailing`,
     serviceType: detail.name,
     description: detail.intro,
-    areaServed: SERVICE_AREA_LINE,
+    "@id": `${absoluteUrl(`/services/${detail.slug}`)}#service`,
+    areaServed: AREA_SERVED_PRIMARY,
     url: absoluteUrl(`/services/${detail.slug}`),
-    provider: { "@type": "AutoDetailing", "@id": `${siteUrl}/#business`, name: site.legalName },
+    provider: PROVIDER_REF,
   };
 
   return (
     <>
+      <JsonLd data={breadcrumbJsonLd([{ name: "Services", path: "/services" }, { name: detail.name, path: `/services/${detail.slug}` }])} />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}

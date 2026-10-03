@@ -15,7 +15,8 @@ import {
   SERVICE_AREA_LINE,
   site,
 } from "@/lib/site";
-import { cities } from "@/lib/serviceAreas";
+import { priorityCities, secondaryCities } from "@/lib/serviceAreas";
+import { serviceDetails } from "@/lib/services";
 import { absoluteUrl, PRODUCTION_URL, siteUrl } from "@/lib/url";
 
 /** E.164 phone for schema (tel: constant carries the same digits). */
@@ -23,6 +24,61 @@ const PHONE_E164 = PHONE_TEL.replace("tel:", "");
 
 /** Logo + a default social image, both absolute. */
 export const LOGO_URL = absoluteUrl("/royal-logo.jpeg");
+
+const BUSINESS_ID = `${siteUrl}/#business`;
+const ORGANIZATION_ID = `${siteUrl}/#organization`;
+
+/**
+ * areaServed, in PRIORITY order: the five priority cities, then the two
+ * counties, then every secondary city. Order signals emphasis.
+ */
+export const AREA_SERVED_PRIMARY = [
+  ...priorityCities.map((city) => ({ "@type": "City", name: `${city.name}, CA` })),
+  { "@type": "AdministrativeArea", name: "Riverside County, CA" },
+  { "@type": "AdministrativeArea", name: "San Diego County, CA" },
+];
+
+export const AREA_SERVED = [
+  ...AREA_SERVED_PRIMARY,
+  ...secondaryCities.map((city) => ({ "@type": "City", name: `${city.name}, CA` })),
+];
+
+/** What the business is expert in, for entity resolution. */
+const KNOWS_ABOUT = [
+  "Mobile auto detailing",
+  "Ceramic coating",
+  "Paint correction",
+  "Interior detailing",
+  "Exotic car detailing",
+  "Luxury car detailing",
+  "Classic car care",
+  "Deionized water washing",
+];
+
+/** Reference to the business node, for `provider` on Service schema. */
+export const PROVIDER_REF = {
+  "@type": "AutoDetailing",
+  "@id": BUSINESS_ID,
+  name: site.legalName,
+};
+
+/**
+ * BreadcrumbList JSON-LD. Pass the trail BELOW the homepage; Home is added
+ * first automatically.
+ */
+export function breadcrumbJsonLd(trail: { name: string; path: string }[]) {
+  const items = [{ name: "Home", path: "/" }, ...trail];
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: items.map((item, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: item.name,
+      item: absoluteUrl(item.path),
+    })),
+  };
+}
 
 /**
  * Build page metadata. Pass a root-relative `path` and you get a self-canonical
@@ -78,7 +134,7 @@ export function buildMetadata({
  * useful.
  */
 export function siteJsonLd() {
-  const businessId = `${siteUrl}/#business`;
+  const businessId = BUSINESS_ID;
 
   const business: Record<string, unknown> = {
     "@type": ["AutoDetailing", "LocalBusiness"],
@@ -86,29 +142,24 @@ export function siteJsonLd() {
     name: site.legalName,
     url: siteUrl,
     telephone: PHONE_E164,
-    email: `mailto:${site.email}`,
+    email: site.email,
     image: LOGO_URL,
     logo: LOGO_URL,
     priceRange: PRICE_RANGE,
-    description: `Premium mobile auto detailing serving ${SERVICE_AREA_LINE}. Licensed, insured, and bonded. We come to your home or office.`,
+    description: `Royal Rinse Mobile Detailing is a mobile auto detailing company based in Menifee, California, serving Menifee, Temecula, Murrieta, Riverside, San Diego and the surrounding areas of ${SERVICE_AREA_LINE}. Licensed, insured, and bonded. We come to your home or office.`,
+    slogan: site.tagline,
+    knowsAbout: KNOWS_ABOUT,
+    parentOrganization: { "@id": ORGANIZATION_ID },
     // Service-area business: no public storefront, so region only (no street).
     address: {
       "@type": "PostalAddress",
+      addressLocality: "Menifee",
       addressRegion: "CA",
       addressCountry: "US",
     },
-    // Order signals emphasis: priority markets first (Menifee, Temecula,
-    // Riverside County, San Diego city + county), then every remaining city.
-    areaServed: [
-      { "@type": "City", name: "Menifee, CA" },
-      { "@type": "City", name: "Temecula, CA" },
-      { "@type": "AdministrativeArea", name: "Riverside County, CA" },
-      { "@type": "City", name: "San Diego, CA" },
-      { "@type": "AdministrativeArea", name: "San Diego County, CA" },
-      ...cities
-        .filter((city) => !["menifee", "temecula", "san-diego"].includes(city.slug))
-        .map((city) => ({ "@type": "City", name: `${city.name}, CA` })),
-    ],
+    // Priority order: the five priority cities, the two counties, then the
+    // secondary cities. See AREA_SERVED above.
+    areaServed: AREA_SERVED,
     hasMap: GOOGLE_MAPS_URL,
     sameAs: [GOOGLE_MAPS_URL],
     identifier: {
@@ -124,6 +175,24 @@ export function siteJsonLd() {
         closes: OPENING_HOURS.closes,
       },
     ],
+    // One Service per service page, each with its own areaServed.
+    hasOfferCatalog: {
+      "@type": "OfferCatalog",
+      name: "Mobile auto detailing services",
+      itemListElement: serviceDetails.map((detail) => ({
+        "@type": "Offer",
+        itemOffered: {
+          "@type": "Service",
+          "@id": `${absoluteUrl(`/services/${detail.slug}`)}#service`,
+          name: detail.name,
+          serviceType: detail.name,
+          description: detail.intro,
+          url: absoluteUrl(`/services/${detail.slug}`),
+          areaServed: AREA_SERVED_PRIMARY,
+          provider: { "@id": businessId },
+        },
+      })),
+    },
     // Ties the profile to its Google Place for entity disambiguation.
     additionalProperty: {
       "@type": "PropertyValue",
@@ -147,10 +216,26 @@ export function siteJsonLd() {
       business,
       {
         "@type": "Organization",
-        "@id": `${siteUrl}/#organization`,
+        "@id": ORGANIZATION_ID,
         name: site.legalName,
+        alternateName: site.name,
         url: siteUrl,
-        logo: LOGO_URL,
+        logo: {
+          "@type": "ImageObject",
+          url: LOGO_URL,
+          width: 1254,
+          height: 1254,
+        },
+        image: LOGO_URL,
+        email: site.email,
+        telephone: PHONE_E164,
+        contactPoint: {
+          "@type": "ContactPoint",
+          telephone: PHONE_E164,
+          contactType: "customer service",
+          areaServed: "US-CA",
+          availableLanguage: "English",
+        },
         sameAs: [GOOGLE_MAPS_URL],
       },
       {
@@ -158,7 +243,7 @@ export function siteJsonLd() {
         "@id": `${siteUrl}/#website`,
         url: siteUrl,
         name: site.legalName,
-        publisher: { "@id": `${siteUrl}/#organization` },
+        publisher: { "@id": ORGANIZATION_ID },
       },
     ],
   };

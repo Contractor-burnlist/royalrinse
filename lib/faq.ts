@@ -1,57 +1,81 @@
 /**
- * FAQ content — plain, factual answers. Rendered on /faq (with FAQPage JSON-LD)
- * and, in part, on the homepage, so the key facts are extractable as text by
- * search engines and AI answer engines rather than locked in images or buttons.
+ * FAQ content, written the way people phrase questions to search and AI
+ * assistants. Rendered on /faq (with FAQPage JSON-LD) and, in part, on the
+ * homepage.
+ *
+ * ANSWER FORMAT: the first sentence is the complete, direct answer and stands
+ * on its own (answer engines usually quote the opening sentence). One or two
+ * sentences of detail follow. Never bury the answer.
  *
  * No invented prices: detailing is quoted per vehicle.
  */
 
+import { joinList, priorityCityList } from "@/lib/facts";
+import { secondaryCities } from "@/lib/serviceAreas";
+import { site } from "@/lib/site";
+
 export type Faq = { question: string; answer: string };
+
+const otherRiverside = joinList(
+  secondaryCities.filter((city) => city.county === "Riverside").map((city) => city.name),
+);
+const otherSanDiego = joinList(
+  secondaryCities.filter((city) => city.county === "San Diego").map((city) => city.name),
+);
 
 export const faqs: Faq[] = [
   {
-    question: "Do you come to me?",
-    answer:
-      "Yes. Royal Rinse is a fully mobile auto detailing service. We come to your home or office. Our rig is completely self-contained (it carries its own water and power), so we detail your vehicle right where it's parked. No drop-off, no waiting room, no lost afternoon.",
+    question: `Do you offer mobile detailing in ${priorityCityList}?`,
+    answer: `Yes, Royal Rinse provides mobile auto detailing in ${priorityCityList}, California. We are based in Menifee, so scheduling is fastest in Menifee, Temecula, and Murrieta, and we come to your home or office in all five cities.`,
   },
   {
-    question: "What areas do you serve?",
+    question: "Do you come to my home or office?",
     answer:
-      "We're based in Menifee and serve Temecula, Murrieta, and all of Riverside & San Diego County, including Riverside, San Diego, La Jolla, and Escondido. Because we're local to Menifee, our response times and scheduling are fastest across Menifee, Temecula, and Murrieta. If you're nearby and don't see your city listed, give us a call. We can usually reach you.",
+      "Yes, Royal Rinse is fully mobile and details your vehicle at your home or office. Our rig is self-contained and carries its own water and power, so there is no drop-off and no waiting room.",
   },
   {
-    question: "Are you located in Menifee?",
-    answer:
-      "Yes. Royal Rinse Mobile Detailing is based in Menifee, CA. Being locally based means the fastest response times and easiest scheduling for Menifee, Temecula, and Murrieta, while we still cover all of Riverside & San Diego County. We're fully mobile, so wherever you are, we come to your home or office.",
+    question: "What areas of Riverside County and San Diego County do you serve?",
+    answer: `We serve ${priorityCityList}, and the surrounding areas of Riverside County and San Diego County. That includes ${otherRiverside} in Riverside County, and ${otherSanDiego} in San Diego County. If you are nearby and do not see your city, call and we can usually reach you.`,
   },
   {
-    question: "How much does mobile car detailing cost in Temecula or Menifee?",
+    question: "Where is Royal Rinse located?",
     answer:
-      "Pricing is quote-based because it depends on your vehicle's size and condition and the service level. A maintenance wash, a full interior-and-exterior detail, and a multi-year ceramic coating are very different jobs. Call (951) 338-9117 or book online for a fast, honest quote on your specific vehicle. We never post one-size-fits-all prices that would overcharge some cars.",
+      "Royal Rinse Mobile Detailing is based in Menifee, California. Being local means the fastest response times for Menifee, Temecula, and Murrieta, and because we are fully mobile we come to you anywhere in our Riverside County and San Diego County service area.",
   },
   {
-    question: "What is ceramic coating, and is it worth it?",
-    answer:
-      "Ceramic coating is a liquid polymer that chemically bonds to your paint's clear coat, forming a durable, semi-permanent layer, unlike wax, which sits on top and washes away in weeks. It adds deep gloss, sheds water, and protects against UV, oxidation, and contaminants. A quality professional coating lasts years with proper care, so it's often worth it for owners who keep their cars long-term, want to protect resale value, or are tired of frequent waxing.",
+    question: "How much does mobile detailing cost?",
+    answer: `Mobile detailing at Royal Rinse is priced by quote, because the cost depends on your vehicle's size, its condition, and the service level. A maintenance wash, a full interior and exterior detail, and a multi-year ceramic coating are very different jobs. Call or text ${site.phone} or book online for an honest quote on your vehicle.`,
   },
   {
-    question: "How long does a detail take?",
+    question: "What is ceramic coating and how long does it last?",
     answer:
-      "It depends on the service and the vehicle's condition. A maintenance wash is relatively quick, a full interior-and-exterior detail takes several hours, and a ceramic coating is a multi-stage job (decontamination, often paint correction, application, and cure) that can take most of a day. We'll give you a realistic time estimate when we quote your vehicle.",
+      "Ceramic coating is a liquid polymer that chemically bonds to your paint's clear coat and lasts years rather than the weeks a wax lasts. Our levels run from a 1-year ceramic wax polish to multi-year coatings rated for 3 to 5 years and 5 years, and real-world life depends on the level and how the car is maintained. Our coatings carry the manufacturer's limited lifetime product warranty plus our 1-year workmanship warranty.",
+  },
+  {
+    question: "Do you detail exotic and classic cars?",
+    answer:
+      "Yes, Royal Rinse specializes in luxury, exotic, and classic vehicles, and regularly cares for cars such as Porsche, Ferrari, Corvette, Mercedes-Benz, and Tesla. Soft clear coats, single-stage paint, delicate trim, and original interiors get a gentler, slower approach, and the work happens in your own driveway.",
+  },
+  {
+    question: "How long does a full detail take?",
+    answer:
+      "A full interior and exterior detail takes several hours, depending on the vehicle's size and condition. A maintenance wash is much quicker, and a ceramic coating is a multi-stage job (decontamination, often paint correction, application, and cure) that can take most of a day. We give you a realistic time estimate with your quote.",
   },
   {
     question: "Are you licensed and insured?",
-    answer:
-      "Yes. Royal Rinse Mobile Detailing is licensed, insured, and bonded, registered with the California DLSE under license CW-LR-1001298512. Your vehicle and your property are covered from the moment we arrive until the moment we leave.",
+    answer: `Yes, Royal Rinse Mobile Detailing is licensed, insured, and bonded, registered with the California DLSE under license ${site.licenseNumber}. Your vehicle and your property are covered from the moment we arrive until the moment we leave.`,
   },
   {
     question: "Do you offer a military discount?",
+    answer: `Yes, Royal Rinse offers a 10% discount for active-duty and veteran military. Mention it when you book or call ${site.phone}.`,
+  },
+  {
+    question: "Do you use deionized water?",
     answer:
-      "Yes. We offer a 10% discount for active-duty and veteran military as a thank-you for your service. Mention it when you book or call (951) 338-9117.",
+      "Yes, Royal Rinse uses deionized water in its detailing process. Deionized water has the dissolved minerals removed, so it dries without leaving water spots, which matters with Southern California's hard water and hot sun.",
   },
   {
     question: "How do I book?",
-    answer:
-      "Book online in a couple of minutes through our booking page, or call (951) 338-9117. Tell us your vehicle and the service you're after and we'll handle the rest. Then we come to you.",
+    answer: `You can book online in a couple of minutes, or call or text ${site.phone}. Tell us your vehicle and the service you want, and we come to you.`,
   },
 ];

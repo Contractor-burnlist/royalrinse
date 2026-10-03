@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { buildMetadata } from "@/lib/seo";
+import { JsonLd } from "@/components/JsonLd";
+import { AREA_SERVED_PRIMARY, breadcrumbJsonLd, buildMetadata, PROVIDER_REF } from "@/lib/seo";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -15,8 +16,8 @@ import {
   packagesAddOnsPhoto,
   packagesHeroImage,
 } from "@/lib/serviceImages";
-import { SERVICE_AREA_LINE, telHref } from "@/lib/site";
-import { absoluteUrl, siteUrl } from "@/lib/url";
+import { telHref } from "@/lib/site";
+import { absoluteUrl } from "@/lib/url";
 import { BookNowButton } from "@/components/BookNowButton";
 import { Reveal } from "@/components/Reveal";
 import { ButtonAnchor, Container, Eyebrow, Icon, Section } from "@/components/ui";
@@ -267,9 +268,9 @@ const packagesSchema = {
       name: pkg.name,
       description: pkg.tagline,
       serviceType: "Mobile Auto Detailing",
-      areaServed: SERVICE_AREA_LINE,
+      areaServed: AREA_SERVED_PRIMARY,
       url: absoluteUrl(`/services/${pkg.slug}`),
-      provider: { "@type": "AutoDetailing", "@id": `${siteUrl}/#business` },
+      provider: PROVIDER_REF,
     },
   })),
 };
@@ -277,6 +278,7 @@ const packagesSchema = {
 export default function PackagesPage() {
   return (
     <>
+      <JsonLd data={breadcrumbJsonLd([{ name: "Packages", path: "/packages" }])} />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(packagesSchema) }}

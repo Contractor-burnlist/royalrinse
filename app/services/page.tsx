@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { buildMetadata } from "@/lib/seo";
+import { JsonLd } from "@/components/JsonLd";
+import { breadcrumbJsonLd, buildMetadata } from "@/lib/seo";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -62,6 +63,7 @@ const tierIcons: Record<string, string> = {
 export default function ServicesPage() {
   return (
     <>
+      <JsonLd data={breadcrumbJsonLd([{ name: "Services", path: "/services" }])} />
       <div className="metal-strong metal-edge-b">
         <Container className="py-16 sm:py-20">
           <Eyebrow>Services</Eyebrow>

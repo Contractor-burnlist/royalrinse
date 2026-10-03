@@ -11,8 +11,10 @@ import {
   site,
   telHref,
 } from "@/lib/site";
-import { absoluteUrl, siteUrl } from "@/lib/url";
-import { buildMetadata } from "@/lib/seo";
+import { absoluteUrl } from "@/lib/url";
+import { breadcrumbJsonLd, buildMetadata, PROVIDER_REF } from "@/lib/seo";
+import { servicesSentence } from "@/lib/facts";
+import { JsonLd } from "@/components/JsonLd";
 import { BookNowButton } from "@/components/BookNowButton";
 import { QuoteCta } from "@/components/QuoteCta";
 import { ButtonAnchor, Card, Container, Eyebrow, Icon, Section } from "@/components/ui";
@@ -67,21 +69,36 @@ function CitySchema({ city }: { city: City }) {
     "@type": "Service",
     serviceType: "Mobile Auto Detailing",
     name: `Mobile Auto Detailing in ${city.name}`,
-    provider: {
-      "@type": "AutoDetailing",
-      "@id": `${siteUrl}/#business`,
-      name: site.legalName,
-      telephone: PHONE_DISPLAY,
-    },
+    provider: { ...PROVIDER_REF, telephone: PHONE_DISPLAY },
     areaServed: { "@type": "City", name: `${city.name}, CA` },
     hasMap: GOOGLE_MAPS_URL,
     url: absoluteUrl(`/service-area/${city.slug}`),
   };
   return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
-    />
+    <>
+      <JsonLd data={schema} />
+      <JsonLd
+        data={breadcrumbJsonLd([
+          { name: "Service Area", path: "/service-area" },
+          { name: city.name, path: `/service-area/${city.slug}` },
+        ])}
+      />
+    </>
+  );
+}
+
+/**
+ * The plain statement every city page carries, in real text: who provides
+ * what, where, and that we come to them. Answer engines quote sentences like
+ * this one verbatim.
+ */
+function CityFactLine({ city }: { city: City }) {
+  return (
+    <p className="text-lg leading-relaxed text-ink">
+      Royal Rinse provides mobile auto detailing in {city.name}, California. We
+      come to your home or office anywhere in {city.name}.{" "}
+      <span className="text-muted">{servicesSentence}</span>
+    </p>
   );
 }
 
@@ -252,9 +269,10 @@ function UniqueCityPage({ city, page }: { city: City; page: CityPage }) {
         </Container>
       </div>
 
-      {/* Unique, city-specific intro. */}
+      {/* Unique, city-specific intro, led by the plain fact statement. */}
       <Section className="!pb-0">
         <div className="max-w-[62ch] space-y-5 text-base leading-relaxed text-muted">
+          <CityFactLine city={city} />
           {page.intro.map((paragraph) => (
             <p key={paragraph.slice(0, 32)}>{paragraph}</p>
           ))}
@@ -308,6 +326,12 @@ function TemplatedCityPage({ city }: { city: City }) {
           </Link>
         </Container>
       </div>
+
+      <Section className="!pb-0">
+        <div className="max-w-[62ch]">
+          <CityFactLine city={city} />
+        </div>
+      </Section>
 
       <ServicesGrid
         intro={`Every Royal Rinse package is available in ${city.name}.`}

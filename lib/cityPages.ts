@@ -1,5 +1,7 @@
 /**
- * Hand-written content for the six showcase city pages.
+ * Hand-written content for the showcase city pages: the five priority
+ * markets (Menifee, Temecula, Murrieta, Riverside, San Diego) plus La Jolla
+ * and Escondido, which stay live as secondary pages.
  *
  * These exist because a templated "[City]" page with the name swapped in is
  * duplicate content — bad for local SEO and worse for the reader. Every field
@@ -89,6 +91,29 @@ export const cityPages: CityPage[] = [
       "Menifee is home base, so we're never far. Call and we'll usually get to you fast.",
     metaDescription:
       "Mobile auto detailing in Menifee, CA, Royal Rinse's home base. Fast local response across Sun City, Audie Murphy Ranch and the 215 corridor. We come to your driveway for washes, full details and ceramic coating.",
+  },
+
+  {
+    slug: "murrieta",
+    subhead:
+      "Right between our Menifee home base and Temecula, Murrieta gets some of our quickest scheduling, and a detail built for long, hot inland summers.",
+    // Off-road SUV, 1200x1600: the family-SUV-and-truck mix this page talks
+    // about, and sharp in the 540px cover slot.
+    coverFile: "suv-exterior-2.jpeg",
+    intro: [
+      "Murrieta sits in the middle of southwest Riverside County, where the 15 and the 215 meet, with Temecula to the south and Menifee to the north. It is a family town on a commuter's schedule, and the driveways show it: three-row SUVs and minivans, work trucks, and a good number of enthusiast cars kept for the weekend.",
+      "We detail across the city, from the streets around Historic Downtown Murrieta to Alta Murrieta, the Murrieta Hot Springs Road corridor, and the bigger lots out toward Greer Ranch, Bear Creek, and the Santa Rosa Plateau. Because Murrieta sits between our home base in Menifee and Temecula, it is one of the easiest places for us to fit in a same-week appointment.",
+      "The rig arrives fully self-contained, with its own water and power, so your vehicle is detailed where it is parked, at home or at the office, and the only thing you have to do is hand over the keys.",
+    ],
+    angleHeading: "What Murrieta summers do to paint",
+    angleBody:
+      "Murrieta's summers are long, hot, and dry, and the sun is the biggest enemy of an unprotected finish here. UV fades paint and dries out exterior trim, dust settles fast, and water left on a hot panel dries into mineral spots within minutes. That is why we wash with spot-free deionized water, lean on UV-resistant protection like our ceramic coating levels, and keep busy family vehicles that live outside on a regular maintenance schedule.",
+    servicesIntro:
+      "Every Royal Rinse package is available in Murrieta, from a maintenance wash for the family SUV to paint correction and ceramic coating for the weekend car.",
+    ctaLine:
+      "We detail throughout Murrieta, from Historic Downtown to Greer Ranch and the Santa Rosa Plateau, and we come to you.",
+    metaDescription:
+      "Mobile auto detailing in Murrieta, CA. Royal Rinse comes to your home or office between Menifee and Temecula: spot-free deionized water, ceramic coating, paint correction and interior detailing for family SUVs, trucks and enthusiast cars.",
   },
 
   {

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { buildMetadata } from "@/lib/seo";
+import { JsonLd } from "@/components/JsonLd";
+import { breadcrumbJsonLd, buildMetadata } from "@/lib/seo";
 import Image from "next/image";
 import Link from "next/link";
 import { allGalleryImages } from "@/lib/gallery";
@@ -26,6 +27,7 @@ const rigImage = allGalleryImages.find((image) =>
 export default function ServiceAreaPage() {
   return (
     <>
+      <JsonLd data={breadcrumbJsonLd([{ name: "Service Area", path: "/service-area" }])} />
       <div className="rule-chrome-b metal-inset">
         <Container className="py-16 sm:py-20">
           <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,1fr)_20rem] lg:gap-14">

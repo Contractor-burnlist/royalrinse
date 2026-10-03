@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { buildMetadata } from "@/lib/seo";
+import { JsonLd } from "@/components/JsonLd";
+import { breadcrumbJsonLd, buildMetadata } from "@/lib/seo";
 import Image from "next/image";
 import Link from "next/link";
 import { site, telHref } from "@/lib/site";
@@ -260,6 +261,7 @@ function AboutCta() {
 export default function AboutPage() {
   return (
     <>
+      <JsonLd data={breadcrumbJsonLd([{ name: "About", path: "/about" }])} />
       <Hero />
       <OurStory />
       <WhyRoyalRinse />

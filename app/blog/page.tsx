@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { buildMetadata } from "@/lib/seo";
+import { JsonLd } from "@/components/JsonLd";
+import { breadcrumbJsonLd, buildMetadata } from "@/lib/seo";
 import { sortedPosts } from "@/lib/blog";
 import { SERVICE_AREA_LINE } from "@/lib/site";
 import { BlogCard } from "@/components/BlogCard";
@@ -17,6 +18,7 @@ export const metadata: Metadata = buildMetadata({
 export default function BlogIndexPage() {
   return (
     <>
+      <JsonLd data={breadcrumbJsonLd([{ name: "Blog", path: "/blog" }])} />
       <div className="metal-strong metal-edge-b">
         <Container className="py-16 sm:py-20">
           <Eyebrow>Blog</Eyebrow>
