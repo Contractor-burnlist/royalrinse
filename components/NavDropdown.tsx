@@ -56,7 +56,7 @@ export function NavDropdown({ config }: { config: NavMenuConfig }) {
   const wrapRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
-  const closeTimer = useRef<ReturnType<typeof setTimeout>>();
+  const closeTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
 
   const close = useCallback(() => setOpen(false), []);
 

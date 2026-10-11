@@ -11,15 +11,20 @@ import { BlogBody } from "@/components/BlogBody";
 import { BookNowButton } from "@/components/BookNowButton";
 import { ButtonAnchor, Container, Eyebrow, Section } from "@/components/ui";
 
-type Params = { slug: string };
+type Params = Promise<{ slug: string }>;
 
 /** Every post is a static page — no runtime rendering for content that never changes. */
-export function generateStaticParams(): Params[] {
+export function generateStaticParams(): { slug: string }[] {
   return posts.map((post) => ({ slug: post.slug }));
 }
 
-export function generateMetadata({ params }: { params: Params }): Metadata {
-  const post = getPost(params.slug);
+export async function generateMetadata({
+  params,
+}: {
+  params: Params;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const post = getPost(slug);
   if (!post) return {};
 
   const canonical = `/blog/${post.slug}`;
@@ -43,8 +48,9 @@ export function generateMetadata({ params }: { params: Params }): Metadata {
   };
 }
 
-export default function BlogPostPage({ params }: { params: Params }) {
-  const post = getPost(params.slug);
+export default async function BlogPostPage({ params }: { params: Params }) {
+  const { slug } = await params;
+  const post = getPost(slug);
   if (!post) notFound();
 
   /**

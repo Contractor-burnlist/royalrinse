@@ -16,14 +16,19 @@ import { absoluteUrl } from "@/lib/url";
 import { QuoteCta } from "@/components/QuoteCta";
 import { Card, Container, Eyebrow, Icon, Section } from "@/components/ui";
 
-type Params = { slug: string };
+type Params = Promise<{ slug: string }>;
 
-export function generateStaticParams(): Params[] {
+export function generateStaticParams(): { slug: string }[] {
   return serviceDetails.map((detail) => ({ slug: detail.slug }));
 }
 
-export function generateMetadata({ params }: { params: Params }): Metadata {
-  const detail = getServiceDetail(params.slug);
+export async function generateMetadata({
+  params,
+}: {
+  params: Params;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const detail = getServiceDetail(slug);
   if (!detail) return {};
 
   return buildMetadata({
@@ -36,8 +41,9 @@ export function generateMetadata({ params }: { params: Params }): Metadata {
   });
 }
 
-export default function ServiceDetailPage({ params }: { params: Params }) {
-  const detail = getServiceDetail(params.slug);
+export default async function ServiceDetailPage({ params }: { params: Params }) {
+  const { slug } = await params;
+  const detail = getServiceDetail(slug);
   if (!detail) notFound();
 
   // Only some services have a photo; the layout is unchanged for the rest.

@@ -67,6 +67,8 @@ const securityHeaders = [
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   poweredByHeader: false,
+  // Several photos ask for quality 85; Next 16 only serves listed qualities.
+  images: { qualities: [75, 85] },
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];
   },

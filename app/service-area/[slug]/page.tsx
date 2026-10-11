@@ -19,17 +19,22 @@ import { BookNowButton } from "@/components/BookNowButton";
 import { QuoteCta } from "@/components/QuoteCta";
 import { ButtonAnchor, Card, Container, Eyebrow, Icon, Section } from "@/components/ui";
 
-type Params = { slug: string };
+type Params = Promise<{ slug: string }>;
 
-export function generateStaticParams(): Params[] {
+export function generateStaticParams(): { slug: string }[] {
   return cities.map((city) => ({ slug: city.slug }));
 }
 
-export function generateMetadata({ params }: { params: Params }): Metadata {
-  const city = getCity(params.slug);
+export async function generateMetadata({
+  params,
+}: {
+  params: Params;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const city = getCity(slug);
   if (!city) return {};
 
-  const page = getCityPage(params.slug);
+  const page = getCityPage(slug);
   return buildMetadata({
     title: `Mobile Auto Detailing in ${city.name}, CA | Royal Rinse`,
     description:
@@ -343,11 +348,12 @@ function TemplatedCityPage({ city }: { city: City }) {
   );
 }
 
-export default function CityPage({ params }: { params: Params }) {
-  const city = getCity(params.slug);
+export default async function CityPage({ params }: { params: Params }) {
+  const { slug } = await params;
+  const city = getCity(slug);
   if (!city) notFound();
 
-  const page = getCityPage(params.slug);
+  const page = getCityPage(slug);
   return page ? (
     <UniqueCityPage city={city} page={page} />
   ) : (
