@@ -1,11 +1,16 @@
 "use client";
 
-import type { ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import { buttonClasses, type ButtonVariant } from "@/components/ui";
+import { loadHcpWidget } from "@/lib/hcp";
 
-/** Used if the widget script hasn't finished loading when the user clicks. */
-const HCP_FALLBACK_URL =
-  "https://book.housecallpro.com/book/Royal-Rinse-Mobile-Detailing/16c0ab2b61894f3d9a901c7ca8af8226?v2=true";
+/** How long a click waits for the widget before falling back to /book. */
+const LOAD_TIMEOUT_MS = 6000;
+
+/** Start fetching the widget as soon as a visitor reaches for the button. */
+const warm = () => {
+  loadHcpWidget().catch(() => {});
+};
 
 export function BookNowButton({
   children = "Book Now",
@@ -19,13 +24,31 @@ export function BookNowButton({
   /** Extra side effect for the caller, e.g. closing the mobile menu. */
   onClick?: () => void;
 }) {
-  const openBooking = () => {
+  const [loading, setLoading] = useState(false);
+
+  const openBooking = async () => {
     onClick?.();
 
-    if (typeof window !== "undefined" && window.HCPWidget?.openModal) {
+    if (window.HCPWidget?.openModal) {
       window.HCPWidget.openModal();
-    } else {
-      window.open(HCP_FALLBACK_URL, "_blank", "noopener,noreferrer");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      await Promise.race([
+        loadHcpWidget(),
+        new Promise<never>((_, reject) =>
+          setTimeout(() => reject(new Error("HCP widget timed out")), LOAD_TIMEOUT_MS),
+        ),
+      ]);
+      window.HCPWidget?.openModal();
+    } catch {
+      // Widget blocked or unreachable: the /book page embeds the same booking
+      // flow directly and lists the phone number.
+      window.location.assign("/book");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -33,7 +56,11 @@ export function BookNowButton({
     <button
       type="button"
       onClick={openBooking}
-      className={buttonClasses(variant, className)}
+      onPointerEnter={warm}
+      onFocus={warm}
+      onTouchStart={warm}
+      aria-busy={loading || undefined}
+      className={buttonClasses(variant, `${className} ${loading ? "cursor-wait" : ""}`)}
     >
       {children}
     </button>

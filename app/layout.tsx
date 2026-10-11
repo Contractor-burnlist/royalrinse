@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Script from "next/script";
 import { Inter, Space_Grotesk } from "next/font/google";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -80,13 +79,6 @@ export default function RootLayout({
             hero, retracts near the footer, and hides while the booking modal
             or lightbox is open. */}
         <StickyCallCta />
-
-        {/* Housecall Pro online booking. Loaded once here — every BookNowButton
-            calls window.HCPWidget.openModal(). */}
-        <Script
-          src="https://online-booking.housecallpro.com/script.js?token=16c0ab2b61894f3d9a901c7ca8af8226&orgName=Royal-Rinse-Mobile-Detailing"
-          strategy="afterInteractive"
-        />
       </body>
     </html>
   );

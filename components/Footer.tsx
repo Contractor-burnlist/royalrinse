@@ -170,7 +170,7 @@ export function Footer() {
           </nav>
         </div>
 
-        <div className="flex flex-col gap-2 border-t border-hairline py-6 text-xs text-muted sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-col gap-2 border-t border-hairline py-6 text-xs text-muted lg:flex-row lg:items-center lg:justify-between">
           <p>
             © {year} {site.legalName}. All rights reserved.
           </p>
@@ -178,6 +178,18 @@ export function Footer() {
             Mobile auto detailing in Menifee, Temecula &amp; throughout{" "}
             {SERVICE_AREA_LINE}.
           </p>
+          <ul className="flex gap-4">
+            <li>
+              <Link href="/privacy" className="transition-colors hover:text-ink">
+                Privacy Policy
+              </Link>
+            </li>
+            <li>
+              <Link href="/terms" className="transition-colors hover:text-ink">
+                Terms of Service
+              </Link>
+            </li>
+          </ul>
         </div>
       </Container>
     </footer>

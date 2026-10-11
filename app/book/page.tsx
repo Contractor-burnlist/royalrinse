@@ -1,19 +1,20 @@
 import type { Metadata } from "next";
+import { BookingEmbed } from "@/components/BookingEmbed";
 import { JsonLd } from "@/components/JsonLd";
 import { breadcrumbJsonLd, buildMetadata } from "@/lib/seo";
+import { HCP_BOOKING_URL } from "@/lib/hcp";
 import { PHONE_ARIA, site, telHref } from "@/lib/site";
 import { Container, Eyebrow, Icon, Section } from "@/components/ui";
 
 /**
  * Housecall Pro's script only exposes a modal (HCPWidget.openModal), so a true
- * inline embed means iframing the direct booking URL. Verified: the booking host
- * sends no X-Frame-Options and no CSP frame-ancestors, so framing is permitted.
+ * inline embed means iframing the direct booking URL (see BookingEmbed).
+ * Verified: the booking host sends no X-Frame-Options and no CSP
+ * frame-ancestors, so framing is permitted.
  *
  * The modal on the site-wide "Book Now" buttons is untouched: this page is an
  * additional path, not a replacement.
  */
-const HCP_BOOKING_URL =
-  "https://book.housecallpro.com/book/Royal-Rinse-Mobile-Detailing/16c0ab2b61894f3d9a901c7ca8af8226?v2=true";
 
 export const metadata: Metadata = buildMetadata({
   title: "Book Mobile Auto Detailing Online | Royal Rinse",
@@ -43,14 +44,7 @@ export default function BookPage() {
         {/* Generous min-height so the service list and calendar aren't cramped;
             it grows taller on larger screens. */}
         <div className="overflow-hidden rounded-2xl surface-machined edge-chrome shadow-card">
-          <iframe
-            src={HCP_BOOKING_URL}
-            title="Book Royal Rinse online"
-            loading="lazy"
-            className="block w-full border-0"
-            style={{ width: "100%", minHeight: "900px", border: "none" }}
-            allow="payment"
-          />
+          <BookingEmbed />
         </div>
 
         {/* Fallback: if the embed is blocked, slow, or awkward on a small

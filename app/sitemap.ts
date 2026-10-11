@@ -25,6 +25,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/contact", priority: 0.7 },
     { path: "/accessibility", priority: 0.3 },
     { path: "/book", priority: 0.7 },
+    { path: "/privacy", priority: 0.3 },
+    { path: "/terms", priority: 0.3 },
   ];
 
   const dynamicPaths: { path: string; priority: number }[] = [
