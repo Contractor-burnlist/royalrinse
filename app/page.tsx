@@ -272,21 +272,22 @@ function Hero() {
       <Eyebrow>{SERVICE_AREA_SHORT}</Eyebrow>
 
       {/* No forced <br> on mobile: it overflows narrow viewports. */}
-      <h1 className="mt-4 font-display text-4xl font-bold leading-[1.02] tracking-tight text-metal sm:text-6xl sm:leading-[0.98]">
+      <h1 className="mt-2 font-display text-4xl font-bold leading-[1.02] tracking-tight text-metal sm:text-5xl sm:leading-[0.98] lg:text-[3.25rem]">
         A showroom finish,
         <br className="hidden sm:inline" /> in your driveway.
       </h1>
 
-      <p className="mx-auto mt-4 max-w-xl text-lg text-chrome sm:text-xl">
+      <p className="mx-auto mt-2 max-w-xl text-lg text-chrome sm:text-xl">
         {site.tagline}
       </p>
 
-      <div className="mt-7 flex flex-col justify-center gap-3 sm:flex-row">
+      {/* Side by side whenever they fit, wrapping on the narrowest phones. */}
+      <div className="mt-4 flex flex-wrap justify-center gap-3">
         <ButtonAnchor href={telHref}>Call {site.phone}</ButtonAnchor>
         <BookNowButton variant="secondary" />
       </div>
 
-      <ul className="mt-7 flex flex-wrap items-center justify-center gap-x-7 gap-y-3">
+      <ul className="mt-4 flex flex-wrap items-center justify-center gap-x-7 gap-y-2">
         {trustChips.map((chip) => (
           <li
             key={chip}

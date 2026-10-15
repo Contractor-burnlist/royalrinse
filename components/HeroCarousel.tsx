@@ -186,9 +186,11 @@ export function HeroCarousel({ children }: { children: ReactNode }) {
         className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-canvas to-transparent"
       />
 
-      {/* Tight top offset — just clears the sticky header (h-24 / h-32) — so the
-          whole block sits high and the photo row lands above the fold. */}
-      <div className="relative z-10 pb-16 pt-28 sm:pb-20 sm:pt-36">
+      {/* Tight top offset. The section is pulled up 96 / 128px under a header
+          that is 112 / 144px tall at the top of the page, so this padding puts
+          the eyebrow ~6px below the header and the photo row as far above the
+          fold as possible. */}
+      <div className="relative z-10 pb-16 pt-[102px] sm:pb-20 sm:pt-[134px]">
         <Container>
           <div className="mx-auto max-w-3xl text-center">{children}</div>
         </Container>
@@ -196,7 +198,7 @@ export function HeroCarousel({ children }: { children: ReactNode }) {
         {/* 92% / 90% framed width is unchanged; maxWidth is the sharpness cap
             described at MAX_ROW_PX, and only bites on large desktops. */}
         <div
-          className="mx-auto mt-6 w-[92%] sm:mt-7 sm:w-[90%]"
+          className="mx-auto mt-4 w-[92%] sm:mt-5 sm:w-[90%]"
           style={{ maxWidth: `${MAX_ROW_PX}px` }}
           role="group"
           aria-roledescription="carousel"
