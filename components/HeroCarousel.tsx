@@ -173,17 +173,17 @@ export function HeroCarousel({ children }: { children?: ReactNode }) {
   return (
     <section
       aria-label={standalone ? "Recent detailing work" : undefined}
-      className={`relative overflow-hidden border-b border-hairline ${
-        standalone ? "" : "-mt-24 sm:-mt-32"
+      className={`relative overflow-hidden ${
+        standalone ? "" : "-mt-24 border-b border-hairline sm:-mt-32"
       }`}
     >
       {standalone ? (
         /* Standalone, under the full-bleed hero: start on the hero scrim's
-           own near-black (#111316) so there is no seam, then ease down into
-           gunmetal. One continuous dark surface, no flat gray band. */
+           own near-black (#111316) so there is no seam, then ease into the
+           homepage's dark surface (#1a1d21) below. One continuous surface. */
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,#111316_0%,#16181b_40%,#22252a_75%,rgb(var(--c-canvas))_100%)]"
+          className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,#111316_0%,#15171a_50%,#1a1d21_100%)]"
         />
       ) : (
         <>
@@ -216,7 +216,7 @@ export function HeroCarousel({ children }: { children?: ReactNode }) {
           eyebrow 16 / 20px below it. */}
       <div
         className={`relative z-10 ${
-          standalone ? "pb-14 pt-2 sm:pb-16" : "pb-16 pt-[112px] sm:pb-20 sm:pt-[148px]"
+          standalone ? "pb-14 pt-1 sm:pb-16" : "pb-16 pt-[112px] sm:pb-20 sm:pt-[148px]"
         }`}
       >
         {standalone ? null : (
