@@ -113,6 +113,7 @@ export const mailHref = `mailto:${site.email}`;
 export const nav = [
   { label: "Services", href: "/services" },
   { label: "Packages", href: "/packages" },
+  { label: "Offers", href: "/offers" },
   { label: "Service Area", href: "/service-area" },
   { label: "Gallery", href: "/gallery" },
   { label: "Reviews", href: "/reviews" },

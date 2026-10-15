@@ -1060,6 +1060,13 @@ function FinalCta() {
             </ButtonAnchor>
             <BookNowButton variant="secondary" />
           </div>
+          <Link
+            href="/offers"
+            className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-accent transition-colors hover:text-ink"
+          >
+            See current offers
+            <span aria-hidden="true">&rarr;</span>
+          </Link>
         </Reveal>
       </Container>
     </section>
