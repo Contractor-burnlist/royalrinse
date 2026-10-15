@@ -58,8 +58,16 @@ export type BlogBlock =
    * The caption is plain text, NOT inline syntax. A caption is a label, not
    * somewhere to hide links, and keeping it out of the parser means one less
    * place for markup to leak into.
+   *
+   * `alt` overrides the gallery's deliberately generic alt, when the post can
+   * name the vehicle (same idea as coverAlt).
    */
-  | { type: "image"; image: GalleryImage | undefined; caption: string };
+  | {
+      type: "image";
+      image: GalleryImage | undefined;
+      caption: string;
+      alt?: string;
+    };
 
 export type BlogPost = {
   slug: string;
@@ -1539,6 +1547,160 @@ export const posts: BlogPost[] = [
       {
         type: "p",
         text: "For deeper work, our [detailing packages](/packages) range from an essential clean to a full showroom reset. Royal Rinse Mobile Detailing is licensed, insured, and bonded, and we come to the customer at home or at the office. To set up a schedule that fits your car, call now for an instant quote, text us at (951) 338-9117, or book online.",
+      },
+    ],
+  },
+  {
+    slug: "tesla-ev-detailing-temecula-menifee",
+    title:
+      "Tesla and EV Detailing in Temecula and Menifee: What Electric Cars Need That Gas Cars Don't",
+    seoTitle: "Tesla Detailing in Temecula & Menifee | EV Car Care Guide",
+    metaDescription:
+      "Tesla detailing in Temecula and Menifee: why EV paint, charge ports, screens, and vegan leather need different care, and why we detail EVs right at your home.",
+    excerpt:
+      "Electric cars need a different detailing approach than gas cars. Softer paint, charge ports, big touchscreens, vegan leather, and a frunk where the engine bay used to be.",
+    date: "2026-10-15",
+    author: "Royal Rinse",
+    // Both Tesla shots already carry a cover (tesla-2 on ceramic-coating-vs-wax,
+    // tesla-1 on why-interior-detailing-matters). tesla-2 is reused here
+    // because it is the exterior, recognizably a Tesla; tesla-1 goes inline.
+    coverImage: photo("tesla-2.jpeg"),
+    coverAlt:
+      "White Tesla Model X with its Falcon Wing doors open after a mobile exterior detail, Tesla and EV detailing serving Temecula, Menifee, and Riverside County",
+    summary:
+      "Electric vehicles need a different detailing approach than gas cars, and the differences come down to softer paint, charge ports and seals, large touchscreens and synthetic leather, and a frunk where the engine bay used to be.",
+    takeaways: [
+      "Many EVs, Teslas especially, have a reputation for soft paint that marks easily, so wash technique and paint protection matter more on an EV, not less.",
+      "A pressure washer stream should never be aimed directly into a charge port or door seal. Controlled, low-pressure water is the safe approach.",
+      "Large center screens with anti-glare coatings need a clean microfiber and an ammonia-free cleaner, not household glass cleaner.",
+      "Vegan leather and light interiors show denim dye transfer and soil quickly, and they need gentler cleaners than traditional leather.",
+      "EVs have no engine bay, but the frunk collects grit and is skipped by most car washes.",
+    ],
+    faqs: [
+      {
+        question: "Is Tesla paint really softer than other cars?",
+        answer:
+          "Tesla paint has a reputation among detailers and owners for being soft and marking easily, though paint varies by model, year, and color. Whatever the hardness, a careful hand wash and a protective layer are what keep it looking right.",
+      },
+      {
+        question: "Can you pressure wash a Tesla or other EV?",
+        answer:
+          "You can wash an EV with low, controlled water pressure, but the stream should never be aimed directly into the charge port, door seals, or sensors. Normal washing is fine. The risk comes from a close, concentrated jet forcing water where it does not belong.",
+      },
+      {
+        question: "Is ceramic coating worth it on a Tesla?",
+        answer:
+          "Ceramic coating is often worth it on a Tesla because the paint marks easily and a coating adds a hard, slick layer that makes every wash gentler and easier. It does not stop rock chips, which is a job for paint protection film.",
+      },
+      {
+        question: "Do you detail Teslas at home in Temecula and Menifee?",
+        answer:
+          "Yes. Royal Rinse is a mobile detailer, so we come to your home or office in Temecula, Menifee, Murrieta, and the surrounding area with a self-contained rig that carries its own water and power.",
+      },
+    ],
+    body: [
+      {
+        type: "p",
+        text: "An electric car gets dirty the same way a gas car does. Cleaning it well is a different job. The differences are mostly about paint hardness, charge ports, screens, and the simple fact that there is no engine bay to clean.",
+      },
+      {
+        type: "p",
+        text: "Royal Rinse Mobile Detailing is based in Menifee, and Teslas and other EVs are a regular part of our week in Temecula, Menifee, and Murrieta. Here is what we do differently on them, and why.",
+      },
+      {
+        type: "h2",
+        text: "Why does EV paint need more careful washing?",
+      },
+      {
+        type: "p",
+        text: "EV paint needs more careful washing because many electric cars, Teslas especially, are known for softer paint and a thinner clear coat that marks easily. Soft paint is not a defect you can see on delivery day. It shows up later, as swirl marks and fine scratches that appear faster than they would on harder paint.",
+      },
+      {
+        type: "p",
+        text: "Nearly every one of those marks comes from washing and drying. A brush tunnel, a gritty mitt, or a dry towel wiped across dusty paint leaves scratches in the clear coat, and soft paint takes them more readily. So on an EV, wash method and paint protection matter more, not less. Our guide to [paint correction and where swirl marks come from](/blog/paint-correction-explained) explains the mechanics in detail.",
+      },
+      {
+        type: "p",
+        text: "On every EV we use a careful hand wash with clean media, rinse well before anything touches the paint, and dry with soft, clean microfiber.",
+      },
+      {
+        type: "h2",
+        text: "How should you wash around charge ports and seals?",
+      },
+      {
+        type: "p",
+        text: "Wash around charge ports and seals with controlled, low-pressure water, and never aim a pressure washer stream directly into a port or a door seal. EVs are built to handle rain and normal washing. A concentrated jet held close is a different thing, and it can push water past seals that were never meant to take it.",
+      },
+      {
+        type: "p",
+        text: "We keep the charge port door closed during the wash, clean around it by hand, and keep pressure well back from the seals around doors, frunk, and trunk. Cameras and sensors get the same gentle treatment.",
+      },
+      {
+        type: "h2",
+        text: "How do you clean a Tesla touchscreen and vegan leather?",
+      },
+      {
+        type: "p",
+        text: "Clean a Tesla touchscreen with a clean, dry or lightly dampened microfiber and an ammonia-free, screen-safe cleaner, never household glass cleaner. Large center screens often carry anti-glare and anti-fingerprint coatings, and ammonia-based products can damage them. We spray the towel, never the screen, so nothing runs into the edges.",
+      },
+      {
+        type: "p",
+        text: "Seats are the other big difference. Many EVs use synthetic or vegan leather, often in white or cream. It wears well, but light surfaces show everything: blue dye transfer from new denim, body oils on the bolsters, and soil in the seams. Vegan leather needs a gentler cleaner than the products made for traditional leather, plus soft brushes and patience in the stitching. Our post on [why interior detailing matters](/blog/why-interior-detailing-matters) covers the longer-term payoff.",
+      },
+      {
+        type: "image",
+        image: photo("tesla-1.jpeg"),
+        alt: "Tesla Model X interior with cream seats and dashboard after a mobile interior detail, Tesla and EV detailing serving Temecula, Menifee, and Riverside County",
+        caption:
+          "Cream seats and dash in a Tesla Model X after an interior detail, done at the owner's curb.",
+      },
+      {
+        type: "h2",
+        text: "If there is no engine bay, what gets cleaned under the hood?",
+      },
+      {
+        type: "p",
+        text: "Under the hood of most EVs there is a frunk, a front trunk, and it needs cleaning just like the rear cargo area. Frunks and underhood storage collect sand, leaves, and grit from groceries and gear, and most car washes skip them entirely.",
+      },
+      {
+        type: "p",
+        text: "We vacuum the frunk, wipe down its liner and edges, and clean the seal channel so grit does not grind against the paint each time the hood closes.",
+      },
+      {
+        type: "h2",
+        text: "Is ceramic coating worth it on an EV?",
+      },
+      {
+        type: "p",
+        text: "Ceramic coating makes particular sense on an EV because soft paint benefits most from a hard, sacrificial protective layer. The coating takes the light contact that would otherwise mark the clear coat. It is also slick, so dirt releases with less effort, and an easier maintenance wash means fewer chances to introduce swirls.",
+      },
+      {
+        type: "p",
+        text: "The climate adds to the case. Inland Southern California sun in Temecula, Menifee, and Murrieta is hard on finishes, and a coating adds UV resistance on top of gloss. Soft paint should be corrected before it is coated, since the coating locks in whatever is underneath. Read [what ceramic coating is and how long it lasts](/blog/what-is-ceramic-coating), or see the levels on our [ceramic coating service](/services/ceramic-coating) page.",
+      },
+      {
+        type: "callout",
+        text: "A coating does not make soft paint hard, and it does not stop rock chips. What it does is take the everyday wear, so the clear coat underneath does not have to.",
+      },
+      {
+        type: "h2",
+        text: "Why does mobile detailing suit EV owners?",
+      },
+      {
+        type: "p",
+        text: "Mobile detailing suits EV owners because charging at home means the car is already parked at home, which is exactly where we work. There is no trip to a shop and no drop-off. Interior work can happen while the car sits on the charger, and the exterior wash happens unplugged with the charge port door closed.",
+      },
+      {
+        type: "p",
+        text: "Our rig carries its own water and power, so we never need your outlet or your hose. You can see EVs and other recent work in our [gallery](/gallery).",
+      },
+      {
+        type: "h2",
+        text: "Where can you get Tesla detailing in Temecula and Menifee?",
+      },
+      {
+        type: "p",
+        text: "Royal Rinse Mobile Detailing brings Tesla and EV detailing to your driveway across [Temecula](/service-area/temecula), [Menifee](/service-area/menifee), Murrieta, and the rest of Riverside and San Diego County. We are licensed, insured, and bonded, and pricing is quote-based on your vehicle's size and condition. Call now for an instant quote, text us at (951) 338-9117, or book online.",
       },
     ],
   },

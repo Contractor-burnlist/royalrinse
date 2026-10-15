@@ -121,7 +121,7 @@ export function BlogBody({ blocks }: { blocks: BlogBlock[] }) {
                 <div className="relative aspect-[4/5] w-full overflow-hidden rounded-xl border border-hairline bg-surface">
                   <Image
                     src={block.image.src}
-                    alt={block.image.alt}
+                    alt={block.alt ?? block.image.alt}
                     fill
                     loading="lazy"
                     quality={85}
