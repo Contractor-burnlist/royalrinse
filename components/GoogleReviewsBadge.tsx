@@ -33,7 +33,7 @@ export function GoldStars({
 /**
  * Clickable social-proof badge: gold stars + Google "G" + label, linking to the
  * verified Google Business Profile in a new tab. Reused across the hero chip and
- * the under-CTA strip so the "30+ five-star Google reviews" claim renders
+ * the under-CTA strip so the "42 Five-Star Google Reviews" claim renders
  * identically everywhere.
  */
 export function GoogleReviewsBadge({

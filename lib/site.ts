@@ -17,6 +17,8 @@ export const PHONE_SMS_ARIA = `Text Royal Rinse at ${PHONE_DISPLAY}`;
  */
 export const GOOGLE_REVIEWS_URL = "https://maps.app.goo.gl/kDNSHnjyaMqw2bLN7";
 export const GOOGLE_MAPS_URL = GOOGLE_REVIEWS_URL;
+/** Facebook business page. Listed in JSON-LD sameAs alongside the Google profile. */
+export const FACEBOOK_URL = "https://www.facebook.com/profile.php?id=61589500466521";
 export const GOOGLE_PLACE_ID = "ChIJxSthpHbyb4ARU2gL9HM7-4Y";
 /**
  * Embeddable map (no API key). Uses the ?output=embed form keyed on the
@@ -32,18 +34,26 @@ export const PRICE_RANGE = "$$";
 /**
  * Google aggregate rating for the LocalBusiness schema.
  *
- * Real Google Business Profile figures: 5.0 stars across 30+ reviews. Schema
- * needs a concrete number, so reviewCount uses 30 as a floor; on-page copy
- * shows "30+" via REVIEW_COUNT_DISPLAY.
+ * Real Google Business Profile figures ONLY: 5.0 stars across 42 reviews.
+ * Never put the cross-platform total here. Google expects aggregateRating to
+ * match the reviews tied to the entity it verifies, and a blended number risks
+ * listing problems.
  */
 export const AGGREGATE_RATING: {
   ratingValue: number;
   reviewCount: number;
-} | null = { ratingValue: 5.0, reviewCount: 30 };
+} | null = { ratingValue: 5.0, reviewCount: 42 };
 
 /** On-page display strings for the Google rating (schema uses AGGREGATE_RATING). */
 export const REVIEW_RATING_DISPLAY = "5.0";
-export const REVIEW_COUNT_DISPLAY = "30+";
+export const REVIEW_COUNT_DISPLAY = "42";
+
+/**
+ * Cross-platform social proof, on-page copy only (never schema). Google 42,
+ * Facebook 201 (100% recommend), Thumbtack 22 (5.0), plus 50+ on other profiles.
+ */
+export const TOTAL_REVIEW_COUNT_DISPLAY = "300+";
+export const CROSS_PLATFORM_REVIEWS_LINE = `${TOTAL_REVIEW_COUNT_DISPLAY} five-star reviews across Google, Facebook, and Thumbtack`;
 
 /** The counties served. The generic region line, used in many places. */
 export const SERVICE_AREA_LINE = "Riverside & San Diego County";

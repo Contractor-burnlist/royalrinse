@@ -7,6 +7,7 @@
 import type { Metadata } from "next";
 import {
   AGGREGATE_RATING,
+  FACEBOOK_URL,
   GOOGLE_MAPS_URL,
   GOOGLE_PLACE_ID,
   OPENING_HOURS,
@@ -161,7 +162,7 @@ export function siteJsonLd() {
     // secondary cities. See AREA_SERVED above.
     areaServed: AREA_SERVED,
     hasMap: GOOGLE_MAPS_URL,
-    sameAs: [GOOGLE_MAPS_URL],
+    sameAs: [GOOGLE_MAPS_URL, FACEBOOK_URL],
     identifier: {
       "@type": "PropertyValue",
       propertyID: "CA DLSE license",
@@ -236,7 +237,7 @@ export function siteJsonLd() {
           areaServed: "US-CA",
           availableLanguage: "English",
         },
-        sameAs: [GOOGLE_MAPS_URL],
+        sameAs: [GOOGLE_MAPS_URL, FACEBOOK_URL],
       },
       {
         "@type": "WebSite",

@@ -13,7 +13,12 @@
 
 import { priorityCities } from "@/lib/serviceAreas";
 import { addOns, ceramicCoating, maintenancePlan, rvDetailing, tiers } from "@/lib/services";
-import { REVIEW_COUNT_DISPLAY, REVIEW_RATING_DISPLAY, site } from "@/lib/site";
+import {
+  CROSS_PLATFORM_REVIEWS_LINE,
+  REVIEW_COUNT_DISPLAY,
+  REVIEW_RATING_DISPLAY,
+  site,
+} from "@/lib/site";
 
 /** "a, b, and c" */
 export function joinList(items: string[]): string {
@@ -55,7 +60,7 @@ export const businessFacts = {
     "We use deionized water in our detailing process, so the finish dries without mineral spots.",
     "We specialize in luxury, exotic, and classic vehicles.",
     "We offer a 10% discount for active-duty and veteran military.",
-    `We have ${REVIEW_COUNT_DISPLAY} five-star Google reviews and a ${REVIEW_RATING_DISPLAY} rating.`,
+    `We have ${REVIEW_COUNT_DISPLAY} five-star Google reviews and a ${REVIEW_RATING_DISPLAY} rating, with ${CROSS_PLATFORM_REVIEWS_LINE}.`,
     "Our ceramic coatings carry the manufacturer's limited lifetime product warranty, plus our own 1-year workmanship warranty.",
   ],
 };

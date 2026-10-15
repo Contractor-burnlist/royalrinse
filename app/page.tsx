@@ -830,8 +830,8 @@ function Testimonials() {
           </h2>
           <GoogleRatingSummary className="mt-5" />
           <p className="mt-4 text-base leading-relaxed text-muted">
-            {REVIEW_COUNT_DISPLAY} five-star reviews from real customers. Here
-            are a few of our favorites. Read them all on our verified Google
+            {REVIEW_COUNT_DISPLAY} five-star Google reviews from real customers.
+            Here are a few of our favorites. Read them all on our verified Google
             Business Profile.
           </p>
         </Reveal>
