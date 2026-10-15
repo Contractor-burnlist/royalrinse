@@ -268,47 +268,39 @@ const textLink =
 function Hero() {
   return (
     <HeroCarousel>
-      {/* Centered stack below lg. From lg up it splits into two columns,
-          message left and actions right, so the stack is about half as tall
-          and the full photo tiles land above the fold on a laptop. */}
-      <div className="lg:flex lg:items-end lg:justify-between lg:gap-10 lg:text-left">
-        <div className="lg:min-w-0">
-          <Eyebrow>{SERVICE_AREA_SHORT}</Eyebrow>
+      {/* Centered stack. HeroCarousel already centres and caps this block. */}
+      <Eyebrow>{SERVICE_AREA_SHORT}</Eyebrow>
 
-          {/* No forced <br> on mobile: it overflows narrow viewports. */}
-          <h1 className="mt-2 font-display text-4xl font-bold leading-[1.02] tracking-tight text-metal sm:text-5xl sm:leading-[0.98] xl:text-[3.25rem]">
-            A showroom finish,
-            <br className="hidden sm:inline" /> in your driveway.
-          </h1>
+      {/* No forced <br> on mobile: it overflows narrow viewports. */}
+      <h1 className="mt-2 font-display text-4xl font-bold leading-[1.02] tracking-tight text-metal sm:text-5xl sm:leading-[0.98] lg:text-[3.25rem]">
+        A showroom finish,
+        <br className="hidden sm:inline" /> in your driveway.
+      </h1>
 
-          <p className="mx-auto mt-2 max-w-xl text-lg text-chrome sm:text-xl lg:mx-0">
-            {site.tagline}
-          </p>
-        </div>
+      <p className="mx-auto mt-2 max-w-xl text-lg text-chrome sm:text-xl">
+        {site.tagline}
+      </p>
 
-        <div className="lg:flex lg:shrink-0 lg:flex-col lg:items-end">
-          {/* Side by side whenever they fit, wrapping on the narrowest phones. */}
-          <div className="mt-4 flex flex-wrap justify-center gap-3 lg:mt-0 lg:justify-end">
-            <ButtonAnchor href={telHref}>Call {site.phone}</ButtonAnchor>
-            <BookNowButton variant="secondary" />
-          </div>
-
-          <ul className="mt-4 flex flex-wrap items-center justify-center gap-x-7 gap-y-2 lg:mt-3 lg:max-w-[30rem] lg:justify-end">
-            {trustChips.map((chip) => (
-              <li
-                key={chip}
-                className="flex items-center gap-2 text-sm text-chrome"
-              >
-                <Icon name="check" className="h-4 w-4 text-chrome" />
-                {chip}
-              </li>
-            ))}
-            <li>
-              <ReviewPlatformsBadge className="text-sm text-chrome hover:text-ink" />
-            </li>
-          </ul>
-        </div>
+      {/* Side by side whenever they fit, wrapping on the narrowest phones. */}
+      <div className="mt-4 flex flex-wrap justify-center gap-3">
+        <ButtonAnchor href={telHref}>Call {site.phone}</ButtonAnchor>
+        <BookNowButton variant="secondary" />
       </div>
+
+      <ul className="mt-4 flex flex-wrap items-center justify-center gap-x-7 gap-y-2">
+        {trustChips.map((chip) => (
+          <li
+            key={chip}
+            className="flex items-center gap-2 text-sm text-chrome"
+          >
+            <Icon name="check" className="h-4 w-4 text-chrome" />
+            {chip}
+          </li>
+        ))}
+        <li>
+          <ReviewPlatformsBadge className="text-sm text-chrome hover:text-ink" />
+        </li>
+      </ul>
     </HeroCarousel>
   );
 }

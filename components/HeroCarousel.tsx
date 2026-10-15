@@ -58,7 +58,8 @@ const MAX_ROW_PX = 1398;
 
 export function HeroCarousel({ children }: { children: ReactNode }) {
   const [current, setCurrent] = useState(0);
-  const [perView, setPerView] = useState(4);
+  // Matches the CSS tile widths below; synced to the viewport on mount.
+  const [perView, setPerView] = useState(3);
   // Hover/focus on the arrows: a temporary hold.
   const [hoverPaused, setHoverPaused] = useState(false);
   // The Pause/Play button. null = no choice made yet, so the default applies.
@@ -186,13 +187,13 @@ export function HeroCarousel({ children }: { children: ReactNode }) {
         className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-canvas to-transparent"
       />
 
-      {/* Tight top offset. The section is pulled up 96 / 128px under a header
-          that is 112 / 144px tall at the top of the page, so this padding puts
-          the eyebrow ~6px below the header and the photo row as far above the
-          fold as possible. */}
-      <div className="relative z-10 pb-16 pt-[102px] sm:pb-20 sm:pt-[134px]">
+      {/* Top offset. The section is pulled up 96 / 128px under a header that
+          is 112 / 144px tall at the top of the page (the tallest state; it
+          only shrinks once scrolled), so this padding clears the header bar
+          and puts the eyebrow ~16 / 20px below it. */}
+      <div className="relative z-10 pb-16 pt-[112px] sm:pb-20 sm:pt-[148px]">
         <Container>
-          <div className="mx-auto max-w-3xl text-center lg:max-w-none">{children}</div>
+          <div className="mx-auto max-w-3xl text-center">{children}</div>
         </Container>
 
         {/* 92% / 90% framed width is unchanged; maxWidth is the sharpness cap
@@ -213,7 +214,9 @@ export function HeroCarousel({ children }: { children: ReactNode }) {
               data-autoscroll="hero"
               data-index={current}
               className={`flex ${
-                reducedMotion ? "" : "transition-transform duration-700 ease-out"
+                // Short ease-in-out: a long ease-out crawls through its last
+                // few pixels and leaves a sliver of the outgoing tile showing.
+                reducedMotion ? "" : "transition-transform duration-500 ease-in-out"
               }`}
               style={{
                 transform: `translateX(-${current * (100 / perView)}%)`,
@@ -247,8 +250,10 @@ export function HeroCarousel({ children }: { children: ReactNode }) {
                     aria-label={`${index + 1} of ${slides.length}`}
                     // No gap on the track: the tile width is an exact fraction
                     // so the translate lands cleanly. Gutter is inner padding.
-                    className="shrink-0 px-1.5 sm:px-2"
-                    style={{ width: `${100 / perView}%` }}
+                    // Width comes from CSS breakpoints matching perViewFor(),
+                    // so the server render is already right and the row does
+                    // not jump from 4 tiles to 3 when JS loads.
+                    className="w-[83.3333%] shrink-0 px-1.5 sm:w-1/2 sm:px-2 lg:w-1/3"
                   >
                     <div
                       className={`relative aspect-[3/4] overflow-hidden rounded-2xl bg-surface shadow-2xl ${
