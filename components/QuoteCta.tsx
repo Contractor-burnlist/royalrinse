@@ -2,9 +2,12 @@ import { quoteNote } from "@/lib/services";
 import { site, telHref } from "@/lib/site";
 import { BookNowButton } from "@/components/BookNowButton";
 import { ButtonAnchor, Section } from "@/components/ui";
+import { Gold } from "@/components/Gold";
 
 /** Stands in for pricing everywhere. No numbers, ever — quote on request. */
-export function QuoteCta({ heading = "Ready for a showroom finish?" }: { heading?: string }) {
+const DEFAULT_HEADING = "Ready for a showroom finish?";
+
+export function QuoteCta({ heading = DEFAULT_HEADING }: { heading?: string }) {
   return (
     <Section>
       <div className="relative overflow-hidden rounded-xl metal-strong metal-dim metal-edge-t edge-chrome px-6 py-14 text-center shadow-card sm:px-12">
@@ -14,14 +17,21 @@ export function QuoteCta({ heading = "Ready for a showroom finish?" }: { heading
         />
         <div className="relative">
           <h2 className="font-display text-2xl font-bold tracking-tight text-ink sm:text-3xl">
-            {heading}
+            {heading === DEFAULT_HEADING ? (
+              <>
+                Ready for a <Gold>showroom finish</Gold>?
+              </>
+            ) : (
+              heading
+            )}
           </h2>
           <p className="mx-auto mt-4 max-w-xl text-base text-muted">{quoteNote}</p>
           <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-            <ButtonAnchor href={telHref}>
+            {/* Booking online is the preferred path, so it leads. */}
+            <BookNowButton />
+            <ButtonAnchor href={telHref} variant="secondary">
               Call {site.phone}
             </ButtonAnchor>
-            <BookNowButton variant="secondary" />
           </div>
         </div>
       </div>

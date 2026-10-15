@@ -7,6 +7,7 @@ import { SERVICE_AREA_LINE, site } from "@/lib/site";
 import { siteJsonLd } from "@/lib/seo";
 import { siteUrl } from "@/lib/url";
 import "./globals.css";
+import { ThemeScope } from "@/components/ThemeScope";
 
 const display = Space_Grotesk({
   subsets: ["latin"],
@@ -71,7 +72,7 @@ export default function RootLayout({
         </a>
         <Header />
         <main id="main" tabIndex={-1} className="flex-1">
-          {children}
+          <ThemeScope>{children}</ThemeScope>
         </main>
         <Footer />
 

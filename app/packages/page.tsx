@@ -21,6 +21,7 @@ import { absoluteUrl } from "@/lib/url";
 import { BookNowButton } from "@/components/BookNowButton";
 import { Reveal } from "@/components/Reveal";
 import { ButtonAnchor, Container, Eyebrow, Icon, Section } from "@/components/ui";
+import { Gold } from "@/components/Gold";
 
 export const metadata: Metadata = buildMetadata({
   title: "Detailing Packages: Bronze to Diamond | Royal Rinse",
@@ -284,7 +285,7 @@ export default function PackagesPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(packagesSchema) }}
       />
       {/* Hero banner: a glossy exterior behind the heading, on a dark scrim. */}
-      <section className="relative overflow-hidden border-b border-hairline">
+      <section className="relative overflow-hidden metal-edge-b">
         <Image
           src={packagesHeroImage.src}
           alt=""
@@ -295,16 +296,20 @@ export default function PackagesPage() {
           sizes="100vw"
           className="object-cover object-center"
         />
-        {/* Scrims: darken overall, then deepen the bottom where the text sits. */}
+        {/* Directional scrim, as on /referral: darkest bottom-left where the
+            text sits, easing off toward the photo on the right. */}
         <div
           aria-hidden="true"
-          className="absolute inset-0 bg-gradient-to-t from-canvas via-canvas/90 to-canvas/80"
+          className="absolute inset-0 bg-[linear-gradient(90deg,rgba(17,19,22,0.94)_0%,rgba(17,19,22,0.85)_45%,rgba(17,19,22,0.6)_75%,rgba(17,19,22,0.45)_100%)]"
         />
-        <div aria-hidden="true" className="absolute inset-0 bg-canvas/30" />
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 bg-[linear-gradient(0deg,rgba(26,29,33,0.95)_0%,rgba(26,29,33,0.4)_45%,rgba(26,29,33,0)_80%)]"
+        />
         <Container className="relative py-14 sm:py-20">
           <Eyebrow>Packages</Eyebrow>
           <h1 className="mt-3 max-w-3xl font-display text-4xl font-bold tracking-tight text-metal sm:text-5xl">
-            Our Detailing Packages
+            Our Detailing <Gold>Packages</Gold>
           </h1>
           <p className="mt-4 max-w-2xl text-base leading-relaxed text-chrome">
             From an essential refresh to a full showroom reset, pick the level

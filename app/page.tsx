@@ -16,6 +16,8 @@ import {
   valueProps,
 } from "@/lib/site";
 import { buildMetadata } from "@/lib/seo";
+import heroStyles from "./home-hero.module.css";
+import theme from "./site-theme.module.css";
 import { faqs } from "@/lib/faq";
 import { featuredReviews } from "@/lib/reviews";
 import { featuredCities } from "@/lib/serviceAreas";
@@ -62,10 +64,8 @@ import {
   ButtonLink,
   Card,
   Container,
-  Eyebrow,
   Icon,
   Section,
-  SectionHeading,
 } from "@/components/ui";
 
 export const metadata: Metadata = buildMetadata({
@@ -263,6 +263,37 @@ function Band({
   );
 }
 
+/**
+ * Homepage section heading in the /referral style: gold caps eyebrow and one
+ * metallic gold phrase inside the title. Same structure as SectionHeading.
+ */
+function HomeHeading({
+  eyebrow,
+  title,
+  intro,
+}: {
+  eyebrow?: string;
+  title: React.ReactNode;
+  intro?: string;
+}) {
+  return (
+    <div className="max-w-2xl">
+      {eyebrow ? <p className={theme.eyebrow}>{eyebrow}</p> : null}
+      <h2 className="mt-4 font-display text-4xl font-bold leading-[1.05] tracking-tight text-metal sm:text-5xl">
+        {title}
+      </h2>
+      {intro ? (
+        <p className="mt-5 text-base leading-relaxed text-muted sm:text-lg">{intro}</p>
+      ) : null}
+    </div>
+  );
+}
+
+/** The one metallic gold phrase in a heading. */
+function Gold({ children }: { children: React.ReactNode }) {
+  return <span className={theme.gold}>{children}</span>;
+}
+
 /** A full-bleed chrome rule between major sections. Decorative. */
 function MetalDivider() {
   return <div aria-hidden="true" className="rule-chrome-t h-px" />;
@@ -271,63 +302,144 @@ function MetalDivider() {
 const textLink =
   "inline-flex items-center gap-1.5 text-sm font-semibold text-accent transition-colors hover:text-ink";
 
+/** Same cream Ferrari as /referral. 3840x5120: full-bleed at 2x without upscaling. */
+const heroBackground = allGalleryImages.find((image) =>
+  image.src.endsWith("ferrari-hero-2.jpeg"),
+);
+
+const heroEyebrow =
+  "text-xs font-semibold uppercase tracking-[0.32em] text-[var(--gold-text)]";
+
+/**
+ * Full-bleed hero in the /referral treatment: photo background with a
+ * directional scrim, left-aligned type, metallic gold phrase. The photo
+ * carousel follows as the first section below.
+ */
 function Hero() {
   return (
-    <HeroCarousel>
-      {/* Centered stack. HeroCarousel already centres and caps this block. */}
-      <Eyebrow>{SERVICE_AREA_SHORT}</Eyebrow>
+    <section
+      className={`${heroStyles.hero} relative -mt-24 flex min-h-[50svh] items-start overflow-hidden sm:-mt-32`}
+    >
+      {heroBackground ? (
+        <Image
+          src={heroBackground.src}
+          alt="Cream Ferrari with a deep gloss finish after a Royal Rinse mobile detail in a customer's driveway"
+          fill
+          priority
+          quality={90}
+          sizes="100vw"
+          className="object-cover object-[62%_58%]"
+        />
+      ) : null}
+      {/* Directional scrim: darkest bottom-left, where the type sits. Held
+          dark further right than /referral's, because this headline runs
+          wider and crosses the car. */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 bg-[linear-gradient(90deg,rgba(17,19,22,0.94)_0%,rgba(17,19,22,0.86)_45%,rgba(17,19,22,0.6)_72%,rgba(17,19,22,0.3)_100%)]"
+      />
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 bg-[linear-gradient(0deg,rgba(17,19,22,0.96)_0%,rgba(17,19,22,0.55)_35%,rgba(17,19,22,0)_65%)]"
+      />
+      <div
+        aria-hidden="true"
+        className="absolute inset-x-0 top-0 h-48 bg-gradient-to-b from-[rgba(17,19,22,0.7)] to-transparent"
+      />
+      {/* Below xl the type sits over the car itself, so the photo is held
+          down further to keep the gold phrase above contrast minimums. */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 bg-[rgba(17,19,22,0.66)] sm:bg-[rgba(17,19,22,0.5)] xl:hidden"
+      />
 
-      {/* No forced <br> on mobile: it overflows narrow viewports. */}
-      <h1 className="mt-2 font-display text-4xl font-bold leading-[1.02] tracking-tight text-metal sm:text-5xl sm:leading-[0.98] lg:text-[3.25rem]">
-        A showroom finish,
-        <br className="hidden sm:inline" /> in your driveway.
-      </h1>
+      {/* Seam fade: resolves the bottom edge into #111316, the exact color the
+          carousel section below starts on, so hero and carousel read as one
+          continuous dark surface. Sits below all hero text. */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-b from-transparent to-[#111316]"
+      />
 
-      <p className="mx-auto mt-2 max-w-xl text-lg text-chrome sm:text-xl">
-        {site.tagline}
-      </p>
+      {/* Shorter hero with the type anchored high, so the top of the photo
+          carousel below peeks above the fold. */}
+      <Container className="relative z-10 pb-2 pt-[108px] sm:pb-2 sm:pt-[140px]">
+        <div className="max-w-5xl">
+          <p className={`${heroEyebrow} ${heroStyles.rise}`}>{SERVICE_AREA_SHORT}</p>
 
-      {/* Side by side whenever they fit, wrapping on the narrowest phones. */}
-      <div className="mt-3 flex flex-wrap justify-center gap-3">
-        <ButtonAnchor href={telHref}>Call {site.phone}</ButtonAnchor>
-        <BookNowButton variant="secondary" />
-      </div>
+          <h1 className="mt-3 font-display text-[3.1rem] font-bold leading-[0.92] tracking-[-0.03em] text-[#f2f4f6] sm:text-[4rem] lg:text-[5.1rem]">
+            <span className={`block ${heroStyles.rise}`}>
+              A{" "}
+              <span className={`${heroStyles.metal} ${heroStyles.goldPhrase}`}>showroom</span>{" "}
+              <span className={`${heroStyles.metal} ${heroStyles.goldPhrase}`}>finish,</span>
+            </span>
+            <span className={`block ${heroStyles.rise}`}>in your driveway.</span>
+          </h1>
 
-      <ul className="mt-3 flex flex-wrap items-center justify-center gap-x-7 gap-y-1">
-        {trustChips.map((chip) => (
-          <li
-            key={chip}
-            className="flex items-center gap-2 text-sm text-chrome"
-          >
-            <Icon name="check" className="h-4 w-4 text-chrome" />
-            {chip}
-          </li>
-        ))}
-        {/* Review badge, then the Instagram follow link on the same line.
-            Instagram has no reviews, so it stays a separate link with its
-            own label, set apart by a divider from md up (below md it wraps
-            to its own line). */}
-        <li className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 sm:gap-y-2">
-          <ReviewPlatformsBadge className="text-chrome" />
-          <span aria-hidden="true" className="hidden h-6 w-px bg-hairline md:block" />
-          <a
-            href={INSTAGRAM_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Follow Royal Rinse on Instagram, opens in a new tab"
-            className="group/brand flex items-center gap-2.5 rounded-full text-sm font-medium text-muted transition-colors hover:text-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
-          >
-            <BrandChip size="lg">
-              <InstagramMark
-                gradientId="rr-instagram-gradient-hero"
-                className={brandChipSizes.lg.mark}
-              />
-            </BrandChip>
-            Follow our work
-          </a>
-        </li>
-      </ul>
-    </HeroCarousel>
+          {/* Not animated: text that starts at opacity 0 is not an LCP
+              candidate, and the full-bleed photo is ignored as a background,
+              so this line is what LCP measures. */}
+          <p className="mt-4 max-w-xl text-lg leading-relaxed text-[#dfe3e8] sm:text-xl">
+            {site.tagline}
+          </p>
+
+          <div className={`mt-5 flex gap-3 ${heroStyles.riseLate}`}>
+            {/* Booking online is the preferred path, so it is the gold pill. */}
+            <BookNowButton variant="ghost" className={heroStyles.goldButton} />
+            <a href={telHref} className={heroStyles.pill}>
+              Call {site.phone}
+            </a>
+          </div>
+
+          <div className={`mt-4 ${heroStyles.riseLate}`}>
+            <ul className="flex flex-wrap items-center gap-x-7 gap-y-1.5">
+              {trustChips.map((chip) => (
+                <li
+                  key={chip}
+                  className="flex items-center gap-2 text-sm text-[#dfe3e8]"
+                >
+                  <Icon name="check" className="h-4 w-4 text-[var(--gold-text)]" />
+                  {chip}
+                </li>
+              ))}
+            </ul>
+            {/* Review badge, then the Instagram follow link. Instagram has no
+                reviews, so it stays a separate link set apart by a divider. */}
+            <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-2">
+              {/* !justify-start: left-aligned like the rest of this hero when
+                  the badge wraps on mobile (it centers by default). */}
+              <ReviewPlatformsBadge className="text-chrome !justify-start" />
+              <span aria-hidden="true" className="hidden h-6 w-px bg-hairline md:block" />
+              <a
+                href={INSTAGRAM_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Follow Royal Rinse on Instagram, opens in a new tab"
+                className="group/brand flex items-center gap-2.5 rounded-full text-sm font-medium text-[#dfe3e8] transition-colors hover:text-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
+              >
+                <BrandChip size="lg">
+                  <InstagramMark
+                    gradientId="rr-instagram-gradient-hero"
+                    className={brandChipSizes.lg.mark}
+                  />
+                </BrandChip>
+                Follow our work
+              </a>
+            </div>
+          </div>
+        </div>
+      </Container>
+
+    </section>
+  );
+}
+
+/** The photo carousel, now the first section below the hero. */
+function RecentWork() {
+  return (
+    <div id="recent-work" className="scroll-mt-24">
+      <HeroCarousel />
+    </div>
   );
 }
 
@@ -400,7 +512,7 @@ function VehiclesStrip() {
     <div className="rule-chrome-b">
       <Container>
         <p className="flex flex-wrap items-center justify-center gap-x-3 gap-y-2 py-5 text-center text-sm text-muted">
-          <span className="font-semibold uppercase tracking-[0.18em] text-chrome">
+          <span className="font-semibold uppercase tracking-[0.18em] text-[var(--gold-text)]">
             Vehicles we detail
           </span>
           {vehicleTypes.map((type) => (
@@ -437,9 +549,9 @@ function ComeToYou() {
         </Reveal>
 
         <Reveal delay={100}>
-          <SectionHeading
+          <HomeHeading
             eyebrow="Mobile detailing"
-            title="We come to you"
+            title={<>We <Gold>come to you</Gold></>}
             intro={`Our rig is a complete detail bay on wheels. We pull up, set up, and do the work right where your car is parked. Serving ${SERVICE_AREA_PRIORITY}.`}
           />
 
@@ -478,18 +590,19 @@ function ComeToYou() {
 function Services() {
   return (
     <Band slant>
-      <Section className="!py-24 sm:!py-28">
+      {/* Tighter than before: the slant this padding made room for is gone. */}
+      <Section className="!py-16 sm:!py-20">
         <Reveal>
-          <SectionHeading
+          <HomeHeading
             eyebrow="What we do"
-            title="Detailing services, delivered to you"
+            title={<>Detailing services, <Gold>delivered to you</Gold></>}
             intro="Every service runs off our fully self-contained mobile rig: no shop visit, no drop-off."
           />
         </Reveal>
 
         <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {homeServices.map((service, i) => (
-            <Reveal key={service.slug} delay={(i % 3) * 80}>
+            <Reveal key={service.slug} delay={(i % 3) * 140}>
               <ServicePhotoCard
                 name={service.name}
                 tagline={service.tagline}
@@ -503,7 +616,9 @@ function Services() {
         </div>
 
         <div className="mt-10 flex flex-col gap-3 sm:flex-row">
-          <ButtonLink href="/packages">Compare all packages</ButtonLink>
+          <ButtonLink href="/packages" variant="ghost" className={theme.goldButton}>
+            Compare all packages
+          </ButtonLink>
           <BookNowButton variant="secondary" />
         </div>
 
@@ -541,9 +656,12 @@ function CeramicFeature() {
     <Section className="!pb-14 !pt-24 sm:!pb-16 sm:!pt-32">
       <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
         <Reveal>
-          <Eyebrow>Our flagship service</Eyebrow>
+          <p className={theme.eyebrow}>Our flagship service</p>
           <h2 className="mt-4 font-display text-4xl font-bold leading-[1.05] tracking-tight text-metal sm:text-5xl">
-            {ceramicCoating.name}
+            <Gold>{ceramicCoating.name.split(" ")[0]}</Gold>
+            {ceramicCoating.name.split(" ").length > 1
+              ? ` ${ceramicCoating.name.split(" ").slice(1).join(" ")}`
+              : null}
           </h2>
           <p className="mt-4 text-lg text-chrome">{ceramicCoating.tagline}</p>
           <p className="mt-4 text-base leading-relaxed text-muted">
@@ -577,7 +695,11 @@ function CeramicFeature() {
           </p>
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <ButtonLink href={`/services/${ceramicCoating.slug}`}>
+            <ButtonLink
+              href={`/services/${ceramicCoating.slug}`}
+              variant="ghost"
+              className={theme.goldButton}
+            >
               Explore ceramic coating
             </ButtonLink>
             <ButtonAnchor href={telHref} variant="secondary">
@@ -614,7 +736,7 @@ function Specialization() {
         <ul className="order-2 grid grid-cols-2 gap-4 lg:order-1">
           {exoticThumbs.map((image, i) => (
             <li key={image.src} className={i % 2 === 1 ? "lg:mt-10" : ""}>
-              <Reveal delay={i * 80}>
+              <Reveal delay={i * 140}>
                 <Link
                   href="/gallery"
                   className="group relative block aspect-[3/4] overflow-hidden rounded-xl edge-chrome shadow-card focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
@@ -636,9 +758,9 @@ function Specialization() {
         </ul>
 
         <Reveal className="order-1 lg:order-2">
-          <SectionHeading
+          <HomeHeading
             eyebrow="Luxury, exotic and classic"
-            title="Cars that need a different approach"
+            title={<>Cars that need <Gold>a different approach</Gold></>}
             intro="We regularly care for Porsche, Ferrari, Corvette, Mercedes, Tesla and classic collector cars. Single stage paint, delicate trim, and irreplaceable interiors get a different approach."
           />
 
@@ -673,9 +795,9 @@ function HowItWorks() {
     <Section className="!py-20 sm:!py-28">
       <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] lg:gap-20">
         <Reveal>
-          <SectionHeading
+          <HomeHeading
             eyebrow="How it works"
-            title="Three steps. Zero hassle."
+            title={<>Three steps. <Gold>Zero hassle.</Gold></>}
           />
         </Reveal>
 
@@ -684,10 +806,10 @@ function HowItWorks() {
             <Reveal
               as="li"
               key={step.number}
-              delay={i * 80}
+              delay={i * 140}
               className="rule-chrome-t grid grid-cols-[4.5rem_minmax(0,1fr)] gap-x-4 py-8 first:pt-0 first:before:hidden sm:grid-cols-[6.5rem_minmax(0,1fr)]"
             >
-              <span className="text-metal font-display text-4xl font-bold sm:text-5xl">
+              <span className={`${theme.gold} ${theme.numeral} font-display`}>
                 {step.number}
               </span>
               <div>
@@ -711,11 +833,11 @@ function WhyRoyalRinse() {
     // Reverse of How It Works: cards take the wide left, heading the narrow
     // right. The band itself is cut on the diagonal.
     <Band slant>
-      <Section className="!py-20 sm:!py-24">
+      <Section className="!py-16 sm:!py-20">
         <div className="grid gap-12 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)] lg:gap-16">
           <div className="order-2 grid gap-6 sm:grid-cols-2 lg:order-1">
             {valueProps.map((prop, i) => (
-              <Reveal key={prop.title} delay={(i % 2) * 80}>
+              <Reveal key={prop.title} delay={(i % 2) * 140}>
                 <Card className="flex h-full gap-4">
                   <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-chrome/10 text-chrome">
                     <Icon name="check" className="h-4 w-4" />
@@ -734,9 +856,9 @@ function WhyRoyalRinse() {
           </div>
 
           <Reveal className="order-1 lg:order-2 lg:pt-2">
-            <SectionHeading
+            <HomeHeading
               eyebrow="Why Royal Rinse"
-              title="The care a car deserves, without the errand"
+              title={<>The care a car deserves, <Gold>without the errand</Gold></>}
             />
           </Reveal>
         </div>
@@ -749,9 +871,9 @@ function AddOnsShowcase() {
   return (
     <Section className="!py-20 sm:!py-24">
       <Reveal>
-        <SectionHeading
+        <HomeHeading
           eyebrow="Add-ons"
-          title="Bolt on exactly what your vehicle needs"
+          title={<>Bolt on exactly <Gold>what your vehicle needs</Gold></>}
           intro="Any of these can be added to a package, from the engine bay to the wheels."
         />
       </Reveal>
@@ -761,7 +883,7 @@ function AddOnsShowcase() {
         <ul className="grid grid-cols-2 items-start gap-4 sm:gap-6">
           {photoAddOns.map((addOn, i) => (
             <li key={addOn.name}>
-              <Reveal delay={i * 80}>
+              <Reveal delay={i * 140}>
                 <figure className="overflow-hidden rounded-xl surface-machined edge-chrome shadow-card">
                   <div className="relative aspect-[4/5]">
                     <Image
@@ -818,10 +940,10 @@ function AddOnsShowcase() {
 function Gallery() {
   return (
     <Section className="!py-16 sm:!py-20">
-      <div className="flex flex-wrap items-end justify-between gap-4">
-        <SectionHeading
+      <Reveal className="flex flex-wrap items-end justify-between gap-4">
+        <HomeHeading
           eyebrow="Gallery"
-          title="Recent work"
+          title={<>Recent <Gold>work</Gold></>}
           intro="Real results from real driveways across Riverside and San Diego County."
         />
         <Link
@@ -831,16 +953,18 @@ function Gallery() {
           View full gallery
           <span aria-hidden="true">→</span>
         </Link>
-      </div>
+      </Reveal>
 
       {/* Masonry, not a forced 4:3 crop: the sources are portrait and a
           landscape tile threw away ~58% of every frame. */}
-      <LightboxGrid
-        images={homeGalleryShots}
-        variant="masonry"
-        className="mt-14 columns-2 gap-4 lg:columns-3"
-        sizes="(max-width: 1023px) 50vw, 33vw"
-      />
+      <Reveal delay={140}>
+        <LightboxGrid
+          images={homeGalleryShots}
+          variant="masonry"
+          className="mt-14 columns-2 gap-4 lg:columns-3"
+          sizes="(max-width: 1023px) 50vw, 33vw"
+        />
+      </Reveal>
     </Section>
   );
 }
@@ -850,9 +974,9 @@ function Testimonials() {
     <Band>
       <Section className="!py-24 sm:!py-28">
         <Reveal className="max-w-2xl">
-          <Eyebrow>Reviews</Eyebrow>
+          <p className={theme.eyebrow}>Reviews</p>
           <h2 className="mt-4 font-display text-4xl font-bold leading-[1.05] tracking-tight text-metal sm:text-5xl">
-            Loved on Google
+            <Gold>Loved</Gold> on Google
           </h2>
           <GoogleRatingSummary className="mt-5" />
           <p className="mt-4 text-base leading-relaxed text-muted">
@@ -864,7 +988,7 @@ function Testimonials() {
 
         <div className="mt-12 grid gap-6 md:grid-cols-3">
           {featuredReviews.map((review, i) => (
-            <Reveal key={review.name} delay={i * 80}>
+            <Reveal key={review.name} delay={i * 140}>
               <ReviewCard review={review} />
             </Reveal>
           ))}
@@ -883,34 +1007,38 @@ function Testimonials() {
 function ServiceAreaTeaser() {
   return (
     <Section className="!py-16 sm:!py-20">
-      <SectionHeading
-        eyebrow="Service area"
-        title="Based in Menifee, we come to you"
-        intro="Royal Rinse is based in Menifee and provides mobile auto detailing in Menifee, Temecula, Murrieta, Riverside, and San Diego, and the surrounding areas of Riverside County and San Diego County. Don't see your neighborhood? Just ask."
-      />
+      <Reveal>
+        <HomeHeading
+          eyebrow="Service area"
+          title={<>Based in <Gold>Menifee</Gold>, we come to you</>}
+          intro="Royal Rinse is based in Menifee and provides mobile auto detailing in Menifee, Temecula, Murrieta, Riverside, and San Diego, and the surrounding areas of Riverside County and San Diego County. Don't see your neighborhood? Just ask."
+        />
+      </Reveal>
 
       {/* The five priority markets, each linking to its own page. */}
-      <ul className="mt-8 flex flex-wrap gap-3">
-        {featuredCities.map((city) => (
-          <li key={city.slug}>
+      <Reveal delay={140}>
+        <ul className="mt-8 flex flex-wrap gap-3">
+          {featuredCities.map((city) => (
+            <li key={city.slug}>
+              <Link
+                href={`/service-area/${city.slug}`}
+                className="inline-flex items-center gap-1.5 btn-metal rounded-xl px-4 py-2.5 text-sm font-semibold text-ink"
+              >
+                Detailing in {city.name}
+                <span aria-hidden="true">→</span>
+              </Link>
+            </li>
+          ))}
+          <li>
             <Link
-              href={`/service-area/${city.slug}`}
-              className="inline-flex items-center gap-1.5 btn-metal rounded-xl px-4 py-2.5 text-sm font-semibold text-ink"
+              href="/service-area"
+              className="inline-flex items-center rounded-xl border border-hairline bg-surface px-4 py-2.5 text-sm font-semibold text-accent transition-colors hover:border-chrome/50 hover:text-ink"
             >
-              Detailing in {city.name}
-              <span aria-hidden="true">→</span>
+              All service areas<span aria-hidden="true">&nbsp;→</span>
             </Link>
           </li>
-        ))}
-        <li>
-          <Link
-            href="/service-area"
-            className="inline-flex items-center rounded-xl border border-hairline bg-surface px-4 py-2.5 text-sm font-semibold text-accent transition-colors hover:border-chrome/50 hover:text-ink"
-          >
-            All service areas<span aria-hidden="true">&nbsp;→</span>
-          </Link>
-        </li>
-      </ul>
+        </ul>
+      </Reveal>
     </Section>
   );
 }
@@ -920,9 +1048,9 @@ function MaintenancePlans() {
     <Section className="!py-24 sm:!py-32">
       <div className="grid items-start gap-12 lg:grid-cols-2 lg:gap-16">
         <Reveal>
-          <SectionHeading
+          <HomeHeading
             eyebrow={maintenancePlan.name}
-            title="Keep it looking new"
+            title={<>Keep it <Gold>looking new</Gold></>}
             intro={maintenancePlan.intro}
           />
 
@@ -941,8 +1069,10 @@ function MaintenancePlans() {
           </ul>
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <ButtonAnchor href={telHref}>Call {site.phone}</ButtonAnchor>
-            <BookNowButton variant="secondary" />
+            <BookNowButton variant="ghost" className={theme.goldButton} />
+            <ButtonAnchor href={telHref} variant="secondary">
+              Call {site.phone}
+            </ButtonAnchor>
           </div>
 
           <Link
@@ -956,7 +1086,7 @@ function MaintenancePlans() {
 
         <Reveal delay={100}>
           <Card>
-            <h3 className="text-xs font-semibold uppercase tracking-[0.18em] text-chrome">
+            <h3 className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--gold-text)]">
               Every visit includes
             </h3>
             <ul className="mt-5 space-y-3">
@@ -991,9 +1121,9 @@ function FromTheBlog() {
     <Band>
       <Section className="!py-20 sm:!py-24">
         <Reveal className="flex flex-wrap items-end justify-between gap-4">
-          <SectionHeading
+          <HomeHeading
             eyebrow="From the blog"
-            title="Detailing, explained"
+            title={<>Detailing, <Gold>explained</Gold></>}
             intro="Straight answers on paint, protection, and upkeep for Southern California drivers."
           />
           <Link href="/blog" className={textLink}>
@@ -1005,7 +1135,7 @@ function FromTheBlog() {
         <ul className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
           {latestPosts.map((post, i) => (
             <li key={post.slug}>
-              <Reveal delay={i * 80} className="h-full">
+              <Reveal delay={i * 140} className="h-full">
                 <BlogCard post={post} headingAs="h3" />
               </Reveal>
             </li>
@@ -1026,9 +1156,9 @@ function HomeFaq() {
     <Section className="!py-20 sm:!py-28">
       <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] lg:gap-20">
         <Reveal>
-          <SectionHeading
+          <HomeHeading
             eyebrow="Good to know"
-            title="Common questions"
+            title={<>Common <Gold>questions</Gold></>}
             intro="Quick answers about how mobile detailing with Royal Rinse works."
           />
           <Link href="/faq" className={`mt-8 ${textLink}`}>
@@ -1066,11 +1196,11 @@ function FinalCta() {
   return (
     // Full-bleed steel band rather than a contained card: the page ends on
     // the widest metal surface on it.
-    <section className="metal-strong metal-dim metal-edge-t">
+    <section className={`${theme.closing} metal-edge-t`}>
       <Container className="py-20 text-center sm:py-28">
         <Reveal>
           <h2 className="text-metal font-display text-4xl font-bold tracking-tight sm:text-5xl">
-            Ready for a showroom finish?
+            Ready for a <Gold>showroom finish</Gold>?
           </h2>
           <p className="mx-auto mt-4 max-w-xl text-base text-chrome">
             Book online in under a minute, or call or text and we&rsquo;ll find
@@ -1080,11 +1210,14 @@ function FinalCta() {
             Same-week appointments available. Reserve yours before they fill.
           </p>
           <div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row">
-            <ButtonAnchor href={telHref}>Call {site.phone}</ButtonAnchor>
+            {/* Booking online is the preferred path, so it leads in gold. */}
+            <BookNowButton variant="ghost" className={theme.goldButton} />
+            <ButtonAnchor href={telHref} variant="secondary">
+              Call {site.phone}
+            </ButtonAnchor>
             <ButtonAnchor href={smsHref} variant="secondary">
               Text us
             </ButtonAnchor>
-            <BookNowButton variant="secondary" />
           </div>
           <Link
             href="/offers"
@@ -1108,6 +1241,7 @@ export default function Home() {
       />
 
       <Hero />
+      <RecentWork />
       <TrustBar />
       <VehiclesStrip />
       <ComeToYou />
@@ -1119,11 +1253,13 @@ export default function Home() {
       <WhyRoyalRinse />
       <AddOnsShowcase />
 
-      <PhotoBand
-        image={showroomBandImage}
-        headline="Showroom finish, every time."
-        sub="The finish is in the parts most people skip: every vent, seam, and panel."
-      />
+      <div className={theme.bandBlend}>
+        <PhotoBand
+          image={showroomBandImage}
+          headline="Showroom finish, every time."
+          sub="The finish is in the parts most people skip: every vent, seam, and panel."
+        />
+      </div>
 
       <Gallery />
       <Testimonials />

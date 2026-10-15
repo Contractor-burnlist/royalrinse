@@ -15,6 +15,7 @@ import { offers, offerTerms, type Offer } from "@/lib/offers";
 import { PROVIDER_REF, breadcrumbJsonLd, buildMetadata } from "@/lib/seo";
 import { site, smsHref, telHref } from "@/lib/site";
 import { absoluteUrl } from "@/lib/url";
+import { Gold } from "@/components/Gold";
 
 export const metadata: Metadata = buildMetadata({
   title: "Mobile Detailing Offers in Menifee & Temecula | Royal Rinse",
@@ -131,7 +132,7 @@ export default function OffersPage() {
         <Container className="py-16 sm:py-20">
           <Eyebrow>Offers &amp; Specials</Eyebrow>
           <h1 className="mt-3 font-display text-4xl font-bold tracking-tight text-metal sm:text-5xl">
-            Current Offers
+            Current <Gold>Offers</Gold>
           </h1>
           <p className="mt-5 max-w-2xl text-lg leading-relaxed text-chrome">
             Every detail is quoted on your vehicle&rsquo;s size and condition,

@@ -7,6 +7,7 @@ import { BlogCard } from "@/components/BlogCard";
 import { QuoteCta } from "@/components/QuoteCta";
 import { Reveal } from "@/components/Reveal";
 import { Container, Eyebrow, Section } from "@/components/ui";
+import { Gold } from "@/components/Gold";
 
 export const metadata: Metadata = buildMetadata({
   title: "Car Detailing Blog | Royal Rinse Mobile Detailing",
@@ -23,7 +24,7 @@ export default function BlogIndexPage() {
         <Container className="py-16 sm:py-20">
           <Eyebrow>Blog</Eyebrow>
           <h1 className="mt-3 font-display text-4xl font-bold tracking-tight text-metal sm:text-5xl">
-            Detailing, explained
+            Detailing, <Gold>explained</Gold>
           </h1>
           <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted">
             Straight answers about paint, protection, and keeping a car looking

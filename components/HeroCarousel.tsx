@@ -56,7 +56,13 @@ function perViewFor(width: number) {
  */
 const MAX_ROW_PX = 1398;
 
-export function HeroCarousel({ children }: { children: ReactNode }) {
+/**
+ * With children, the carousel is the hero: pulled up under the header with
+ * the hero text above the tiles. Without children it is a standalone section
+ * (normal flow and spacing), for a page whose hero lives elsewhere.
+ */
+export function HeroCarousel({ children }: { children?: ReactNode }) {
+  const standalone = !children;
   const [current, setCurrent] = useState(0);
   // Matches the CSS tile widths below; synced to the viewport on mount.
   const [perView, setPerView] = useState(3);
@@ -165,41 +171,64 @@ export function HeroCarousel({ children }: { children: ReactNode }) {
   };
 
   return (
-    <section className="relative -mt-24 overflow-hidden border-b border-hairline sm:-mt-32">
-      {/* Ambient blurred backdrop of the leading tile — upscaled, but blurred
-          on purpose, so its softness reads as depth. */}
-      <div aria-hidden="true" className="absolute inset-0">
-        <Image
-          src={slides[Math.min(current, slides.length - 1)].src}
-          alt=""
-          fill
-          quality={40}
-          sizes="100vw"
-          className="scale-125 object-cover blur-3xl brightness-[0.3] saturate-[0.8] transition-all duration-1000"
+    <section
+      aria-label={standalone ? "Recent detailing work" : undefined}
+      className={`relative overflow-hidden ${
+        standalone ? "" : "-mt-24 border-b border-hairline sm:-mt-32"
+      }`}
+    >
+      {standalone ? (
+        /* Standalone, under the full-bleed hero: start on the hero scrim's
+           own near-black (#111316) so there is no seam, then ease into the
+           homepage's dark surface (#1a1d21) below. One continuous surface. */
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,#111316_0%,#15171a_50%,#1a1d21_100%)]"
         />
-      </div>
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 bg-canvas/85"
-      />
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-canvas to-transparent"
-      />
+      ) : (
+        <>
+          {/* Ambient blurred backdrop of the leading tile, upscaled but blurred
+              on purpose, so its softness reads as depth. */}
+          <div aria-hidden="true" className="absolute inset-0">
+            <Image
+              src={slides[Math.min(current, slides.length - 1)].src}
+              alt=""
+              fill
+              quality={40}
+              sizes="100vw"
+              className="scale-125 object-cover blur-3xl brightness-[0.3] saturate-[0.8] transition-all duration-1000"
+            />
+          </div>
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 bg-canvas/85"
+          />
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-canvas to-transparent"
+          />
+        </>
+      )}
 
       {/* Top offset. The section is pulled up 96 / 128px, exactly the header's
           height at the top of the page (its tallest state; it only shrinks
           once scrolled), so this padding clears the header bar and puts the
           eyebrow 16 / 20px below it. */}
-      <div className="relative z-10 pb-16 pt-[112px] sm:pb-20 sm:pt-[148px]">
-        <Container>
-          <div className="mx-auto max-w-3xl text-center">{children}</div>
-        </Container>
+      <div
+        className={`relative z-10 ${
+          standalone ? "pb-14 pt-1 sm:pb-16" : "pb-16 pt-[112px] sm:pb-20 sm:pt-[148px]"
+        }`}
+      >
+        {standalone ? null : (
+          <Container>
+            <div className="mx-auto max-w-3xl text-center">{children}</div>
+          </Container>
+        )}
 
         {/* 92% / 90% framed width is unchanged; maxWidth is the sharpness cap
             described at MAX_ROW_PX, and only bites on large desktops. */}
         <div
-          className="mx-auto mt-1.5 w-[92%] sm:mt-3 sm:w-[90%]"
+          className={`mx-auto w-[92%] sm:w-[90%] ${standalone ? "" : "mt-1.5 sm:mt-3"}`}
           style={{ maxWidth: `${MAX_ROW_PX}px` }}
           role="group"
           aria-roledescription="carousel"

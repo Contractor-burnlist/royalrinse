@@ -7,6 +7,7 @@ import { allGalleryImages } from "@/lib/gallery";
 import { citiesInCounty, counties } from "@/lib/serviceAreas";
 import { QuoteCta } from "@/components/QuoteCta";
 import { Container, Eyebrow, Icon, Section } from "@/components/ui";
+import { Gold } from "@/components/Gold";
 
 export const metadata: Metadata = buildMetadata({
   title: "Service Area: Riverside & San Diego County | Royal Rinse",
@@ -34,7 +35,7 @@ export default function ServiceAreaPage() {
             <div>
               <Eyebrow>Service area</Eyebrow>
               <h1 className="mt-3 font-display text-4xl font-bold tracking-tight text-metal sm:text-5xl">
-                Serving Riverside &amp; San Diego County, We Come To You
+                Serving Riverside &amp; San Diego County, <Gold>We Come To You</Gold>
               </h1>
               <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted">
                 Our mobile rig is fully self-contained, so we detail your vehicle right
