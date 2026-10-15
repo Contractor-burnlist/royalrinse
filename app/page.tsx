@@ -303,29 +303,30 @@ function Hero() {
             {chip}
           </li>
         ))}
-        <li>
+        {/* Review badge, then the Instagram follow link on the same line.
+            Instagram has no reviews, so it stays a separate link with its
+            own label, set apart by a divider from md up (below md it wraps
+            to its own line). */}
+        <li className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 sm:gap-y-2">
           <ReviewPlatformsBadge className="text-chrome" />
+          <span aria-hidden="true" className="hidden h-6 w-px bg-hairline md:block" />
+          <a
+            href={INSTAGRAM_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Follow Royal Rinse on Instagram, opens in a new tab"
+            className="group/brand flex items-center gap-2.5 rounded-full text-sm font-medium text-muted transition-colors hover:text-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
+          >
+            <BrandChip size="lg">
+              <InstagramMark
+                gradientId="rr-instagram-gradient-hero"
+                className={brandChipSizes.lg.mark}
+              />
+            </BrandChip>
+            Follow our work
+          </a>
         </li>
       </ul>
-
-      {/* Secondary follow link: smaller and muted so the review badge above
-          stays dominant. Its height is paid for by the tighter gaps above and
-          below, so the photo row does not move. */}
-      <a
-        href={INSTAGRAM_URL}
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="Follow Royal Rinse on Instagram, opens in a new tab"
-        className="group/brand mx-auto mt-1 flex w-fit items-center gap-2 rounded-full text-[13px] font-medium text-muted opacity-80 transition hover:text-ink hover:opacity-100 focus:outline-none focus-visible:opacity-100 focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
-      >
-        <BrandChip size="xs">
-          <InstagramMark
-            gradientId="rr-instagram-gradient-hero"
-            className={brandChipSizes.xs.mark}
-          />
-        </BrandChip>
-        Follow our work
-      </a>
     </HeroCarousel>
   );
 }

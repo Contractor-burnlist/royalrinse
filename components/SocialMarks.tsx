@@ -46,11 +46,16 @@ export function InstagramMark({
   return (
     <svg viewBox="0 0 24 24" aria-hidden="true" className={className}>
       <defs>
-        <radialGradient id={gradientId} cx="0.25" cy="1.05" r="1.25">
-          <stop offset="0" stopColor="#FFDD55" />
-          <stop offset="0.12" stopColor="#FFDD55" />
-          <stop offset="0.5" stopColor="#FF543E" />
-          <stop offset="1" stopColor="#C837AB" />
+        {/* Instagram's brand gradient: yellow and orange at the bottom left,
+            through magenta, into a wide band of brand purple (#8134AF) and
+            purple-blue (#515BD4) across the top. */}
+        <radialGradient id={gradientId} cx="0.3" cy="1.07" r="1.4">
+          <stop offset="0" stopColor="#FEDA75" />
+          <stop offset="0.12" stopColor="#FA7E1E" />
+          <stop offset="0.35" stopColor="#D62976" />
+          <stop offset="0.6" stopColor="#962FBF" />
+          <stop offset="0.8" stopColor="#8134AF" />
+          <stop offset="1" stopColor="#515BD4" />
         </radialGradient>
       </defs>
       <path
