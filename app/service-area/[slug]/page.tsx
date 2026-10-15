@@ -6,7 +6,6 @@ import { cities, getCity, type City } from "@/lib/serviceAreas";
 import { cityCover, getCityPage, type CityPage } from "@/lib/cityPages";
 import { ceramicCoating, tiers } from "@/lib/services";
 import {
-  GOOGLE_MAPS_URL,
   PHONE_DISPLAY,
   site,
   telHref,
@@ -96,7 +95,6 @@ function CitySchema({ city }: { city: City }) {
     name: `Mobile Auto Detailing in ${city.name}`,
     provider: { ...PROVIDER_REF, telephone: PHONE_DISPLAY },
     areaServed: { "@type": "City", name: `${city.name}, CA` },
-    hasMap: GOOGLE_MAPS_URL,
     url: absoluteUrl(`/service-area/${city.slug}`),
   };
   return (
