@@ -79,6 +79,11 @@ export function Footer() {
 
             <ul className="mt-6 space-y-2 text-sm text-muted">
               <li>
+                <Link href="/book" className="transition-colors hover:text-ink">
+                  Book online
+                </Link>
+              </li>
+              <li>
                 <Link href="/contact" className="transition-colors hover:text-ink">
                   Contact &amp; map
                 </Link>

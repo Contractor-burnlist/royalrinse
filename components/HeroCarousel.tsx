@@ -187,10 +187,10 @@ export function HeroCarousel({ children }: { children: ReactNode }) {
         className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-canvas to-transparent"
       />
 
-      {/* Top offset. The section is pulled up 96 / 128px under a header that
-          is 112 / 144px tall at the top of the page (the tallest state; it
-          only shrinks once scrolled), so this padding clears the header bar
-          and puts the eyebrow ~16 / 20px below it. */}
+      {/* Top offset. The section is pulled up 96 / 128px, exactly the header's
+          height at the top of the page (its tallest state; it only shrinks
+          once scrolled), so this padding clears the header bar and puts the
+          eyebrow 16 / 20px below it. */}
       <div className="relative z-10 pb-16 pt-[112px] sm:pb-20 sm:pt-[148px]">
         <Container>
           <div className="mx-auto max-w-3xl text-center">{children}</div>

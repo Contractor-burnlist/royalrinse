@@ -119,9 +119,8 @@ export const nav = [
   { label: "Reviews", href: "/reviews" },
   { label: "About", href: "/about" },
   { label: "Blog", href: "/blog" },
-  // The inline booking embed. The "Book Now" buttons still open the HCP modal;
-  // this is an additional path, not a replacement.
-  { label: "Book", href: "/book" },
+  // No "Book" item: the header's Book Now button covers booking, and the
+  // inline booking embed at /book is linked from the footer instead.
 ] as const;
 
 // Services live in lib/services.ts — the pricebook is the source of truth.

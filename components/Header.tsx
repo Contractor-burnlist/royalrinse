@@ -45,7 +45,7 @@ function Logo({ compact }: { compact: boolean }) {
         priority
         sizes="160px"
         className={`w-auto rounded-xl border border-hairline transition-[height,transform,filter,box-shadow] duration-300 ease-out motion-safe:animate-logo-in motion-safe:group-motion-safe:hover:scale-[1.05] motion-safe:group-hover:border-chrome/40 motion-safe:group-hover:brightness-110 motion-safe:group-hover:shadow-glow ${
-          compact ? "h-20 sm:h-24" : "h-24 sm:h-32"
+          compact ? "h-16 sm:h-20" : "h-20 sm:h-28"
         }`}
       />
     </Link>
@@ -92,17 +92,18 @@ export function Header() {
     >
       <Container>
         {/* Bar grows with the logo so it never crowds the nav: the logo is
-            ~16px shorter than the bar at each state, keeping even breathing
-            room above and below. */}
+            16px shorter than the bar at each state, keeping even breathing
+            room above and below. The top-of-page height (96 / 128px) is
+            mirrored by the hero's negative margin in HeroCarousel. */}
         <div
           className={`flex items-center justify-between gap-4 transition-all duration-500 ${
-            solid ? "h-24 sm:h-28" : "h-28 sm:h-36"
+            solid ? "h-20 sm:h-24" : "h-24 sm:h-32"
           }`}
         >
           <Logo compact={solid} />
 
           <nav aria-label="Primary" className="hidden xl:block">
-            <ul className="flex items-center gap-x-4 2xl:gap-x-6">
+            <ul className="flex items-center gap-x-3.5 2xl:gap-x-5">
               {nav.map((item) => {
                 const menu = dropdownByLabel[item.label];
                 return (
@@ -112,7 +113,7 @@ export function Header() {
                     ) : (
                       <Link
                         href={item.href}
-                        className="text-sm font-medium text-muted transition-colors hover:text-ink"
+                        className="whitespace-nowrap text-sm font-medium text-muted transition-colors hover:text-ink"
                       >
                         {item.label}
                       </Link>
@@ -123,15 +124,15 @@ export function Header() {
             </ul>
           </nav>
 
-          <div className="hidden items-center gap-4 xl:flex">
+          <div className="hidden shrink-0 items-center gap-4 xl:flex">
             <a
               href={telHref}
               aria-label={PHONE_ARIA}
-              className="text-sm font-semibold text-chrome transition-colors hover:text-ink"
+              className="whitespace-nowrap text-sm font-semibold text-chrome transition-colors hover:text-ink"
             >
               {site.phone}
             </a>
-            <BookNowButton className="px-5 py-2.5" />
+            <BookNowButton className="whitespace-nowrap px-5 py-2.5" />
           </div>
 
           <button
