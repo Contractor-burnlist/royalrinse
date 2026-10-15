@@ -194,6 +194,11 @@ export function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/referral" className="transition-colors hover:text-ink">
+                  Referral Program
+                </Link>
+              </li>
+              <li>
                 <Link
                   href="/ceramic-warranty"
                   className="transition-colors hover:text-ink"

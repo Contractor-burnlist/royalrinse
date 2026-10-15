@@ -1,0 +1,495 @@
+/*
+ * /referral only. Pure CSS: metallic gold, shimmer, glow, engraved panels.
+ * Every animation is opt-in behind prefers-reduced-motion: no-preference, so
+ * reduced-motion users get the finished, static state.
+ */
+
+.page {
+  --gold-hi: #f7e7b0;
+  --gold: #d9b44a;
+  --gold-mid: #c69a33;
+  --gold-deep: #8f6a1f;
+  --gold-text: #e6c766;
+  --ink-dark: #15171a;
+}
+
+/* ---------- Metallic text ---------- */
+
+/* Silver to gold to silver, swept vertically. Solid gold where clip is unsupported. */
+.metal {
+  color: var(--gold-text);
+}
+
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+  .metal {
+    background-image:
+      linear-gradient(105deg, transparent 40%, rgba(255, 255, 255, 0.9) 50%, transparent 60%),
+      linear-gradient(
+        180deg,
+        #f3f5f7 0%,
+        #efe0a8 16%,
+        #f6e2a0 30%,
+        #d9b44a 47%,
+        #b48a2f 57%,
+        #e7c766 72%,
+        #f6e9bd 86%,
+        #eef1f4 100%
+      );
+    background-size: 250% 100%, 100% 100%;
+    background-position: 160% 0, 0 0;
+    background-repeat: no-repeat;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+}
+
+/* The "$25": lifted off the photo with layered drop shadows. */
+.hero25 {
+  display: inline-block;
+  filter: drop-shadow(0 2px 0 rgba(0, 0, 0, 0.35)) drop-shadow(0 14px 28px rgba(0, 0, 0, 0.55));
+}
+
+/* ---------- Hero entrance ---------- */
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes shimmer {
+  from {
+    background-position: 160% 0, 0 0;
+  }
+  to {
+    background-position: -60% 0, 0 0;
+  }
+}
+
+@keyframes bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(6px);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .rise {
+    animation: rise 900ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+  .riseLate {
+    animation: rise 900ms 450ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+  .hero25 {
+    animation:
+      scaleIn 900ms 250ms cubic-bezier(0.2, 0.7, 0.2, 1) both,
+      shimmer 1300ms 950ms ease-in-out both;
+  }
+  .bob {
+    animation: bob 2.4s ease-in-out infinite;
+  }
+}
+
+/* ---------- Gold button ---------- */
+
+.goldButton {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  border-radius: 9999px;
+  padding: 1rem 2rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: #1a1408;
+  background: linear-gradient(180deg, #f6e4a4 0%, #e2bf5c 38%, #c99c35 72%, #a87d24 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.95),
+    inset 0 -1px 0 rgba(90, 60, 10, 0.45),
+    0 1px 0 rgba(0, 0, 0, 0.35),
+    0 14px 34px -12px rgba(217, 180, 74, 0.65);
+  transition: box-shadow 250ms ease, filter 250ms ease;
+}
+
+.goldButton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(105deg, transparent 30%, rgba(255, 255, 255, 0.55) 48%, transparent 66%);
+  transform: translateX(-120%);
+}
+
+.goldButton:hover {
+  filter: brightness(1.05);
+  box-shadow:
+    inset 0 1px 0 #fff,
+    inset 0 -1px 0 rgba(90, 60, 10, 0.45),
+    0 1px 0 rgba(0, 0, 0, 0.35),
+    0 18px 44px -12px rgba(217, 180, 74, 0.85);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .goldButton::after {
+    transition: transform 700ms ease;
+  }
+  .goldButton:hover::after {
+    transform: translateX(120%);
+  }
+}
+
+/* Visible on gunmetal and on gold: white ring with a dark gap. */
+.goldButton:focus-visible,
+.pill:focus-visible,
+.focusRing:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+  box-shadow: 0 0 0 6px rgba(21, 23, 26, 0.9);
+}
+
+/* ---------- Raised metal plates (how it works) ---------- */
+
+.plate {
+  position: relative;
+  height: 100%;
+  border-radius: 1.25rem;
+  padding: 2rem 1.75rem 2.25rem;
+  background: linear-gradient(180deg, #3b4047 0%, #2c3035 55%, #24272b 100%);
+  border-top: 1px solid rgba(255, 255, 255, 0.38);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.05),
+    inset 0 2px 0 rgba(255, 255, 255, 0.06),
+    inset 0 -3px 8px rgba(0, 0, 0, 0.35),
+    0 1px 2px rgba(0, 0, 0, 0.45),
+    0 10px 20px -8px rgba(0, 0, 0, 0.55),
+    0 30px 60px -24px rgba(0, 0, 0, 0.8);
+  transition: box-shadow 350ms ease, transform 350ms ease;
+}
+
+.plate:hover {
+  box-shadow:
+    inset 0 0 0 1px rgba(217, 180, 74, 0.28),
+    inset 0 2px 0 rgba(255, 255, 255, 0.08),
+    inset 0 -3px 8px rgba(0, 0, 0, 0.35),
+    0 1px 2px rgba(0, 0, 0, 0.45),
+    0 0 40px -6px rgba(217, 180, 74, 0.35),
+    0 30px 60px -24px rgba(0, 0, 0, 0.8);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .plate:hover {
+    transform: perspective(900px) rotateX(2deg) translateY(-4px);
+  }
+}
+
+.numeral {
+  font-size: clamp(3.75rem, 7vw, 5.5rem);
+  line-height: 0.9;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
+/* ---------- Generator card ---------- */
+
+.generator {
+  position: relative;
+  border-radius: 1.75rem;
+  background: linear-gradient(180deg, #353a40 0%, #2a2e33 40%, #23262a 100%);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-top-color: rgba(255, 255, 255, 0.5);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    inset 0 -2px 10px rgba(0, 0, 0, 0.35),
+    0 2px 2px rgba(0, 0, 0, 0.4),
+    0 40px 90px -30px rgba(0, 0, 0, 0.85);
+}
+
+/* Gold ambient glow behind the card. */
+.glow {
+  position: absolute;
+  inset: -12% -6%;
+  z-index: -1;
+  border-radius: 9999px;
+  background: radial-gradient(closest-side, rgba(217, 180, 74, 0.22), transparent 75%);
+  filter: blur(30px);
+  pointer-events: none;
+}
+
+/* Floating-label field. The input carries placeholder=" " so
+   :placeholder-shown means "empty". */
+.field {
+  position: relative;
+}
+
+.input {
+  width: 100%;
+  height: 4.25rem;
+  border-radius: 1rem;
+  padding: 1.6rem 1.25rem 0.5rem;
+  font-size: 1.125rem;
+  color: #f7f8fa;
+  background: linear-gradient(180deg, #1c1f22, #202327);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.45);
+  transition: border-color 200ms ease, box-shadow 200ms ease;
+}
+
+.input:hover {
+  border-color: rgba(255, 255, 255, 0.32);
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--gold);
+  box-shadow:
+    inset 0 2px 6px rgba(0, 0, 0, 0.45),
+    0 0 0 3px rgba(217, 180, 74, 0.35);
+}
+
+.label {
+  position: absolute;
+  left: 1.25rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.0625rem;
+  color: #c3c8ce;
+  pointer-events: none;
+  transform-origin: left center;
+  transition: transform 180ms ease, top 180ms ease, color 180ms ease;
+}
+
+.input:focus + .label,
+.input:not(:placeholder-shown) + .label {
+  top: 0.95rem;
+  transform: translateY(0) scale(0.78);
+  color: var(--gold-text);
+}
+
+/* ---------- Engraved code panel ---------- */
+
+.codePanel {
+  position: relative;
+  overflow: hidden;
+  border-radius: 1.25rem;
+  background: linear-gradient(180deg, #121417, #181a1e);
+  border: 1px solid rgba(0, 0, 0, 0.7);
+  border-bottom-color: rgba(255, 255, 255, 0.1);
+  box-shadow:
+    inset 0 3px 14px rgba(0, 0, 0, 0.75),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.code {
+  font-size: clamp(1.9rem, 8.5vw, 4.75rem);
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.codeChar {
+  display: inline-block;
+  filter: drop-shadow(0 -1px 0 rgba(0, 0, 0, 0.8)) drop-shadow(0 1px 0 rgba(255, 255, 255, 0.08));
+}
+
+.codePlaceholder {
+  color: rgba(230, 199, 102, 0.22);
+}
+
+@keyframes cascade {
+  0% {
+    opacity: 0;
+    transform: translateY(-0.45em) scale(1.08);
+    filter: blur(6px);
+  }
+  60% {
+    opacity: 1;
+    filter: blur(0);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+    filter: drop-shadow(0 -1px 0 rgba(0, 0, 0, 0.8)) drop-shadow(0 1px 0 rgba(255, 255, 255, 0.08));
+  }
+}
+
+@keyframes sweep {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+
+/* One light sweep across the panel after the letters land. */
+.sweep {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(100deg, transparent 35%, rgba(247, 231, 176, 0.18) 50%, transparent 65%);
+  transform: translateX(100%);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .reveal .codeChar {
+    animation: cascade 520ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+  .reveal .sweep {
+    animation: sweep 1100ms 650ms ease-in-out both;
+  }
+}
+
+/* ---------- Share message + pills ---------- */
+
+.quote {
+  border-left: 3px solid var(--gold);
+  border-radius: 0 1rem 1rem 0;
+  background: linear-gradient(90deg, rgba(217, 180, 74, 0.08), rgba(255, 255, 255, 0.02));
+}
+
+.pill {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  min-height: 3.75rem;
+  border-radius: 9999px;
+  padding: 0 1.75rem;
+  font-weight: 700;
+  color: #f7f8fa;
+  background: linear-gradient(180deg, #474d55 0%, #34383e 55%, #2b2f34 100%);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-top-color: rgba(255, 255, 255, 0.42);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5), 0 12px 26px -14px rgba(0, 0, 0, 0.9);
+  transition: border-color 250ms ease, color 250ms ease;
+}
+
+.pill::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(105deg, transparent 30%, rgba(255, 255, 255, 0.16) 48%, transparent 66%);
+  transform: translateX(-120%);
+}
+
+.pill:hover {
+  border-color: rgba(217, 180, 74, 0.55);
+}
+
+.pill[aria-disabled="true"] {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .pill::after {
+    transition: transform 700ms ease;
+  }
+  .pill:hover::after {
+    transform: translateX(120%);
+  }
+}
+
+@keyframes goldFlash {
+  0% {
+    box-shadow: 0 0 0 0 rgba(217, 180, 74, 0.75), 0 12px 26px -14px rgba(0, 0, 0, 0.9);
+    background: linear-gradient(180deg, #f6e4a4, #c99c35);
+    color: #1a1408;
+  }
+  100% {
+    box-shadow: 0 0 0 14px rgba(217, 180, 74, 0), 0 12px 26px -14px rgba(0, 0, 0, 0.9);
+  }
+}
+
+.copied {
+  border-color: var(--gold);
+  color: var(--gold-text);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .copied {
+    animation: goldFlash 650ms ease-out;
+  }
+}
+
+/* ---------- Save-your-code callout ---------- */
+
+.callout {
+  border-radius: 1.25rem;
+  border: 2px solid var(--gold);
+  background:
+    linear-gradient(180deg, rgba(217, 180, 74, 0.16), rgba(217, 180, 74, 0.06)),
+    #23262a;
+  box-shadow: 0 0 0 6px rgba(217, 180, 74, 0.08), 0 24px 60px -24px rgba(217, 180, 74, 0.45);
+}
+
+/* ---------- Payoff band (CSS scroll-driven parallax, desktop only) ---------- */
+
+.bandMedia {
+  position: absolute;
+  inset: 0;
+}
+
+@keyframes drift {
+  from {
+    transform: translateY(-7%);
+  }
+  to {
+    transform: translateY(7%);
+  }
+}
+
+@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .bandMedia {
+      inset: -9% 0;
+      animation: drift linear both;
+      animation-timeline: view();
+      animation-range: cover 0% cover 100%;
+    }
+  }
+}
+
+.goldRule {
+  height: 2px;
+  width: 4.5rem;
+  border-radius: 9999px;
+  background: linear-gradient(90deg, var(--gold-hi), var(--gold), var(--gold-deep));
+}
+
+/* ---------- Closing band ---------- */
+
+.closing {
+  background:
+    radial-gradient(60% 120% at 50% 0%, rgba(217, 180, 74, 0.16), transparent 70%),
+    linear-gradient(180deg, #2f3338 0%, #26292d 100%);
+  border-top: 1px solid rgba(217, 180, 74, 0.35);
+}
