@@ -187,7 +187,7 @@ export function HeroCarousel({ children }: { children?: ReactNode }) {
         />
       ) : (
         <>
-          {/* Ambient blurred backdrop of the leading tile — upscaled, but blurred
+          {/* Ambient blurred backdrop of the leading tile, upscaled but blurred
               on purpose, so its softness reads as depth. */}
           <div aria-hidden="true" className="absolute inset-0">
             <Image
