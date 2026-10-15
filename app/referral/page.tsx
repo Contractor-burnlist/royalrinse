@@ -110,9 +110,10 @@ export default function ReferralPage() {
                 $25.
               </span>
             </h1>
-            <p
-              className={`mt-6 max-w-xl text-lg leading-relaxed text-[#dfe3e8] sm:text-xl ${styles.riseLate}`}
-            >
+            {/* Not animated: text that starts at opacity 0 is not an LCP
+                candidate, and the full-bleed photo is ignored as a background,
+                so this line is what LCP measures. */}
+            <p className="mt-6 max-w-xl text-lg leading-relaxed text-[#dfe3e8] sm:text-xl">
               Share your code. Your friend gets $25 off their first detail. You get $25
               toward your next one.
             </p>
