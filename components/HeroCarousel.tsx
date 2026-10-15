@@ -56,7 +56,13 @@ function perViewFor(width: number) {
  */
 const MAX_ROW_PX = 1398;
 
-export function HeroCarousel({ children }: { children: ReactNode }) {
+/**
+ * With children, the carousel is the hero: pulled up under the header with
+ * the hero text above the tiles. Without children it is a standalone section
+ * (normal flow and spacing), for a page whose hero lives elsewhere.
+ */
+export function HeroCarousel({ children }: { children?: ReactNode }) {
+  const standalone = !children;
   const [current, setCurrent] = useState(0);
   // Matches the CSS tile widths below; synced to the viewport on mount.
   const [perView, setPerView] = useState(3);
@@ -165,7 +171,12 @@ export function HeroCarousel({ children }: { children: ReactNode }) {
   };
 
   return (
-    <section className="relative -mt-24 overflow-hidden border-b border-hairline sm:-mt-32">
+    <section
+      aria-label={standalone ? "Recent detailing work" : undefined}
+      className={`relative overflow-hidden border-b border-hairline ${
+        standalone ? "" : "-mt-24 sm:-mt-32"
+      }`}
+    >
       {/* Ambient blurred backdrop of the leading tile — upscaled, but blurred
           on purpose, so its softness reads as depth. */}
       <div aria-hidden="true" className="absolute inset-0">
@@ -191,15 +202,21 @@ export function HeroCarousel({ children }: { children: ReactNode }) {
           height at the top of the page (its tallest state; it only shrinks
           once scrolled), so this padding clears the header bar and puts the
           eyebrow 16 / 20px below it. */}
-      <div className="relative z-10 pb-16 pt-[112px] sm:pb-20 sm:pt-[148px]">
-        <Container>
-          <div className="mx-auto max-w-3xl text-center">{children}</div>
-        </Container>
+      <div
+        className={`relative z-10 ${
+          standalone ? "py-14 sm:py-16" : "pb-16 pt-[112px] sm:pb-20 sm:pt-[148px]"
+        }`}
+      >
+        {standalone ? null : (
+          <Container>
+            <div className="mx-auto max-w-3xl text-center">{children}</div>
+          </Container>
+        )}
 
         {/* 92% / 90% framed width is unchanged; maxWidth is the sharpness cap
             described at MAX_ROW_PX, and only bites on large desktops. */}
         <div
-          className="mx-auto mt-1.5 w-[92%] sm:mt-3 sm:w-[90%]"
+          className={`mx-auto w-[92%] sm:w-[90%] ${standalone ? "" : "mt-1.5 sm:mt-3"}`}
           style={{ maxWidth: `${MAX_ROW_PX}px` }}
           role="group"
           aria-roledescription="carousel"

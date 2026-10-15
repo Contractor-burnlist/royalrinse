@@ -16,6 +16,7 @@ import {
   valueProps,
 } from "@/lib/site";
 import { buildMetadata } from "@/lib/seo";
+import heroStyles from "./home-hero.module.css";
 import { faqs } from "@/lib/faq";
 import { featuredReviews } from "@/lib/reviews";
 import { featuredCities } from "@/lib/serviceAreas";
@@ -271,63 +272,151 @@ function MetalDivider() {
 const textLink =
   "inline-flex items-center gap-1.5 text-sm font-semibold text-accent transition-colors hover:text-ink";
 
+/** Same cream Ferrari as /referral. 3840x5120: full-bleed at 2x without upscaling. */
+const heroBackground = allGalleryImages.find((image) =>
+  image.src.endsWith("ferrari-hero-2.jpeg"),
+);
+
+const heroEyebrow =
+  "text-xs font-semibold uppercase tracking-[0.32em] text-[var(--gold-text)]";
+
+/**
+ * Full-bleed hero in the /referral treatment: photo background with a
+ * directional scrim, left-aligned type, metallic gold phrase. The photo
+ * carousel follows as the first section below.
+ */
 function Hero() {
   return (
-    <HeroCarousel>
-      {/* Centered stack. HeroCarousel already centres and caps this block. */}
-      <Eyebrow>{SERVICE_AREA_SHORT}</Eyebrow>
+    <section
+      className={`${heroStyles.hero} relative -mt-24 flex min-h-[100svh] items-end overflow-hidden sm:-mt-32`}
+    >
+      {heroBackground ? (
+        <Image
+          src={heroBackground.src}
+          alt="Cream Ferrari with a deep gloss finish after a Royal Rinse mobile detail in a customer's driveway"
+          fill
+          priority
+          quality={90}
+          sizes="100vw"
+          className="object-cover object-[62%_58%]"
+        />
+      ) : null}
+      {/* Directional scrim: darkest bottom-left, where the type sits. Held
+          dark further right than /referral's, because this headline runs
+          wider and crosses the car. */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 bg-[linear-gradient(90deg,rgba(17,19,22,0.94)_0%,rgba(17,19,22,0.86)_45%,rgba(17,19,22,0.6)_72%,rgba(17,19,22,0.3)_100%)]"
+      />
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 bg-[linear-gradient(0deg,rgba(17,19,22,0.96)_0%,rgba(17,19,22,0.55)_35%,rgba(17,19,22,0)_65%)]"
+      />
+      <div
+        aria-hidden="true"
+        className="absolute inset-x-0 top-0 h-48 bg-gradient-to-b from-[rgba(17,19,22,0.7)] to-transparent"
+      />
+      {/* Below xl the type sits over the car itself, so the photo is held
+          down further to keep the gold phrase above contrast minimums. */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 bg-[rgba(17,19,22,0.66)] sm:bg-[rgba(17,19,22,0.5)] xl:hidden"
+      />
 
-      {/* No forced <br> on mobile: it overflows narrow viewports. */}
-      <h1 className="mt-2 font-display text-4xl font-bold leading-[1.02] tracking-tight text-metal sm:text-5xl sm:leading-[0.98] lg:text-[3.25rem]">
-        A showroom finish,
-        <br className="hidden sm:inline" /> in your driveway.
-      </h1>
+      <Container className="relative z-10 pb-24 pt-[150px] sm:pb-28 sm:pt-[190px]">
+        <div className="max-w-5xl">
+          <p className={`${heroEyebrow} ${heroStyles.rise}`}>{SERVICE_AREA_SHORT}</p>
 
-      <p className="mx-auto mt-2 max-w-xl text-lg text-chrome sm:text-xl">
-        {site.tagline}
-      </p>
+          <h1 className="mt-5 font-display text-[3.1rem] font-bold leading-[0.92] tracking-[-0.03em] text-[#f2f4f6] sm:text-[4.75rem] lg:text-[6rem]">
+            <span className={`block ${heroStyles.rise}`}>
+              A{" "}
+              <span className={`${heroStyles.metal} ${heroStyles.goldPhrase}`}>showroom</span>{" "}
+              <span className={`${heroStyles.metal} ${heroStyles.goldPhrase}`}>finish,</span>
+            </span>
+            <span className={`block ${heroStyles.rise}`}>in your driveway.</span>
+          </h1>
 
-      {/* Side by side whenever they fit, wrapping on the narrowest phones. */}
-      <div className="mt-3 flex flex-wrap justify-center gap-3">
-        <ButtonAnchor href={telHref}>Call {site.phone}</ButtonAnchor>
-        <BookNowButton variant="secondary" />
-      </div>
+          {/* Not animated: text that starts at opacity 0 is not an LCP
+              candidate, and the full-bleed photo is ignored as a background,
+              so this line is what LCP measures. */}
+          <p className="mt-6 max-w-xl text-lg leading-relaxed text-[#dfe3e8] sm:text-xl">
+            {site.tagline}
+          </p>
 
-      <ul className="mt-3 flex flex-wrap items-center justify-center gap-x-7 gap-y-1">
-        {trustChips.map((chip) => (
-          <li
-            key={chip}
-            className="flex items-center gap-2 text-sm text-chrome"
-          >
-            <Icon name="check" className="h-4 w-4 text-chrome" />
-            {chip}
-          </li>
-        ))}
-        {/* Review badge, then the Instagram follow link on the same line.
-            Instagram has no reviews, so it stays a separate link with its
-            own label, set apart by a divider from md up (below md it wraps
-            to its own line). */}
-        <li className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 sm:gap-y-2">
-          <ReviewPlatformsBadge className="text-chrome" />
-          <span aria-hidden="true" className="hidden h-6 w-px bg-hairline md:block" />
-          <a
-            href={INSTAGRAM_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Follow Royal Rinse on Instagram, opens in a new tab"
-            className="group/brand flex items-center gap-2.5 rounded-full text-sm font-medium text-muted transition-colors hover:text-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
-          >
-            <BrandChip size="lg">
-              <InstagramMark
-                gradientId="rr-instagram-gradient-hero"
-                className={brandChipSizes.lg.mark}
-              />
-            </BrandChip>
-            Follow our work
-          </a>
-        </li>
-      </ul>
-    </HeroCarousel>
+          <div className={`mt-9 flex flex-col gap-3 sm:flex-row ${heroStyles.riseLate}`}>
+            <a href={telHref} className={heroStyles.goldButton}>
+              Call {site.phone}
+            </a>
+            <BookNowButton variant="ghost" className={heroStyles.pill} />
+          </div>
+
+          <div className={`mt-8 ${heroStyles.riseLate}`}>
+            <ul className="flex flex-wrap items-center gap-x-7 gap-y-2">
+              {trustChips.map((chip) => (
+                <li
+                  key={chip}
+                  className="flex items-center gap-2 text-sm text-[#dfe3e8]"
+                >
+                  <Icon name="check" className="h-4 w-4 text-[var(--gold-text)]" />
+                  {chip}
+                </li>
+              ))}
+            </ul>
+            {/* Review badge, then the Instagram follow link. Instagram has no
+                reviews, so it stays a separate link set apart by a divider. */}
+            <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2">
+              {/* !justify-start: left-aligned like the rest of this hero when
+                  the badge wraps on mobile (it centers by default). */}
+              <ReviewPlatformsBadge className="text-chrome !justify-start" />
+              <span aria-hidden="true" className="hidden h-6 w-px bg-hairline md:block" />
+              <a
+                href={INSTAGRAM_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Follow Royal Rinse on Instagram, opens in a new tab"
+                className="group/brand flex items-center gap-2.5 rounded-full text-sm font-medium text-[#dfe3e8] transition-colors hover:text-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
+              >
+                <BrandChip size="lg">
+                  <InstagramMark
+                    gradientId="rr-instagram-gradient-hero"
+                    className={brandChipSizes.lg.mark}
+                  />
+                </BrandChip>
+                Follow our work
+              </a>
+            </div>
+          </div>
+        </div>
+      </Container>
+
+      <a
+        href="#recent-work"
+        className={`${heroStyles.focusRing} absolute bottom-6 left-1/2 z-10 -translate-x-1/2 rounded-full p-2 text-[#c3c8ce] transition-colors hover:text-white`}
+        aria-label="Scroll to recent work"
+      >
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth={2}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          aria-hidden="true"
+          className={`h-6 w-6 ${heroStyles.bob}`}
+        >
+          <path d="m6 9 6 6 6-6" />
+        </svg>
+      </a>
+    </section>
+  );
+}
+
+/** The photo carousel, now the first section below the hero. */
+function RecentWork() {
+  return (
+    <div id="recent-work" className="scroll-mt-24">
+      <HeroCarousel />
+    </div>
   );
 }
 
@@ -1108,6 +1197,7 @@ export default function Home() {
       />
 
       <Hero />
+      <RecentWork />
       <TrustBar />
       <VehiclesStrip />
       <ComeToYou />
