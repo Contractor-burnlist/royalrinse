@@ -11,6 +11,7 @@ import {
   smsHref,
   steps,
   telHref,
+  TOTAL_REVIEW_COUNT_DISPLAY,
   valueProps,
 } from "@/lib/site";
 import { buildMetadata } from "@/lib/seo";
@@ -36,9 +37,12 @@ import {
 import { addOnPhoto, serviceImage } from "@/lib/serviceImages";
 import { BlogCard } from "@/components/BlogCard";
 import { BookNowButton } from "@/components/BookNowButton";
-import { GoogleMark } from "@/components/GoogleMark";
 import { GoogleRatingSummary } from "@/components/GoogleRatingSummary";
-import { GoogleReviewsBadge, GoldStars } from "@/components/GoogleReviewsBadge";
+import { GoldStars } from "@/components/GoogleReviewsBadge";
+import {
+  ReviewPlatformLogos,
+  ReviewPlatformsBadge,
+} from "@/components/ReviewPlatforms";
 import { GoogleReviewsLink } from "@/components/GoogleReviewsLink";
 import { HeroCarousel } from "@/components/HeroCarousel";
 import { MilitaryDiscountBadge } from "@/components/MilitaryDiscountBadge";
@@ -69,7 +73,7 @@ const trustChips = ["Licensed, Insured & Bonded", "Mobile: We Come To You"];
 
 // `detail` renders as a smaller muted line beneath the label: used to surface
 // the DLSE licence number itself, not just the claim of being licensed.
-// Four credentials; the fifth grid slot is the Google-reviews stat (below).
+// Four credentials; the fifth grid slot is the reviews stat (below).
 const trustBadges: { label: string; detail?: string }[] = [
   { label: "CA DLSE Licensed", detail: site.licenseNumber },
   { label: "Fully Insured" },
@@ -293,12 +297,7 @@ function Hero() {
           </li>
         ))}
         <li>
-          <GoogleReviewsBadge
-            className="text-sm text-chrome hover:text-ink"
-            starClassName="h-3.5 w-3.5"
-          >
-            {REVIEW_COUNT_DISPLAY} Five-Star Google Reviews
-          </GoogleReviewsBadge>
+          <ReviewPlatformsBadge className="text-sm text-chrome hover:text-ink" />
         </li>
       </ul>
     </HeroCarousel>
@@ -335,18 +334,18 @@ function TrustBar() {
               </li>
             ))}
 
-            {/* Google reviews stat: clickable, gold stars + G, real figures. */}
-            <li className="flex items-start justify-center gap-2 text-center">
+            {/* Reviews stat: platform logos, cross-platform total, Google rating. */}
+            <li className="col-span-2 flex items-start justify-center text-center sm:col-span-1">
               <a
                 href={GOOGLE_REVIEWS_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex items-start gap-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-charcoal"
+                className="group flex flex-col items-center gap-1.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-charcoal"
               >
-                <GoogleMark className="mt-0.5 h-4 w-4 shrink-0" />
+                <ReviewPlatformLogos size="sm" />
                 <span className="min-w-0">
-                  <span className="block text-sm font-medium text-chrome transition-colors group-hover:text-ink">
-                    {REVIEW_COUNT_DISPLAY} Google Reviews
+                  <span className="block whitespace-nowrap text-sm font-medium text-chrome transition-colors group-hover:text-ink">
+                    {TOTAL_REVIEW_COUNT_DISPLAY} Five-Star Reviews
                   </span>
                   <span className="mt-1 flex items-center justify-center gap-1.5 text-[11px] text-muted">
                     <GoldStars className="h-3 w-3" />

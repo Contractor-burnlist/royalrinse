@@ -1,7 +1,5 @@
-import { GOOGLE_REVIEWS_URL } from "@/lib/site";
-import { GoogleMark } from "@/components/GoogleMark";
 
-/** A row of five gold (amber) stars — the shared review-star visual. */
+/** A row of five gold (amber) stars, the shared review-star visual. */
 export function GoldStars({
   className = "h-4 w-4",
   label = "5 out of 5 stars",
@@ -27,35 +25,5 @@ export function GoldStars({
         </svg>
       ))}
     </span>
-  );
-}
-
-/**
- * Clickable social-proof badge: gold stars + Google "G" + label, linking to the
- * verified Google Business Profile in a new tab. Reused across the hero chip and
- * the under-CTA strip so the "42 Five-Star Google Reviews" claim renders
- * identically everywhere.
- */
-export function GoogleReviewsBadge({
-  children,
-  className = "",
-  starClassName = "h-3.5 w-3.5",
-}: {
-  children: React.ReactNode;
-  className?: string;
-  starClassName?: string;
-}) {
-  return (
-    <a
-      href={GOOGLE_REVIEWS_URL}
-      target="_blank"
-      rel="noopener noreferrer"
-      className={`inline-flex items-center gap-2 font-semibold transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-canvas ${className}`}
-    >
-      <GoldStars className={starClassName} />
-      <GoogleMark className="h-4 w-4" />
-      <span>{children}</span>
-      <span className="sr-only">(opens Google in a new tab)</span>
-    </a>
   );
 }
