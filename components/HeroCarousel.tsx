@@ -192,7 +192,7 @@ export function HeroCarousel({ children }: { children: ReactNode }) {
           fold as possible. */}
       <div className="relative z-10 pb-16 pt-[102px] sm:pb-20 sm:pt-[134px]">
         <Container>
-          <div className="mx-auto max-w-3xl text-center">{children}</div>
+          <div className="mx-auto max-w-3xl text-center lg:max-w-none">{children}</div>
         </Container>
 
         {/* 92% / 90% framed width is unchanged; maxWidth is the sharpness cap
