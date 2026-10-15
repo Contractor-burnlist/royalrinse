@@ -1,22 +1,32 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { BadgeDollarSign, Camera, ChevronDown, PenLine, Send } from "lucide-react";
+import { CalendarCheck, ChevronDown, Truck, UserRound } from "lucide-react";
 import { JsonLd } from "@/components/JsonLd";
 import { BookNowButton } from "@/components/BookNowButton";
 import { Reveal } from "@/components/Reveal";
+import { ReviewPlatformsBadge } from "@/components/ReviewPlatforms";
 import { ButtonAnchor, Container } from "@/components/ui";
 import { allGalleryImages } from "@/lib/gallery";
 import { breadcrumbJsonLd, buildMetadata } from "@/lib/seo";
 import { site, smsHref, telHref } from "@/lib/site";
-import { ReferralGenerator } from "./ReferralGenerator";
+import { absoluteUrl } from "@/lib/url";
+import { ReferralShare } from "./ReferralShare";
 import styles from "./referral.module.css";
 
+const PAGE_URL = absoluteUrl("/referral");
+
+/**
+ * This page is sent by text, so the share card matters most: the title reads
+ * as the offer and the image is a 1200x630 crop of the cream Ferrari
+ * (public/og/referral-ferrari.jpg), not the generic site card.
+ */
 export const metadata: Metadata = buildMetadata({
-  title: "Refer a Friend and You Both Get $25 | Royal Rinse Menifee",
+  title: "$25 Off Your First Mobile Detail | Royal Rinse Menifee",
   description:
-    "Refer a friend to Royal Rinse mobile detailing in Menifee, Temecula, and Murrieta. They get $25 off their first detail and you get $25 toward your next one.",
+    "A friend sent you $25 off your first Royal Rinse mobile detail. We come to you in Menifee, Temecula, Murrieta, Riverside, and San Diego. Mention them when you book.",
   path: "/referral",
+  image: absoluteUrl("/og/referral-ferrari.jpg"),
 });
 
 const photo = (file: string) => allGalleryImages.find((image) => image.src.endsWith(file));
@@ -28,39 +38,41 @@ const bandPhoto = photo("ferrari-hero-3.jpeg");
 const steps = [
   {
     n: "01",
-    Icon: PenLine,
-    title: "Enter your name, get your code.",
-    body: "Your code is generated right here on the page. Nothing to sign up for.",
+    Icon: CalendarCheck,
+    title: "Book online, or call or text us.",
+    body: `Book Now takes about a minute, or reach us any day at ${site.phone}.`,
   },
   {
     n: "02",
-    Icon: Send,
-    title: "Send it to a friend. They book and save $25.",
-    body: "Copy it, text it, or email it. They mention the code when they book.",
+    Icon: UserRound,
+    title: "Tell us who referred you.",
+    body: "Mention your friend's name when you book so they get credit too.",
   },
   {
     n: "03",
-    Icon: BadgeDollarSign,
-    title: "Their detail is done, your $25 credit lands.",
-    body: "Once their first service is complete, $25 goes toward your next detail.",
+    Icon: Truck,
+    title: "We come to you. $25 comes off your first detail.",
+    body: "Our self-contained rig arrives at your home or office with its own water and power.",
   },
 ];
 
 const finePrint = [
-  "Your friend must mention the code when booking.",
-  "Both credits apply after the referred customer's first completed service.",
-  "One $25 credit per new customer referred.",
+  "Mention your referrer's name when you book to receive $25 off.",
+  "Valid on a first-time service for new customers.",
+  "The referring customer receives a $25 credit after the referred service is complete.",
   "Credits apply to future service, not redeemable for cash.",
   "Cannot be combined with other offers unless stated.",
   "Royal Rinse reserves the right to modify or end the program.",
 ];
+
+const shareMessage = `You've got to try Royal Rinse Mobile Detailing. Here's $25 off your first detail: ${PAGE_URL}`;
 
 const goldEyebrow = "text-xs font-semibold uppercase tracking-[0.32em] text-[var(--gold-text)]";
 
 export default function ReferralPage() {
   return (
     <div className={styles.page}>
-      <JsonLd data={breadcrumbJsonLd([{ name: "Referral Program", path: "/referral" }])} />
+      <JsonLd data={breadcrumbJsonLd([{ name: "Referral Offer", path: "/referral" }])} />
 
       {/* 1. Hero: full-bleed, tucked under the transparent header (96 / 128px). */}
       <section className="relative -mt-24 flex min-h-[100svh] items-end overflow-hidden sm:-mt-32">
@@ -97,29 +109,31 @@ export default function ReferralPage() {
 
         <Container className="relative z-10 pb-28 pt-[160px] sm:pb-32 sm:pt-[200px]">
           <div className="max-w-3xl">
-            <p className={`${goldEyebrow} ${styles.rise}`}>Referral Program</p>
+            <p className={`${goldEyebrow} ${styles.rise}`}>A Friend Sent You This</p>
             <h1 className="mt-5 font-display font-bold tracking-tight">
               <span
-                className={`block text-4xl leading-none text-[#f2f4f6] sm:text-6xl ${styles.rise}`}
+                className={`${styles.metal} ${styles.hero25} text-[7.25rem] leading-[0.85] tracking-[-0.04em] sm:text-[11rem] lg:text-[13.5rem]`}
               >
-                You Both Get
+                $25
               </span>
               <span
-                className={`${styles.metal} ${styles.hero25} mt-1 text-[7.25rem] leading-[0.85] tracking-[-0.04em] sm:text-[11rem] lg:text-[13.5rem]`}
+                className={`mt-3 block text-4xl leading-none text-[#f2f4f6] sm:text-6xl ${styles.rise}`}
               >
-                $25.
+                Off Your First Detail.
               </span>
             </h1>
             {/* Not animated: text that starts at opacity 0 is not an LCP
                 candidate, and the full-bleed photo is ignored as a background,
                 so this line is what LCP measures. */}
             <p className="mt-6 max-w-xl text-lg leading-relaxed text-[#dfe3e8] sm:text-xl">
-              Share your code. Your friend gets $25 off their first detail. You get $25
-              toward your next one.
+              Mobile auto detailing that comes to you across Menifee, Temecula, Murrieta,
+              Riverside, and San Diego. Mention your friend&rsquo;s name when you book and
+              $25 comes off.
             </p>
-            <div className={`mt-9 ${styles.riseLate}`}>
-              <a href="#get-your-code" className={styles.goldButton}>
-                Get my code
+            <div className={`mt-9 flex flex-col gap-3 sm:flex-row ${styles.riseLate}`}>
+              <BookNowButton variant="ghost" className={styles.goldButton} />
+              <a href={telHref} className={styles.pill}>
+                Call {site.phone}
               </a>
             </div>
           </div>
@@ -140,7 +154,7 @@ export default function ReferralPage() {
           <Reveal className="max-w-2xl">
             <p className={goldEyebrow}>How it works</p>
             <h2 className="mt-4 font-display text-4xl font-bold leading-[1.05] tracking-tight text-metal sm:text-5xl">
-              Three steps. Two credits.
+              Three steps. $25 off.
             </h2>
           </Reveal>
           <ol className="mt-14 grid gap-6 md:grid-cols-3">
@@ -162,47 +176,40 @@ export default function ReferralPage() {
               </Reveal>
             ))}
           </ol>
+
+          {/* Social proof: the site's review badge, each logo linking to its
+              own profile. */}
+          <Reveal className="mt-16 flex justify-center sm:mt-20">
+            <ReviewPlatformsBadge className="text-chrome" />
+          </Reveal>
         </Container>
       </section>
 
-      {/* 3. The generator, then 4. the save-your-code callout */}
-      <section id="get-your-code" className="scroll-mt-28 pb-24 sm:pb-32">
+      {/* 3. Share, for existing customers */}
+      <section id="share" className="scroll-mt-28 pb-24 sm:pb-32">
         <Container>
           <div className="relative mx-auto max-w-4xl">
             <div aria-hidden="true" className={styles.glow} />
             <div className={`${styles.generator} px-5 py-10 sm:px-12 sm:py-14`}>
               <div className="text-center">
-                <p className={goldEyebrow}>Your code</p>
+                <p className={goldEyebrow}>Share the offer</p>
                 <h2 className="mt-4 font-display text-3xl font-bold tracking-tight text-metal sm:text-5xl">
-                  Get your referral code
+                  Already a customer? Send this to a friend.
                 </h2>
                 <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed text-[#c9ced4]">
-                  Enter your name and we&rsquo;ll make your code right here. Nothing is sent
-                  anywhere.
+                  When your friend books their first detail, you get a $25 credit toward
+                  your next one.
                 </p>
               </div>
               <div className="mt-10">
-                <ReferralGenerator />
+                <ReferralShare url={PAGE_URL} message={shareMessage} />
               </div>
-            </div>
-
-            <div className={`${styles.callout} mt-8 flex flex-col gap-4 px-6 py-6 sm:flex-row sm:items-center sm:gap-6 sm:px-8 sm:py-7`}>
-              <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-[rgba(217,180,74,0.18)] text-[var(--gold-text)]">
-                <Camera aria-hidden="true" className="h-7 w-7" strokeWidth={1.7} />
-              </span>
-              <p className="text-base leading-relaxed text-[#f2f4f6] sm:text-lg">
-                <strong className="font-bold text-[var(--gold-text)]">
-                  Screenshot this or write it down.
-                </strong>{" "}
-                We don&rsquo;t email it. Your friend needs this code when they book, and
-                it&rsquo;s how we know to credit you.
-              </p>
             </div>
           </div>
         </Container>
       </section>
 
-      {/* 5. Payoff band */}
+      {/* 4. Payoff band */}
       <section className="relative isolate flex min-h-[60vh] items-center overflow-hidden sm:min-h-[70vh]">
         {bandPhoto ? (
           <div aria-hidden="true" className={styles.bandMedia}>
@@ -233,7 +240,7 @@ export default function ReferralPage() {
         </Container>
       </section>
 
-      {/* 6. Fine print */}
+      {/* 5. Fine print */}
       <section className="py-20 sm:py-24">
         <Container>
           <div className="mx-auto max-w-3xl">
@@ -263,15 +270,15 @@ export default function ReferralPage() {
         </Container>
       </section>
 
-      {/* 7. Closing CTA */}
+      {/* 6. Closing CTA */}
       <section className={styles.closing}>
         <Container className="py-20 text-center sm:py-28">
-          <p className={goldEyebrow}>$25 for you, $25 for them</p>
+          <p className={goldEyebrow}>$25 off your first detail</p>
           <h2 className="mt-4 font-display text-4xl font-bold tracking-tight text-metal sm:text-6xl">
-            Ready to share?
+            Ready to book?
           </h2>
           <p className="mx-auto mt-4 max-w-xl text-base text-[#c9ced4]">
-            Questions about the program, or ready to book your own detail? We&rsquo;re a
+            Mention your friend&rsquo;s name when you book. Questions first? We&rsquo;re a
             call or text away.
           </p>
           <div className="mt-9 flex flex-col justify-center gap-3 sm:flex-row">

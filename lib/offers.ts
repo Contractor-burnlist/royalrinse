@@ -79,9 +79,9 @@ export const offers: Offer[] = [
     tag: "Share Royal Rinse",
     icon: "check",
     description:
-      "Refer a friend and you both get $25: $25 off their first detail, and $25 toward your next one. Get your code, share it, and have your friend mention it when they book.",
+      "Refer a friend and you both get $25: $25 off their first detail, and $25 toward your next one. Send them our referral page, and have them mention your name when they book.",
     note: "Credits apply after your friend's first completed service. No expiration gimmicks.",
-    link: { href: "/referral", label: "Get your referral code" },
+    link: { href: "/referral", label: "Share the $25 offer" },
     ctas: ["call", "text", "book"],
     service: "Mobile auto detailing",
   },
