@@ -77,16 +77,6 @@
   }
 }
 
-@keyframes bob {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(6px);
-  }
-}
-
 @media (prefers-reduced-motion: no-preference) {
   .rise {
     animation: rise 900ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
@@ -98,9 +88,6 @@
     animation:
       scaleIn 900ms 250ms cubic-bezier(0.2, 0.7, 0.2, 1) both,
       shimmer 1300ms 950ms ease-in-out both;
-  }
-  .bob {
-    animation: bob 2.4s ease-in-out infinite;
   }
 }
 
@@ -198,10 +185,19 @@
   }
 }
 
+/* Phones: tighter padding so Call and Book Now share one row. */
+@media (max-width: 639px) {
+  .goldButton,
+  .pill {
+    flex: 1 1 auto;
+    padding-left: 1.1rem;
+    padding-right: 1.1rem;
+  }
+}
+
 /* Visible on the photo, on gunmetal, and on gold: white ring with a dark gap. */
 .goldButton:focus-visible,
-.pill:focus-visible,
-.focusRing:focus-visible {
+.pill:focus-visible {
   outline: 2px solid #fff;
   outline-offset: 3px;
   box-shadow: 0 0 0 6px rgba(21, 23, 26, 0.9);

@@ -288,7 +288,7 @@ const heroEyebrow =
 function Hero() {
   return (
     <section
-      className={`${heroStyles.hero} relative -mt-24 flex min-h-[100svh] items-end overflow-hidden sm:-mt-32`}
+      className={`${heroStyles.hero} relative -mt-24 flex min-h-[78svh] items-start overflow-hidden sm:-mt-32`}
     >
       {heroBackground ? (
         <Image
@@ -323,11 +323,13 @@ function Hero() {
         className="absolute inset-0 bg-[rgba(17,19,22,0.66)] sm:bg-[rgba(17,19,22,0.5)] xl:hidden"
       />
 
-      <Container className="relative z-10 pb-24 pt-[150px] sm:pb-28 sm:pt-[190px]">
+      {/* Shorter hero with the type anchored high, so the top of the photo
+          carousel below peeks above the fold. */}
+      <Container className="relative z-10 pb-12 pt-[124px] sm:pb-14 sm:pt-[164px]">
         <div className="max-w-5xl">
           <p className={`${heroEyebrow} ${heroStyles.rise}`}>{SERVICE_AREA_SHORT}</p>
 
-          <h1 className="mt-5 font-display text-[3.1rem] font-bold leading-[0.92] tracking-[-0.03em] text-[#f2f4f6] sm:text-[4.75rem] lg:text-[6rem]">
+          <h1 className="mt-4 font-display text-[3.1rem] font-bold leading-[0.92] tracking-[-0.03em] text-[#f2f4f6] sm:text-[4.75rem] lg:text-[6rem]">
             <span className={`block ${heroStyles.rise}`}>
               A{" "}
               <span className={`${heroStyles.metal} ${heroStyles.goldPhrase}`}>showroom</span>{" "}
@@ -339,19 +341,19 @@ function Hero() {
           {/* Not animated: text that starts at opacity 0 is not an LCP
               candidate, and the full-bleed photo is ignored as a background,
               so this line is what LCP measures. */}
-          <p className="mt-6 max-w-xl text-lg leading-relaxed text-[#dfe3e8] sm:text-xl">
+          <p className="mt-4 max-w-xl text-lg leading-relaxed text-[#dfe3e8] sm:text-xl">
             {site.tagline}
           </p>
 
-          <div className={`mt-9 flex flex-col gap-3 sm:flex-row ${heroStyles.riseLate}`}>
+          <div className={`mt-6 flex gap-3 ${heroStyles.riseLate}`}>
             <a href={telHref} className={heroStyles.goldButton}>
               Call {site.phone}
             </a>
             <BookNowButton variant="ghost" className={heroStyles.pill} />
           </div>
 
-          <div className={`mt-8 ${heroStyles.riseLate}`}>
-            <ul className="flex flex-wrap items-center gap-x-7 gap-y-2">
+          <div className={`mt-6 ${heroStyles.riseLate}`}>
+            <ul className="flex flex-wrap items-center gap-x-7 gap-y-1.5">
               {trustChips.map((chip) => (
                 <li
                   key={chip}
@@ -364,7 +366,7 @@ function Hero() {
             </ul>
             {/* Review badge, then the Instagram follow link. Instagram has no
                 reviews, so it stays a separate link set apart by a divider. */}
-            <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2">
+            <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2">
               {/* !justify-start: left-aligned like the rest of this hero when
                   the badge wraps on mobile (it centers by default). */}
               <ReviewPlatformsBadge className="text-chrome !justify-start" />
@@ -389,24 +391,6 @@ function Hero() {
         </div>
       </Container>
 
-      <a
-        href="#recent-work"
-        className={`${heroStyles.focusRing} absolute bottom-6 left-1/2 z-10 -translate-x-1/2 rounded-full p-2 text-[#c3c8ce] transition-colors hover:text-white`}
-        aria-label="Scroll to recent work"
-      >
-        <svg
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth={2}
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          aria-hidden="true"
-          className={`h-6 w-6 ${heroStyles.bob}`}
-        >
-          <path d="m6 9 6 6 6-6" />
-        </svg>
-      </a>
     </section>
   );
 }

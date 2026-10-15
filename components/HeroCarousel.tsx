@@ -204,7 +204,7 @@ export function HeroCarousel({ children }: { children?: ReactNode }) {
           eyebrow 16 / 20px below it. */}
       <div
         className={`relative z-10 ${
-          standalone ? "py-14 sm:py-16" : "pb-16 pt-[112px] sm:pb-20 sm:pt-[148px]"
+          standalone ? "pb-14 pt-8 sm:py-14" : "pb-16 pt-[112px] sm:pb-20 sm:pt-[148px]"
         }`}
       >
         {standalone ? null : (
