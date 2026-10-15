@@ -50,6 +50,9 @@ const offerCatalogSchema = {
   })),
 };
 
+const inlineLink =
+  "font-semibold text-accent transition-colors hover:text-ink";
+
 function OfferCard({ offer }: { offer: Offer }) {
   return (
     <Card className="flex h-full flex-col">
@@ -137,7 +140,20 @@ export default function OffersPage() {
           </p>
           <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted">
             Mention an offer when you call, text, or book, and we apply it at
-            booking. Offers combine only where a card says so.
+            booking. Offers combine only where a card says so. Every offer
+            applies across our service area, including{" "}
+            <Link href="/service-area/menifee" className={inlineLink}>
+              Menifee
+            </Link>
+            ,{" "}
+            <Link href="/service-area/temecula" className={inlineLink}>
+              Temecula
+            </Link>
+            , and{" "}
+            <Link href="/service-area/murrieta" className={inlineLink}>
+              Murrieta
+            </Link>
+            .
           </p>
         </Container>
       </div>

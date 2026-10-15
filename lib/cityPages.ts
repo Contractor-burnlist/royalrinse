@@ -68,7 +68,7 @@ export const cityPages: CityPage[] = [
     ctaLine:
       "We detail across Temecula, Old Town, Redhawk, De Luz, French Valley and everywhere between, and we come to you.",
     metaDescription:
-      "Mobile auto detailing in Temecula, CA. Royal Rinse comes to your driveway in Old Town, Redhawk, De Luz and across Wine Country: ceramic coating, paint correction and interior detailing built for the valley's heat and dust.",
+      "Mobile auto detailing in Temecula, CA. Royal Rinse comes to your driveway across Wine Country with ceramic coating, paint correction, and interior detailing.",
   },
 
   {
@@ -90,7 +90,7 @@ export const cityPages: CityPage[] = [
     ctaLine:
       "Menifee is home base, so we're never far. Call and we'll usually get to you fast.",
     metaDescription:
-      "Mobile auto detailing in Menifee, CA, Royal Rinse's home base. Fast local response across Sun City, Audie Murphy Ranch and the 215 corridor. We come to your driveway for washes, full details and ceramic coating.",
+      "Mobile auto detailing in Menifee, CA, our home base. We come to your driveway in Sun City, Audie Murphy Ranch, and along the 215 for details and coatings.",
   },
 
   {
@@ -113,7 +113,7 @@ export const cityPages: CityPage[] = [
     ctaLine:
       "We detail throughout Murrieta, from Historic Downtown to Greer Ranch and the Santa Rosa Plateau, and we come to you.",
     metaDescription:
-      "Mobile auto detailing in Murrieta, CA. Royal Rinse comes to your home or office between Menifee and Temecula: spot-free deionized water, ceramic coating, paint correction and interior detailing for family SUVs, trucks and enthusiast cars.",
+      "Mobile auto detailing in Murrieta, CA. Royal Rinse comes to your home or office with spot-free deionized water, ceramic coating, and full interior detailing.",
   },
 
   {
@@ -138,7 +138,7 @@ export const cityPages: CityPage[] = [
     ctaLine:
       "We cover all of Riverside, downtown, the Wood Streets, Orangecrest and beyond, and we come to you.",
     metaDescription:
-      "Mobile auto detailing in Riverside, CA. Royal Rinse comes to you from the Mission Inn district to Orangecrest: maintenance washes, interior detailing, paint correction and ceramic coating for daily drivers and classics alike.",
+      "Mobile auto detailing in Riverside, CA. Royal Rinse comes to you from the Mission Inn district to Orangecrest for washes, interiors, and ceramic coating.",
   },
 
   {
@@ -159,7 +159,7 @@ export const cityPages: CityPage[] = [
     ctaLine:
       "We serve San Diego from the coast to the inland valleys, and we come to you.",
     metaDescription:
-      "Mobile auto detailing in San Diego, CA. Royal Rinse brings ceramic coating and paint protection built for coastal salt air and marine-layer moisture straight to your driveway, plus full interior and exterior detailing.",
+      "Mobile auto detailing in San Diego, CA. Royal Rinse brings ceramic coating built for coastal salt air to your driveway, plus full interior and exterior details.",
   },
 
   {
@@ -180,7 +180,7 @@ export const cityPages: CityPage[] = [
     ctaLine:
       "We detail throughout La Jolla, the Village, the Shores, the Muirlands, and we come to you.",
     metaDescription:
-      "Mobile auto detailing in La Jolla, CA. Royal Rinse brings showroom-level paint correction and ceramic coating to your driveway: meticulous, discreet care for luxury and exotic vehicles in a demanding coastal climate.",
+      "Mobile auto detailing in La Jolla, CA. Royal Rinse brings paint correction and ceramic coating to your driveway, with discreet care for luxury and exotic cars.",
   },
 
   {
@@ -201,7 +201,7 @@ export const cityPages: CityPage[] = [
     ctaLine:
       "We cover Escondido and North County inland, downtown to the outskirts, and we come to you.",
     metaDescription:
-      "Mobile auto detailing in Escondido, CA. Royal Rinse comes to your North County driveway with heat-ready ceramic protection and deep interior detailing for trucks, SUVs and enthusiast builds.",
+      "Mobile auto detailing in Escondido, CA. Royal Rinse comes to your North County driveway with heat-ready ceramic protection and deep interior detailing.",
   },
 ];
 

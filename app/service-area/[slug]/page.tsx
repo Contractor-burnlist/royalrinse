@@ -25,16 +25,41 @@ export function generateStaticParams(): Params[] {
   return cities.map((city) => ({ slug: city.slug }));
 }
 
+/**
+ * Title tags aim for 55-60 characters. City names run 5 to 13 letters, so
+ * one template cannot hit that window for every city: take the first
+ * variant that fits.
+ */
+function cityTitle(name: string) {
+  const variants = [
+    `Mobile Auto Detailing in ${name}, California | Royal Rinse`,
+    `Mobile Auto Detailing in ${name}, CA | Royal Rinse`,
+    `Mobile Auto Detailing in ${name}, CA, We Come to You`,
+  ];
+  return (
+    variants.find((t) => t.length >= 55 && t.length <= 60) ?? variants[1]
+  );
+}
+
+/** Same idea for the fallback description: 150-160 characters. */
+function cityDescription(city: { name: string; county: string }) {
+  const variants = [
+    `Royal Rinse brings professional mobile auto detailing to ${city.name} in ${city.county} County. We come to your home or office: licensed, insured, fully self-contained.`,
+    `Royal Rinse brings mobile auto detailing to ${city.name} in ${city.county} County. We come to your home or office: licensed, insured, bonded, fully self-contained.`,
+  ];
+  return (
+    variants.find((d) => d.length >= 150 && d.length <= 160) ?? variants[1]
+  );
+}
+
 export function generateMetadata({ params }: { params: Params }): Metadata {
   const city = getCity(params.slug);
   if (!city) return {};
 
   const page = getCityPage(params.slug);
   return buildMetadata({
-    title: `Mobile Auto Detailing in ${city.name}, CA | Royal Rinse`,
-    description:
-      page?.metaDescription ??
-      `Royal Rinse brings professional mobile auto detailing to ${city.name} in ${city.county} County. We come to your home or office: licensed, insured, fully self-contained.`,
+    title: cityTitle(city.name),
+    description: page?.metaDescription ?? cityDescription(city),
     path: `/service-area/${city.slug}`,
   });
 }

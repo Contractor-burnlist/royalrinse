@@ -58,7 +58,7 @@ const KNOWS_ABOUT = [
 
 /** Reference to the business node, for `provider` on Service schema. */
 export const PROVIDER_REF = {
-  "@type": "AutoDetailing",
+  "@type": "AutoWash",
   "@id": BUSINESS_ID,
   name: site.legalName,
 };
@@ -83,9 +83,9 @@ export function breadcrumbJsonLd(trail: { name: string; path: string }[]) {
 
 /**
  * Build page metadata. Pass a root-relative `path` and you get a self-canonical
- * page with Open Graph + Twitter filled in. Omit `image` to inherit the
- * site-wide OG card (app/opengraph-image.tsx); pass one for a page-specific
- * share image (e.g. a blog cover).
+ * page with Open Graph + Twitter filled in. Omit `image` to use the
+ * site-wide card (app/opengraph-image.tsx, linked explicitly below); pass one
+ * for a page-specific share image (e.g. a blog cover).
  */
 export function buildMetadata({
   title,
@@ -103,7 +103,21 @@ export function buildMetadata({
   publishedTime?: string;
 }): Metadata {
   const url = absoluteUrl(path);
-  const images = image ? [{ url: image }] : undefined;
+  /**
+   * A page-level `openGraph` object replaces the root one wholesale, so the
+   * file-based card in app/opengraph-image.tsx is NOT inherited once a page
+   * sets openGraph. Point at it explicitly when no page image is given.
+   */
+  const images = image
+    ? [{ url: image }]
+    : [
+        {
+          url: absoluteUrl("/opengraph-image"),
+          width: 1200,
+          height: 630,
+          alt: `${site.legalName}, Mobile Auto Detailing, ${SERVICE_AREA_LINE}`,
+        },
+      ];
 
   return {
     title,
@@ -116,20 +130,20 @@ export function buildMetadata({
       url,
       siteName: site.legalName,
       locale: "en_US",
-      ...(images ? { images } : {}),
+      images,
       ...(type === "article" && publishedTime ? { publishedTime } : {}),
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
-      ...(images ? { images: images.map((i) => i.url) } : {}),
+      images: image ? [image] : [absoluteUrl("/twitter-image")],
     },
   };
 }
 
 /**
- * Site-wide JSON-LD graph: the AutoDetailing local business (a Service-Area
+ * Site-wide JSON-LD graph: the AutoWash local business (a Service-Area
  * business — no public storefront address), plus Organization and WebSite
  * nodes. Emitted once in the root layout; other pages reference @id where
  * useful.
@@ -138,7 +152,9 @@ export function siteJsonLd() {
   const businessId = BUSINESS_ID;
 
   const business: Record<string, unknown> = {
-    "@type": ["AutoDetailing", "LocalBusiness"],
+    // "AutoDetailing" is not a schema.org type and fails validation.
+    // AutoWash (AutomotiveBusiness > LocalBusiness) is the closest real one.
+    "@type": ["AutoWash", "LocalBusiness"],
     "@id": businessId,
     name: site.legalName,
     url: siteUrl,

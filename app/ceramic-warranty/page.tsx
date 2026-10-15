@@ -19,7 +19,7 @@ import {
 } from "@/components/ui";
 
 export const metadata: Metadata = buildMetadata({
-  title: "Ceramic Coating Warranty | Royal Rinse",
+  title: "Ceramic Coating Warranty in Menifee & Temecula | Royal Rinse",
   description:
     "Our multi-year ceramic coatings are backed by the manufacturer's limited lifetime product warranty, plus a 1-year workmanship guarantee from Royal Rinse.",
   path: "/ceramic-warranty",
@@ -198,7 +198,21 @@ export default function CeramicWarrantyPage() {
             >
               maintenance plan
             </Link>
-            .
+            . We install and maintain coatings at your home or office in{" "}
+            <Link
+              href="/service-area/menifee"
+              className="font-semibold text-accent transition-colors hover:text-ink"
+            >
+              Menifee
+            </Link>
+            ,{" "}
+            <Link
+              href="/service-area/temecula"
+              className="font-semibold text-accent transition-colors hover:text-ink"
+            >
+              Temecula
+            </Link>
+            , and across Riverside and San Diego County.
           </p>
         </div>
       </Section>
