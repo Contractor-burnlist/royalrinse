@@ -8,6 +8,7 @@ import { allGalleryImages } from "@/lib/gallery";
 import { BookNowButton } from "@/components/BookNowButton";
 import { MilitaryDiscountBadge } from "@/components/MilitaryDiscountBadge";
 import { ButtonAnchor, Card, Container, Eyebrow, Icon, Section } from "@/components/ui";
+import { Gold } from "@/components/Gold";
 
 export const metadata: Metadata = buildMetadata({
   title: "About Royal Rinse: Mobile Detailing, Riverside & SD",
@@ -65,7 +66,7 @@ function Hero() {
       <Container className="py-16 sm:py-20">
         <Eyebrow>About</Eyebrow>
         <h1 className="mt-3 font-display text-4xl font-bold tracking-tight text-metal sm:text-5xl">
-          About Royal Rinse
+          About <Gold>Royal Rinse</Gold>
         </h1>
         <p className="mt-4 max-w-2xl text-lg leading-relaxed text-chrome">
           Southern California&rsquo;s premium detailers, and we come to you.
@@ -236,10 +237,11 @@ function AboutCta() {
           </p>
 
           <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-            <ButtonAnchor href={telHref}>
+            {/* Booking online is the preferred path, so it leads. */}
+            <BookNowButton />
+            <ButtonAnchor href={telHref} variant="secondary">
               Call {site.phone}
             </ButtonAnchor>
-            <BookNowButton variant="secondary" />
           </div>
 
           <p className="mt-8 text-sm text-muted">

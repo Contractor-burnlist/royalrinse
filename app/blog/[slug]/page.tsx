@@ -221,10 +221,11 @@ export default function BlogPostPage({ params }: { params: Params }) {
             </p>
 
             <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-              <ButtonAnchor href={telHref}>
+              {/* Booking online is the preferred path, so it leads. */}
+              <BookNowButton />
+              <ButtonAnchor href={telHref} variant="secondary">
                 Call now for an instant quote
               </ButtonAnchor>
-              <BookNowButton variant="secondary" />
             </div>
           </div>
         </div>

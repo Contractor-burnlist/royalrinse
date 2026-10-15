@@ -109,10 +109,11 @@ export default function ContactPage() {
             </p>
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <ButtonAnchor href={telHref}>
+              {/* Booking online is the preferred path, so it leads. */}
+              <BookNowButton />
+              <ButtonAnchor href={telHref} variant="secondary">
                 Call {site.phone}
               </ButtonAnchor>
-              <BookNowButton variant="secondary" />
             </div>
 
             <p className="mt-6 text-sm text-muted">

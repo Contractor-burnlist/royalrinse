@@ -17,7 +17,7 @@ import {
 } from "@/lib/site";
 import { buildMetadata } from "@/lib/seo";
 import heroStyles from "./home-hero.module.css";
-import theme from "./home-theme.module.css";
+import theme from "./site-theme.module.css";
 import { faqs } from "@/lib/faq";
 import { featuredReviews } from "@/lib/reviews";
 import { featuredCities } from "@/lib/serviceAreas";
@@ -363,11 +363,11 @@ function Hero() {
 
       {/* Shorter hero with the type anchored high, so the top of the photo
           carousel below peeks above the fold. */}
-      <Container className="relative z-10 pb-3 pt-[108px] sm:pb-4 sm:pt-[140px]">
+      <Container className="relative z-10 pb-2 pt-[108px] sm:pb-2 sm:pt-[140px]">
         <div className="max-w-5xl">
           <p className={`${heroEyebrow} ${heroStyles.rise}`}>{SERVICE_AREA_SHORT}</p>
 
-          <h1 className="mt-4 font-display text-[3.1rem] font-bold leading-[0.92] tracking-[-0.03em] text-[#f2f4f6] sm:text-[4.75rem] lg:text-[6rem]">
+          <h1 className="mt-3 font-display text-[3.1rem] font-bold leading-[0.92] tracking-[-0.03em] text-[#f2f4f6] sm:text-[4rem] lg:text-[5.1rem]">
             <span className={`block ${heroStyles.rise}`}>
               A{" "}
               <span className={`${heroStyles.metal} ${heroStyles.goldPhrase}`}>showroom</span>{" "}
@@ -384,10 +384,11 @@ function Hero() {
           </p>
 
           <div className={`mt-5 flex gap-3 ${heroStyles.riseLate}`}>
-            <a href={telHref} className={heroStyles.goldButton}>
+            {/* Booking online is the preferred path, so it is the gold pill. */}
+            <BookNowButton variant="ghost" className={heroStyles.goldButton} />
+            <a href={telHref} className={heroStyles.pill}>
               Call {site.phone}
             </a>
-            <BookNowButton variant="ghost" className={heroStyles.pill} />
           </div>
 
           <div className={`mt-4 ${heroStyles.riseLate}`}>
@@ -1068,10 +1069,10 @@ function MaintenancePlans() {
           </ul>
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <ButtonAnchor href={telHref} variant="ghost" className={theme.goldButton}>
+            <BookNowButton variant="ghost" className={theme.goldButton} />
+            <ButtonAnchor href={telHref} variant="secondary">
               Call {site.phone}
             </ButtonAnchor>
-            <BookNowButton variant="secondary" />
           </div>
 
           <Link
@@ -1209,14 +1210,14 @@ function FinalCta() {
             Same-week appointments available. Reserve yours before they fill.
           </p>
           <div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row">
-            <ButtonAnchor href={telHref} variant="ghost" className={theme.goldButton}>
+            {/* Booking online is the preferred path, so it leads in gold. */}
+            <BookNowButton variant="ghost" className={theme.goldButton} />
+            <ButtonAnchor href={telHref} variant="secondary">
               Call {site.phone}
             </ButtonAnchor>
             <ButtonAnchor href={smsHref} variant="secondary">
               Text us
             </ButtonAnchor>
-            {/* Royal blue: the one blue action, for contrast against the gold. */}
-            <BookNowButton />
           </div>
           <Link
             href="/offers"
@@ -1241,35 +1242,33 @@ export default function Home() {
 
       <Hero />
       <RecentWork />
-      <div className={theme.theme}>
-        <TrustBar />
-        <VehiclesStrip />
-        <ComeToYou />
-        <Services />
-        <CeramicFeature />
-        <Specialization />
-        <MetalDivider />
-        <HowItWorks />
-        <WhyRoyalRinse />
-        <AddOnsShowcase />
+      <TrustBar />
+      <VehiclesStrip />
+      <ComeToYou />
+      <Services />
+      <CeramicFeature />
+      <Specialization />
+      <MetalDivider />
+      <HowItWorks />
+      <WhyRoyalRinse />
+      <AddOnsShowcase />
 
-        <div className={theme.bandBlend}>
-          <PhotoBand
-            image={showroomBandImage}
-            headline="Showroom finish, every time."
-            sub="The finish is in the parts most people skip: every vent, seam, and panel."
-          />
-        </div>
-
-        <Gallery />
-        <Testimonials />
-        <ServiceAreaTeaser />
-        <MetalDivider />
-        <MaintenancePlans />
-        <FromTheBlog />
-        <HomeFaq />
-        <FinalCta />
+      <div className={theme.bandBlend}>
+        <PhotoBand
+          image={showroomBandImage}
+          headline="Showroom finish, every time."
+          sub="The finish is in the parts most people skip: every vent, seam, and panel."
+        />
       </div>
+
+      <Gallery />
+      <Testimonials />
+      <ServiceAreaTeaser />
+      <MetalDivider />
+      <MaintenancePlans />
+      <FromTheBlog />
+      <HomeFaq />
+      <FinalCta />
     </>
   );
 }

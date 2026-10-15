@@ -17,6 +17,7 @@ import {
   Icon,
   Section,
 } from "@/components/ui";
+import { Gold } from "@/components/Gold";
 
 export const metadata: Metadata = buildMetadata({
   title: "Ceramic Coating Warranty in Menifee & Temecula | Royal Rinse",
@@ -95,7 +96,7 @@ export default function CeramicWarrantyPage() {
         <Container className="py-16 sm:py-20">
           <Eyebrow>Ceramic Coating</Eyebrow>
           <h1 className="mt-3 font-display text-4xl font-bold tracking-tight text-metal sm:text-5xl">
-            Ceramic Coating Warranty
+            Ceramic Coating <Gold>Warranty</Gold>
           </h1>
           <p className="mt-5 max-w-2xl text-lg leading-relaxed text-chrome">
             Backed by the manufacturer&rsquo;s limited lifetime product warranty
@@ -280,10 +281,11 @@ export default function CeramicWarrantyPage() {
               Call, text, or book online and we will recommend the right level.
             </p>
             <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-              <ButtonAnchor href={telHref}>
+              {/* Booking online is the preferred path, so it leads. */}
+              <BookNowButton />
+              <ButtonAnchor href={telHref} variant="secondary">
                 Call {site.phone}
               </ButtonAnchor>
-              <BookNowButton />
               <ButtonAnchor
                 href={smsHref}
                 variant="secondary"

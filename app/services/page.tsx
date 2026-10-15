@@ -13,6 +13,7 @@ import {
 import { addOnsPhoto } from "@/lib/serviceImages";
 import { QuoteCta } from "@/components/QuoteCta";
 import { Card, Container, Eyebrow, Icon, Section } from "@/components/ui";
+import { Gold } from "@/components/Gold";
 
 export const metadata: Metadata = buildMetadata({
   title: "Auto Detailing Services, Riverside & San Diego | Royal Rinse",
@@ -68,7 +69,7 @@ export default function ServicesPage() {
         <Container className="py-16 sm:py-20">
           <Eyebrow>Services</Eyebrow>
           <h1 className="mt-3 font-display text-4xl font-bold tracking-tight text-metal sm:text-5xl">
-            Detailing, delivered to you
+            Detailing, <Gold>delivered to you</Gold>
           </h1>
           <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted">
             Five packages, ceramic coating, and a full add-on menu, all done on

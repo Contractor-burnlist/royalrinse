@@ -33,7 +33,8 @@ export function Section({
 
 export function Eyebrow({ children }: { children: ReactNode }) {
   return (
-    <p className="text-xs font-semibold uppercase tracking-[0.16em] text-chrome">
+    // "eyebrow" is a styling hook for the site theme (gold caps).
+    <p className="eyebrow text-xs font-semibold uppercase tracking-[0.16em] text-chrome">
       {children}
     </p>
   );

@@ -17,6 +17,7 @@ import { JsonLd } from "@/components/JsonLd";
 import { BookNowButton } from "@/components/BookNowButton";
 import { QuoteCta } from "@/components/QuoteCta";
 import { ButtonAnchor, Card, Container, Eyebrow, Icon, Section } from "@/components/ui";
+import { Gold } from "@/components/Gold";
 
 type Params = { slug: string };
 
@@ -230,10 +231,11 @@ function CityCta({ ctaLine }: { ctaLine: string }) {
           </p>
 
           <div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row">
-            <ButtonAnchor href={telHref}>
+            {/* Booking online is the preferred path, so it leads. */}
+            <BookNowButton>Book Now</BookNowButton>
+            <ButtonAnchor href={telHref} variant="secondary">
               Call now for an instant quote
             </ButtonAnchor>
-            <BookNowButton variant="secondary">Book Now</BookNowButton>
           </div>
 
           <TrustLine className="mt-8 justify-center" />
@@ -258,7 +260,7 @@ function UniqueCityPage({ city, page }: { city: City; page: CityPage }) {
             <div>
               <Eyebrow>{city.county} County</Eyebrow>
               <h1 className="mt-3 font-display text-4xl font-bold tracking-tight text-metal sm:text-5xl">
-                Mobile Auto Detailing in {city.name}
+                Mobile Auto Detailing in <Gold>{city.name}</Gold>
               </h1>
               <p className="mt-4 max-w-xl text-base leading-relaxed text-chrome">
                 {page.subhead}
@@ -332,7 +334,7 @@ function TemplatedCityPage({ city }: { city: City }) {
         <Container className="py-16 sm:py-20">
           <Eyebrow>{city.county} County</Eyebrow>
           <h1 className="mt-3 font-display text-4xl font-bold tracking-tight text-metal sm:text-5xl">
-            Mobile Auto Detailing in {city.name}
+            Mobile Auto Detailing in <Gold>{city.name}</Gold>
           </h1>
           <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted">
             We come to you in {city.name}. Our fully self-contained mobile rig arrives at

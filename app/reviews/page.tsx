@@ -6,6 +6,7 @@ import { GoogleRatingSummary } from "@/components/GoogleRatingSummary";
 import { GoogleReviewsLink } from "@/components/GoogleReviewsLink";
 import { ReviewCard } from "@/components/ReviewCard";
 import { Container, Eyebrow, Section } from "@/components/ui";
+import { Gold } from "@/components/Gold";
 
 export const metadata: Metadata = buildMetadata({
   title: "Reviews, Mobile Auto Detailing | Royal Rinse",
@@ -22,7 +23,7 @@ export default function ReviewsPage() {
         <Container className="py-16 sm:py-20">
           <Eyebrow>Reviews</Eyebrow>
           <h1 className="mt-3 font-display text-4xl font-bold tracking-tight text-metal sm:text-5xl">
-            What Our Customers Say
+            What Our <Gold>Customers</Gold> Say
           </h1>
           <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted">
             Real words from drivers who let us into their driveways, a curated
