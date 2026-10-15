@@ -177,26 +177,38 @@ export function HeroCarousel({ children }: { children?: ReactNode }) {
         standalone ? "" : "-mt-24 sm:-mt-32"
       }`}
     >
-      {/* Ambient blurred backdrop of the leading tile — upscaled, but blurred
-          on purpose, so its softness reads as depth. */}
-      <div aria-hidden="true" className="absolute inset-0">
-        <Image
-          src={slides[Math.min(current, slides.length - 1)].src}
-          alt=""
-          fill
-          quality={40}
-          sizes="100vw"
-          className="scale-125 object-cover blur-3xl brightness-[0.3] saturate-[0.8] transition-all duration-1000"
+      {standalone ? (
+        /* Standalone, under the full-bleed hero: start on the hero scrim's
+           own near-black (#111316) so there is no seam, then ease down into
+           gunmetal. One continuous dark surface, no flat gray band. */
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,#111316_0%,#16181b_40%,#22252a_75%,rgb(var(--c-canvas))_100%)]"
         />
-      </div>
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 bg-canvas/85"
-      />
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-canvas to-transparent"
-      />
+      ) : (
+        <>
+          {/* Ambient blurred backdrop of the leading tile — upscaled, but blurred
+              on purpose, so its softness reads as depth. */}
+          <div aria-hidden="true" className="absolute inset-0">
+            <Image
+              src={slides[Math.min(current, slides.length - 1)].src}
+              alt=""
+              fill
+              quality={40}
+              sizes="100vw"
+              className="scale-125 object-cover blur-3xl brightness-[0.3] saturate-[0.8] transition-all duration-1000"
+            />
+          </div>
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 bg-canvas/85"
+          />
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-canvas to-transparent"
+          />
+        </>
+      )}
 
       {/* Top offset. The section is pulled up 96 / 128px, exactly the header's
           height at the top of the page (its tallest state; it only shrinks
@@ -204,7 +216,7 @@ export function HeroCarousel({ children }: { children?: ReactNode }) {
           eyebrow 16 / 20px below it. */}
       <div
         className={`relative z-10 ${
-          standalone ? "pb-14 pt-8 sm:py-14" : "pb-16 pt-[112px] sm:pb-20 sm:pt-[148px]"
+          standalone ? "pb-14 pt-3 sm:pb-16 sm:pt-4" : "pb-16 pt-[112px] sm:pb-20 sm:pt-[148px]"
         }`}
       >
         {standalone ? null : (

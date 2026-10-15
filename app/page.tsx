@@ -288,7 +288,7 @@ const heroEyebrow =
 function Hero() {
   return (
     <section
-      className={`${heroStyles.hero} relative -mt-24 flex min-h-[78svh] items-start overflow-hidden sm:-mt-32`}
+      className={`${heroStyles.hero} relative -mt-24 flex min-h-[66svh] items-start overflow-hidden sm:-mt-32`}
     >
       {heroBackground ? (
         <Image
@@ -323,9 +323,17 @@ function Hero() {
         className="absolute inset-0 bg-[rgba(17,19,22,0.66)] sm:bg-[rgba(17,19,22,0.5)] xl:hidden"
       />
 
+      {/* Seam fade: resolves the bottom edge into #111316, the exact color the
+          carousel section below starts on, so hero and carousel read as one
+          continuous dark surface. Sits below all hero text. */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-b from-transparent to-[#111316]"
+      />
+
       {/* Shorter hero with the type anchored high, so the top of the photo
           carousel below peeks above the fold. */}
-      <Container className="relative z-10 pb-12 pt-[124px] sm:pb-14 sm:pt-[164px]">
+      <Container className="relative z-10 pb-8 pt-[124px] sm:pb-10 sm:pt-[164px]">
         <div className="max-w-5xl">
           <p className={`${heroEyebrow} ${heroStyles.rise}`}>{SERVICE_AREA_SHORT}</p>
 
