@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import {
   GOOGLE_REVIEWS_URL,
+  INSTAGRAM_URL,
   REVIEW_COUNT_DISPLAY,
   REVIEW_RATING_DISPLAY,
   SERVICE_AREA_PRIORITY,
@@ -43,6 +44,11 @@ import {
   ReviewPlatformLogos,
   ReviewPlatformsBadge,
 } from "@/components/ReviewPlatforms";
+import {
+  BrandChip,
+  InstagramMark,
+  brandChipSizes,
+} from "@/components/SocialMarks";
 import { GoogleReviewsLink } from "@/components/GoogleReviewsLink";
 import { HeroCarousel } from "@/components/HeroCarousel";
 import { MilitaryDiscountBadge } from "@/components/MilitaryDiscountBadge";
@@ -282,12 +288,12 @@ function Hero() {
       </p>
 
       {/* Side by side whenever they fit, wrapping on the narrowest phones. */}
-      <div className="mt-4 flex flex-wrap justify-center gap-3">
+      <div className="mt-3 flex flex-wrap justify-center gap-3">
         <ButtonAnchor href={telHref}>Call {site.phone}</ButtonAnchor>
         <BookNowButton variant="secondary" />
       </div>
 
-      <ul className="mt-4 flex flex-wrap items-center justify-center gap-x-7 gap-y-2">
+      <ul className="mt-3 flex flex-wrap items-center justify-center gap-x-7 gap-y-1">
         {trustChips.map((chip) => (
           <li
             key={chip}
@@ -301,6 +307,25 @@ function Hero() {
           <ReviewPlatformsBadge className="text-chrome" />
         </li>
       </ul>
+
+      {/* Secondary follow link: smaller and muted so the review badge above
+          stays dominant. Its height is paid for by the tighter gaps above and
+          below, so the photo row does not move. */}
+      <a
+        href={INSTAGRAM_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Follow Royal Rinse on Instagram, opens in a new tab"
+        className="group/brand mx-auto mt-1 flex w-fit items-center gap-2 rounded-full text-[13px] font-medium text-muted opacity-80 transition hover:text-ink hover:opacity-100 focus:outline-none focus-visible:opacity-100 focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
+      >
+        <BrandChip size="xs">
+          <InstagramMark
+            gradientId="rr-instagram-gradient-hero"
+            className={brandChipSizes.xs.mark}
+          />
+        </BrandChip>
+        Follow our work
+      </a>
     </HeroCarousel>
   );
 }

@@ -199,7 +199,7 @@ export function HeroCarousel({ children }: { children: ReactNode }) {
         {/* 92% / 90% framed width is unchanged; maxWidth is the sharpness cap
             described at MAX_ROW_PX, and only bites on large desktops. */}
         <div
-          className="mx-auto mt-4 w-[92%] sm:mt-5 sm:w-[90%]"
+          className="mx-auto mt-1.5 w-[92%] sm:w-[90%]"
           style={{ maxWidth: `${MAX_ROW_PX}px` }}
           role="group"
           aria-roledescription="carousel"
