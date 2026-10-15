@@ -288,7 +288,7 @@ const heroEyebrow =
 function Hero() {
   return (
     <section
-      className={`${heroStyles.hero} relative -mt-24 flex min-h-[66svh] items-start overflow-hidden sm:-mt-32`}
+      className={`${heroStyles.hero} relative -mt-24 flex min-h-[56svh] items-start overflow-hidden sm:-mt-32`}
     >
       {heroBackground ? (
         <Image
@@ -333,7 +333,7 @@ function Hero() {
 
       {/* Shorter hero with the type anchored high, so the top of the photo
           carousel below peeks above the fold. */}
-      <Container className="relative z-10 pb-8 pt-[124px] sm:pb-10 sm:pt-[164px]">
+      <Container className="relative z-10 pb-5 pt-[112px] sm:pb-6 sm:pt-[148px]">
         <div className="max-w-5xl">
           <p className={`${heroEyebrow} ${heroStyles.rise}`}>{SERVICE_AREA_SHORT}</p>
 
