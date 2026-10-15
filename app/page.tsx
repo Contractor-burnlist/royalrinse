@@ -298,7 +298,7 @@ function Hero() {
           </li>
         ))}
         <li>
-          <ReviewPlatformsBadge className="text-sm text-chrome hover:text-ink" />
+          <ReviewPlatformsBadge className="text-chrome" />
         </li>
       </ul>
     </HeroCarousel>

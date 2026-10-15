@@ -17,8 +17,15 @@ export const PHONE_SMS_ARIA = `Text Royal Rinse at ${PHONE_DISPLAY}`;
  */
 export const GOOGLE_REVIEWS_URL = "https://maps.app.goo.gl/kDNSHnjyaMqw2bLN7";
 export const GOOGLE_MAPS_URL = GOOGLE_REVIEWS_URL;
-/** Facebook business page. Listed in JSON-LD sameAs alongside the Google profile. */
+/**
+ * Social and review profiles. Linked from the hero review badge (Google,
+ * Facebook, Thumbtack), the footer social row (all four), and JSON-LD sameAs.
+ * Reference these constants; never hardcode the URLs.
+ */
 export const FACEBOOK_URL = "https://www.facebook.com/profile.php?id=61589500466521";
+export const INSTAGRAM_URL = "https://www.instagram.com/royalrinsemobileca/";
+export const THUMBTACK_URL =
+  "https://www.thumbtack.com/ca/san-diego/mobile-auto-detailing-services/royal-rinse/service/572496019509469184";
 export const GOOGLE_PLACE_ID = "ChIJxSthpHbyb4ARU2gL9HM7-4Y";
 /**
  * Embeddable map (no API key). Uses the ?output=embed form keyed on the

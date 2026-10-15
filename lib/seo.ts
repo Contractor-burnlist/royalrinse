@@ -10,10 +10,12 @@ import {
   FACEBOOK_URL,
   GOOGLE_MAPS_URL,
   GOOGLE_PLACE_ID,
+  INSTAGRAM_URL,
   OPENING_HOURS,
   PHONE_TEL,
   PRICE_RANGE,
   SERVICE_AREA_LINE,
+  THUMBTACK_URL,
   site,
 } from "@/lib/site";
 import { priorityCities, secondaryCities } from "@/lib/serviceAreas";
@@ -178,7 +180,7 @@ export function siteJsonLd() {
     // secondary cities. See AREA_SERVED above.
     areaServed: AREA_SERVED,
     hasMap: GOOGLE_MAPS_URL,
-    sameAs: [GOOGLE_MAPS_URL, FACEBOOK_URL],
+    sameAs: [GOOGLE_MAPS_URL, FACEBOOK_URL, INSTAGRAM_URL, THUMBTACK_URL],
     identifier: {
       "@type": "PropertyValue",
       propertyID: "CA DLSE license",
@@ -253,7 +255,7 @@ export function siteJsonLd() {
           areaServed: "US-CA",
           availableLanguage: "English",
         },
-        sameAs: [GOOGLE_MAPS_URL, FACEBOOK_URL],
+        sameAs: [GOOGLE_MAPS_URL, FACEBOOK_URL, INSTAGRAM_URL, THUMBTACK_URL],
       },
       {
         "@type": "WebSite",

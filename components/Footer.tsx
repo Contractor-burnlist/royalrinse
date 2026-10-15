@@ -1,18 +1,38 @@
 import Image from "next/image";
 import Link from "next/link";
 import {
+  FACEBOOK_URL,
+  GOOGLE_REVIEWS_URL,
+  INSTAGRAM_URL,
   PHONE_ARIA,
   SERVICE_AREA_LINE,
   SERVICE_AREA_PRIORITY,
   mailHref,
   site,
   telHref,
+  THUMBTACK_URL,
 } from "@/lib/site";
 import { featuredCities } from "@/lib/serviceAreas";
 import { ceramicCoating, tiers } from "@/lib/services";
 import { BusinessFacts } from "@/components/BusinessFacts";
 import { MilitaryDiscountBadge } from "@/components/MilitaryDiscountBadge";
+import {
+  BrandChip,
+  FacebookMark,
+  GoogleMark,
+  InstagramMark,
+  ThumbtackMark,
+  brandChipSizes,
+} from "@/components/SocialMarks";
 import { Container } from "@/components/ui";
+
+/** Footer social row, in this order. */
+const socialProfiles = [
+  { name: "Google", href: GOOGLE_REVIEWS_URL, Mark: GoogleMark },
+  { name: "Facebook", href: FACEBOOK_URL, Mark: FacebookMark },
+  { name: "Instagram", href: INSTAGRAM_URL, Mark: InstagramMark },
+  { name: "Thumbtack", href: THUMBTACK_URL, Mark: ThumbtackMark },
+];
 
 function ColumnHeading({ children }: { children: React.ReactNode }) {
   return (
@@ -67,6 +87,26 @@ export function Footer() {
               </p>
               <p>{SERVICE_AREA_PRIORITY}</p>
             </address>
+
+            {/* Social and review profiles: official marks on white chips,
+                muted until hover. */}
+            <ul aria-label="Royal Rinse online" className="mt-5 flex items-center gap-3">
+              {socialProfiles.map(({ name, href, Mark }) => (
+                <li key={name}>
+                  <a
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`Royal Rinse on ${name}, opens in a new tab`}
+                    className="group/brand block rounded-full opacity-75 transition-opacity hover:opacity-100 focus:outline-none focus-visible:opacity-100 focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
+                  >
+                    <BrandChip size="lg">
+                      <Mark className={brandChipSizes.lg.mark} />
+                    </BrandChip>
+                  </a>
+                </li>
+              ))}
+            </ul>
 
             <dl className="mt-6 space-y-1.5 text-sm text-muted">
               {site.hours.map((entry) => (
