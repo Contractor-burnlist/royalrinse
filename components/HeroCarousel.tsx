@@ -308,13 +308,13 @@ export function HeroCarousel({ children }: { children?: ReactNode }) {
                           fill
                           /**
                            * Tracks the real rendered tile width so next/image
-                           * serves a file that fits it — no bigger, no smaller.
+                           * serves a file that fits it, no bigger and no smaller.
                            *   >=1553px : row is capped, tile is a flat 450px
                            *   >=1024px : 90vw / 3 tiles = 30vw
                            *   >=640px  : 90vw / 2 tiles = 45vw
                            *   <640px   : 92vw / 1.2 tiles = 77vw
                            * Anything wider than the source is served at the
-                           * source's own width — the optimizer never upscales.
+                           * source's own width; the optimizer never upscales.
                            */
                           sizes="(min-width: 1553px) 450px, (min-width: 1024px) 30vw, (min-width: 640px) 45vw, 77vw"
                           quality={85}
