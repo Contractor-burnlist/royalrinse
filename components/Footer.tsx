@@ -184,6 +184,11 @@ export function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/fleet" className="transition-colors hover:text-ink">
+                  Fleet &amp; Commercial
+                </Link>
+              </li>
+              <li>
                 <Link href="/packages" className="transition-colors hover:text-ink">
                   Packages
                 </Link>

@@ -62,6 +62,7 @@ export const servicesMenu: NavMenuConfig = {
         { label: "Add-Ons", href: "/services#add-ons" },
         { label: maintenancePlan.name, href: `/services/${maintenancePlan.slug}` },
         { label: rvDetailing.name, href: `/services/${rvDetailing.slug}` },
+        { label: "Fleet & Commercial", href: "/fleet" },
       ],
     },
   ],
