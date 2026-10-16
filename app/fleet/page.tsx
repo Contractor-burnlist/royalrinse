@@ -194,16 +194,18 @@ export default function FleetPage() {
         />
         <div
           aria-hidden="true"
-          className="absolute inset-0 bg-[linear-gradient(0deg,rgb(29,32,36)_0%,rgba(17,19,22,0.6)_40%,rgba(17,19,22,0)_70%)]"
-        />
-        <div
-          aria-hidden="true"
           className="absolute inset-x-0 top-0 h-48 bg-gradient-to-b from-[rgba(17,19,22,0.75)] to-transparent"
         />
         {/* Below xl the type sits over the truck itself, so hold it down more. */}
         <div
           aria-hidden="true"
           className="absolute inset-0 bg-[rgba(17,19,22,0.55)] sm:bg-[rgba(17,19,22,0.45)] xl:hidden"
+        />
+        {/* Drawn last, so the bottom always lands on the page surface color
+            (no seam), whatever the overlays above it do. */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 bg-[linear-gradient(0deg,rgb(29,32,36)_0%,rgba(17,19,22,0.6)_40%,rgba(17,19,22,0)_70%)]"
         />
 
         <Container className="relative z-10 pb-16 pt-[150px] sm:pb-20 sm:pt-[190px]">

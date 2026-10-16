@@ -86,6 +86,18 @@ export const offers: Offer[] = [
     service: "Mobile auto detailing",
   },
   {
+    id: "gift-cards",
+    title: "Gift Cards",
+    tag: "Give a detail",
+    icon: "sparkle",
+    description:
+      "Give a Royal Rinse gift card for any amount. It applies toward any service, from a maintenance wash to a ceramic coating, and we come to them.",
+    note: "No expiration. Call, text, or email with the amount and the recipient's name.",
+    link: { href: "/gift-cards", label: "How gift cards work" },
+    ctas: ["call", "text"],
+    service: "Mobile auto detailing gift card",
+  },
+  {
     id: "fleet",
     title: "Fleet and Commercial Pricing",
     tag: "Businesses",

@@ -199,6 +199,11 @@ export function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/gift-cards" className="transition-colors hover:text-ink">
+                  Gift Cards
+                </Link>
+              </li>
+              <li>
                 <Link href="/referral" className="transition-colors hover:text-ink">
                   Referral Program
                 </Link>
