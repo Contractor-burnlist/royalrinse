@@ -17,7 +17,6 @@ import {
   Store,
   Truck,
 } from "lucide-react";
-import { BookNowButton } from "@/components/BookNowButton";
 import { Gold } from "@/components/Gold";
 import { JsonLd } from "@/components/JsonLd";
 import { PhotoBand } from "@/components/PhotoBand";
@@ -219,9 +218,12 @@ export default function FleetPage() {
               shuttling vehicles to a shop.
             </p>
             <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-              <BookNowButton>Request a fleet quote</BookNowButton>
-              <ButtonAnchor href={telHref} variant="secondary">
-                Call {site.phone}
+              {/* Fleet leads come in by phone, not as regular bookings. */}
+              <ButtonAnchor href={telHref} aria-label={`Request a fleet quote, call ${site.phone}`}>
+                Request a fleet quote
+              </ButtonAnchor>
+              <ButtonAnchor href={smsHref} variant="secondary">
+                Text us
               </ButtonAnchor>
             </div>
           </div>
@@ -385,14 +387,11 @@ export default function FleetPage() {
               text{" "}
               <a href={telHref} className={link}>
                 {site.phone}
-              </a>
-              , or book online and add your fleet details to the booking.
+              </a>{" "}
+              and we will put together a quote for your fleet.
             </p>
             <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-              <BookNowButton />
-              <ButtonAnchor href={telHref} variant="secondary">
-                Call {site.phone}
-              </ButtonAnchor>
+              <ButtonAnchor href={telHref}>Call {site.phone}</ButtonAnchor>
               <ButtonAnchor href={smsHref} variant="secondary">
                 Text us
               </ButtonAnchor>
