@@ -406,12 +406,14 @@
   inset: 0;
   border-radius: 1rem;
   pointer-events: none;
-  /* Shaped to bleed down and behind, not sideways: the viewport clips the
-     row at its sides, and a wide side glow would end in a visible edge. */
+  /* Warm light behind the photo: strongest below, a halo all round, a soft
+     warm-white rim on top. The row's outer edges fade via .lightRoom's mask,
+     so the side bleed never ends in a hard line. */
   box-shadow:
-    0 24px 44px -24px rgba(217, 180, 74, 0.34),
-    0 0 22px -12px rgba(255, 236, 200, 0.16);
-  opacity: 0.85;
+    0 30px 56px -18px rgba(217, 180, 74, 0.55),
+    0 0 30px -10px rgba(230, 199, 102, 0.2),
+    0 -10px 34px -10px rgba(255, 236, 200, 0.24);
+  opacity: 0.75;
   transition: opacity 250ms ease;
 }
 
@@ -430,15 +432,32 @@
   }
 }
 
-/* Carousel viewport: clips the track sideways (no neighbouring slivers) but
-   leaves room above and below for the glow. The glow in the outer gutter
-   fades to nothing at the clip line, so the row has no visible side edge.
-   The fade spans only the gutter (6px / 8px, the tile padding), so resting
-   photos start exactly where it ends and are never touched by it. */
+/* Carousel viewport: clips the track sideways (no neighbouring slivers) and
+   fades the glow to nothing across the outer gutter, so the row has no
+   visible side edge. Masks clip to the element's own box, so the box is
+   padded top and bottom (and pulled back by equal negative margins, so
+   nothing moves) to give the glow room. The padding ignores the pointer, so
+   the review badge just above stays clickable. The side fade spans only the
+   gutter (6px / 8px, the tile padding): resting photos are never touched. */
 .lightRoom {
-  clip-path: inset(-56px 0 -64px 0);
+  padding-block: 80px 96px;
+  margin-block: -80px -96px;
+  pointer-events: none;
+  clip-path: inset(0);
   -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 6px, #000 calc(100% - 6px), transparent 100%);
   mask-image: linear-gradient(90deg, transparent 0, #000 6px, #000 calc(100% - 6px), transparent 100%);
+}
+
+.lightRoom > * {
+  pointer-events: auto;
+}
+
+/* The carousel frame is a flex column so .lightRoom's negative margins stay
+   inside it: in normal block flow the top margin collapses through the frame
+   and drags the frame (and its hit area) up over the review badge. */
+.lightFrame {
+  display: flex;
+  flex-direction: column;
 }
 
 @media (min-width: 640px) {
@@ -453,9 +472,9 @@
 .lit :global(.shadow-card) {
   box-shadow:
     0 1px 2px rgba(0, 0, 0, 0.45),
-    0 30px 60px -24px rgba(0, 0, 0, 0.8),
-    0 18px 50px -16px rgba(217, 180, 74, 0.2),
-    0 0 40px -12px rgba(255, 236, 200, 0.1);
+    0 26px 64px -12px rgba(217, 180, 74, 0.4),
+    0 0 40px -10px rgba(230, 199, 102, 0.16),
+    0 -6px 26px -8px rgba(255, 236, 200, 0.16);
 }
 
 /* Carousel tiles take their light from .tileGlow only. Their own shadow is
@@ -478,9 +497,9 @@
   z-index: -1;
   pointer-events: none;
   background: radial-gradient(
-    ellipse 55% 50% at 50% 50%,
-    rgba(217, 180, 74, 0.07) 0%,
-    rgba(255, 236, 200, 0.025) 45%,
+    ellipse 60% 55% at 50% 50%,
+    rgba(217, 180, 74, 0.17) 0%,
+    rgba(230, 199, 102, 0.07) 45%,
     transparent 75%
   );
 }
@@ -497,8 +516,8 @@
   pointer-events: none;
   background: radial-gradient(
     ellipse 50% 50% at 50% 50%,
-    rgba(217, 180, 74, 0.06) 0%,
-    rgba(255, 236, 200, 0.02) 50%,
+    rgba(217, 180, 74, 0.15) 0%,
+    rgba(230, 199, 102, 0.05) 50%,
     transparent 80%
   );
 }
@@ -510,7 +529,7 @@
     inset 0 -1px 0 rgba(90, 60, 10, 0.45),
     0 1px 0 rgba(0, 0, 0, 0.35),
     0 14px 34px -12px rgba(217, 180, 74, 0.65),
-    0 0 44px -6px rgba(217, 180, 74, 0.3);
+    0 0 56px 0 rgba(217, 180, 74, 0.48);
 }
 
 .goldButton:hover {
@@ -519,5 +538,5 @@
     inset 0 -1px 0 rgba(90, 60, 10, 0.45),
     0 1px 0 rgba(0, 0, 0, 0.35),
     0 18px 44px -12px rgba(217, 180, 74, 0.85),
-    0 0 52px -4px rgba(217, 180, 74, 0.4);
+    0 0 70px 4px rgba(217, 180, 74, 0.6);
 }
