@@ -296,7 +296,17 @@ function Gold({ children }: { children: React.ReactNode }) {
 
 /** A full-bleed chrome rule between major sections. Decorative. */
 function MetalDivider() {
-  return <div aria-hidden="true" className="rule-chrome-t h-px" />;
+  return (
+    <div aria-hidden="true" className="rule-chrome-t relative h-px">
+      {/* Faint warm wash either side of the rule: light from off screen. */}
+      <span className={theme.seamLight} />
+    </div>
+  );
+}
+
+/** One broad pool of ambient light behind a group of cards. */
+function AmbientPool() {
+  return <span aria-hidden="true" className={theme.pool} />;
 }
 
 const textLink =
@@ -368,7 +378,7 @@ function Hero() {
           <p className={`${heroEyebrow} ${heroStyles.rise}`}>{SERVICE_AREA_SHORT}</p>
 
           <h1 className="mt-3 font-display text-[3.1rem] font-bold leading-[0.92] tracking-[-0.03em] text-[#f2f4f6] sm:text-[4rem] lg:text-[5.1rem]">
-            <span className={`block ${heroStyles.rise}`}>
+            <span className={`block ${heroStyles.bloom} ${heroStyles.rise}`}>
               A{" "}
               <span className={`${heroStyles.metal} ${heroStyles.goldPhrase}`}>showroom</span>{" "}
               <span className={`${heroStyles.metal} ${heroStyles.goldPhrase}`}>finish,</span>
@@ -600,7 +610,8 @@ function Services() {
           />
         </Reveal>
 
-        <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="relative mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <AmbientPool />
           {homeServices.map((service, i) => (
             <Reveal key={service.slug} delay={(i % 3) * 140}>
               <ServicePhotoCard
@@ -835,7 +846,8 @@ function WhyRoyalRinse() {
     <Band slant>
       <Section className="!py-16 sm:!py-20">
         <div className="grid gap-12 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)] lg:gap-16">
-          <div className="order-2 grid gap-6 sm:grid-cols-2 lg:order-1">
+          <div className="relative order-2 grid gap-6 sm:grid-cols-2 lg:order-1">
+            <AmbientPool />
             {valueProps.map((prop, i) => (
               <Reveal key={prop.title} delay={(i % 2) * 140}>
                 <Card className="flex h-full gap-4">
@@ -961,7 +973,7 @@ function Gallery() {
         <LightboxGrid
           images={homeGalleryShots}
           variant="masonry"
-          className="mt-14 columns-2 gap-4 lg:columns-3"
+          className={`mt-14 columns-2 gap-4 lg:columns-3 ${theme.lit}`}
           sizes="(max-width: 1023px) 50vw, 33vw"
         />
       </Reveal>
@@ -986,7 +998,8 @@ function Testimonials() {
           </p>
         </Reveal>
 
-        <div className="mt-12 grid gap-6 md:grid-cols-3">
+        <div className="relative mt-12 grid gap-6 md:grid-cols-3">
+          <AmbientPool />
           {featuredReviews.map((review, i) => (
             <Reveal key={review.name} delay={i * 140}>
               <ReviewCard review={review} />
@@ -1132,7 +1145,10 @@ function FromTheBlog() {
           </Link>
         </Reveal>
 
-        <ul className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        <ul className="relative mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          <li aria-hidden="true" className="contents">
+            <AmbientPool />
+          </li>
           {latestPosts.map((post, i) => (
             <li key={post.slug}>
               <Reveal delay={i * 140} className="h-full">

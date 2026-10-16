@@ -393,3 +393,131 @@
   background-image: none;
   box-shadow: inset 0 1px 0 rgba(217, 180, 74, 0.6);
 }
+
+/* ---------- Ambient light (homepage) ----------
+   Soft, diffuse warm light behind objects, never on them: no filter on any
+   photo or text, low opacity, static box-shadows and radial gradients. The
+   only animated pieces (tile hover) move transform and opacity. */
+
+/* Carousel tile: a warm glow bleeding out from behind the photo. It lives on
+   its own layer under the tile, so hover can fade it up with opacity alone. */
+.tileGlow {
+  position: absolute;
+  inset: 0;
+  border-radius: 1rem;
+  pointer-events: none;
+  /* Shaped to bleed down and behind, not sideways: the viewport clips the
+     row at its sides, and a wide side glow would end in a visible edge. */
+  box-shadow:
+    0 24px 44px -24px rgba(217, 180, 74, 0.34),
+    0 0 22px -12px rgba(255, 236, 200, 0.16);
+  opacity: 0.85;
+  transition: opacity 250ms ease;
+}
+
+.tileLift {
+  position: relative;
+  transition: transform 250ms ease;
+}
+
+.tileLift:hover .tileGlow {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .tileLift:hover {
+    transform: translateY(-3px);
+  }
+}
+
+/* Carousel viewport: clips the track sideways (no neighbouring slivers) but
+   leaves room above and below for the glow. The glow in the outer gutter
+   fades to nothing at the clip line, so the row has no visible side edge.
+   The fade spans only the gutter (6px / 8px, the tile padding), so resting
+   photos start exactly where it ends and are never touched by it. */
+.lightRoom {
+  clip-path: inset(-56px 0 -64px 0);
+  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 6px, #000 calc(100% - 6px), transparent 100%);
+  mask-image: linear-gradient(90deg, transparent 0, #000 6px, #000 calc(100% - 6px), transparent 100%);
+}
+
+@media (min-width: 640px) {
+  .lightRoom {
+    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 8px, #000 calc(100% - 8px), transparent 100%);
+    mask-image: linear-gradient(90deg, transparent 0, #000 8px, #000 calc(100% - 8px), transparent 100%);
+  }
+}
+
+/* Feature photos and gallery tiles on the homepage: same warm light, static. */
+.theme:not(.interior) :global(.shadow-2xl.edge-chrome),
+.lit :global(.shadow-card) {
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.45),
+    0 30px 60px -24px rgba(0, 0, 0, 0.8),
+    0 18px 50px -16px rgba(217, 180, 74, 0.2),
+    0 0 40px -12px rgba(255, 236, 200, 0.1);
+}
+
+/* Carousel tiles take their light from .tileGlow only. Their own shadow is
+   kept tight and downward, since the row is clipped at its sides and any
+   sideways bleed would end in a visible edge there. */
+.theme .lightRoom :global(.shadow-2xl.edge-chrome) {
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.45),
+    0 24px 40px -24px rgba(0, 0, 0, 0.7);
+}
+
+/* One broad pool of light behind a group of cards, so the section reads as
+   lit rather than each card glowing. Sits under everything (z-index -1). */
+.pool {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -12%;
+  bottom: -12%;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse 55% 50% at 50% 50%,
+    rgba(217, 180, 74, 0.07) 0%,
+    rgba(255, 236, 200, 0.025) 45%,
+    transparent 75%
+  );
+}
+
+/* Section seam: a wide, faint warm wash either side of a gold rule, like a
+   light source just off screen. */
+.seamLight {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -140px;
+  height: 280px;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse 50% 50% at 50% 50%,
+    rgba(217, 180, 74, 0.06) 0%,
+    rgba(255, 236, 200, 0.02) 50%,
+    transparent 80%
+  );
+}
+
+/* Homepage section gold pills: the same soft halo as the hero's Book Now. */
+.goldButton {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.95),
+    inset 0 -1px 0 rgba(90, 60, 10, 0.45),
+    0 1px 0 rgba(0, 0, 0, 0.35),
+    0 14px 34px -12px rgba(217, 180, 74, 0.65),
+    0 0 44px -6px rgba(217, 180, 74, 0.3);
+}
+
+.goldButton:hover {
+  box-shadow:
+    inset 0 1px 0 #fff,
+    inset 0 -1px 0 rgba(90, 60, 10, 0.45),
+    0 1px 0 rgba(0, 0, 0, 0.35),
+    0 18px 44px -12px rgba(217, 180, 74, 0.85),
+    0 0 52px -4px rgba(217, 180, 74, 0.4);
+}

@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
 import { heroSlides } from "@/lib/gallery";
 import { Container } from "@/components/ui";
+import theme from "@/app/site-theme.module.css";
 
 const AUTO_ADVANCE_MS = 4500;
 
@@ -173,8 +174,12 @@ export function HeroCarousel({ children }: { children?: ReactNode }) {
   return (
     <section
       aria-label={standalone ? "Recent detailing work" : undefined}
-      className={`relative overflow-hidden ${
-        standalone ? "" : "-mt-24 border-b border-hairline sm:-mt-32"
+      // Standalone, nothing here needs clipping (no scaled backdrop), so the
+      // tiles' ambient glow can rise past the section top without a hard edge.
+      // overflow-x-clip (not hidden): trims the wide track sideways without
+      // creating a scroll box, so the glow is still free to rise vertically.
+      className={`relative ${
+        standalone ? "overflow-x-clip" : "-mt-24 overflow-hidden border-b border-hairline sm:-mt-32"
       }`}
     >
       {standalone ? (
@@ -234,8 +239,10 @@ export function HeroCarousel({ children }: { children?: ReactNode }) {
           aria-roledescription="carousel"
           aria-label="Recent detailing work"
         >
-          {/* Viewport. overflow-hidden clips the track; no page overflow. */}
-          <div className="overflow-hidden">
+          {/* Viewport. Clips the track sideways; no page overflow. Standalone,
+              it leaves room above and below for the ambient glow behind each
+              tile (see .lightRoom). */}
+          <div className={standalone ? theme.lightRoom : "overflow-hidden"}>
             {/* Under prefers-reduced-motion the row does not rotate on its own
                 (see `stopped`), and the arrows jump instantly instead of
                 sliding. */}
@@ -284,33 +291,38 @@ export function HeroCarousel({ children }: { children?: ReactNode }) {
                     // not jump from 4 tiles to 3 when JS loads.
                     className="w-[83.3333%] shrink-0 px-1.5 sm:w-1/2 sm:px-2 lg:w-1/3"
                   >
-                    <div
-                      className={`relative aspect-[3/4] overflow-hidden rounded-2xl bg-surface shadow-2xl ${
-                        featured
-                          ? "edge-chrome edge-accent"
-                          : "edge-chrome"
-                      }`}
-                    >
-                      <Image
-                        src={slide.src}
-                        alt={slide.alt}
-                        fill
-                        /**
-                         * Tracks the real rendered tile width so next/image
-                         * serves a file that fits it — no bigger, no smaller.
-                         *   >=1553px : row is capped, tile is a flat 450px
-                         *   >=1024px : 90vw / 3 tiles = 30vw
-                         *   >=640px  : 90vw / 2 tiles = 45vw
-                         *   <640px   : 92vw / 1.2 tiles = 77vw
-                         * Anything wider than the source is served at the
-                         * source's own width — the optimizer never upscales.
-                         */
-                        sizes="(min-width: 1553px) 450px, (min-width: 1024px) 30vw, (min-width: 640px) 45vw, 77vw"
-                        quality={85}
-                        priority={featured}
-                        loading={load ? "eager" : "lazy"}
-                        className="object-cover object-center"
-                      />
+                    {/* Ambient light: a warm glow on its own layer behind the
+                        tile (never on the photo), lifted with it on hover. */}
+                    <div className={standalone ? theme.tileLift : undefined}>
+                      {standalone ? <span aria-hidden="true" className={theme.tileGlow} /> : null}
+                      <div
+                        className={`relative aspect-[3/4] overflow-hidden rounded-2xl bg-surface shadow-2xl ${
+                          featured
+                            ? "edge-chrome edge-accent"
+                            : "edge-chrome"
+                        }`}
+                      >
+                        <Image
+                          src={slide.src}
+                          alt={slide.alt}
+                          fill
+                          /**
+                           * Tracks the real rendered tile width so next/image
+                           * serves a file that fits it — no bigger, no smaller.
+                           *   >=1553px : row is capped, tile is a flat 450px
+                           *   >=1024px : 90vw / 3 tiles = 30vw
+                           *   >=640px  : 90vw / 2 tiles = 45vw
+                           *   <640px   : 92vw / 1.2 tiles = 77vw
+                           * Anything wider than the source is served at the
+                           * source's own width — the optimizer never upscales.
+                           */
+                          sizes="(min-width: 1553px) 450px, (min-width: 1024px) 30vw, (min-width: 640px) 45vw, 77vw"
+                          quality={85}
+                          priority={featured}
+                          loading={load ? "eager" : "lazy"}
+                          className="object-cover object-center"
+                        />
+                      </div>
                     </div>
                   </div>
                 );
