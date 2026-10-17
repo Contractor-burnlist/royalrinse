@@ -219,7 +219,22 @@
   color: #c9ced4;
 }
 
+/* The fourth level: smaller and muted, under the descriptor. */
+.detail {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 0.8125rem;
+  line-height: 1.3rem;
+  color: #aeb4bb;
+}
+
 @media (min-width: 768px) {
+  .detail {
+    max-width: 16rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
   .sub {
     max-width: 16rem;
     margin-left: auto;

@@ -11,14 +11,29 @@ import styles from "./timeline.module.css";
  */
 
 const milestones = [
-  { n: "01", month: "April", year: "2026", title: "The first van", sub: "Where it started" },
-  { n: "02", month: "August", year: "2026", title: "The second van", sub: "Demand outgrew one rig" },
+  {
+    n: "01",
+    month: "April",
+    year: "2026",
+    title: "The first van",
+    sub: "Where it started",
+    detail: "Andre on the road with one rig, built on a loan from his grandfather.",
+  },
+  {
+    n: "02",
+    month: "August",
+    year: "2026",
+    title: "The second van",
+    sub: "Demand outgrew one rig",
+    detail: "Luna joined to run the second van.",
+  },
   {
     n: "03",
     month: "October",
     year: "2026",
     title: "The third van",
     sub: "Serving more of Riverside and San Diego County",
+    detail: "Kevin joined as the third van tech.",
   },
 ];
 
@@ -64,6 +79,7 @@ export function GrowthTimeline({ goldClass }: { goldClass: string }) {
             <p className={styles.desc}>
               <span className={styles.title}>{m.title}</span>
               <span className={styles.sub}>{m.sub}</span>
+              <span className={styles.detail}>{m.detail}</span>
             </p>
           </li>
         ))}
