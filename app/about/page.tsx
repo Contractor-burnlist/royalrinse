@@ -85,7 +85,8 @@ function Hero() {
 
 function OurStory() {
   return (
-    <Section>
+    // Tight top: the growth timeline above leads straight into the story.
+    <Section className="!pt-12 sm:!pt-14">
       <div className="grid items-center gap-14 lg:grid-cols-2 lg:gap-20">
         <div>
           <Eyebrow>Our story</Eyebrow>
@@ -152,7 +153,7 @@ function OurStory() {
 /** Growth beat between the intro and Our Story: compact, horizontal. */
 function Growth() {
   return (
-    <Section className="!py-14 sm:!py-16">
+    <Section className="!pb-4 !pt-14 sm:!pb-6 sm:!pt-16">
       <div className="text-center">
         <Eyebrow>Our growth</Eyebrow>
         <h2 className="mt-3 font-display text-3xl font-bold tracking-tight text-metal sm:text-4xl">
