@@ -9,9 +9,8 @@ import { BookNowButton } from "@/components/BookNowButton";
 import { MilitaryDiscountBadge } from "@/components/MilitaryDiscountBadge";
 import { ButtonAnchor, Card, Container, Eyebrow, Icon, Section } from "@/components/ui";
 import { Gold } from "@/components/Gold";
-import { Reveal } from "@/components/Reveal";
 import theme from "../site-theme.module.css";
-import timeline from "./timeline.module.css";
+import { GrowthTimeline } from "./GrowthTimeline";
 
 export const metadata: Metadata = buildMetadata({
   title: "About Royal Rinse: Mobile Detailing, Riverside & SD",
@@ -150,68 +149,18 @@ function OurStory() {
   );
 }
 
-/** The one gallery photo with our own van in it, behind a customer's car. */
-const rigImage = allGalleryImages.find((image) => image.src.endsWith("mobile-rig-1.jpeg"));
-
-/**
- * Milestones. Facts only: the date and what happened. Add a line of body
- * copy to an entry only when there is a real detail to tell.
- */
-const milestones = [
-  { n: "01", month: "April", year: "2026", title: "The first van", photo: true },
-  { n: "02", month: "August", year: "2026", title: "The second van", photo: false },
-  { n: "03", month: "October", year: "2026", title: "The third van", photo: false },
-];
-
-function Timeline() {
+/** Growth beat between the intro and Our Story: compact, horizontal. */
+function Growth() {
   return (
-    <Section className="!py-28 sm:!py-36">
-      <Reveal className="mx-auto max-w-2xl text-center">
-        <div aria-hidden="true" className={`${theme.goldRule} mx-auto w-24`} />
-        <div className="mt-6">
-          <Eyebrow>Our journey</Eyebrow>
-        </div>
-        <h2 className="mt-4 font-display text-4xl font-bold leading-[1.05] tracking-tight text-metal sm:text-5xl">
-          From one van <Gold>to three</Gold>
+    <Section className="!py-14 sm:!py-16">
+      <div className="text-center">
+        <Eyebrow>Our growth</Eyebrow>
+        <h2 className="mt-3 font-display text-3xl font-bold tracking-tight text-metal sm:text-4xl">
+          One van became <Gold>three</Gold>
         </h2>
-      </Reveal>
-
-      <div className={`${timeline.timeline} mx-auto mt-16 max-w-5xl sm:mt-20`}>
-        <span aria-hidden="true" className={theme.pool} />
-        <span aria-hidden="true" className={timeline.line} />
-        <ol className={timeline.entries}>
-          {milestones.map((m) => (
-            <li key={m.n} className={timeline.entry}>
-              <span aria-hidden="true" className={timeline.node} />
-              <p className={`${timeline.date} font-display`}>
-                <span className={timeline.number}>{m.n}</span>
-                <span className={`${timeline.month} ${theme.gold}`}>{m.month}</span>
-                <span className={timeline.year}>{m.year}</span>
-              </p>
-              <div className={`${timeline.card} metal-soft edge-chrome rounded-xl p-6 sm:p-7`}>
-                <h3 className="font-display text-2xl font-bold tracking-tight text-ink">
-                  {m.title}
-                </h3>
-                {m.photo && rigImage ? (
-                  <div className={theme.lit}>
-                    <div className={`${timeline.photo} edge-chrome shadow-card`}>
-                      <Image
-                        src={rigImage.src}
-                        alt="A customer's car detailed in their driveway, with the stocked Royal Rinse van parked behind it"
-                        fill
-                        loading="lazy"
-                        quality={85}
-                        // Capped at 300px, under the 768px source at 2x.
-                        sizes="(min-width: 380px) 300px, 80vw"
-                        className="object-cover"
-                      />
-                    </div>
-                  </div>
-                ) : null}
-              </div>
-            </li>
-          ))}
-        </ol>
+      </div>
+      <div className="mx-auto mt-10 max-w-5xl">
+        <GrowthTimeline goldClass={theme.gold} />
       </div>
     </Section>
   );
@@ -344,8 +293,8 @@ export default function AboutPage() {
     <>
       <JsonLd data={breadcrumbJsonLd([{ name: "About", path: "/about" }])} />
       <Hero />
+      <Growth />
       <OurStory />
-      <Timeline />
       <WhyRoyalRinse />
       <OurStandard />
       <AboutCta />
