@@ -4,7 +4,7 @@ import { useEffect, useRef, useState, type CSSProperties } from "react";
 import styles from "./timeline.module.css";
 
 /**
- * Growth timeline: horizontal from md up, a vertical stack on phones. The
+ * Growth timeline: horizontal from lg up, a vertical stack on phones and tablets. The
  * reveal (line drawing in, entries rising left to right) is armed on mount and
  * fires once the section scrolls into view; without JS, or under reduced
  * motion, everything is simply shown.
@@ -17,7 +17,8 @@ const milestones = [
     year: "2026",
     title: "The first van",
     sub: "Where it started",
-    detail: "Andre on the road with one rig, built on a loan from his grandfather.",
+    detail:
+      "Andre had spent years detailing other people's cars for someone else's name on the door. He borrowed from his grandfather, bought one van, and started knocking on driveways in Menifee.",
   },
   {
     n: "02",
@@ -25,15 +26,17 @@ const milestones = [
     year: "2026",
     title: "The second van",
     sub: "Demand outgrew one rig",
-    detail: "Luna joined to run the second van.",
+    detail:
+      "Luna came on to run the second rig. Two vans meant quicker turnaround on scheduling and more openings across the week.",
   },
   {
     n: "03",
     month: "October",
     year: "2026",
     title: "The third van",
-    sub: "Serving more of Riverside and San Diego County",
-    detail: "Kevin joined as the third van tech.",
+    sub: "Three rigs on the road",
+    detail:
+      "Kevin joined as the third van tech. Three vans means we cover more of Riverside County and reach further into San Diego on the same day.",
   },
 ];
 

@@ -1,6 +1,6 @@
 /*
- * About page growth timeline. Horizontal from md up, a vertical stack with the
- * line down the left edge on phones. Pure CSS: gradients, box-shadows and
+ * About page growth timeline. Horizontal from lg up, a vertical stack with the
+ * line down the left edge on phones and tablets. Pure CSS: gradients, box-shadows and
  * scroll-driven animations (transform and opacity only, never blur). Every
  * animation sits behind prefers-reduced-motion: no-preference and @supports,
  * so reduced motion and older browsers get the finished, static timeline.
@@ -81,9 +81,14 @@
   grid-column: 2;
 }
 
+/* Stacked (phones and tablets): keep lines to a readable measure. */
+.desc {
+  max-width: 34rem;
+}
+
 /* Desktop: three equal columns, line across, date above, node on the line,
    descriptor below. */
-@media (min-width: 768px) {
+@media (min-width: 1024px) {
   .entries {
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 2rem;
@@ -223,16 +228,24 @@
 .detail {
   display: block;
   margin-top: 0.5rem;
-  font-size: 0.8125rem;
-  line-height: 1.3rem;
+  font-size: 0.875rem;
+  line-height: 1.45rem;
   color: #aeb4bb;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1024px) {
   .detail {
-    max-width: 16rem;
     margin-left: auto;
     margin-right: auto;
+  }
+}
+
+/* Desktop columns are wide enough for the full measure (about 50 to 60
+   characters a line), which keeps the three bodies within a line of each
+   other. */
+@media (min-width: 1024px) {
+  .detail {
+    max-width: 21rem;
   }
 
   .sub {
