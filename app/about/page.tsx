@@ -93,11 +93,20 @@ function OurStory() {
 
           <div className="mt-6 space-y-5 text-base leading-relaxed text-muted">
             <p>
-              Royal Rinse started about three years ago with a simple idea:
-              dealership-quality detailing shouldn&rsquo;t require a dealership visit.
-              No drop-off, no shuttle, no afternoon lost in a waiting room: just the
-              standard of work you&rsquo;d expect from the best shop in town, delivered
-              to wherever your car happens to be parked.
+              Andre worked as a detail technician for another company. When they cut
+              pay for the people actually doing the work, he decided he&rsquo;d rather
+              bet on himself than keep building someone else&rsquo;s business.
+            </p>
+            <p>
+              He took a loan from his grandfather to buy the first vehicle.
+              Everything since has been built on what that bet made possible.
+            </p>
+            <p>
+              The idea behind Royal Rinse is simple: dealership-quality detailing
+              shouldn&rsquo;t require a dealership visit. No drop-off, no shuttle, no
+              afternoon lost in a waiting room: just the standard of work you&rsquo;d
+              expect from the best shop in town, delivered to wherever your car
+              happens to be parked.
             </p>
             <p>
               It began in Menifee with a single detailer, a rig, and an unreasonable
