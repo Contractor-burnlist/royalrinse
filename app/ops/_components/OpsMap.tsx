@@ -84,7 +84,7 @@ interface PlacedCity {
 function placeCities(cities: MapCity[], techHomes: TechHome[], labelLeft: string[]): PlacedCity[] {
   return cities.map((c) => {
     const p = toXY(c.lat, c.lng);
-    // Keep every dot on the image (San Diego coast lies just past the bottom).
+    // Keep every dot on the image, even a city just past an edge.
     const x = clamp(p.x, EDGE + PIN_R, MAP_WIDTH - EDGE - PIN_R);
     const y = clamp(p.y, EDGE + PIN_R, MAP_HEIGHT - EDGE - PIN_R);
     const home = techHomes.find((h) => h.city === c.name) ?? null;

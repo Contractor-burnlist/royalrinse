@@ -174,7 +174,7 @@ function CheckerForm({ data }: { data: RulesData }) {
         <section className={CARD}>
           <fieldset>
             <legend className={STEP}>2. Tech</legend>
-            <div className="mt-4 grid gap-2 sm:grid-cols-3">
+            <div className="mt-4 grid gap-2 sm:grid-cols-2">
               {data.techs.map((t) => (
                 <label key={t.id} className={`${CHOICE} flex-col px-4 py-3`}>
                   <input

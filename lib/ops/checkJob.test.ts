@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { bestTechFor, checkJob, resolvePlace, type Decision, type JobResult } from "./checkJob";
-import { CITY_NAMES, DRIVE_MATRIX, PRICE_LIMIT } from "./rules";
+import * as engine from "./engine";
+import { CITY_NAMES, DRIVE_MATRIX, PRICE_LIMIT, RULES } from "./rules";
 
 function decided(result: JobResult): Decision {
   if (result.status !== "book" && result.status !== "dont-book") {
@@ -107,15 +108,34 @@ describe("required scenarios", () => {
     expect(resolvePlace("Winchester")).toBe("Menifee");
   });
 
-  it('Kevin selected -> no result, shows "Ask Tim"', () => {
-    const r = checkJob({
+  it('a tech with no home city -> no result, shows "Ask Tim"', () => {
+    const data = { ...RULES, techs: [...RULES.techs, { id: "new", name: "Sam", homeCity: null, coverage: [] }] };
+    const r = engine.checkJob(data, {
       packageId: "silver-sedan",
-      techId: "kevin",
+      techId: "new",
       start: { kind: "home" },
       customerPlace: "Riverside",
     });
-    expect(r.status).toBe("ask-tim");
-    if (r.status === "ask-tim") expect(r.message).toMatch(/^Ask Tim/);
+    expect(r).toEqual({ status: "ask-tim", message: "Ask Tim before giving Sam a job." });
+  });
+});
+
+describe("removed", () => {
+  it("Kevin is no longer a tech", () => {
+    expect(RULES.techs.map((t) => t.name)).toEqual(["Andre", "Luna"]);
+  });
+
+  it("San Diego coast and its areas are no longer offered", () => {
+    for (const place of [
+      "San Diego coast",
+      "La Jolla",
+      "Del Mar",
+      "Carmel Valley",
+      "Rancho Santa Fe",
+      "Pacific Beach",
+    ]) {
+      expect(resolvePlace(place), place).toBeNull();
+    }
   });
 });
 
@@ -174,7 +194,7 @@ describe("other rules", () => {
         addOnIds: ["pet-hair"],
         techId: "andre",
         start: { kind: "home" },
-        customerPlace: "San Diego coast",
+        customerPlace: "Escondido",
       }),
     );
     expect(r.status).toBe("dont-book");
@@ -200,7 +220,7 @@ describe("other rules", () => {
         packageId: "ceramic",
         techId: "andre",
         start: { kind: "home" },
-        customerPlace: "La Jolla",
+        customerPlace: "Escondido",
       }),
     );
     expect(r.status).toBe("book");

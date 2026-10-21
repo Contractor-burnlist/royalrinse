@@ -41,7 +41,6 @@ export const CITY_NAMES = [
   "Fallbrook",
   "San Marcos",
   "Escondido",
-  "San Diego coast",
 ] as const;
 
 export type CityName = (typeof CITY_NAMES)[number];
@@ -62,7 +61,6 @@ export const CITY_COORDS: Record<CityName, LatLng> = {
   Fallbrook: [33.3764, -117.2511],
   "San Marcos": [33.1434, -117.1661],
   Escondido: [33.1192, -117.0864],
-  "San Diego coast": [32.86, -117.25],
 };
 
 /** Map only: cities whose name goes on the left of the dot so it does not cover a neighbor. */
@@ -77,11 +75,6 @@ export const CITY_ALIASES: Record<string, CityName> = {
   Winchester: "Menifee",
   "French Valley": "Murrieta",
   Vista: "San Marcos",
-  "La Jolla": "San Diego coast",
-  "Del Mar": "San Diego coast",
-  "Carmel Valley": "San Diego coast",
-  "Rancho Santa Fe": "San Diego coast",
-  "Pacific Beach": "San Diego coast",
 };
 
 /**
@@ -91,22 +84,21 @@ export const CITY_ALIASES: Record<string, CityName> = {
  */
 // prettier-ignore
 export const DRIVE_MATRIX: Record<CityName, readonly number[]> = {
-  Riverside:         [0, 20, 20, 20, 25, 30, 40, 40, 55, 50, 50, 55, 75, 85, 85, 120],
-  Corona:            [20, 0, 35, 35, 40, 40, 45, 30, 65, 40, 40, 50, 65, 80, 75, 110],
-  "Moreno Valley":   [20, 35, 0, 25, 30, 25, 35, 40, 40, 50, 45, 50, 65, 80, 80, 115],
-  "San Bernardino":  [20, 35, 25, 0, 20, 35, 45, 55, 55, 60, 60, 60, 80, 95, 90, 125],
-  Redlands:          [25, 40, 30, 20, 0, 40, 50, 60, 45, 65, 65, 65, 85, 100, 95, 130],
-  Perris:            [30, 40, 25, 35, 40, 0, 15, 20, 30, 30, 30, 30, 50, 65, 60, 95],
-  Menifee:           [40, 45, 35, 45, 50, 15, 0, 20, 30, 25, 20, 25, 40, 55, 55, 90],
-  "Lake Elsinore":   [40, 30, 40, 55, 60, 20, 20, 0, 40, 15, 20, 25, 40, 55, 55, 90],
-  Hemet:             [55, 65, 40, 55, 45, 30, 30, 40, 0, 45, 40, 40, 60, 70, 70, 105],
-  Wildomar:          [50, 40, 50, 60, 65, 30, 25, 15, 45, 0, 15, 20, 35, 50, 50, 85],
-  Murrieta:          [50, 40, 45, 60, 65, 30, 20, 20, 40, 15, 0, 15, 30, 45, 45, 80],
-  Temecula:          [55, 50, 50, 60, 65, 30, 25, 25, 40, 20, 15, 0, 25, 40, 35, 70],
-  Fallbrook:         [75, 65, 65, 80, 85, 50, 40, 40, 60, 35, 30, 25, 0, 35, 35, 70],
-  "San Marcos":      [85, 80, 80, 95, 100, 65, 55, 55, 70, 50, 45, 40, 35, 0, 10, 45],
-  Escondido:         [85, 75, 80, 90, 95, 60, 55, 55, 70, 50, 45, 35, 35, 10, 0, 40],
-  "San Diego coast": [120, 110, 115, 125, 130, 95, 90, 90, 105, 85, 80, 70, 70, 45, 40, 0],
+  Riverside:        [0, 20, 20, 20, 25, 30, 40, 40, 55, 50, 50, 55, 75, 85, 85],
+  Corona:           [20, 0, 35, 35, 40, 40, 45, 30, 65, 40, 40, 50, 65, 80, 75],
+  "Moreno Valley":  [20, 35, 0, 25, 30, 25, 35, 40, 40, 50, 45, 50, 65, 80, 80],
+  "San Bernardino": [20, 35, 25, 0, 20, 35, 45, 55, 55, 60, 60, 60, 80, 95, 90],
+  Redlands:         [25, 40, 30, 20, 0, 40, 50, 60, 45, 65, 65, 65, 85, 100, 95],
+  Perris:           [30, 40, 25, 35, 40, 0, 15, 20, 30, 30, 30, 30, 50, 65, 60],
+  Menifee:          [40, 45, 35, 45, 50, 15, 0, 20, 30, 25, 20, 25, 40, 55, 55],
+  "Lake Elsinore":  [40, 30, 40, 55, 60, 20, 20, 0, 40, 15, 20, 25, 40, 55, 55],
+  Hemet:            [55, 65, 40, 55, 45, 30, 30, 40, 0, 45, 40, 40, 60, 70, 70],
+  Wildomar:         [50, 40, 50, 60, 65, 30, 25, 15, 45, 0, 15, 20, 35, 50, 50],
+  Murrieta:         [50, 40, 45, 60, 65, 30, 20, 20, 40, 15, 0, 15, 30, 45, 45],
+  Temecula:         [55, 50, 50, 60, 65, 30, 25, 25, 40, 20, 15, 0, 25, 40, 35],
+  Fallbrook:        [75, 65, 65, 80, 85, 50, 40, 40, 60, 35, 30, 25, 0, 35, 35],
+  "San Marcos":     [85, 80, 80, 95, 100, 65, 55, 55, 70, 50, 45, 40, 35, 0, 10],
+  Escondido:        [85, 75, 80, 90, 95, 60, 55, 55, 70, 50, 45, 35, 35, 10, 0],
 };
 
 /* ------------------------------------------------------------------------ */
@@ -129,13 +121,6 @@ export const TECHS: Tech[] = [
       // Extends her zone south to San Marcos and Escondido.
       { center: [33.17, -117.12], radiusMiles: 7 },
     ],
-  },
-  {
-    id: "kevin",
-    name: "Kevin",
-    homeCity: null,
-    askTim: "Ask Tim before giving Kevin a job.",
-    coverage: [],
   },
 ];
 
