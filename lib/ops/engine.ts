@@ -56,6 +56,12 @@ export interface RulesData {
   driveLimitMin: number;
   /** Jobs at or above this total (dollars) can go any distance. */
   priceLimit: number;
+  /** Follow-up text: percent off for times next to a nearby job. */
+  followupDiscountPercent: number;
+  /** Minutes to wait after the call before sending the follow-up. */
+  followupDelayMin: number;
+  /** Only offer follow-up times in this many days from today. */
+  followupLookaheadDays: number;
   /** Row and column order of driveMatrix. */
   cityNames: string[];
   cityCoords: Record<string, LatLng>;
@@ -172,6 +178,46 @@ export function bestTechFor(data: RulesData, customerCity: string): BestTech {
   const sorted = [...options].sort((a, b) => a.drive - b.drive);
   const tie = sorted.length > 1 && sorted[0].drive === sorted[1].drive;
   return { options, best: sorted.length && !tie ? sorted[0] : null };
+}
+
+/* ------------------------------------------------------------------------ */
+/* Nearby jobs and follow-up times                                          */
+/* ------------------------------------------------------------------------ */
+
+export interface NearbyCity {
+  city: string;
+  /** Minutes from a job in this city to the customer. */
+  drive: number;
+}
+
+/**
+ * Other cities within the drive limit of a customer, closest first. Ties keep
+ * the drive matrix order. A job in one of these cities is a good neighbor for
+ * this customer's job. The customer's own city is not listed.
+ */
+export function nearbyCities(data: RulesData, customerPlace: string): NearbyCity[] {
+  const city = resolvePlace(data, customerPlace);
+  if (!city) return [];
+  return data.cityNames
+    .filter((c) => c !== city)
+    .map((c) => ({ city: c, drive: driveMinutes(data, c, city) }))
+    .filter((n) => n.drive <= data.driveLimitMin)
+    .sort((a, b) => a.drive - b.drive);
+}
+
+export type SlotCheck =
+  | { status: "incomplete" }
+  | { status: "ok"; drive: number }
+  /** The nearby job is over the drive limit from the customer. */
+  | { status: "too-far"; drive: number };
+
+/** Is a follow-up time next to a job in `jobPlace` close enough to the customer? */
+export function checkSlot(data: RulesData, jobPlace: string, customerPlace: string): SlotCheck {
+  const job = resolvePlace(data, jobPlace);
+  const customer = resolvePlace(data, customerPlace);
+  if (!job || !customer) return { status: "incomplete" };
+  const drive = driveMinutes(data, job, customer);
+  return drive <= data.driveLimitMin ? { status: "ok", drive } : { status: "too-far", drive };
 }
 
 /* ------------------------------------------------------------------------ */

@@ -11,6 +11,7 @@ import {
   type RulesData,
   type UpsellOffer,
 } from "@/lib/ops/engine";
+import { copyText } from "./copyText";
 
 const CARD = "rounded-2xl border border-ops-line bg-white p-5 shadow-sm sm:p-6";
 
@@ -263,6 +264,16 @@ function DecisionCard({
         </ol>
       )}
 
+      {book && (
+        <div className="mt-6 rounded-xl border-2 border-ops-primary bg-white p-4">
+          <h3 className="font-bold">Tell the customer</h3>
+          <p className="mt-1 text-lg">
+            We take cash, Zelle, Venmo, or card. The price is the same for all of them:{" "}
+            <strong>{formatMoney(d.total)}</strong>.
+          </p>
+        </div>
+      )}
+
       <JobNote text={d.jobNote} />
     </section>
   );
@@ -272,17 +283,7 @@ function JobNote({ text }: { text: string }) {
   const [copied, setCopied] = useState(false);
 
   async function copy() {
-    try {
-      await navigator.clipboard.writeText(text);
-    } catch {
-      // Older browsers: copy through a hidden text box.
-      const box = document.createElement("textarea");
-      box.value = text;
-      document.body.appendChild(box);
-      box.select();
-      document.execCommand("copy");
-      box.remove();
-    }
+    await copyText(text);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   }

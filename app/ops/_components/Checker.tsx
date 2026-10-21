@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import {
   checkJob,
   formatMoney,
@@ -13,6 +13,7 @@ import {
   upsellFor,
   type RulesData,
 } from "@/lib/ops/engine";
+import { WithOpsData } from "./OpsData";
 import { OpsMap } from "./OpsMap";
 import { PlaceCombobox } from "./PlaceCombobox";
 import { ResultPanel } from "./ResultPanel";
@@ -25,43 +26,8 @@ const SELECT =
 const CHOICE =
   "flex cursor-pointer rounded-xl border-2 border-ops-line bg-white transition-colors hover:border-ops-primary has-[:checked]:border-ops-primary has-[:checked]:bg-ops-primary-soft has-[:focus-visible]:outline has-[:focus-visible]:outline-[3px] has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-ops-primary";
 
-/**
- * Loads the rules and prices from the password-protected /ops/api/data, so
- * none of them are ever in the JS bundle, then shows the checker.
- */
 export function Checker() {
-  const [data, setData] = useState<RulesData | null>(null);
-  const [failed, setFailed] = useState(false);
-
-  useEffect(() => {
-    let live = true;
-    fetch("/ops/api/data", { cache: "no-store" })
-      .then((res) => {
-        if (!res.ok) throw new Error(String(res.status));
-        return res.json() as Promise<RulesData>;
-      })
-      .then((json) => live && setData(json))
-      .catch(() => live && setFailed(true));
-    return () => {
-      live = false;
-    };
-  }, []);
-
-  if (failed) {
-    return (
-      <p role="alert" className={`${CARD} text-lg font-semibold text-ops-stop`}>
-        Could not load the checker. Refresh the page. If it still does not work, ask Tim.
-      </p>
-    );
-  }
-  if (!data) {
-    return (
-      <p role="status" className={`${CARD} text-lg font-semibold text-ops-muted`}>
-        Loading...
-      </p>
-    );
-  }
-  return <CheckerForm data={data} />;
+  return <WithOpsData>{(data) => <CheckerForm data={data} />}</WithOpsData>;
 }
 
 function CheckerForm({ data }: { data: RulesData }) {

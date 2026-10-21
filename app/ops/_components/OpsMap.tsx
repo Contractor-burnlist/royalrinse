@@ -394,7 +394,7 @@ function pillSpot(from: PlacedCity, to: PlacedCity, w: number, h: number, obstac
       inside && !obstacles.some((o) => b.left < o.right && b.right > o.left && b.top < o.bottom && b.bottom > o.top)
     );
   };
-  for (const off of [0, 50, -50, 90, -90, 130, -130, 180, -180]) {
+  for (const off of [0, 50, -50, 90, -90, 130, -130, 170, -170]) {
     for (const t of [0.5, 0.4, 0.6]) {
       const cx = from.x + (to.x - from.x) * t + nx * off;
       const cy = from.y + (to.y - from.y) * t + ny * off;

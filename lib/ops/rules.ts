@@ -20,6 +20,18 @@ export const DRIVE_LIMIT_MIN = 30;
 /** Jobs at or above this total (dollars) can go any distance. */
 export const PRICE_LIMIT = 175;
 
+/*
+ * Prices below already include card processing (3% higher than before, to
+ * the nearest dollar). It is the SAME price for cash, Zelle, Venmo, or card.
+ */
+
+/** Follow-up text for a caller who did not book: discount on nearby times. */
+export const FOLLOWUP_DISCOUNT_PERCENT = 10;
+/** Minutes to wait after the call before sending the follow-up. */
+export const FOLLOWUP_DELAY_MIN = 10;
+/** Only offer times in this many days from today. */
+export const FOLLOWUP_LOOKAHEAD_DAYS = 3;
+
 /* ------------------------------------------------------------------------ */
 /* Cities                                                                   */
 /* ------------------------------------------------------------------------ */
@@ -138,32 +150,32 @@ export const PACKAGE_GROUPS = [
 
 export const PACKAGES: Package[] = [
   // Bronze
-  { id: "bronze-sedan-inside", name: "Bronze Sedan, inside only", price: 95, group: "Bronze" },
-  { id: "bronze-sedan-outside", name: "Bronze Sedan, outside only", price: 95, group: "Bronze" },
-  { id: "bronze-sedan-full", name: "Bronze Sedan Full Detail", price: 149, group: "Bronze" },
-  { id: "bronze-suv-inside", name: "Bronze SUV / Truck, inside only", price: 110, group: "Bronze" },
-  { id: "bronze-truck-outside", name: "Bronze Truck, outside only", price: 110, group: "Bronze" },
-  { id: "bronze-truck-full", name: "Bronze Truck Full Detail", price: 175, group: "Bronze" },
+  { id: "bronze-sedan-inside", name: "Bronze Sedan, inside only", price: 98, group: "Bronze" },
+  { id: "bronze-sedan-outside", name: "Bronze Sedan, outside only", price: 98, group: "Bronze" },
+  { id: "bronze-sedan-full", name: "Bronze Sedan Full Detail", price: 153, group: "Bronze" },
+  { id: "bronze-suv-inside", name: "Bronze SUV / Truck, inside only", price: 113, group: "Bronze" },
+  { id: "bronze-truck-outside", name: "Bronze Truck, outside only", price: 113, group: "Bronze" },
+  { id: "bronze-truck-full", name: "Bronze Truck Full Detail", price: 180, group: "Bronze" },
   // Silver
-  { id: "silver-sedan", name: "Silver Sedan", price: 175, group: "Silver" },
-  { id: "silver-suv", name: "Silver SUV / Truck", price: 225, group: "Silver" },
+  { id: "silver-sedan", name: "Silver Sedan", price: 180, group: "Silver" },
+  { id: "silver-suv", name: "Silver SUV / Truck", price: 232, group: "Silver" },
   // Gold
-  { id: "gold-sedan", name: "Gold Sedan", price: 225, group: "Gold" },
-  { id: "gold-suv", name: "Gold SUV / Truck", price: 275, group: "Gold" },
-  { id: "gold-sedan-inside", name: "Gold Sedan, inside only", price: 199, group: "Gold" },
-  { id: "gold-sedan-outside", name: "Gold Sedan, outside only", price: 175, group: "Gold" },
-  { id: "gold-truck-inside", name: "Gold Truck, inside only", price: 225, group: "Gold" },
-  { id: "gold-truck-outside", name: "Gold Truck, outside only", price: 190, group: "Gold" },
+  { id: "gold-sedan", name: "Gold Sedan", price: 232, group: "Gold" },
+  { id: "gold-suv", name: "Gold SUV / Truck", price: 283, group: "Gold" },
+  { id: "gold-sedan-inside", name: "Gold Sedan, inside only", price: 205, group: "Gold" },
+  { id: "gold-sedan-outside", name: "Gold Sedan, outside only", price: 180, group: "Gold" },
+  { id: "gold-truck-inside", name: "Gold Truck, inside only", price: 232, group: "Gold" },
+  { id: "gold-truck-outside", name: "Gold Truck, outside only", price: 196, group: "Gold" },
   // Platinum and Diamond
-  { id: "platinum-ext-sedan", name: "Platinum Exterior Sedan", price: 225, group: "Platinum and Diamond" },
-  { id: "platinum-ext-truck", name: "Platinum Exterior Truck / SUV", price: 250, group: "Platinum and Diamond" },
-  { id: "platinum-int-sedan", name: "Platinum Interior Sedan / Mid SUV", price: 275, group: "Platinum and Diamond" },
-  { id: "platinum-int-truck", name: "Platinum Interior Truck / Oversized", price: 290, group: "Platinum and Diamond" },
-  { id: "platinum-full-sedan", name: "Platinum Full Detail Sedan / SUV", price: 325, group: "Platinum and Diamond" },
-  { id: "platinum-full-truck", name: "Platinum Full Detail Truck / Oversized", price: 375, group: "Platinum and Diamond" },
-  { id: "diamond-full", name: "Diamond Full Detail / Oversized SUV", price: 450, group: "Platinum and Diamond" },
+  { id: "platinum-ext-sedan", name: "Platinum Exterior Sedan", price: 232, group: "Platinum and Diamond" },
+  { id: "platinum-ext-truck", name: "Platinum Exterior Truck / SUV", price: 258, group: "Platinum and Diamond" },
+  { id: "platinum-int-sedan", name: "Platinum Interior Sedan / Mid SUV", price: 283, group: "Platinum and Diamond" },
+  { id: "platinum-int-truck", name: "Platinum Interior Truck / Oversized", price: 299, group: "Platinum and Diamond" },
+  { id: "platinum-full-sedan", name: "Platinum Full Detail Sedan / SUV", price: 335, group: "Platinum and Diamond" },
+  { id: "platinum-full-truck", name: "Platinum Full Detail Truck / Oversized", price: 386, group: "Platinum and Diamond" },
+  { id: "diamond-full", name: "Diamond Full Detail / Oversized SUV", price: 464, group: "Platinum and Diamond" },
   // Other
-  { id: "express-wash", name: "Express Maintenance Wash", price: 85, group: "Other" },
+  { id: "express-wash", name: "Express Maintenance Wash", price: 88, group: "Other" },
   {
     id: "ceramic",
     name: "Ceramic coating (any level)",
@@ -181,15 +193,15 @@ export const PACKAGES: Package[] = [
 /* ------------------------------------------------------------------------ */
 
 export const ADD_ONS: AddOn[] = [
-  { id: "pet-hair", name: "Pet Hair Removal", price: 40 },
-  { id: "steam", name: "Steam Cleaning", price: 50 },
-  { id: "shampoo", name: "Heated Shampoo Extraction", price: 100 },
-  { id: "steam-shampoo", name: "Steam Upholstery & Heated Shampoo", price: 125 },
-  { id: "engine-bay", name: "Engine Bay Cleaning", price: 55 },
-  { id: "headlights", name: "Headlight Restoration", price: 99 },
-  { id: "ozone", name: "Ozone Treatment", price: 65 },
-  { id: "sap", name: "Sap Removal", price: 50 },
-  { id: "trim", name: "Trim Conditioning Coat", price: 40 },
+  { id: "pet-hair", name: "Pet Hair Removal", price: 41 },
+  { id: "steam", name: "Steam Cleaning", price: 52 },
+  { id: "shampoo", name: "Heated Shampoo Extraction", price: 103 },
+  { id: "steam-shampoo", name: "Steam Upholstery & Heated Shampoo", price: 129 },
+  { id: "engine-bay", name: "Engine Bay Cleaning", price: 57 },
+  { id: "headlights", name: "Headlight Restoration", price: 102 },
+  { id: "ozone", name: "Ozone Treatment", price: 67 },
+  { id: "sap", name: "Sap Removal", price: 52 },
+  { id: "trim", name: "Trim Conditioning Coat", price: 41 },
 ];
 
 /* ------------------------------------------------------------------------ */
@@ -213,6 +225,9 @@ export const BRONZE_TO_SILVER: Record<string, string> = {
 export const RULES: RulesData = {
   driveLimitMin: DRIVE_LIMIT_MIN,
   priceLimit: PRICE_LIMIT,
+  followupDiscountPercent: FOLLOWUP_DISCOUNT_PERCENT,
+  followupDelayMin: FOLLOWUP_DELAY_MIN,
+  followupLookaheadDays: FOLLOWUP_LOOKAHEAD_DAYS,
   cityNames: [...CITY_NAMES],
   cityCoords: CITY_COORDS,
   cityAliases: CITY_ALIASES,

@@ -1,7 +1,18 @@
 import { describe, expect, it } from "vitest";
-import { bestTechFor, checkJob, resolvePlace, type Decision, type JobResult } from "./checkJob";
+import { readFileSync, readdirSync, statSync } from "node:fs";
+import { join } from "node:path";
+import { fileURLToPath } from "node:url";
+import {
+  bestTechFor,
+  checkJob,
+  checkSlot,
+  nearbyCities,
+  resolvePlace,
+  type Decision,
+  type JobResult,
+} from "./checkJob";
 import * as engine from "./engine";
-import { CITY_NAMES, DRIVE_MATRIX, PRICE_LIMIT, RULES } from "./rules";
+import { CITY_NAMES, DRIVE_LIMIT_MIN, DRIVE_MATRIX, PRICE_LIMIT, RULES } from "./rules";
 
 function decided(result: JobResult): Decision {
   if (result.status !== "book" && result.status !== "dont-book") {
@@ -11,7 +22,7 @@ function decided(result: JobResult): Decision {
 }
 
 describe("required scenarios", () => {
-  it("Bronze Sedan $95, no upgrade, Luna from Murrieta job, customer Temecula -> BOOK (15 min)", () => {
+  it("Bronze Sedan $98, kept Bronze, Luna from Murrieta job, customer Temecula -> BOOK (15 min)", () => {
     const r = decided(
       checkJob({
         packageId: "bronze-sedan-inside",
@@ -22,11 +33,11 @@ describe("required scenarios", () => {
       }),
     );
     expect(r.status).toBe("book");
-    expect(r.total).toBe(95);
+    expect(r.total).toBe(98);
     expect(r.drive).toBe(15);
   });
 
-  it("Bronze SUV $110, no upgrade, Andre from home, customer Corona -> BOOK (20 min)", () => {
+  it("Bronze SUV $113, kept Bronze, Andre from home, customer Corona -> BOOK (20 min)", () => {
     const r = decided(
       checkJob({
         packageId: "bronze-suv-inside",
@@ -37,11 +48,11 @@ describe("required scenarios", () => {
       }),
     );
     expect(r.status).toBe("book");
-    expect(r.total).toBe(110);
+    expect(r.total).toBe(113);
     expect(r.drive).toBe(20);
   });
 
-  it("Bronze SUV $110, no upgrade, Luna from home, customer Hemet -> DON'T BOOK (40 min), shortfall $65", () => {
+  it("Bronze SUV $113, kept Bronze, Luna from home, customer Hemet -> DON'T BOOK (40 min), shortfall $62", () => {
     const r = decided(
       checkJob({
         packageId: "bronze-suv-inside",
@@ -53,12 +64,12 @@ describe("required scenarios", () => {
     );
     expect(r.status).toBe("dont-book");
     expect(r.drive).toBe(40);
-    expect(r.shortfall).toBe(65);
+    expect(r.shortfall).toBe(62);
     expect(r.gapAddOns?.every((a) => a.price >= 65)).toBe(true);
     expect(r.gapAddOns?.map((a) => a.name)).toContain("Ozone Treatment");
   });
 
-  it("Bronze Sedan Full Detail $149, upgraded to Silver, Luna from home, customer Escondido -> BOOK ($175)", () => {
+  it("Bronze Sedan Full Detail $153, upgraded to Silver ($180), Luna from home, customer Escondido -> BOOK", () => {
     const r = decided(
       checkJob({
         packageId: "bronze-sedan-full",
@@ -71,11 +82,11 @@ describe("required scenarios", () => {
     expect(r.status).toBe("book");
     expect(r.pkg.name).toBe("Silver Sedan");
     expect(r.upgradedFrom?.name).toBe("Bronze Sedan Full Detail");
-    expect(r.total).toBe(175);
+    expect(r.total).toBe(180);
     expect(r.reason).toBe("$175 or more can go any distance.");
   });
 
-  it("Express Wash $85, Luna from home, customer Menifee -> BOOK (25 min)", () => {
+  it("Express Wash $88, Luna from home, customer Menifee -> BOOK (25 min)", () => {
     const r = decided(
       checkJob({
         packageId: "express-wash",
@@ -85,12 +96,12 @@ describe("required scenarios", () => {
       }),
     );
     expect(r.status).toBe("book");
-    expect(r.total).toBe(85);
+    expect(r.total).toBe(88);
     expect(r.drive).toBe(25);
     expect(r.reason).toBe("Under 30 minutes.");
   });
 
-  it("Silver SUV $225, Andre from home, customer Hemet -> BOOK (any distance)", () => {
+  it("Silver SUV $232, Andre from home, customer Hemet -> BOOK (any distance)", () => {
     const r = decided(
       checkJob({
         packageId: "silver-suv",
@@ -100,6 +111,7 @@ describe("required scenarios", () => {
       }),
     );
     expect(r.status).toBe("book");
+    expect(r.total).toBe(232);
     expect(r.drive).toBe(55);
     expect(r.reason).toBe("$175 or more can go any distance.");
   });
@@ -140,7 +152,7 @@ describe("removed", () => {
 });
 
 describe("other rules", () => {
-  it("asks for the Silver upsell before any Bronze result", () => {
+  it("Upsell difference Bronze Sedan inside only -> Silver Sedan = $82, asked before any Bronze result", () => {
     const r = checkJob({
       packageId: "bronze-sedan-inside",
       techId: "luna",
@@ -150,17 +162,17 @@ describe("other rules", () => {
     expect(r.status).toBe("upsell");
     if (r.status === "upsell") {
       expect(r.offer.to.name).toBe("Silver Sedan");
-      expect(r.offer.difference).toBe(80);
+      expect(r.offer.difference).toBe(82);
     }
   });
 
   it("uses the mapped Silver and the right difference for every Bronze", () => {
     const cases: [string, string, number][] = [
-      ["bronze-sedan-outside", "Silver Sedan", 80],
-      ["bronze-sedan-full", "Silver Sedan", 26],
-      ["bronze-suv-inside", "Silver SUV / Truck", 115],
-      ["bronze-truck-outside", "Silver SUV / Truck", 115],
-      ["bronze-truck-full", "Silver SUV / Truck", 50],
+      ["bronze-sedan-outside", "Silver Sedan", 82],
+      ["bronze-sedan-full", "Silver Sedan", 27],
+      ["bronze-suv-inside", "Silver SUV / Truck", 119],
+      ["bronze-truck-outside", "Silver SUV / Truck", 119],
+      ["bronze-truck-full", "Silver SUV / Truck", 52],
     ];
     for (const [packageId, silver, diff] of cases) {
       const r = checkJob({ packageId });
@@ -183,7 +195,9 @@ describe("other rules", () => {
         upsellAnswer: "no",
       }),
     );
-    expect(r.total).toBe(PRICE_LIMIT);
+    // $113 + $67 = $180, over the $175 limit.
+    expect(r.total).toBe(180);
+    expect(r.total).toBeGreaterThanOrEqual(PRICE_LIMIT);
     expect(r.status).toBe("book");
   });
 
@@ -198,7 +212,8 @@ describe("other rules", () => {
       }),
     );
     expect(r.status).toBe("dont-book");
-    expect(r.shortfall).toBe(50);
+    // $88 + $41 = $129, so $46 short of $175.
+    expect(r.shortfall).toBe(46);
     expect(r.gapAddOns?.some((a) => a.id === "pet-hair")).toBe(false);
   });
 
@@ -255,7 +270,7 @@ describe("other rules", () => {
       }),
     );
     expect(r.jobNote).toBe(
-      "Bronze Sedan, inside only $95. Luna from Murrieta to Winchester (Menifee), 20 min.\nBOOK: Under 30 minutes.",
+      "Bronze Sedan, inside only $98. Luna from Murrieta to Winchester (Menifee), 20 min.\nBOOK: Under 30 minutes.",
     );
   });
 
@@ -276,5 +291,57 @@ describe("drive matrix", () => {
     CITY_NAMES.forEach((a, i) =>
       CITY_NAMES.forEach((b, j) => expect(DRIVE_MATRIX[a][j], `${a} to ${b}`).toBe(DRIVE_MATRIX[b][i])),
     );
+  });
+});
+
+describe("nearby jobs and follow-up", () => {
+  it("Nearby finder for Temecula returns Murrieta 15 first, never over the drive limit", () => {
+    const list = nearbyCities("Temecula");
+    expect(list[0]).toEqual({ city: "Murrieta", drive: 15 });
+    expect(list.map((n) => `${n.city} ${n.drive}`)).toEqual([
+      "Murrieta 15",
+      "Wildomar 20",
+      "Menifee 25",
+      "Lake Elsinore 25",
+      "Fallbrook 25",
+      "Perris 30",
+    ]);
+    for (const city of CITY_NAMES) {
+      for (const n of nearbyCities(city)) expect(n.drive, `${n.city} to ${city}`).toBeLessThanOrEqual(DRIVE_LIMIT_MIN);
+    }
+  });
+
+  it("Nearby finder works for aliases and skips the customer's own city", () => {
+    expect(nearbyCities("Winchester").map((n) => n.city)).not.toContain("Menifee");
+    expect(nearbyCities("Winchester")[0]).toEqual({ city: "Perris", drive: 15 });
+  });
+
+  it("Follow-up slot from Murrieta job to Temecula customer: valid (15)", () => {
+    expect(checkSlot("Murrieta", "Temecula")).toEqual({ status: "ok", drive: 15 });
+  });
+
+  it("Follow-up slot from Riverside job to Temecula customer: warning (55)", () => {
+    expect(checkSlot("Riverside", "Temecula")).toEqual({ status: "too-far", drive: 55 });
+  });
+
+  it("Follow-up slot without both cities is incomplete", () => {
+    expect(checkSlot("", "Temecula")).toEqual({ status: "incomplete" });
+  });
+});
+
+describe("no card fee", () => {
+  it('No "Convenience Fee", "card fee", or "surcharge" anywhere in app/ops or lib/ops', () => {
+    const root = fileURLToPath(new URL("../../", import.meta.url));
+    const self = fileURLToPath(import.meta.url);
+    const files = (dir: string): string[] =>
+      readdirSync(dir).flatMap((name) => {
+        const path = join(dir, name);
+        return statSync(path).isDirectory() ? files(path) : [path];
+      });
+    const banned = [/convenience fee/i, /card fee/i, /surcharge/i];
+    const hits = [...files(join(root, "app/ops")), ...files(join(root, "lib/ops"))]
+      .filter((f) => f !== self && /\.(tsx?|css|json)$/.test(f))
+      .flatMap((f) => banned.filter((re) => re.test(readFileSync(f, "utf8"))).map((re) => `${f}: ${re}`));
+    expect(hits).toEqual([]);
   });
 });

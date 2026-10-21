@@ -1,5 +1,11 @@
 import Image from "next/image";
 import { Checker } from "./_components/Checker";
+import { NearbyTools } from "./_components/NearbyTools";
+import { OpsDataProvider } from "./_components/OpsData";
+import { OpsTabs } from "./_components/OpsTabs";
+import { InvoicingSop } from "./_sop/InvoicingSop";
+import { FollowupExample, FollowupSop, NearbyGoal } from "./_sop/NearbySop";
+import { RulesSop } from "./_sop/RulesSop";
 
 export default function OpsPage() {
   return (
@@ -21,9 +27,28 @@ export default function OpsPage() {
         </div>
       </header>
 
-      <div className="mx-auto max-w-7xl px-4 pb-28 pt-6 sm:px-6">
-        <Checker />
-      </div>
+      {/* Client tools get the rules from /ops/api/data; the SOP text is
+          rendered here on the server and passed in. */}
+      <OpsDataProvider>
+        <OpsTabs
+          tabs={[
+            { id: "checker", label: "Booking Checker", panel: <Checker /> },
+            {
+              id: "nearby",
+              label: "Nearby Jobs + Follow-up",
+              panel: (
+                <>
+                  <NearbyGoal />
+                  <NearbyTools followupSop={<FollowupSop />} />
+                  <FollowupExample />
+                </>
+              ),
+            },
+            { id: "invoicing", label: "Invoicing", panel: <InvoicingSop /> },
+            { id: "rules", label: "Scheduling Rules", panel: <RulesSop /> },
+          ]}
+        />
+      </OpsDataProvider>
 
       <footer className="fixed inset-x-0 bottom-0 z-[1000] border-t border-black bg-ops-ink text-white">
         <p className="mx-auto max-w-7xl px-4 py-3 text-center text-lg font-semibold sm:px-6">
