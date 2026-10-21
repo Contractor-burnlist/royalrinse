@@ -1,7 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   checkJob,
   driveMinutes,
@@ -9,12 +9,12 @@ import {
   getPackage,
   getTech,
   jobTotal,
+  placeOptions,
   priceLabel,
   resolvePlace,
   upsellFor,
-} from "@/lib/ops/checkJob";
-import { PLACE_OPTIONS } from "@/lib/ops/places";
-import { ADD_ONS, DRIVE_LIMIT_MIN, PACKAGE_GROUPS, PACKAGES, TECHS, type CityName, type TechId } from "@/lib/ops/rules";
+  type RulesData,
+} from "@/lib/ops/engine";
 import { PlaceCombobox } from "./PlaceCombobox";
 import { ResultPanel } from "./ResultPanel";
 
@@ -22,7 +22,9 @@ import { ResultPanel } from "./ResultPanel";
 const CoverageMap = dynamic(() => import("./CoverageMap"), {
   ssr: false,
   loading: () => (
-    <div className="flex h-[420px] items-center justify-center bg-ops-ink text-slate-300 lg:h-[560px]">Loading map...</div>
+    <div className="flex h-[420px] items-center justify-center bg-ops-ink text-slate-300 lg:h-[560px]">
+      Loading map...
+    </div>
   ),
 });
 
@@ -34,10 +36,50 @@ const SELECT =
 const CHOICE =
   "flex cursor-pointer rounded-xl border-2 border-ops-line bg-white transition-colors hover:border-ops-primary has-[:checked]:border-ops-primary has-[:checked]:bg-ops-primary-soft has-[:focus-visible]:outline has-[:focus-visible]:outline-[3px] has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-ops-primary";
 
+/**
+ * Loads the rules and prices from the password-protected /ops/api/data, so
+ * none of them are ever in the JS bundle, then shows the checker.
+ */
 export function Checker() {
+  const [data, setData] = useState<RulesData | null>(null);
+  const [failed, setFailed] = useState(false);
+
+  useEffect(() => {
+    let live = true;
+    fetch("/ops/api/data", { cache: "no-store" })
+      .then((res) => {
+        if (!res.ok) throw new Error(String(res.status));
+        return res.json() as Promise<RulesData>;
+      })
+      .then((json) => live && setData(json))
+      .catch(() => live && setFailed(true));
+    return () => {
+      live = false;
+    };
+  }, []);
+
+  if (failed) {
+    return (
+      <p role="alert" className={`${CARD} text-lg font-semibold text-ops-stop`}>
+        Could not load the checker. Refresh the page. If it still does not work, ask Tim.
+      </p>
+    );
+  }
+  if (!data) {
+    return (
+      <p role="status" className={`${CARD} text-lg font-semibold text-ops-muted`}>
+        Loading...
+      </p>
+    );
+  }
+  return <CheckerForm data={data} />;
+}
+
+function CheckerForm({ data }: { data: RulesData }) {
+  const places = useMemo(() => placeOptions(data), [data]);
   const [packageId, setPackageId] = useState("");
   const [addOnIds, setAddOnIds] = useState<string[]>([]);
-  const [techId, setTechId] = useState<TechId | "">("");
+  const [techId, setTechId] = useState("");
   const [startKind, setStartKind] = useState<"home" | "job">("home");
   const [startPlace, setStartPlace] = useState("");
   const [customerPlace, setCustomerPlace] = useState("");
@@ -46,10 +88,10 @@ export function Checker() {
   /** Name of the Bronze package the customer upgraded from, for display. */
   const [upgradedFrom, setUpgradedFrom] = useState<string | null>(null);
 
-  const pkg = getPackage(packageId);
-  const tech = techId ? getTech(techId) : undefined;
+  const pkg = getPackage(data, packageId);
+  const tech = techId ? getTech(data, techId) : undefined;
 
-  const result = checkJob({
+  const result = checkJob(data, {
     packageId,
     addOnIds,
     techId: techId || undefined,
@@ -59,9 +101,9 @@ export function Checker() {
   });
 
   // The map shows the trip as soon as both ends are known.
-  const startCity: CityName | null = startKind === "home" ? (tech?.homeCity ?? null) : resolvePlace(startPlace);
-  const customerCity = resolvePlace(customerPlace);
-  const drive = startCity && customerCity ? driveMinutes(startCity, customerCity) : null;
+  const startCity = startKind === "home" ? (tech?.homeCity ?? null) : resolvePlace(data, startPlace);
+  const customerCity = resolvePlace(data, customerPlace);
+  const drive = startCity && customerCity ? driveMinutes(data, startCity, customerCity) : null;
 
   function choosePackage(id: string) {
     setPackageId(id);
@@ -73,7 +115,7 @@ export function Checker() {
   }
 
   function upsellYes() {
-    const offer = pkg && upsellFor(pkg);
+    const offer = pkg && upsellFor(data, pkg);
     if (!offer) return;
     setPackageId(offer.to.id);
     setUpgradedFrom(offer.from.name);
@@ -92,13 +134,15 @@ export function Checker() {
           </label>
           <select id="package" value={packageId} onChange={(e) => choosePackage(e.target.value)} className={SELECT}>
             <option value="">Pick a package</option>
-            {PACKAGE_GROUPS.map((group) => (
+            {data.packageGroups.map((group) => (
               <optgroup key={group} label={group}>
-                {PACKAGES.filter((p) => p.group === group).map((p) => (
-                  <option key={p.id} value={p.id}>
-                    {p.name}, {priceLabel(p)}
-                  </option>
-                ))}
+                {data.packages
+                  .filter((p) => p.group === group)
+                  .map((p) => (
+                    <option key={p.id} value={p.id}>
+                      {p.name}, {priceLabel(p)}
+                    </option>
+                  ))}
               </optgroup>
             ))}
           </select>
@@ -106,7 +150,7 @@ export function Checker() {
           <fieldset className="mt-5">
             <legend className="font-semibold">Add-ons (pick any)</legend>
             <div className="mt-2 flex flex-wrap gap-2">
-              {ADD_ONS.map((a) => (
+              {data.addOns.map((a) => (
                 <label key={a.id} className={`${CHOICE} rounded-full px-3.5 py-2 text-sm`}>
                   <input
                     type="checkbox"
@@ -125,7 +169,7 @@ export function Checker() {
           <p className="mt-5 flex items-baseline justify-between rounded-xl bg-ops-surface px-4 py-3">
             <span className="font-semibold">Job total</span>
             <span className="text-3xl font-extrabold" aria-live="polite">
-              {pkg?.price === null ? "No price check" : formatMoney(jobTotal(pkg, addOnIds))}
+              {pkg?.price === null ? "No price check" : formatMoney(jobTotal(data, pkg, addOnIds))}
               {pkg?.priceFrom && <span className="text-base font-semibold text-ops-muted"> or more</span>}
             </span>
           </p>
@@ -135,7 +179,7 @@ export function Checker() {
           <fieldset>
             <legend className={STEP}>2. Tech</legend>
             <div className="mt-4 grid gap-2 sm:grid-cols-3">
-              {TECHS.map((t) => (
+              {data.techs.map((t) => (
                 <label key={t.id} className={`${CHOICE} flex-col px-4 py-3`}>
                   <input
                     type="radio"
@@ -194,7 +238,7 @@ export function Checker() {
                   className={SELECT}
                 >
                   <option value="">Pick a city</option>
-                  {PLACE_OPTIONS.map((p) => (
+                  {places.map((p) => (
                     <option key={p.value} value={p.value}>
                       {p.label}
                     </option>
@@ -211,6 +255,7 @@ export function Checker() {
           </h2>
           <PlaceCombobox
             label="Customer city"
+            places={places}
             hint="Type to search. You can also click a city on the map."
             value={customerPlace}
             onChange={setCustomerPlace}
@@ -221,6 +266,7 @@ export function Checker() {
       {/* RIGHT / BOTTOM: result and map */}
       <div className="space-y-5">
         <ResultPanel
+          data={data}
           result={result}
           customerPlace={customerPlace}
           customerCity={customerCity}
@@ -238,9 +284,15 @@ export function Checker() {
           <h2 id="map-title" className="sr-only">
             Map of cities and tech zones
           </h2>
-          <CoverageMap startCity={startCity} customerCity={customerCity} drive={drive} onPickCity={setCustomerPlace} />
+          <CoverageMap
+            data={data}
+            startCity={startCity}
+            customerCity={customerCity}
+            drive={drive}
+            onPickCity={setCustomerPlace}
+          />
           <p className="px-5 py-4 text-sm text-ops-muted">
-            The blue zone is where each tech usually works. It is NOT the {DRIVE_LIMIT_MIN} minute limit. The checker
+            The blue zone is where each tech usually works. It is NOT the {data.driveLimitMin} minute limit. The checker
             uses the real drive time.
           </p>
         </section>

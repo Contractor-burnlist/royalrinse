@@ -1,20 +1,23 @@
 "use client";
 
 import { useEffect, useId, useMemo, useRef, useState } from "react";
-import { PLACE_OPTIONS, placeOptionLabel } from "@/lib/ops/places";
+import type { PlaceOption } from "@/lib/ops/engine";
 
 interface Props {
   label: string;
   hint?: string;
   value: string;
   onChange: (value: string) => void;
+  /** Cities and aliases, built from the /ops/api/data rules. */
+  places: PlaceOption[];
 }
 
 /**
  * Type to search, arrow keys to move, Enter to pick, Escape to close.
  * Follows the ARIA combobox pattern so screen readers announce the list.
  */
-export function PlaceCombobox({ label, hint, value, onChange }: Props) {
+export function PlaceCombobox({ label, hint, value, onChange, places }: Props) {
+  const placeOptionLabel = (v: string) => places.find((p) => p.value === v)?.label ?? "";
   const id = useId();
   const listId = `${id}-list`;
   const hintId = `${id}-hint`;
@@ -25,13 +28,14 @@ export function PlaceCombobox({ label, hint, value, onChange }: Props) {
   const [active, setActive] = useState(0);
 
   // Keep the text in step when the value changes from outside (map click).
-  useEffect(() => setQuery(placeOptionLabel(value)), [value]);
+  const valueLabel = placeOptionLabel(value);
+  useEffect(() => setQuery(valueLabel), [valueLabel]);
 
   const options = useMemo(() => {
     const q = query.trim().toLowerCase();
-    if (!q || query === placeOptionLabel(value)) return PLACE_OPTIONS;
-    return PLACE_OPTIONS.filter((p) => p.label.toLowerCase().includes(q));
-  }, [query, value]);
+    if (!q || query === valueLabel) return places;
+    return places.filter((p) => p.label.toLowerCase().includes(q));
+  }, [query, valueLabel, places]);
 
   useEffect(() => {
     listRef.current?.querySelector<HTMLElement>(`[data-index="${active}"]`)?.scrollIntoView({ block: "nearest" });
@@ -58,7 +62,7 @@ export function PlaceCombobox({ label, hint, value, onChange }: Props) {
       pick(active);
     } else if (e.key === "Escape") {
       setOpen(false);
-      setQuery(placeOptionLabel(value));
+      setQuery(valueLabel);
     }
   }
 
@@ -98,7 +102,7 @@ export function PlaceCombobox({ label, hint, value, onChange }: Props) {
         onClick={() => setOpen(true)}
         onBlur={() => {
           setOpen(false);
-          setQuery(placeOptionLabel(value));
+          setQuery(valueLabel);
         }}
         onKeyDown={onKeyDown}
         className="mt-2 w-full rounded-xl border border-ops-line bg-white px-4 py-3 text-base shadow-sm placeholder:text-ops-muted focus-visible:border-ops-primary"

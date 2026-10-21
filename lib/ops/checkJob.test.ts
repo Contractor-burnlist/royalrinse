@@ -218,9 +218,10 @@ describe("other rules", () => {
       status: "incomplete",
       missing: ["tech", "customer"],
     });
-    expect(
-      checkJob({ packageId: "silver-sedan", techId: "andre", start: { kind: "job", place: "" } }),
-    ).toEqual({ status: "incomplete", missing: ["start", "customer"] });
+    expect(checkJob({ packageId: "silver-sedan", techId: "andre", start: { kind: "job", place: "" } })).toEqual({
+      status: "incomplete",
+      missing: ["start", "customer"],
+    });
   });
 
   it("writes the job note in the Housecall Pro format", () => {

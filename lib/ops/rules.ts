@@ -1,3 +1,4 @@
+import "server-only";
 /**
  * SINGLE SOURCE OF TRUTH for the internal /ops Booking Checker.
  *
@@ -7,7 +8,12 @@
  * Every rule, price, city, drive time and tech lives in this file. Change a
  * number here and the checker, the job note, the map and the tests all follow.
  * Nothing in this file may be copied into another file.
+ *
+ * SERVER ONLY. The browser gets this data from the password-protected
+ * /ops/api/data route, never from the JS bundle. The "server-only" import
+ * makes the build fail if a client component ever imports this file.
  */
+import type { AddOn, LatLng, Package, RulesData, Tech } from "./engine";
 
 /** Max drive (minutes) for jobs under the price limit. */
 export const DRIVE_LIMIT_MIN = 30;
@@ -40,9 +46,6 @@ export const CITY_NAMES = [
 
 export type CityName = (typeof CITY_NAMES)[number];
 
-/** [lat, lng] */
-export type LatLng = [number, number];
-
 export const CITY_COORDS: Record<CityName, LatLng> = {
   Riverside: [33.9533, -117.3962],
   Corona: [33.8753, -117.5664],
@@ -61,6 +64,9 @@ export const CITY_COORDS: Record<CityName, LatLng> = {
   Escondido: [33.1192, -117.0864],
   "San Diego coast": [32.86, -117.25],
 };
+
+/** Map only: cities whose name goes on the left of the dot so it does not cover a neighbor. */
+export const MAP_LABEL_LEFT: CityName[] = ["Riverside", "Lake Elsinore", "Murrieta", "San Marcos"];
 
 /** Customer areas that use a listed city's drive times. */
 export const CITY_ALIASES: Record<string, CityName> = {
@@ -83,6 +89,7 @@ export const CITY_ALIASES: Record<string, CityName> = {
  * CITY_NAMES. These are fixed numbers: never recalculate them or call a
  * routing API.
  */
+// prettier-ignore
 export const DRIVE_MATRIX: Record<CityName, readonly number[]> = {
   Riverside:         [0, 20, 20, 20, 25, 30, 40, 40, 55, 50, 50, 55, 75, 85, 85, 120],
   Corona:            [20, 0, 35, 35, 40, 40, 45, 30, 65, 40, 40, 50, 65, 80, 75, 110],
@@ -106,30 +113,13 @@ export const DRIVE_MATRIX: Record<CityName, readonly number[]> = {
 /* Techs                                                                    */
 /* ------------------------------------------------------------------------ */
 
-export type TechId = "andre" | "luna" | "kevin";
-
-/** A circle on the map: where a tech usually works. Not the drive limit. */
-export interface CoverageCircle {
-  center: LatLng;
-  radiusMiles: number;
-}
-
-export interface Tech {
-  id: TechId;
-  name: string;
-  /** null = not set yet. The checker will not give this tech a result. */
-  homeCity: CityName | null;
-  /** Shown instead of a result when homeCity is null. */
-  askTim?: string;
-  /** Circles are joined into one zone on the map. */
-  coverage: CoverageCircle[];
-}
-
 export const TECHS: Tech[] = [
   {
     id: "andre",
     name: "Andre",
     homeCity: "Riverside",
+    // Map only: home label above the pin, clear of Corona's label.
+    mapLabelAbove: true,
     coverage: [{ center: CITY_COORDS.Riverside, radiusMiles: 22.5 }],
   },
   {
@@ -162,22 +152,6 @@ export const PACKAGE_GROUPS = [
   "Platinum and Diamond",
   "Other",
 ] as const;
-
-export type PackageGroup = (typeof PACKAGE_GROUPS)[number];
-
-export interface Package {
-  id: string;
-  name: string;
-  /** null = no price check (the job always goes to Tim). */
-  price: number | null;
-  /** true = price is a minimum, shown as "$249 or more". */
-  priceFrom?: boolean;
-  group: PackageGroup;
-  /** Shown with the result. */
-  note?: string;
-  /** Shown instead of a result. */
-  askTim?: string;
-}
 
 export const PACKAGES: Package[] = [
   // Bronze
@@ -223,12 +197,6 @@ export const PACKAGES: Package[] = [
 /* Add-ons                                                                  */
 /* ------------------------------------------------------------------------ */
 
-export interface AddOn {
-  id: string;
-  name: string;
-  price: number;
-}
-
 export const ADD_ONS: AddOn[] = [
   { id: "pet-hair", name: "Pet Hair Removal", price: 40 },
   { id: "steam", name: "Steam Cleaning", price: 50 },
@@ -253,4 +221,23 @@ export const BRONZE_TO_SILVER: Record<string, string> = {
   "bronze-suv-inside": "silver-suv",
   "bronze-truck-outside": "silver-suv",
   "bronze-truck-full": "silver-suv",
+};
+
+/* ------------------------------------------------------------------------ */
+/* Everything above, in the shape the engine and /ops/api/data use          */
+/* ------------------------------------------------------------------------ */
+
+export const RULES: RulesData = {
+  driveLimitMin: DRIVE_LIMIT_MIN,
+  priceLimit: PRICE_LIMIT,
+  cityNames: [...CITY_NAMES],
+  cityCoords: CITY_COORDS,
+  cityAliases: CITY_ALIASES,
+  mapLabelLeft: MAP_LABEL_LEFT,
+  driveMatrix: Object.fromEntries(CITY_NAMES.map((c) => [c, [...DRIVE_MATRIX[c]]])),
+  techs: TECHS,
+  packageGroups: [...PACKAGE_GROUPS],
+  packages: PACKAGES,
+  addOns: ADD_ONS,
+  bronzeToSilver: BRONZE_TO_SILVER,
 };

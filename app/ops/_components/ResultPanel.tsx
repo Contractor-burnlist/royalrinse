@@ -8,9 +8,9 @@ import {
   type Decision,
   type JobResult,
   type MissingField,
+  type RulesData,
   type UpsellOffer,
-} from "@/lib/ops/checkJob";
-import { PRICE_LIMIT, type CityName, type TechId } from "@/lib/ops/rules";
+} from "@/lib/ops/engine";
 
 const CARD = "rounded-2xl border border-ops-line bg-white p-5 shadow-sm sm:p-6";
 
@@ -22,14 +22,15 @@ const MISSING_TEXT: Record<MissingField, string> = {
 };
 
 interface Props {
+  data: RulesData;
   result: JobResult;
   customerPlace: string;
-  customerCity: CityName | null;
+  customerCity: string | null;
   upgradedFrom: string | null;
   onUpsellYes: () => void;
   onUpsellNo: () => void;
   onAddAddOn: (id: string) => void;
-  onPickTech: (id: TechId) => void;
+  onPickTech: (id: string) => void;
 }
 
 export function ResultPanel(props: Props) {
@@ -45,10 +46,16 @@ export function ResultPanel(props: Props) {
       {result.status === "incomplete" && <IncompleteCard missing={result.missing} />}
       {result.status === "ask-tim" && <AskTimCard message={result.message} />}
       {(result.status === "book" || result.status === "dont-book") && (
-        <DecisionCard d={result} upgradedFrom={props.upgradedFrom} onAddAddOn={props.onAddAddOn} />
+        <DecisionCard
+          d={result}
+          priceLimit={props.data.priceLimit}
+          upgradedFrom={props.upgradedFrom}
+          onAddAddOn={props.onAddAddOn}
+        />
       )}
       {props.customerCity && (
         <BestTechCard
+          data={props.data}
           customerPlace={props.customerPlace}
           customerCity={props.customerCity}
           onPickTech={props.onPickTech}
@@ -84,9 +91,9 @@ function UpsellCard({ offer, onYes, onNo }: { offer: UpsellOffer; onYes: () => v
         Try once to upsell to Silver
       </h2>
       <p className="mt-2 text-ops-muted">
-        Customer picked <strong className="text-ops-ink">{offer.from.name}</strong> ({formatMoney(offer.from.price ?? 0)}).
-        Offer <strong className="text-ops-ink">{offer.to.name}</strong> ({formatMoney(offer.to.price ?? 0)}), only{" "}
-        <strong className="text-ops-ink">{diff} more</strong>.
+        Customer picked <strong className="text-ops-ink">{offer.from.name}</strong> (
+        {formatMoney(offer.from.price ?? 0)}). Offer <strong className="text-ops-ink">{offer.to.name}</strong> (
+        {formatMoney(offer.to.price ?? 0)}), only <strong className="text-ops-ink">{diff} more</strong>.
       </p>
 
       <h3 className="mt-5 font-semibold">Why Silver</h3>
@@ -111,7 +118,9 @@ function UpsellCard({ offer, onYes, onNo }: { offer: UpsellOffer; onYes: () => v
       </blockquote>
 
       <h3 className="mt-4 font-semibold">If they say no</h3>
-      <blockquote className="mt-2 rounded-xl bg-ops-surface p-4 text-lg">No problem! I will book your Bronze.</blockquote>
+      <blockquote className="mt-2 rounded-xl bg-ops-surface p-4 text-lg">
+        No problem! I will book your Bronze.
+      </blockquote>
 
       <p className="mt-4 text-sm font-semibold text-ops-muted">Ask only once. Do not push.</p>
 
@@ -152,7 +161,10 @@ function IncompleteCard({ missing }: { missing: MissingField[] }) {
 
 function AskTimCard({ message }: { message: string }) {
   return (
-    <section aria-labelledby="result-title" className="rounded-2xl border-2 border-ops-warn bg-ops-warn-soft p-6 text-ops-warn">
+    <section
+      aria-labelledby="result-title"
+      className="rounded-2xl border-2 border-ops-warn bg-ops-warn-soft p-6 text-ops-warn"
+    >
       <h2 id="result-title" className="text-6xl font-black leading-none tracking-tight">
         ASK TIM
       </h2>
@@ -164,10 +176,12 @@ function AskTimCard({ message }: { message: string }) {
 
 function DecisionCard({
   d,
+  priceLimit,
   upgradedFrom,
   onAddAddOn,
 }: {
   d: Decision;
+  priceLimit: number;
   upgradedFrom: string | null;
   onAddAddOn: (id: string) => void;
 }) {
@@ -205,7 +219,10 @@ function DecisionCard({
       </dl>
 
       {d.notes.map((n) => (
-        <p key={n} className="mt-4 rounded-xl border border-ops-warn bg-ops-warn-soft px-4 py-3 font-semibold text-ops-warn">
+        <p
+          key={n}
+          className="mt-4 rounded-xl border border-ops-warn bg-ops-warn-soft px-4 py-3 font-semibold text-ops-warn"
+        >
           {n}
         </p>
       ))}
@@ -214,7 +231,7 @@ function DecisionCard({
         <ol className="mt-6 space-y-4">
           <li className="rounded-xl bg-white p-4">
             <p className="text-lg font-bold">
-              1. Add {formatMoney(d.shortfall)} more to reach {formatMoney(PRICE_LIMIT)}.
+              1. Add {formatMoney(d.shortfall)} more to reach {formatMoney(priceLimit)}.
             </p>
             {d.gapAddOns && d.gapAddOns.length > 0 ? (
               <>
@@ -292,15 +309,17 @@ function JobNote({ text }: { text: string }) {
 }
 
 function BestTechCard({
+  data,
   customerPlace,
   customerCity,
   onPickTech,
 }: {
+  data: RulesData;
   customerPlace: string;
-  customerCity: CityName;
-  onPickTech: (id: TechId) => void;
+  customerCity: string;
+  onPickTech: (id: string) => void;
 }) {
-  const { options, best } = bestTechFor(customerCity);
+  const { options, best } = bestTechFor(data, customerCity);
   return (
     <section aria-labelledby="best-tech-title" className={CARD}>
       <h2 id="best-tech-title" className="text-lg font-bold">

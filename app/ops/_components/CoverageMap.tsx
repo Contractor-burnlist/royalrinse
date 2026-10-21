@@ -5,7 +5,8 @@ import L from "leaflet";
 import { circle, featureCollection, union } from "@turf/turf";
 import type { Feature, MultiPolygon, Polygon } from "geojson";
 import { CircleMarker, GeoJSON, MapContainer, Marker, Polyline, TileLayer, Tooltip } from "react-leaflet";
-import { CITY_COORDS, CITY_NAMES, DRIVE_LIMIT_MIN, TECHS, type CityName } from "@/lib/ops/rules";
+import { useMemo } from "react";
+import type { RulesData } from "@/lib/ops/engine";
 
 const ZONE_STYLE: L.PathOptions = {
   color: "#8ab8ff",
@@ -24,22 +25,19 @@ const TILE_URL = `https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png$
 const LINE_FAR = "#cbd5e1";
 
 /** One smooth zone per tech: every coverage circle joined with turf. */
-const ZONES = TECHS.filter((t) => t.coverage.length > 0).map((tech) => {
-  const circles = tech.coverage.map((c) =>
-    // turf takes [lng, lat].
-    circle([c.center[1], c.center[0]], c.radiusMiles, { steps: 160, units: "miles" }),
-  );
-  const zone: Feature<Polygon | MultiPolygon> | null =
-    circles.length > 1 ? union(featureCollection(circles)) : circles[0];
-  return { tech, zone };
-});
-
-/** Cities whose name goes on the left of the dot so it does not cover a neighbor. */
-const LABEL_LEFT = new Set<CityName>(["Riverside", "Lake Elsinore", "Murrieta", "San Marcos"]);
-/** Techs whose home label goes above the pin (default is below). */
-const HOME_LABEL_ABOVE = new Set(["andre"]);
-
-const BOUNDS = L.latLngBounds(CITY_NAMES.map((c) => CITY_COORDS[c]));
+function zonesFor(data: RulesData) {
+  return data.techs
+    .filter((t) => t.coverage.length > 0)
+    .map((tech) => {
+      const circles = tech.coverage.map((c) =>
+        // turf takes [lng, lat].
+        circle([c.center[1], c.center[0]], c.radiusMiles, { steps: 160, units: "miles" }),
+      );
+      const zone: Feature<Polygon | MultiPolygon> | null =
+        circles.length > 1 ? union(featureCollection(circles)) : circles[0];
+      return { tech, zone };
+    });
+}
 
 function homeIcon(name: string, above: boolean) {
   return L.divIcon({
@@ -51,19 +49,24 @@ function homeIcon(name: string, above: boolean) {
 }
 
 interface Props {
-  startCity: CityName | null;
-  customerCity: CityName | null;
+  /** Rules from /ops/api/data: cities, coordinates, techs, limits. */
+  data: RulesData;
+  startCity: string | null;
+  customerCity: string | null;
   drive: number | null;
-  onPickCity: (city: CityName) => void;
+  onPickCity: (city: string) => void;
 }
 
-export default function CoverageMap({ startCity, customerCity, drive, onPickCity }: Props) {
+export default function CoverageMap({ data, startCity, customerCity, drive, onPickCity }: Props) {
+  const zones = useMemo(() => zonesFor(data), [data]);
+  const bounds = useMemo(() => L.latLngBounds(data.cityNames.map((c) => data.cityCoords[c])), [data]);
+  const labelLeft = new Set(data.mapLabelLeft);
   const showLine = startCity && customerCity && startCity !== customerCity && drive !== null;
-  const lineColor = drive !== null && drive <= DRIVE_LIMIT_MIN ? LINE_OK : LINE_FAR;
+  const lineColor = drive !== null && drive <= data.driveLimitMin ? LINE_OK : LINE_FAR;
 
   return (
     <MapContainer
-      bounds={BOUNDS}
+      bounds={bounds}
       boundsOptions={{ padding: [24, 24] }}
       zoomSnap={0.25}
       zoomDelta={0.5}
@@ -77,14 +80,14 @@ export default function CoverageMap({ startCity, customerCity, drive, onPickCity
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
       />
 
-      {ZONES.map(({ tech, zone }) =>
+      {zones.map(({ tech, zone }) =>
         zone ? <GeoJSON key={tech.id} data={zone} style={ZONE_STYLE} interactive={false} /> : null,
       )}
 
       {showLine && (
         <Polyline
           key={`${startCity}-${customerCity}`}
-          positions={[CITY_COORDS[startCity], CITY_COORDS[customerCity]]}
+          positions={[data.cityCoords[startCity], data.cityCoords[customerCity]]}
           pathOptions={{ color: lineColor, weight: 5, opacity: 0.95 }}
           interactive={false}
         >
@@ -94,13 +97,13 @@ export default function CoverageMap({ startCity, customerCity, drive, onPickCity
         </Polyline>
       )}
 
-      {CITY_NAMES.map((city) => {
+      {data.cityNames.map((city) => {
         const picked = city === customerCity;
         const start = city === startCity;
         return (
           <CircleMarker
             key={`${city}-${picked}-${start}`}
-            center={CITY_COORDS[city]}
+            center={data.cityCoords[city]}
             radius={picked || start ? 8 : 6}
             pathOptions={{
               color: "#0f172a",
@@ -112,8 +115,8 @@ export default function CoverageMap({ startCity, customerCity, drive, onPickCity
           >
             <Tooltip
               permanent
-              direction={LABEL_LEFT.has(city) ? "left" : "right"}
-              offset={LABEL_LEFT.has(city) ? [-6, 0] : [6, 0]}
+              direction={labelLeft.has(city) ? "left" : "right"}
+              offset={labelLeft.has(city) ? [-6, 0] : [6, 0]}
               className="city-label"
             >
               {city}
@@ -122,12 +125,12 @@ export default function CoverageMap({ startCity, customerCity, drive, onPickCity
         );
       })}
 
-      {TECHS.map((tech) =>
+      {data.techs.map((tech) =>
         tech.homeCity ? (
           <Marker
             key={tech.id}
-            position={CITY_COORDS[tech.homeCity]}
-            icon={homeIcon(`${tech.name} (home)`, HOME_LABEL_ABOVE.has(tech.id))}
+            position={data.cityCoords[tech.homeCity]}
+            icon={homeIcon(`${tech.name} (home)`, !!tech.mapLabelAbove)}
             interactive={false}
             keyboard={false}
           />
