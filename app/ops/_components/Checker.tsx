@@ -1,10 +1,8 @@
 "use client";
 
-import dynamic from "next/dynamic";
 import { useEffect, useMemo, useState } from "react";
 import {
   checkJob,
-  driveMinutes,
   formatMoney,
   getPackage,
   getTech,
@@ -15,18 +13,9 @@ import {
   upsellFor,
   type RulesData,
 } from "@/lib/ops/engine";
+import { OpsMap } from "./OpsMap";
 import { PlaceCombobox } from "./PlaceCombobox";
 import { ResultPanel } from "./ResultPanel";
-
-// Leaflet needs the browser, so the map never renders on the server.
-const CoverageMap = dynamic(() => import("./CoverageMap"), {
-  ssr: false,
-  loading: () => (
-    <div className="flex h-[420px] items-center justify-center bg-ops-ink text-slate-300 lg:h-[560px]">
-      Loading map...
-    </div>
-  ),
-});
 
 const CARD = "rounded-2xl border border-ops-line bg-white p-5 shadow-sm sm:p-6";
 const STEP = "text-xl font-bold";
@@ -77,6 +66,14 @@ export function Checker() {
 
 function CheckerForm({ data }: { data: RulesData }) {
   const places = useMemo(() => placeOptions(data), [data]);
+  const mapCities = useMemo(
+    () => data.cityNames.map((name) => ({ name, lat: data.cityCoords[name][0], lng: data.cityCoords[name][1] })),
+    [data],
+  );
+  const techHomes = useMemo(
+    () => data.techs.flatMap((t) => (t.homeCity ? [{ name: t.name, city: t.homeCity }] : [])),
+    [data],
+  );
   const [packageId, setPackageId] = useState("");
   const [addOnIds, setAddOnIds] = useState<string[]>([]);
   const [techId, setTechId] = useState("");
@@ -100,10 +97,9 @@ function CheckerForm({ data }: { data: RulesData }) {
     upsellAnswer: declinedFor === packageId ? "no" : undefined,
   });
 
-  // The map shows the trip as soon as both ends are known.
+  // The map draws the trip as soon as both ends are known.
   const startCity = startKind === "home" ? (tech?.homeCity ?? null) : resolvePlace(data, startPlace);
   const customerCity = resolvePlace(data, customerPlace);
-  const drive = startCity && customerCity ? driveMinutes(data, startCity, customerCity) : null;
 
   function choosePackage(id: string) {
     setPackageId(id);
@@ -284,12 +280,15 @@ function CheckerForm({ data }: { data: RulesData }) {
           <h2 id="map-title" className="sr-only">
             Map of cities and tech zones
           </h2>
-          <CoverageMap
-            data={data}
+          <OpsMap
+            cities={mapCities}
+            techHomes={techHomes}
+            driveMatrix={data.driveMatrix}
+            driveLimitMin={data.driveLimitMin}
+            labelLeft={data.mapLabelLeft}
             startCity={startCity}
             customerCity={customerCity}
-            drive={drive}
-            onPickCity={setCustomerPlace}
+            onSelectCity={setCustomerPlace}
           />
           <p className="px-5 py-4 text-sm text-ops-muted">
             The blue zone is where each tech usually works. It is NOT the {data.driveLimitMin} minute limit. The checker

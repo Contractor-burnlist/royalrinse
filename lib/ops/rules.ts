@@ -66,7 +66,7 @@ export const CITY_COORDS: Record<CityName, LatLng> = {
 };
 
 /** Map only: cities whose name goes on the left of the dot so it does not cover a neighbor. */
-export const MAP_LABEL_LEFT: CityName[] = ["Riverside", "Lake Elsinore", "Murrieta", "San Marcos"];
+export const MAP_LABEL_LEFT: CityName[] = ["Corona", "Lake Elsinore", "Wildomar", "Fallbrook"];
 
 /** Customer areas that use a listed city's drive times. */
 export const CITY_ALIASES: Record<string, CityName> = {
@@ -118,8 +118,6 @@ export const TECHS: Tech[] = [
     id: "andre",
     name: "Andre",
     homeCity: "Riverside",
-    // Map only: home label above the pin, clear of Corona's label.
-    mapLabelAbove: true,
     coverage: [{ center: CITY_COORDS.Riverside, radiusMiles: 22.5 }],
   },
   {

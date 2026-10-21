@@ -29,8 +29,6 @@ export interface Tech {
   askTim?: string;
   /** Circles are joined into one zone on the map. */
   coverage: CoverageCircle[];
-  /** Map only: home label above the pin (default is below). */
-  mapLabelAbove?: boolean;
 }
 
 export interface Package {
@@ -63,7 +61,7 @@ export interface RulesData {
   cityCoords: Record<string, LatLng>;
   /** Alias -> the listed city whose drive times it uses. */
   cityAliases: Record<string, string>;
-  /** Map only: cities whose name goes on the left of the dot. */
+  /** Map only: cities whose name goes on the left of the dot (home cities always do). */
   mapLabelLeft: string[];
   /** Start city -> minutes to each city, in cityNames order. */
   driveMatrix: Record<string, number[]>;
@@ -86,7 +84,7 @@ export function resolvePlace(data: RulesData, name: string): string | null {
 }
 
 /** Drive minutes from the matrix. Same city counts as 0. */
-export function driveMinutes(data: RulesData, from: string, to: string): number {
+export function driveMinutes(data: Pick<RulesData, "cityNames" | "driveMatrix">, from: string, to: string): number {
   if (from === to) return 0;
   return data.driveMatrix[from][data.cityNames.indexOf(to)];
 }

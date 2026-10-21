@@ -8,8 +8,6 @@ const isDev = process.env.NODE_ENV !== "production";
  *   loaded on demand, see lib/hcp.ts) and the booking iframe it opens, which
  *   /book also embeds (book.housecallpro.com).
  * - Google Maps: the embedded map on /contact (www.google.com), iframe only.
- * - CARTO: map tile images for the internal /ops page (*.basemaps.cartocdn.com),
- *   images only. No public page loads them.
  *
  * Fonts are self-hosted by next/font and images are local, so neither needs an
  * outside host. 'unsafe-inline' stays on script-src because Next.js inlines
@@ -20,7 +18,7 @@ const csp = [
   "default-src 'self'",
   `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""} https://online-booking.housecallpro.com`,
   "style-src 'self' 'unsafe-inline'",
-  "img-src 'self' data: blob: https://*.basemaps.cartocdn.com",
+  "img-src 'self' data: blob:",
   "font-src 'self'",
   `connect-src 'self'${isDev ? " ws:" : ""}`,
   "frame-src https://*.housecallpro.com https://www.google.com",
