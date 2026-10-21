@@ -35,7 +35,7 @@ export default function OpsPage() {
             { id: "checker", label: "Booking Checker", panel: <Checker /> },
             {
               id: "nearby",
-              label: "Nearby Jobs + Follow-up",
+              label: "Follow Up Process",
               panel: (
                 <>
                   <NearbyGoal />
