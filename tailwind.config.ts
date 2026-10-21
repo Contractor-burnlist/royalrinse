@@ -46,6 +46,22 @@ const config: Config = {
         ink: "rgb(var(--c-ink) / <alpha-value>)",
         muted: "rgb(var(--c-muted) / <alpha-value>)",
         hairline: "rgb(var(--c-line) / 0.14)",
+        /**
+         * The internal /ops Booking Checker only (app/ops). A fixed light
+         * palette, separate from the site theme above, so the site's
+         * dark-theme `ink`/`muted`/`surface` never leak into it and the ops
+         * page can never restyle a public page.
+         */
+        ops: {
+          ink: "#0f172a",
+          muted: "#5b6475",
+          line: "#e5e8ee",
+          surface: "#f5f7fb",
+          primary: { DEFAULT: "#2563eb", dark: "#1d4ed8", soft: "#eaf1ff" },
+          go: { DEFAULT: "#15803d", soft: "#e7f6ec" },
+          stop: { DEFAULT: "#b91c1c", soft: "#fdecec" },
+          warn: { DEFAULT: "#92400e", soft: "#fef3c7" },
+        },
       },
       fontFamily: {
         display: ["var(--font-display)", "system-ui", "sans-serif"],

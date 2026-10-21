@@ -1,0 +1,72 @@
+/*
+ * Styles for the internal /ops Booking Checker only. Loaded by
+ * app/ops/layout.tsx, so no public page ever receives them.
+ */
+
+/* One clear blue focus ring on the light ops page (the site's own ring is
+   light, made for the dark theme). */
+.ops :focus-visible {
+  outline: 3px solid #2563eb;
+  outline-offset: 2px;
+}
+
+/* Map labels: white text with a dark halo so it reads on the dark tiles. */
+.leaflet-tooltip.city-label {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  padding: 0 0 0 2px;
+  color: #f8fafc;
+  font: 600 12px/1.2 var(--font-body), system-ui, sans-serif;
+  text-shadow: 0 0 3px #000, 0 0 3px #000, 0 0 6px #000;
+}
+.leaflet-tooltip.city-label::before {
+  display: none;
+}
+.leaflet-tooltip.drive-label {
+  background: #0f172a;
+  border: 2px solid currentColor;
+  border-radius: 999px;
+  box-shadow: none;
+  padding: 2px 10px;
+  font: 700 13px/1.4 var(--font-body), system-ui, sans-serif;
+}
+.leaflet-tooltip.drive-label::before {
+  display: none;
+}
+/* Label sits under the ring so it does not cover the city name to the right. */
+.home-pin {
+  position: relative;
+  white-space: nowrap;
+}
+.home-pin__dot {
+  position: absolute;
+  inset: 0;
+  box-sizing: border-box;
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  background: #fff;
+  border: 5px solid #3b82f6;
+  box-shadow: 0 0 0 2px #0f172a;
+}
+.home-pin__label {
+  position: absolute;
+  top: 22px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #fff;
+  font: 700 13px/1 var(--font-body), system-ui, sans-serif;
+  text-shadow: 0 0 3px #000, 0 0 3px #000, 0 0 6px #000;
+}
+.home-pin--above .home-pin__label {
+  top: auto;
+  bottom: 22px;
+}
+.leaflet-tooltip-left.city-label {
+  padding: 0 2px 0 0;
+}
+.leaflet-container {
+  font-family: var(--font-body), system-ui, sans-serif;
+  background: #0f172a;
+}

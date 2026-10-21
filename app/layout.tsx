@@ -8,6 +8,7 @@ import { siteJsonLd } from "@/lib/seo";
 import { siteUrl } from "@/lib/url";
 import "./globals.css";
 import { ThemeScope } from "@/components/ThemeScope";
+import { SiteChrome } from "@/components/SiteChrome";
 
 const display = Space_Grotesk({
   subsets: ["latin"],
@@ -70,16 +71,20 @@ export default function RootLayout({
         >
           Skip to main content
         </a>
-        <Header />
+        <SiteChrome>
+          <Header />
+        </SiteChrome>
         <main id="main" tabIndex={-1} className="flex-1">
           <ThemeScope>{children}</ThemeScope>
         </main>
-        <Footer />
+        <SiteChrome>
+          <Footer />
 
-        {/* One floating call/book CTA for the whole site. Fades in past the
-            hero, retracts near the footer, and hides while the booking modal
-            or lightbox is open. */}
-        <StickyCallCta />
+          {/* One floating call/book CTA for the whole site. Fades in past the
+              hero, retracts near the footer, and hides while the booking modal
+              or lightbox is open. */}
+          <StickyCallCta />
+        </SiteChrome>
       </body>
     </html>
   );
