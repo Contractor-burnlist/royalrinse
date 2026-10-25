@@ -35,7 +35,7 @@ export const team: TeamMember[] = [
   {
     slug: "andre",
     name: "Andre",
-    role: "Founder and Lead Technician",
+    role: "Founding Technician",
     photo: "/team/andre.png",
     // Wide shot: Andre stands at the right edge, beside the van. The 4:5 crop
     // keeps the full width, so only the vertical value moves the frame; the
