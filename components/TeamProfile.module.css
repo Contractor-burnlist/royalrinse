@@ -1,0 +1,88 @@
+/*
+ * Technician profile card (components/TeamProfile.tsx). The card itself is a
+ * site plate (metal-soft), so it shares the machined surface, the gold hover
+ * glow and the interior-page scroll reveal. These rules add the portrait
+ * frame: a thin gold border, a bright top lip and a deep shadow stack.
+ */
+
+/* Gold ring: the 1px padding shows the gradient behind the photo. */
+.frame {
+  position: relative;
+  padding: 1px;
+  border-radius: 20px;
+  background: linear-gradient(180deg, #d9bd7c 0%, #c9a961 100%);
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.45),
+    0 10px 20px -8px rgba(0, 0, 0, 0.55),
+    0 30px 60px -24px rgba(0, 0, 0, 0.8);
+  transition: box-shadow 350ms ease;
+}
+
+.card:hover .frame,
+.card:focus-within .frame {
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.45),
+    0 0 36px -4px rgba(217, 189, 124, 0.45),
+    0 30px 60px -24px rgba(0, 0, 0, 0.8);
+}
+
+.photo {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border-radius: 19px;
+  background-color: #24272b;
+}
+
+/* Bright 1px top edge, drawn over the photo where light catches the lip. */
+.photo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55);
+  pointer-events: none;
+}
+
+/* Gunmetal falling off into the photo, so the gold eyebrow reads on any shot. */
+.scrim {
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 42%;
+  background: linear-gradient(
+    0deg,
+    rgba(26, 29, 33, 0.94) 0%,
+    rgba(26, 29, 33, 0.72) 38%,
+    rgba(26, 29, 33, 0) 100%
+  );
+  pointer-events: none;
+}
+
+.since {
+  color: var(--gold-text, #e6c766);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .image {
+    transition: transform 1200ms ease-out;
+  }
+  .card:hover .image,
+  .card:focus-within .image {
+    transform: scale(1.03);
+  }
+}
+
+.goldChip {
+  border: 1px solid rgba(201, 169, 97, 0.7);
+  color: var(--gold-text, #e6c766);
+}
+
+.quote {
+  border-left: 2px solid;
+  border-image: linear-gradient(180deg, #d9bd7c, #c9a961) 1;
+}
+
+.goldIcon {
+  color: #d9bd7c;
+}

@@ -1,14 +1,17 @@
 import type { Metadata } from "next";
 import { JsonLd } from "@/components/JsonLd";
-import { breadcrumbJsonLd, buildMetadata } from "@/lib/seo";
+import { BUSINESS_ID, breadcrumbJsonLd, buildMetadata } from "@/lib/seo";
 import Image from "next/image";
 import Link from "next/link";
-import { site, telHref } from "@/lib/site";
+import { PHONE_ARIA, site, telHref } from "@/lib/site";
+import { team } from "@/lib/team";
+import { absoluteUrl } from "@/lib/url";
 import { allGalleryImages } from "@/lib/gallery";
 import { BookNowButton } from "@/components/BookNowButton";
 import { MilitaryDiscountBadge } from "@/components/MilitaryDiscountBadge";
 import { ButtonAnchor, Card, Container, Eyebrow, Icon, Section } from "@/components/ui";
 import { Gold } from "@/components/Gold";
+import { TeamProfile } from "@/components/TeamProfile";
 import theme from "../site-theme.module.css";
 import { GrowthTimeline } from "./GrowthTimeline";
 
@@ -167,6 +170,60 @@ function Growth() {
   );
 }
 
+/**
+ * Meet the Team: one profile card per technician in lib/team.ts. Sits between
+ * the growth timeline and Our Story, so the vans are followed by the people
+ * who run them.
+ */
+function MeetTheTeam() {
+  return (
+    <Section id="team" className="!pb-8 !pt-16 sm:!pb-10 sm:!pt-20">
+      <div className="text-center">
+        <Eyebrow>Our technicians</Eyebrow>
+        <h2 className="mt-3 font-display text-3xl font-bold tracking-tight text-metal sm:text-4xl">
+          The people behind <Gold>the shine</Gold>
+        </h2>
+        <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed text-muted">
+          Every Royal Rinse detail is done by a technician on our own team.
+        </p>
+      </div>
+
+      <div className="mx-auto mt-12 grid max-w-xl gap-8 lg:max-w-none lg:grid-cols-2">
+        {team.map((member) => (
+          <TeamProfile key={member.slug} member={member} />
+        ))}
+      </div>
+
+      <div className="mx-auto mt-10 flex max-w-xl flex-col items-center gap-5 rounded-2xl metal-strong metal-dim edge-chrome px-6 py-6 text-center shadow-card lg:max-w-none lg:flex-row lg:justify-between lg:px-8 lg:text-left">
+        <p className="font-display text-xl font-bold tracking-tight text-ink">
+          Want one of them in your driveway?
+        </p>
+        <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
+          <BookNowButton className="whitespace-nowrap" />
+          <ButtonAnchor
+            href={telHref}
+            aria-label={PHONE_ARIA}
+            variant="secondary"
+            className="whitespace-nowrap"
+          >
+            Call {site.phone}
+          </ButtonAnchor>
+        </div>
+      </div>
+    </Section>
+  );
+}
+
+/** Person JSON-LD for each technician, tied to the site's LocalBusiness node. */
+const teamJsonLd = team.map((member) => ({
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: member.name,
+  jobTitle: member.role,
+  image: absoluteUrl(member.photo),
+  worksFor: { "@id": BUSINESS_ID },
+}));
+
 function WhyRoyalRinse() {
   return (
     <div className="rule-chrome-y metal-inset">
@@ -293,8 +350,10 @@ export default function AboutPage() {
   return (
     <>
       <JsonLd data={breadcrumbJsonLd([{ name: "About", path: "/about" }])} />
+      <JsonLd data={teamJsonLd} />
       <Hero />
       <Growth />
+      <MeetTheTeam />
       <OurStory />
       <WhyRoyalRinse />
       <OurStandard />

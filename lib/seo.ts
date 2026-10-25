@@ -28,7 +28,8 @@ const PHONE_E164 = PHONE_TEL.replace("tel:", "");
 /** Logo + a default social image, both absolute. */
 export const LOGO_URL = absoluteUrl("/royal-logo.jpeg");
 
-const BUSINESS_ID = `${siteUrl}/#business`;
+/** The LocalBusiness node's @id, for `worksFor` and other references. */
+export const BUSINESS_ID = `${siteUrl}/#business`;
 const ORGANIZATION_ID = `${siteUrl}/#organization`;
 
 /**
