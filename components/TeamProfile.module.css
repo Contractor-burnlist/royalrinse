@@ -44,7 +44,7 @@
   pointer-events: none;
 }
 
-/* Gunmetal falling off into the photo, so the gold eyebrow reads on any shot. */
+/* Gunmetal falling off into the photo, so the gold badge reads on any shot. */
 .scrim {
   position: absolute;
   inset: auto 0 0 0;
@@ -58,7 +58,7 @@
   pointer-events: none;
 }
 
-.since {
+.badge {
   color: var(--gold-text, #e6c766);
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
 }

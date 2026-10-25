@@ -4,6 +4,8 @@
  *
  * Optional fields. Add any of these to a person below and the card shows it;
  * leave it out and the card shows nothing in its place:
+ *   yearsDetailing?: number    photo badge reads "{n}+ YEARS DETAILING";
+ *                              unset, it reads "SEASONED PRO DETAILER"
  *   specialties?:    string[]  gold-outline chips
  *   certifications?: string[]  chips with a badge icon
  *   favoriteJob?:    string    one short labeled line
@@ -19,9 +21,10 @@ export type TeamMember = {
   role: string;
   photo: string;
   photoFocus: string; // CSS object-position, e.g. "50% 25%"
-  since: string; // shown as "With Royal Rinse since ..."
+  since: string; // start date at Royal Rinse; kept in the data, not shown on the card
   covers: string[]; // service areas, NOT home city
   bio: string;
+  yearsDetailing?: number; // total years detailing professionally
   specialties?: string[]; // optional, render only if present
   certifications?: string[]; // optional, render only if present
   favoriteJob?: string; // optional, render only if present
@@ -40,8 +43,8 @@ export const team: TeamMember[] = [
     photoFocus: "86% 62%",
     since: "April 2026",
     covers: ["Riverside", "Corona", "Moreno Valley", "Perris"],
-    bio: "Andre spent years detailing cars for someone else's name on the door. In April 2026 he borrowed from his grandfather, bought one van, and started Royal Rinse. Every detail that leaves our vans is held to the standard he set on day one.",
-    // specialties, certifications, favoriteJob, quote: leave out until Tim provides them
+    bio: "Andre has been detailing cars professionally for years. He perfected his craft working on vehicles for other shops before putting his own name on the door with Royal Rinse. Every detail that leaves our vans is held to the standard he built over all those years.",
+    // yearsDetailing, specialties, certifications, favoriteJob, quote: leave out until Tim provides them
   },
   {
     slug: "luna",
@@ -51,6 +54,6 @@ export const team: TeamMember[] = [
     photoFocus: "47% 45%",
     since: "August 2026",
     covers: ["Temecula", "Murrieta", "Menifee", "Fallbrook"],
-    bio: "Luna joined Royal Rinse in August 2026 to run our second van. She brings the same showroom standard to driveways across Southwest Riverside County and North San Diego County.",
+    bio: "Luna is a seasoned detailer with years of hands-on experience behind her. She runs our second van and brings that same showroom standard to driveways across Southwest Riverside County and North San Diego County.",
   },
 ];

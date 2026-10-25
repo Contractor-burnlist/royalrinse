@@ -22,7 +22,7 @@ function Label({ children }: { children: string }) {
  * missing one.
  */
 export function TeamProfile({ member }: { member: TeamMember }) {
-  const { specialties, certifications, favoriteJob, quote } = member;
+  const { yearsDetailing, specialties, certifications, favoriteJob, quote } = member;
 
   return (
     <article
@@ -48,9 +48,10 @@ export function TeamProfile({ member }: { member: TeamMember }) {
           />
           <div aria-hidden="true" className={styles.scrim} />
           <p
-            className={`${styles.since} absolute bottom-5 left-5 text-xs font-semibold uppercase tracking-[0.28em]`}
+            className={`${styles.badge} absolute bottom-5 left-5 text-xs font-semibold uppercase tracking-[0.28em]`}
           >
-            <span className="sr-only">With Royal Rinse </span>Since {member.since}
+            {/* Experience, never the Royal Rinse start date. A number shows only when set. */}
+            {yearsDetailing ? `${yearsDetailing}+ Years Detailing` : "Seasoned Pro Detailer"}
           </p>
         </div>
       </div>
