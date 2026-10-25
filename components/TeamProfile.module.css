@@ -1,8 +1,10 @@
 /*
- * Technician profile card (components/TeamProfile.tsx). The card itself is a
- * site plate (metal-soft), so it shares the machined surface, the gold hover
- * glow and the interior-page scroll reveal. These rules add the portrait
- * frame: a thin gold border, a bright top lip and a deep shadow stack.
+ * Technician cards: the /about profiles (components/TeamProfile.tsx) and the
+ * homepage section (components/HomeTeam.tsx) share these rules. The card
+ * itself is a site plate (metal-soft), so it shares the machined surface and
+ * the gold hover glow. These rules add the photo frame: a thin gold border, a
+ * bright top lip and a deep shadow stack. The crop's aspect ratio is set by
+ * each caller.
  */
 
 /* Gold ring: the 1px padding shows the gradient behind the photo. */
@@ -28,7 +30,6 @@
 
 .photo {
   position: relative;
-  aspect-ratio: 4 / 5;
   overflow: hidden;
   border-radius: 19px;
   background-color: #24272b;

@@ -53,6 +53,7 @@ import {
 } from "@/components/SocialMarks";
 import { GoogleReviewsLink } from "@/components/GoogleReviewsLink";
 import { HeroCarousel } from "@/components/HeroCarousel";
+import { HomeTeam } from "@/components/HomeTeam";
 import { MilitaryDiscountBadge } from "@/components/MilitaryDiscountBadge";
 import { LightboxGrid } from "@/components/Lightbox";
 import { PhotoBand } from "@/components/PhotoBand";
@@ -1266,6 +1267,15 @@ export default function Home() {
       <Specialization />
       <MetalDivider />
       <HowItWorks />
+      <HomeTeam
+        heading={
+          <HomeHeading
+            eyebrow="Your detailers"
+            title={<>Meet who <Gold>shows up</Gold></>}
+            intro="Real technicians with years of experience, in our own branded vans."
+          />
+        }
+      />
       <WhyRoyalRinse />
       <AddOnsShowcase />
 

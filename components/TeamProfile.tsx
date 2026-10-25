@@ -4,7 +4,7 @@ import { BookNowButton } from "@/components/BookNowButton";
 import { Gold } from "@/components/Gold";
 import { Icon } from "@/components/ui";
 import { site } from "@/lib/site";
-import type { TeamMember } from "@/lib/team";
+import { experienceBadge, type TeamMember } from "@/lib/team";
 import styles from "./TeamProfile.module.css";
 
 /** Small caps label above each block on the card. */
@@ -17,44 +17,90 @@ function Label({ children }: { children: string }) {
 }
 
 /**
+ * A technician's photo in the gold machined frame, with the experience badge
+ * over a gunmetal scrim. Shared by the /about cards (4:5) and the homepage
+ * cards (3:2): pass the crop, its object-position and the slot's real sizes.
+ * Zooms slowly when the enclosing `styles.card` is hovered or focused.
+ */
+export function TeamPhoto({
+  member,
+  aspectClass,
+  focus,
+  sizes,
+}: {
+  member: TeamMember;
+  aspectClass: string;
+  focus: string;
+  sizes: string;
+}) {
+  return (
+    <div className={styles.frame}>
+      <div className={`${styles.photo} ${aspectClass}`}>
+        <Image
+          src={member.photo}
+          alt={`${member.name}, ${member.role.toLowerCase()} at ${site.legalName}`}
+          fill
+          loading="lazy"
+          quality={85}
+          sizes={sizes}
+          className={`${styles.image} object-cover`}
+          style={{ objectPosition: focus, transformOrigin: focus }}
+        />
+        <div aria-hidden="true" className={styles.scrim} />
+        <p
+          className={`${styles.badge} absolute bottom-5 left-5 text-xs font-semibold uppercase tracking-[0.28em]`}
+        >
+          {experienceBadge(member)}
+        </p>
+      </div>
+    </div>
+  );
+}
+
+/** The "Covers" label and its map-pin chips. `max` trims the list. */
+export function CoversChips({ covers, max }: { covers: string[]; max?: number }) {
+  return (
+    <div>
+      <Label>Covers</Label>
+      <ul className="mt-2.5 flex flex-wrap gap-2">
+        {covers.slice(0, max).map((area) => (
+          <li
+            key={area}
+            className="inline-flex items-center gap-1.5 rounded-full border border-hairline bg-charcoal/50 px-3 py-1 text-xs text-chrome"
+          >
+            <MapPin aria-hidden="true" className={`${styles.goldIcon} h-3.5 w-3.5`} />
+            {area}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+/**
  * One technician's profile card for "Meet the Team" on /about. Every optional
  * field renders only when it is set in lib/team.ts; nothing stands in for a
  * missing one.
  */
 export function TeamProfile({ member }: { member: TeamMember }) {
-  const { yearsDetailing, specialties, certifications, favoriteJob, quote } = member;
+  const { specialties, certifications, favoriteJob, quote } = member;
 
   return (
     <article
       aria-labelledby={`team-${member.slug}`}
       className={`${styles.card} sheen edge-chrome metal-soft flex flex-col rounded-2xl p-5 sm:p-7`}
     >
-      <div className={styles.frame}>
-        <div className={styles.photo}>
-          <Image
-            src={member.photo}
-            alt={`${member.name}, ${member.role.toLowerCase()} at ${site.legalName}`}
-            fill
-            loading="lazy"
-            quality={85}
-            /**
-             * The real slot: full card width less padding below 640px, the
-             * max-w-xl column up to 1024px, then half the 72rem container.
-             * Never above 520px, under both photos' native width (864, 985).
-             */
-            sizes="(min-width: 1024px) 472px, (min-width: 640px) 520px, calc(100vw - 80px)"
-            className={`${styles.image} object-cover`}
-            style={{ objectPosition: member.photoFocus, transformOrigin: member.photoFocus }}
-          />
-          <div aria-hidden="true" className={styles.scrim} />
-          <p
-            className={`${styles.badge} absolute bottom-5 left-5 text-xs font-semibold uppercase tracking-[0.28em]`}
-          >
-            {/* Experience, never the Royal Rinse start date. A number shows only when set. */}
-            {yearsDetailing ? `${yearsDetailing}+ Years Detailing` : "Seasoned Pro Detailer"}
-          </p>
-        </div>
-      </div>
+      <TeamPhoto
+        member={member}
+        aspectClass="aspect-[4/5]"
+        focus={member.photoFocus}
+        /**
+         * The real slot: full card width less padding below 640px, the
+         * max-w-xl column up to 1024px, then half the 72rem container.
+         * Never above 520px, under both photos' native width (864, 985).
+         */
+        sizes="(min-width: 1024px) 472px, (min-width: 640px) 520px, calc(100vw - 80px)"
+      />
 
       <h3
         id={`team-${member.slug}`}
@@ -67,18 +113,7 @@ export function TeamProfile({ member }: { member: TeamMember }) {
       </p>
 
       <div className="mt-6">
-        <Label>Covers</Label>
-        <ul className="mt-2.5 flex flex-wrap gap-2">
-          {member.covers.map((area) => (
-            <li
-              key={area}
-              className="inline-flex items-center gap-1.5 rounded-full border border-hairline bg-charcoal/50 px-3 py-1 text-xs text-chrome"
-            >
-              <MapPin aria-hidden="true" className={`${styles.goldIcon} h-3.5 w-3.5`} />
-              {area}
-            </li>
-          ))}
-        </ul>
+        <CoversChips covers={member.covers} />
       </div>
 
       <p className="mt-6 text-base leading-relaxed text-muted">{member.bio}</p>
