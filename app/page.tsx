@@ -81,15 +81,15 @@ export const metadata: Metadata = buildMetadata({
  * hero leads with the self-contained rig instead.
  */
 const heroSubhead =
-  "Mobile detailing with our own water and power. You just hand us the keys.";
+  "Our fully equipped vans come right to your door. No hose or outlet needed.";
 
 // `desktopOnly` chips are display:none below 640px (hidden from screen
 // readers too): a third chip wraps onto its own row on phones and pushes the
 // carousel peek below the fold.
 const trustChips: { label: string; desktopOnly?: boolean }[] = [
   { label: "Licensed, Insured & Bonded" },
-  { label: "Our Own Water & Power" },
-  { label: "Nothing Needed From You", desktopOnly: true },
+  { label: "Fully Self-Contained" },
+  { label: "Spot-Free Deionized Water", desktopOnly: true },
 ];
 
 // `detail` renders as a smaller muted line beneath the label: used to surface
