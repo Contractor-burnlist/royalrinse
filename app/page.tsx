@@ -76,7 +76,21 @@ export const metadata: Metadata = buildMetadata({
   path: "/",
 });
 
-const trustChips = ["Licensed, Insured & Bonded", "Mobile: We Come To You"];
+/**
+ * Hero subhead only. site.tagline stays the brand line everywhere else; the
+ * hero leads with the self-contained rig instead.
+ */
+const heroSubhead =
+  "Mobile detailing with our own water and power. You just hand us the keys.";
+
+// `desktopOnly` chips are display:none below 640px (hidden from screen
+// readers too): a third chip wraps onto its own row on phones and pushes the
+// carousel peek below the fold.
+const trustChips: { label: string; desktopOnly?: boolean }[] = [
+  { label: "Licensed, Insured & Bonded" },
+  { label: "Our Own Water & Power" },
+  { label: "Nothing Needed From You", desktopOnly: true },
+];
 
 // `detail` renders as a smaller muted line beneath the label: used to surface
 // the DLSE licence number itself, not just the claim of being licensed.
@@ -391,7 +405,7 @@ function Hero() {
               candidate, and the full-bleed photo is ignored as a background,
               so this line is what LCP measures. */}
           <p className="mt-4 max-w-xl text-lg leading-relaxed text-[#dfe3e8] sm:text-xl">
-            {site.tagline}
+            {heroSubhead}
           </p>
 
           <div className={`mt-5 flex gap-3 ${heroStyles.riseLate}`}>
@@ -406,11 +420,11 @@ function Hero() {
             <ul className="flex flex-wrap items-center gap-x-7 gap-y-1.5">
               {trustChips.map((chip) => (
                 <li
-                  key={chip}
-                  className="flex items-center gap-2 text-sm text-[#dfe3e8]"
+                  key={chip.label}
+                  className={`${chip.desktopOnly ? "hidden sm:flex" : "flex"} items-center gap-2 text-sm text-[#dfe3e8]`}
                 >
                   <Icon name="check" className="h-4 w-4 text-[var(--gold-text)]" />
-                  {chip}
+                  {chip.label}
                 </li>
               ))}
             </ul>
