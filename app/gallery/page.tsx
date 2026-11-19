@@ -3,6 +3,7 @@ import { JsonLd } from "@/components/JsonLd";
 import { breadcrumbJsonLd, buildMetadata } from "@/lib/seo";
 import { allGalleryImages } from "@/lib/gallery";
 import { FilterableGallery } from "@/components/FilterableGallery";
+import { HeadlightBeforeAfter } from "@/components/HeadlightBeforeAfter";
 import { QuoteCta } from "@/components/QuoteCta";
 import { Container, Eyebrow } from "@/components/ui";
 import { Gold } from "@/components/Gold";
@@ -30,6 +31,8 @@ export default function GalleryPage() {
           </p>
         </Container>
       </div>
+
+      <HeadlightBeforeAfter />
 
       {/* Edge-to-edge: breaks out of the container for a fuller showcase. */}
       <section className="py-16 sm:py-24">

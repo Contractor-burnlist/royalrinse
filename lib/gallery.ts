@@ -446,6 +446,75 @@ export const interiorGallery: GalleryImage[] = [
   ...featureVehicles.flatMap((vehicle) => vehicle.interior),
 ];
 
+export type BeforeAfterPair = {
+  id: string;
+  /** Names the pair for screen readers. The photos themselves are labeled Before / After. */
+  label: string;
+  before: GalleryImage;
+  after: GalleryImage;
+};
+
+/**
+ * Headlight restoration on a pickup, two views of the work. 1080x1350 — sharp
+ * side by side inside the 72rem gallery container (~540px CSS, about 1080
+ * device pixels on a 2x display). Do not promote these to a full-bleed
+ * background; they would upscale.
+ *
+ * APPENDED LAST on purpose. featureVehicles is the head of allGalleryImages,
+ * the hero is an allow-list over that set, and the homepage masonry takes one
+ * exterior from the first four feature vehicles plus exteriorGallery's first
+ * two. These close-ups stay out of all three.
+ */
+const headlightBefore1: GalleryImage = {
+  src: "/royal-feature/pickup-headlight-before-1.jpg",
+  alt: `Headlight restoration in ${AREA}, pickup truck headlight before restoration, yellowed and hazy lens`,
+  width: 1080,
+  height: 1350,
+  category: "Trucks",
+};
+
+const headlightAfter1: GalleryImage = {
+  src: "/royal-feature/pickup-headlight-after-1.jpg",
+  alt: `Headlight restoration in ${AREA}, pickup truck headlight after restoration, lens clear`,
+  width: 1080,
+  height: 1350,
+  category: "Trucks",
+};
+
+const headlightBefore2: GalleryImage = {
+  src: "/royal-feature/pickup-headlight-before-2.jpg",
+  alt: `Headlight restoration in ${AREA}, second view of a pickup truck headlight before restoration, oxidized hazy lens`,
+  width: 1080,
+  height: 1350,
+  category: "Trucks",
+};
+
+const headlightAfter2: GalleryImage = {
+  src: "/royal-feature/pickup-headlight-after-2.jpg",
+  alt: `Headlight restoration in ${AREA}, second view of a pickup truck headlight after restoration, lens clear`,
+  width: 1080,
+  height: 1350,
+  category: "Trucks",
+};
+
+export const headlightRestorationPairs: BeforeAfterPair[] = [
+  {
+    id: "pickup-headlight-1",
+    label: "First view of a pickup truck headlight, before and after restoration",
+    before: headlightBefore1,
+    after: headlightAfter1,
+  },
+  {
+    id: "pickup-headlight-2",
+    label: "Second view of a pickup truck headlight, before and after restoration",
+    before: headlightBefore2,
+    after: headlightAfter2,
+  },
+];
+
+export const headlightRestorationGallery: GalleryImage[] =
+  headlightRestorationPairs.flatMap((pair) => [pair.before, pair.after]);
+
 /** Every photo on the site, de-duplicated by src. Powers the main /gallery. */
 export const allGalleryImages: GalleryImage[] = Array.from(
   new Map(
@@ -457,6 +526,7 @@ export const allGalleryImages: GalleryImage[] = Array.from(
       ...exteriorGallery,
       ...interiorGallery,
       ...detailGallery,
+      ...headlightRestorationGallery,
     ].map((image) => [image.src, image]),
   ).values(),
 );
